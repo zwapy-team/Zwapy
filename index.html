@@ -377,17 +377,34 @@
 		}
 
 		.menu-overlay.active {
-			right: 0;
-		}
+  transform: translateX(0); 
+}
 
-		.menu-overlay a {
-			text-decoration: none;
-			font-size: 1.2rem;
-			font-weight: bold;
-			color: #333;
-			padding: 0.5rem 0;
-			border-bottom: 1px solid #eee;
-		}
+
+		.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 100%;
+  background-color: #fff;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
+  z-index: 1001;
+}
+
+.menu-overlay a {
+  color: #000; /* Set to black or any neutral text color you want */
+  text-decoration: none; /* Removes underline */
+  font-weight: 600; /* Optional: makes it clean but not bold */
+}
+
+.menu-overlay a:hover {
+  color: #333; /* Optional hover effect */
+}
+
+
 
 		.menu-overlay .close-btn {
 			font-size: 1.5rem;
@@ -551,16 +568,51 @@
 			font-weight: 600;
 		}
 
+.auth-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.auth-btn {
+  padding: 0.5rem 1rem;
+  border: 1px solid #000;
+  border-radius: 9999px;
+  text-decoration: none;
+  color: #000;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.auth-btn:hover {
+  background-color: #000;
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  .auth-buttons {
+    display: none;
+  }
+}
+
 	</style>
 </head>
 
 <body>
 
 	<!-- Header -->
-	<header class="animate">
-		<div class="logo">Zwapy</div>
-		<div class="menu" onclick="toggleMenu()">☰ Menu</div>
-	</header>
+    <header class="animate">
+  <div style="display: flex; align-items: center; gap: 1rem;">
+    <div class="menu" onclick="toggleMenu()">☰</div>
+    <div class="logo">Zwapy</div>
+  </div>
+  <div class="auth-buttons">
+    <a href="login.html" class="auth-btn">Sign In</a>
+    <a href="signup.html" class="auth-btn">Sign Up</a>
+  </div>
+</header>
+
+
 
 	<!-- Menu Overlay -->
 	<div class="menu-overlay" id="menuOverlay">
