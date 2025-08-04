@@ -133,7 +133,7 @@ const firebaseConfig = {
       .then((result) => {
         alert("✅ Logged in as " + result.user.displayName);
         setTimeout(() => {
-          window.location.href = "dashboard.html"; // or university/dashboard.html
+          window.location.href = "/dashboard.html"; // or university/dashboard.html
         }, 100);
       })
       .catch((error) => {
