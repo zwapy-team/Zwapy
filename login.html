@@ -106,46 +106,49 @@ const firebaseConfig = {
   measurementId: "G-THCGY8NH1Z"
 };
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const provider = new GoogleAuthProvider();
+    <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+  import { getAuth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
 
-    // Email login
-    window.emailLogin = function () {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
+  const firebaseConfig = {
+    // your firebase config here
+  };
 
-      signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          alert("✅ Logged in as " + userCredential.user.email);
-          // Redirect to dashboard if needed
-        })
-        .catch((error) => {
-          alert("❌ " + error.message);
-        });
-    };
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const provider = new GoogleAuthProvider();
 
-    // Google login
-    document.getElementById("google-login").addEventListener("click", () => {
-      signInWithPopup(auth, provider)
-        .then((result) => {
-          alert("✅ Logged in as " + result.user.displayName);
-          // Redirect to dashboard if needed
-        })
-        .catch((error) => {
-          alert("❌ " + error.message);
-        });
-    });
+  // Email login
+  window.emailLogin = function () {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
 
-    firebase.auth().signInWithEmailAndPassword(email, password)
-  .then((userCredential) => {
-    // ✅ User logged in successfully
-    window.location.href = "dashboard.html"; // or university/dashboard.html
-  })
-  .catch((error) => {
-    alert(error.message);
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        alert("✅ Logged in as " + userCredential.user.email);
+        setTimeout(() => {
+          window.location.href = "student/dashboard.html"; // or dynamically choose
+        }, 100);
+      })
+      .catch((error) => {
+        alert("❌ " + error.message);
+      });
+  };
+
+  // Google login
+  document.getElementById("google-login").addEventListener("click", () => {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        alert("✅ Logged in as " + result.user.displayName);
+        setTimeout(() => {
+          window.location.href = "dashboard.html"; // or university/dashboard.html
+        }, 100);
+      })
+      .catch((error) => {
+        alert("❌ " + error.message);
+      });
   });
-  </script>
+</script>
 
 </body>
 </html>
