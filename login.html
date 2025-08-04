@@ -3,110 +3,140 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sign in | Zwapy</title>
+  <title>Login | Zwapy</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
   <style>
-    :root {
-      --background: #f5f1e6;
-      --card-bg: #f5f1e6;
-      --input-border: #000000;
-      --input-bg: #f5f1e6b;
-      --text: #000000;
-      --button-bg: #000000;
-      --button-text: #f5f1e6;
-      --button-hover: #1a1a1a;
-    }
-
     * {
       margin: 0;
       padding: 0;
+      font-family: 'Poppins', sans-serif;
       box-sizing: border-box;
     }
-
     body {
-      font-family: 'Poppins', sans-serif;
-      background-color: var(--background);
-      color: var(--text);
+      background: #f5f1e6;
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
     }
-
     .container {
-      background-color: var(--card-bg);
-      padding: 1rem;
-      border-radius: 16px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      background: #f5f1e6;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
       width: 100%;
       max-width: 400px;
     }
-
-    .container h2 {
+    h2 {
       text-align: center;
-      font-weight: 600;
-      margin-bottom: 1.5rem;
-      font-size: 1.5rem;
+      margin-bottom: 20px;
+      color: #333;
     }
-
-    form label {
-      font-size: 0.95rem;
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: 500;
-    }
-
-    form input {
+    input {
       width: 100%;
-      padding: 0.75rem 1rem;
-      border: 1px solid var(--input-border);
-      border-radius: 10px;
-      font-size: 1rem;
-      background-color: var(--input-bg);
-      margin-bottom: 1.25rem;
-      color: var(--text);
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
     }
-
-    form button {
+    button {
       width: 100%;
-      background-color: var(--button-bg);
-      color: var(--button-text);
+      padding: 12px;
+      background: #666;
+      color: #f5f1e6;
+      font-weight: bold;
       border: none;
-      border-radius: 10px;
-      padding: 0.85rem;
-      font-size: 1rem;
-      font-weight: 600;
+      border-radius: 8px;
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      margin-top: 10px;
     }
-
-    form button:hover {
-      background-color: var(--button-hover);
+    button:hover {
+      background: #6666;
     }
-
-    @media (max-width: 480px) {
-      .container {
-        margin: 1rem;
-        padding: 1.5rem;
-      }
+    .google-btn {
+      background: #f5f1e6;
+      border: 1px solid #ccc;
+      color: #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .google-btn img {
+      width: 20px;
+      height: 20px;
+    }
+    .or {
+      text-align: center;
+      margin: 20px 0 10px;
+      color: #666;
     }
   </style>
 </head>
 <body>
 
   <div class="container">
-    <h2>Sign in</h2>
-    <form>
+    <h2>Login to Zwapy</h2>
+    <input type="email" id="email" placeholder="Email Address" />
+    <input type="password" id="password" placeholder="Password" />
+    <button onclick="emailLogin()">Login</button>
 
-      <label for="email">Email Address</label>
-      <input type="email" id="email" name="email" placeholder="you@example.com" required>
-
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" placeholder="••••••••" required>
-
-      <button type="submit">Sign in</button>
-    </form>
+    <div class="or">or</div>
+    
+    <button id="google-login" class="google-btn">
+      <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" />
+      Sign in with Google
+    </button>
   </div>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    // Firebase setup
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyBazCIc5vdQInSwvqvohIcbPToTjnw7KJI",
+  authDomain: "zwapy-25.firebaseapp.com",
+  projectId: "zwapy-25",
+  storageBucket: "zwapy-25.firebasestorage.app",
+  messagingSenderId: "30612332450",
+  appId: "1:30612332450:web:9e23f36a69f89dbb325cfb",
+  measurementId: "G-THCGY8NH1Z"
+};
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+
+    // Email login
+    window.emailLogin = function () {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          alert("✅ Logged in as " + userCredential.user.email);
+          // Redirect to dashboard if needed
+        })
+        .catch((error) => {
+          alert("❌ " + error.message);
+        });
+    };
+
+    // Google login
+    document.getElementById("google-login").addEventListener("click", () => {
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          alert("✅ Logged in as " + result.user.displayName);
+          // Redirect to dashboard if needed
+        })
+        .catch((error) => {
+          alert("❌ " + error.message);
+        });
+    });
+  </script>
 
 </body>
 </html>
