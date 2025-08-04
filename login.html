@@ -119,7 +119,7 @@ const firebaseConfig = {
       .then((userCredential) => {
         alert("✅ Logged in as " + userCredential.user.email);
         setTimeout(() => {
-          window.location.href = "student/dashboard.html"; // or dynamically choose
+          window.location.href = "/dashboard.html"; // or dynamically choose
         }, 100);
       })
       .catch((error) => {
