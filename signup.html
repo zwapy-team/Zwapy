@@ -109,6 +109,52 @@
       <button type="submit">Sign Up</button>
     </form>
   </div>
+<!-- Firebase App (core SDK) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
+
+<!-- Firebase Authentication -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"></script>
+
+<script>
+  // Your Firebase config object
+const firebaseConfig = {
+  apiKey: "AIzaSyBazCIc5vdQInSwvqvohIcbPToTjnw7KJI",
+  authDomain: "zwapy-25.firebaseapp.com",
+  projectId: "zwapy-25",
+  storageBucket: "zwapy-25.firebasestorage.app",
+  messagingSenderId: "30612332450",
+  appId: "1:30612332450:web:9e23f36a69f89dbb325cfb",
+  measurementId: "G-THCGY8NH1Z"
+};
+
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+</script>
+<script>
+  const form = document.querySelector("form");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const name = form["name"].value.trim();
+    const email = form["email"].value.trim();
+    const password = form["password"].value;
+
+    try {
+      const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+      const user = userCredential.user;
+
+      // Optional: update display name
+      await user.updateProfile({ displayName: name });
+
+      alert("✅ Signup successful! Welcome, " + user.displayName);
+      // Redirect or perform further actions here
+    } catch (error) {
+      alert("❌ " + error.message);
+    }
+  });
+</script>
 
 </body>
 </html>
