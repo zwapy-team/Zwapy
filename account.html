@@ -92,6 +92,18 @@
       color: #888;
       border-top: 1px solid #e5e5e5;
     }
+    .change-password-link {
+  display: inline-block;
+  margin: 10px 0 20px;
+  color: #3b82f6;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.change-password-link:hover {
+  text-decoration: underline;
+}
+
   </style>
 </head>
 <body>
@@ -109,6 +121,7 @@
       <img id="profile-pic" src="https://via.placeholder.com/100" alt="Profile Picture" />
       <h2 id="user-name">Loading...</h2>
       <p id="user-email">Loading email...</p>
+      <a href="changepassword.html" class="change-password-link">Change Password</a>
       <button class="logout-btn" onclick="logout()">Log Out</button>
     </div>
   </main>
