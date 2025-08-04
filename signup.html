@@ -67,10 +67,8 @@
       color: var(--text);
     }
 
-    form button {
+    form button, #googleLoginBtn {
       width: 100%;
-      background-color: var(--button-bg);
-      color: var(--button-text);
       border: none;
       border-radius: 10px;
       padding: 0.85rem;
@@ -80,8 +78,24 @@
       transition: background-color 0.3s ease;
     }
 
+    form button {
+      background-color: var(--button-bg);
+      color: var(--button-text);
+    }
+
     form button:hover {
       background-color: var(--button-hover);
+    }
+
+    #googleLoginBtn {
+      margin-top: 1rem;
+      background-color: #ffffff;
+      color: #000;
+      border: 1px solid #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
     }
 
     @media (max-width: 480px) {
@@ -108,49 +122,59 @@
 
       <button type="submit">Sign Up</button>
     </form>
+
+    <button id="googleLoginBtn">
+      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" width="20" height="20" />
+      Continue with Google
+    </button>
   </div>
 
-  <!-- Firebase App (v8 SDK) -->
+  <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 
   <script>
-    // TODO: Replace with your own Firebase config
+    // ✅ Replace with your Firebase config
     const firebaseConfig = {
-      apiKey: "AIzaSyBazCIc5vdQInSwvqvohIcbPToTjnw7KJI",
-      authDomain: "zwapy-25.firebaseapp.com",
-      projectId: "zwapy-25",
-      storageBucket: "zwapy-25.firebasestorage.app",
-      messagingSenderId: "30612332450",
-      appId: "1:30612332450:web:9e23f36a69f89dbb325cfb",
-      measurementId: "G-THCGY8NH1Z"
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID",
+      measurementId: "YOUR_MEASUREMENT_ID"
     };
 
-    // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
 
-    // Form handling
+    // Email/Password Signup
     const form = document.getElementById("signupForm");
-
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
-
       const name = form["name"].value.trim();
       const email = form["email"].value.trim();
       const password = form["password"].value;
 
       try {
         const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-        const user = userCredential.user;
-
-        await user.updateProfile({ displayName: name });
-
-        alert("✅ Signup successful! Welcome, " + user.displayName);
-
-        // Redirect or further logic here
+        await userCredential.user.updateProfile({ displayName: name });
+        alert("✅ Signup successful! Welcome, " + name);
         // window.location.href = "/dashboard.html";
+      } catch (error) {
+        alert("❌ " + error.message);
+      }
+    });
 
+    // Google Sign In (Also works for Sign Up)
+    const googleLoginBtn = document.getElementById("googleLoginBtn");
+    googleLoginBtn.addEventListener("click", async () => {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      try {
+        const result = await auth.signInWithPopup(provider);
+        const user = result.user;
+        alert("✅ Google Sign-in successful! Welcome, " + user.displayName);
+        // window.location.href = "/dashboard.html";
       } catch (error) {
         alert("❌ " + error.message);
       }
