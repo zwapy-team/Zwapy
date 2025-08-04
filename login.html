@@ -105,15 +105,7 @@ const firebaseConfig = {
   appId: "1:30612332450:web:9e23f36a69f89dbb325cfb",
   measurementId: "G-THCGY8NH1Z"
 };
-
-    <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
-  import { getAuth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
-
-  const firebaseConfig = {
-    // your firebase config here
-  };
-
+    
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const provider = new GoogleAuthProvider();
