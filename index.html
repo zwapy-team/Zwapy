@@ -571,6 +571,8 @@
 .auth-buttons {
   display: flex;
   gap: 1rem;
+  flex-wrap: wrap; /* Wrap buttons if screen is narrow */
+  justify-content: flex-end;
 }
 
 .auth-btn {
@@ -582,40 +584,24 @@
   font-weight: 600;
   font-size: 0.9rem;
   transition: all 0.3s ease;
+  white-space: nowrap;
 }
 
-.auth-btn:hover {
-  background-color: #000;
-  color: #fff;
-}
-
-@media (max-width: 768px) {
+/* ✅ Responsive styles for small screens */
+@media (max-width: 480px) {
   .auth-buttons {
-    display: none;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .auth-btn {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.8rem;
   }
 }
 
-  @media (max-width: 768px) {
-    .menu-toggle {
-      display: block;
-    }
 
-    .nav-links {
-      display: none;
-      flex-direction: column;
-      width: 100%;
-      margin-top: 10px;
-    }
-
-    .nav-links.show {
-      display: flex;
-    }
-
-    .nav-links a {
-      width: 100%;
-      text-align: center;
-    }
-  }
 
 	</style>
 </head>
