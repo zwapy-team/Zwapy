@@ -5,47 +5,66 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Events | Zwapy</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/6.1.8/index.global.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
   <style>
+    :root {
+      --background: #f5f1e6;
+      --card-bg: #ffffff;
+      --text-color: #333;
+      --primary: #7451f8;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
       font-family: 'Poppins', sans-serif;
-      margin: 0;
-      background: #f5f1e6;
+      background: var(--background);
     }
 
     header, footer {
+      background-color: var(--card-bg);
       padding: 1rem 2rem;
-      background-color: #f5f1e6;
-      color: white;
       text-align: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    header h2, footer p {
+      color: var(--text-color);
+      font-weight: 600;
     }
 
     main {
-      padding: 2rem;
       max-width: 1000px;
-      margin: auto;
+      margin: 2rem auto;
+      padding: 0 2rem;
     }
 
     h1 {
       font-size: 2rem;
-      margin-bottom: 1rem;
-      color: #333;
+      margin-bottom: 1.5rem;
+      color: var(--text-color);
+      text-align: center;
     }
 
     #calendar {
-      background: #fff;
-      border-radius: 12px;
+      background: var(--card-bg);
+      border-radius: 16px;
       padding: 1rem;
-      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.07);
     }
 
     /* Modal styling */
     #eventModal {
       display: none;
       position: fixed;
-      z-index: 99;
+      z-index: 100;
       left: 0; top: 0;
       width: 100%; height: 100%;
-      background-color: rgba(0,0,0,0.5);
+      background-color: rgba(0,0,0,0.4);
     }
 
     #eventModalContent {
@@ -54,14 +73,30 @@
       padding: 1.5rem;
       width: 90%;
       max-width: 400px;
-      border-radius: 8px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
     }
 
     .closeModal {
       float: right;
+      font-size: 1.5rem;
       font-weight: bold;
+      color: #999;
       cursor: pointer;
-      font-size: 1.2rem;
+    }
+
+    .closeModal:hover {
+      color: #333;
+    }
+
+    #eventModalContent h3 {
+      margin-top: 0;
+      color: var(--primary);
+    }
+
+    #eventModalContent p {
+      margin: 0.5rem 0;
+      color: var(--text-color);
     }
   </style>
 </head>
@@ -71,7 +106,7 @@
   </header>
 
   <main>
-    <h1>University Events</h1>
+    <h1>University Events Calendar</h1>
     <div id="calendar"></div>
   </main>
 
@@ -93,7 +128,6 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/6.1.8/index.global.min.js"></script>
   <script type="module">
-    // Firebase imports
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
@@ -126,7 +160,6 @@
         },
       });
 
-      // Fetch events from Firestore
       const querySnapshot = await getDocs(collection(db, "events"));
       querySnapshot.forEach((doc) => {
         const data = doc.data();
@@ -149,4 +182,3 @@
   </script>
 </body>
 </html>
-
