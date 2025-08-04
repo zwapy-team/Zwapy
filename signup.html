@@ -178,6 +178,15 @@ const firebaseConfig = {
         alert("❌ " + error.message);
       }
     });
+
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+  .then((userCredential) => {
+    // ✅ User signed up successfully
+    window.location.href = "dashboard.html"; // Or redirect accordingly
+  })
+  .catch((error) => {
+    alert(error.message);
+  });
   </script>
 
 </body>
