@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard | Zwapy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --background: #f5f1e6;
+      --text: #000000;
+      --button-bg: #000000;
+      --button-text: #f5f1e6;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--background);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 1.5rem 2rem;
+			border-bottom: 1px solid #222;
+		}
+
+		.logo {
+			font-size: 1.5rem;
+			font-weight: bold;
+		}
+
+		.menu {
+			font-size: 1rem;
+			display: flex;
+			align-items: center;
+			gap: 0.5rem;
+			cursor: pointer;
+		}
+
+    .auth-buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .auth-btn {
+      padding: 0.5rem 1rem;
+      border: 1px solid #000;
+      border-radius: 9999px;
+      text-decoration: none;
+      color: #000;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .auth-btn:hover {
+      background-color: #000;
+      color: #fff;
+    }
+
+    main {
+      flex: 1;
+      padding: 2rem;
+      max-width: 960px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    main h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    main p {
+      font-size: 1rem;
+      color: #333;
+    }
+
+    @media (max-width: 480px) {
+      header, footer {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.5rem;
+      }
+
+      .auth-buttons {
+        justify-content: center;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+      }
+
+      .auth-btn {
+        font-size: 0.85rem;
+        padding: 0.4rem 0.8rem;
+      }
+    }
+
+    footer.footer-main {
+			border-top: 1px solid #000;
+			color: #000;
+			background-color: #fdf7f0;
+		}
+
+		.footer-container {
+			display: flex;
+			flex-direction: column;
+		}
+
+		.footer-logo {
+			font-size: 40px;
+			font-weight: bold;
+			padding: 40px;
+		}
+
+		.footer-sections {
+			display: flex;
+			justify-content: space-between;
+			padding: 0;
+			border-top: 1px solid #000;
+			border-bottom: 1px solid #000;
+		}
+
+		.footer-section {
+			font-size: 20px;
+			line-height: 1.7;
+			flex: 1;
+			padding: 60px 30px 20px;
+			border-left: 1px solid #000;
+		}
+
+		.footer-section:first-child {
+			border-left: none;
+		}
+
+		.social-icons {
+			display: flex;
+			gap: 20px;
+			margin-top: 30px;
+		}
+
+		.social-icons img {
+			width: 20px;
+			height: 20px;
+		}
+
+		.footer-copyright {
+			font-size: 18px;
+			margin-top: 20px;
+		}
+
+		/* Menu Overlay */
+		.menu-overlay {
+			position: fixed;
+			top: 0;
+			right: -100%;
+			width: 80%;
+			max-width: 300px;
+			height: 100%;
+			background-color: #fff;
+			box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+			transition: right 0.3s ease;
+			z-index: 999;
+			padding: 2rem 1.5rem;
+			display: flex;
+			flex-direction: column;
+			gap: 1.5rem;
+		}
+
+		.menu-overlay.active {
+  transform: translateX(0); 
+}
+
+
+		.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 100%;
+  background-color: #fff;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
+  z-index: 1001;
+}
+
+.menu-overlay a {
+  color: #000; /* Set to black or any neutral text color you want */
+  text-decoration: none; /* Removes underline */
+  font-weight: 600; /* Optional: makes it clean but not bold */
+}
+
+.menu-overlay a:hover {
+  color: #333; /* Optional hover effect */
+}
+
+
+
+		.menu-overlay .close-btn {
+			font-size: 1.5rem;
+			align-self: flex-end;
+			cursor: pointer;
+			margin-bottom: 1rem;
+		}
+
+		/* Backdrop */
+		.backdrop {
+			position: fixed;
+			top: 0;
+			left: 0;
+			height: 100%;
+			width: 100%;
+			background-color: rgba(0, 0, 0, 0.5);
+			display: none;
+			z-index: 99;
+		}
+
+		.backdrop.active {
+			display: block;
+		}
+
+        .dashboard-section {
+      display: flex;
+      gap: 2rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .dashboard-link {
+      text-decoration: none;
+      color: inherit;
+      flex: 1 1 250px;
+    }
+
+   .box {
+      flex: 1 1 250px;
+      aspect-ratio: 1 / 1;
+      background-color: #ffffff;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .box:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .box h3 {
+      margin-bottom: 0.5rem;
+      font-size: 1.3rem;
+    }
+
+    .chosen-skill-box {
+      background-color: #ffffff;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      margin-top: 2rem;
+      text-align: center;
+    }
+
+    .box img.icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 1rem;
+}
+
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="animate">
+  <div style="display: flex; align-items: center; gap: 1rem;">
+    <div class="menu" onclick="toggleMenu()">☰</div>
+    <div class="logo">Zwapy</div>
+  </div>
+  <div class="auth-buttons">
+      <a href="index.html" class="auth-btn">Logout</a>
+    </div>
+  </header>
+
+  
+	<!-- Menu Overlay -->
+	<div class="menu-overlay" id="menuOverlay">
+		<div class="close-btn" onclick="toggleMenu()">✕</div>
+		<a href="account.html">Account</a>
+		<a href="skillexchange.html">Skill Exchange</a>
+        <a href="events.html">Events</a>
+		<a href="privacypolicy.html">Privacy Policy</a>
+		<a href="#footer-main">Contact</a>
+	</div>
+
+	<!-- Backdrop -->
+	<div class="backdrop" id="backdrop" onclick="toggleMenu()"></div>
+
+
+  <!-- Main Dashboard Content -->
+  <main>
+    <h2>Welcome to Your Dashboard</h2>
+    <div class="dashboard-section">
+      <a href="skillexchange.html" class="dashboard-link">
+        <div class="box">
+           <img src="se.svg" alt="Skill Exchange" class="icon">
+          <h3>Skill Exchange</h3>
+          <p>Explore and connect with students to share and learn skills.</p>
+        </div>
+      </a>
+
+      <a href="events.html" class="dashboard-link">
+        <div class="box">
+             <img src="c.svg" alt="Events" class="icon">
+          <h3>Events</h3>
+          <p>Discover university events, workshops, and webinars you can join.</p>
+        </div>
+      </a>
+    </div>
+
+    <div class="chosen-skill-box">
+      <h3>Skills You've Chosen to Exchange</h3>
+      <p>(This area will show the skills you've selected once you participate.)</p>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer-main">
+		<div class="footer-container">
+			<div class="footer-logo">Zwapy</div>
+
+			<div class="footer-sections">
+				<div class="footer-section">
+				<span class="normal-text"> <div>+91-6362053192</div>
+					<div>zwapyteam@gmail.com</div>
+				</div></span>
+
+				<div class="footer-section">
+				<span class="normal-text"><div>Chellikere,</div>
+					<div>Hennur cross,</div>
+					<div>Near Hennur Dmart,</div>
+					<div>Bangalore,Karnataka-560043, India</div></span>
+
+					<div class="social-icons">
+					<a href=""><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/facebook.svg" alt="Facebook"></a>
+      <a href="https://www.instagram.com/zwapyofficial?utm_source=qr&igsh=MThvaDJwbjJjaG11aA=="><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/instagram.svg" alt="Instagram"></a>
+      <a href=""><img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/x.svg" alt="X">
+      <a href="https://www.linkedin.com/company/zwapy/"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/linkedin.svg" alt="LinkedIn"></a>
+          </div>
+					</div>
+
+					<div class="footer-section">
+					<span class="normal-text"><div>Privacy Policy</div>
+						<div>Accessibility Statement</div>
+						<div>Terms & Conditions</div>
+						<div>Refund Policy</div>
+						<div class="footer-copyright">
+							© 2025 by Zwapy.</span>
+						</div>
+					</div>
+				</div>
+			</div>
+	</footer>
+
+    <script>
+ function toggleMenu() {
+      const menu = document.getElementById('menuOverlay');
+      const backdrop = document.getElementById('backdrop');
+      menu.classList.toggle('active');
+      backdrop.classList.toggle('active');
+    }
+	</script>
+</body>
+</html>
