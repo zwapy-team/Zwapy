@@ -595,6 +595,28 @@
   }
 }
 
+  @media (max-width: 768px) {
+    .menu-toggle {
+      display: block;
+    }
+
+    .nav-links {
+      display: none;
+      flex-direction: column;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .nav-links.show {
+      display: flex;
+    }
+
+    .nav-links a {
+      width: 100%;
+      text-align: center;
+    }
+  }
+
 	</style>
 </head>
 
