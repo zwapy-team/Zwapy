@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign in | Zwapy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --background: #f5f1e6;
+      --card-bg: #f5f1e6;
+      --input-border: #000000;
+      --input-bg: #f5f1e6b;
+      --text: #000000;
+      --button-bg: #000000;
+      --button-text: #f5f1e6;
+      --button-hover: #1a1a1a;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--background);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      background-color: var(--card-bg);
+      padding: 1rem;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .container h2 {
+      text-align: center;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      font-size: 1.5rem;
+    }
+
+    form label {
+      font-size: 0.95rem;
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+
+    form input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--input-border);
+      border-radius: 10px;
+      font-size: 1rem;
+      background-color: var(--input-bg);
+      margin-bottom: 1.25rem;
+      color: var(--text);
+    }
+
+    form button {
+      width: 100%;
+      background-color: var(--button-bg);
+      color: var(--button-text);
+      border: none;
+      border-radius: 10px;
+      padding: 0.85rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    form button:hover {
+      background-color: var(--button-hover);
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        margin: 1rem;
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Sign in</h2>
+    <form>
+
+      <label for="email">Email Address</label>
+      <input type="email" id="email" name="email" placeholder="you@example.com" required>
+
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" placeholder="••••••••" required>
+
+      <button type="submit">Sign in</button>
+    </form>
+  </div>
+
+</body>
+</html>
