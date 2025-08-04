@@ -96,7 +96,7 @@
 
   <div class="container">
     <h2>Create Your Account</h2>
-    <form>
+    <form id="signupForm">
       <label for="name">Full Name</label>
       <input type="text" id="name" name="name" placeholder="John Doe" required>
 
@@ -109,52 +109,53 @@
       <button type="submit">Sign Up</button>
     </form>
   </div>
-<!-- Firebase App (core SDK) -->
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
 
-<!-- Firebase Authentication -->
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"></script>
+  <!-- Firebase App (v8 SDK) -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 
-<script>
-  // Your Firebase config object
-const firebaseConfig = {
-  apiKey: "AIzaSyBazCIc5vdQInSwvqvohIcbPToTjnw7KJI",
-  authDomain: "zwapy-25.firebaseapp.com",
-  projectId: "zwapy-25",
-  storageBucket: "zwapy-25.firebasestorage.app",
-  messagingSenderId: "30612332450",
-  appId: "1:30612332450:web:9e23f36a69f89dbb325cfb",
-  measurementId: "G-THCGY8NH1Z"
-};
+  <script>
+    // TODO: Replace with your own Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyBazCIc5vdQInSwvqvohIcbPToTjnw7KJI",
+      authDomain: "zwapy-25.firebaseapp.com",
+      projectId: "zwapy-25",
+      storageBucket: "zwapy-25.firebasestorage.app",
+      messagingSenderId: "30612332450",
+      appId: "1:30612332450:web:9e23f36a69f89dbb325cfb",
+      measurementId: "G-THCGY8NH1Z"
+    };
 
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  const auth = firebase.auth();
-</script>
-<script>
-  const form = document.querySelector("form");
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
 
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+    // Form handling
+    const form = document.getElementById("signupForm");
 
-    const name = form["name"].value.trim();
-    const email = form["email"].value.trim();
-    const password = form["password"].value;
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-    try {
-      const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-      const user = userCredential.user;
+      const name = form["name"].value.trim();
+      const email = form["email"].value.trim();
+      const password = form["password"].value;
 
-      // Optional: update display name
-      await user.updateProfile({ displayName: name });
+      try {
+        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+        const user = userCredential.user;
 
-      alert("✅ Signup successful! Welcome, " + user.displayName);
-      // Redirect or perform further actions here
-    } catch (error) {
-      alert("❌ " + error.message);
-    }
-  });
-</script>
+        await user.updateProfile({ displayName: name });
+
+        alert("✅ Signup successful! Welcome, " + user.displayName);
+
+        // Redirect or further logic here
+        // window.location.href = "/dashboard.html";
+
+      } catch (error) {
+        alert("❌ " + error.message);
+      }
+    });
+  </script>
 
 </body>
 </html>
