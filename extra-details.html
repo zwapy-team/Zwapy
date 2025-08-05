@@ -53,7 +53,7 @@
 
     button {
       width: 100%;
-      background-color: #f5f1e6;
+      background-color: #222;
       color: white;
       padding: 12px;
       border: none;
@@ -64,7 +64,7 @@
     }
 
     button:hover {
-      background-color: #222;
+      background-color: #000;
     }
   </style>
 </head>
@@ -107,65 +107,48 @@
     <button id="submitBtn">Save & Continue</button>
   </div>
 
-  <!-- Choices.js Script -->
+  <!-- Choices.js -->
   <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 
-  <!-- Firebase App -->
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
-
-  <!-- Your Firebase Config -->
+  <!-- Firebase v9.6.10 modules -->
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+    import { doc, setDoc } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+    
+    // ✅ Import initialized auth and db from your local firebase.js
+    import { auth, db } from './firebase.js';
 
-    // ✅ Import your firebaseConfig
-    import { firebaseConfig } from './firebase.js';
-
-    // ✅ Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-
-    // ✅ Initialize dropdowns
+    // Initialize Choices.js dropdowns
     document.addEventListener('DOMContentLoaded', () => {
       new Choices('#skills', {
         removeItemButton: true,
         searchEnabled: true,
         placeholderValue: 'Select your skills',
-        noResultsText: 'No skill found',
       });
 
       new Choices('#interests', {
         removeItemButton: true,
         searchEnabled: true,
         placeholderValue: 'Select interested fields',
-        noResultsText: 'No match found',
       });
     });
 
-    // ✅ On button click
+    // Submit button logic
     document.getElementById('submitBtn').addEventListener('click', async () => {
       const dob = document.getElementById('dob').value;
       const university = document.getElementById('university').value;
-
-      // Get skills and interests as array of selected values
       const skills = Array.from(document.getElementById('skills').selectedOptions).map(opt => opt.value);
       const interests = Array.from(document.getElementById('interests').selectedOptions).map(opt => opt.value);
 
       if (!dob || !university || skills.length === 0 || interests.length === 0) {
-        alert("Please fill all fields");
+        alert("Please fill all fields.");
         return;
       }
 
-      // ✅ Wait for user to be logged in
       onAuthStateChanged(auth, async (user) => {
         if (user) {
           const uid = user.uid;
           const userRef = doc(db, "users", uid);
-
           await setDoc(userRef, {
             dob,
             university,
@@ -173,10 +156,9 @@
             interests
           }, { merge: true });
 
-          // ✅ Redirect after saving
-          window.location.href = "/dashboard.html.html";
+          window.location.href = "/accounts.html"; // ✅ Redirect to accounts page
         } else {
-          alert("No user logged in.");
+          alert("User not logged in.");
         }
       });
     });
@@ -184,4 +166,3 @@
 
 </body>
 </html>
-
