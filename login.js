@@ -12,7 +12,7 @@ window.addEventListener("DOMContentLoaded", () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         alert("✅ Logged in as " + userCredential.user.email);
-        window.location.href = "/student/dashboard.html"; // or dynamically set
+        window.location.href = "/dashboard.html"; // or dynamically set
       })
       .catch((error) => {
         alert("❌ " + error.message);
@@ -23,7 +23,7 @@ window.addEventListener("DOMContentLoaded", () => {
     signInWithPopup(auth, provider)
       .then((result) => {
         alert("✅ Logged in as " + result.user.displayName);
-        window.location.href = "/student/dashboard.html"; // or university one
+        window.location.href = "/dashboard.html"; // or university one
       })
       .catch((error) => {
         alert("❌ " + error.message);
