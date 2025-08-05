@@ -43,7 +43,7 @@
       flex: 1;
       padding: 40px 20px;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
     }
     .account-box {
@@ -54,6 +54,7 @@
       text-align: center;
       max-width: 400px;
       width: 100%;
+      margin-bottom: 20px;
     }
     .account-box img {
       width: 100px;
@@ -69,7 +70,7 @@
     }
     .account-box p {
       font-size: 16px;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
       color: #555;
     }
     .logout-btn {
@@ -93,78 +94,89 @@
       border-top: 1px solid #e5e5e5;
     }
     .change-password-link {
-  display: inline-block;
-  margin: 10px 0 20px;
-  color: #3b82f6;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.change-password-link:hover {
-  text-decoration: underline;
-}
-
+      display: inline-block;
+      margin: 10px 0 20px;
+      color: #3b82f6;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .change-password-link:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>Zwapy</h1>
-    <nav>
-      <a href="dashboard.html">Dashboard</a>
-      <a href="#" onclick="logout()">Logout</a>
-    </nav>
-  </header>
+<header>
+  <h1>Zwapy</h1>
+  <nav>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="#" onclick="logout()">Logout</a>
+  </nav>
+</header>
 
-  <main>
-    <div class="account-box">
-      <img id="profile-pic" src="https://via.placeholder.com/100" alt="Profile Picture" />
-      <h2 id="user-name">Loading...</h2>
-      <p id="user-email">Loading email...</p>
-      <a href="changepassword.html" class="change-password-link">Change Password</a>
-      <button class="logout-btn" onclick="logout()">Log Out</button>
-    </div>
-  </main>
+<main>
+  <!-- Basic Info Box -->
+  <div class="account-box">
+    <img id="profile-pic" src="https://via.placeholder.com/100" alt="Profile Picture" />
+    <h2 id="user-name">Loading...</h2>
+    <p id="user-email">Loading email...</p>
+    <a href="changepassword.html" class="change-password-link">Change Password</a>
+    <button class="logout-btn" onclick="logout()">Log Out</button>
+  </div>
 
-  <footer>
-    © 2025 Zwapy. All rights reserved.
-  </footer>
+  <!-- Extra Details Box -->
+  <div class="account-box" id="extra-details-box" style="display: none;">
+    <h2>Additional Details</h2>
+    <p><strong>Date of Birth:</strong> <span id="dob"></span></p>
+    <p><strong>University:</strong> <span id="university"></span></p>
+    <p><strong>Skills:</strong> <span id="skills"></span></p>
+    <p><strong>Interests:</strong> <span id="interests"></span></p>
+  </div>
+</main>
 
-  <!-- Firebase SDK -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+<footer>
+  © 2025 Zwapy. All rights reserved.
+</footer>
 
-    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyBazCIc5vdQInSwvqvohIcbPToTjnw7KJI",
-  authDomain: "zwapy-25.firebaseapp.com",
-  projectId: "zwapy-25",
-  storageBucket: "zwapy-25.firebasestorage.app",
-  messagingSenderId: "30612332450",
-  appId: "1:30612332450:web:9e23f36a69f89dbb325cfb",
-  measurementId: "G-THCGY8NH1Z"
-};
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+<!-- Firebase SDK Modules -->
+<script type="module">
+  import { auth, db } from './firebase.js';
+  import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        document.getElementById("user-name").textContent = user.displayName || "Anonymous";
-        document.getElementById("user-email").textContent = user.email;
-        document.getElementById("profile-pic").src = user.photoURL || "https://via.placeholder.com/100";
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      document.getElementById("user-name").textContent = user.displayName || "Anonymous";
+      document.getElementById("user-email").textContent = user.email;
+      document.getElementById("profile-pic").src = user.photoURL || "https://via.placeholder.com/100";
+
+      // Fetch extra details from Firestore
+      const docRef = doc(db, "users", user.uid);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        document.getElementById("dob").textContent = data.dob || "Not provided";
+        document.getElementById("university").textContent = data.university || "Not provided";
+        document.getElementById("skills").textContent = (data.skills || []).join(", ");
+        document.getElementById("interests").textContent = (data.interests || []).join(", ");
+        document.getElementById("extra-details-box").style.display = "block";
       } else {
-        window.location.href = "login.html";
+        console.log("No extra details found.");
       }
-    });
+    } else {
+      window.location.href = "login.html";
+    }
+  });
 
-    window.logout = function () {
-      signOut(auth).then(() => {
-        alert("Logged out!");
-        window.location.href = "login.html";
-      });
-    };
-  </script>
+  window.logout = function () {
+    signOut(auth).then(() => {
+      alert("Logged out!");
+      window.location.href = "login.html";
+    });
+  };
+</script>
 
 </body>
 </html>
