@@ -51,7 +51,7 @@
       margin-top: 10px;
     }
     button:hover {
-      background: #6666;
+      background: #444;
     }
     .google-btn {
       background: #f5f1e6;
@@ -79,7 +79,7 @@
     <h2>Login to Zwapy</h2>
     <input type="email" id="email" placeholder="Email Address" />
     <input type="password" id="password" placeholder="Password" />
-    <button onclick="emailLogin()">Login</button>
+    <button id="email-login">Login</button>
 
     <div class="or">or</div>
     
@@ -89,9 +89,9 @@
     </button>
   </div>
 
-  <!-- Firebase SDK -->
+  <!-- Firebase Login Logic -->
   <script type="module">
-    import { auth, provider } from '/firebase.js';
+    import { auth, provider } from './firebase.js';
     import {
       signInWithEmailAndPassword,
       signInWithPopup
@@ -125,3 +125,4 @@
 
 </body>
 </html>
+
