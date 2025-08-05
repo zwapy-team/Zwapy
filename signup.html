@@ -151,7 +151,7 @@
         await updateProfile(userCredential.user, { displayName: name });
         alert("✅ Signup successful! Welcome, " + name);
         setTimeout(() => {
-          window.location.href = "/extra-details.html";
+          window.location.href = "/dashboard.html";
         }, 500);
       } catch (error) {
         alert("❌ " + error.message);
@@ -165,7 +165,7 @@
         const result = await signInWithPopup(auth, provider);
         alert("✅ Google Sign-in successful! Welcome, " + result.user.displayName);
         setTimeout(() => {
-          window.location.href = "/extra-details.html";
+          window.location.href = "/dashboard.html";
         }, 500);
       } catch (error) {
         alert("❌ " + error.message);
