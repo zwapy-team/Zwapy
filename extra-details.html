@@ -111,58 +111,56 @@
   <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 
   <!-- Firebase v9.6.10 modules -->
-  <script type="module">
-    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
-    import { doc, setDoc } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
-    
-    // ✅ Import initialized auth and db from your local firebase.js
-    import { auth, db } from './firebase.js';
+ <script type="module">
+  import { auth, db } from "./firebase.js";
+  import {
+    doc,
+    setDoc
+  } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+  import {
+    onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
 
-    // Initialize Choices.js dropdowns
-    document.addEventListener('DOMContentLoaded', () => {
-      new Choices('#skills', {
-        removeItemButton: true,
-        searchEnabled: true,
-        placeholderValue: 'Select your skills',
-      });
+  const dobInput = document.getElementById("dob");
+  const universityInput = document.getElementById("university");
+  const skillsInput = document.getElementById("skills"); // must be multiselect
+  const interestsInput = document.getElementById("interests"); // must be multiselect
+  const saveBtn = document.getElementById("saveDetailsBtn");
 
-      new Choices('#interests', {
-        removeItemButton: true,
-        searchEnabled: true,
-        placeholderValue: 'Select interested fields',
-      });
-    });
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      const uid = user.uid;
 
-    // Submit button logic
-    document.getElementById('submitBtn').addEventListener('click', async () => {
-      const dob = document.getElementById('dob').value;
-      const university = document.getElementById('university').value;
-      const skills = Array.from(document.getElementById('skills').selectedOptions).map(opt => opt.value);
-      const interests = Array.from(document.getElementById('interests').selectedOptions).map(opt => opt.value);
+      saveBtn.addEventListener("click", async () => {
+        const dob = dobInput.value;
+        const university = universityInput.value;
 
-      if (!dob || !university || skills.length === 0 || interests.length === 0) {
-        alert("Please fill all fields.");
-        return;
-      }
+        // collect selected skills and interests
+        const selectedSkills = Array.from(skillsInput.selectedOptions).map(opt => opt.value);
+        const selectedInterests = Array.from(interestsInput.selectedOptions).map(opt => opt.value);
 
-      onAuthStateChanged(auth, async (user) => {
-        if (user) {
-          const uid = user.uid;
-          const userRef = doc(db, "users", uid);
-          await setDoc(userRef, {
+        try {
+          await setDoc(doc(db, "users", uid), {
             dob,
             university,
-            skills,
-            interests
-          }, { merge: true });
-
-          window.location.href = "/accounts.html"; // ✅ Redirect to accounts page
-        } else {
-          alert("User not logged in.");
+            skills: selectedSkills,
+            interests: selectedInterests
+          });
+          alert("✅ Details saved!");
+          window.location.href = "accounts.html";
+        } catch (error) {
+          console.error("❌ Error saving details:", error);
+          alert("Failed to save details: " + error.message);
         }
       });
-    });
-  </script>
+
+    } else {
+      // Not logged in
+      window.location.href = "login.html";
+    }
+  });
+</script>
+
 
 </body>
 </html>
