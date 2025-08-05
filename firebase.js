@@ -1,9 +1,9 @@
 // firebase.js
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+import { getAuth, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
 
 const firebaseConfig = {
-   apiKey: "AIzaSyBazCIc5vdQInSwvqvohIcbPToTjnw7KJI",
+  apiKey: "AIzaSyBazCIc5vdQInSwvqvohIcbPToTjnw7KJI",
   authDomain: "zwapy-25.firebaseapp.com",
   projectId: "zwapy-25",
   storageBucket: "zwapy-25.firebasestorage.app",
@@ -14,6 +14,6 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
 
-// Export auth for use in other pages
-export { auth };
+export { auth, provider };
