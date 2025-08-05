@@ -142,8 +142,8 @@
 <!-- Firebase SDK Modules -->
 <script type="module">
   import { auth, db } from './firebase.js';
-  import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-  import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+  import { doc, getDoc } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
   onAuthStateChanged(auth, async (user) => {
     if (user) {
@@ -152,19 +152,24 @@
       document.getElementById("profile-pic").src = user.photoURL || "https://via.placeholder.com/100";
 
       // Fetch extra details from Firestore
-      const docRef = doc(db, "users", user.uid);
-      const docSnap = await getDoc(docRef);
+      try {
+        const docRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(docRef);
 
-      if (docSnap.exists()) {
-        const data = docSnap.data();
-        document.getElementById("dob").textContent = data.dob || "Not provided";
-        document.getElementById("university").textContent = data.university || "Not provided";
-        document.getElementById("skills").textContent = (data.skills || []).join(", ");
-        document.getElementById("interests").textContent = (data.interests || []).join(", ");
-        document.getElementById("extra-details-box").style.display = "block";
-      } else {
-        console.log("No extra details found.");
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          document.getElementById("dob").textContent = data.dob || "Not provided";
+          document.getElementById("university").textContent = data.university || "Not provided";
+          document.getElementById("skills").textContent = (data.skills || []).join(", ");
+          document.getElementById("interests").textContent = (data.interests || []).join(", ");
+          document.getElementById("extra-details-box").style.display = "block";
+        } else {
+          console.log("No extra details found.");
+        }
+      } catch (error) {
+        console.error("Error fetching user details:", error);
       }
+
     } else {
       window.location.href = "login.html";
     }
@@ -177,6 +182,7 @@
     });
   };
 </script>
+
 
 </body>
 </html>
