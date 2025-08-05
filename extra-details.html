@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Extra Details</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+
+  <!-- Choices.js CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f5f1e6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+      max-width: 500px;
+      width: 100%;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    label {
+      font-weight: 600;
+      margin: 14px 0 6px;
+      display: block;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+
+    button {
+      width: 100%;
+      background-color: #f5f1e6;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    button:hover {
+      background-color: #222;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Complete Profile</h2>
+
+    <label for="dob">Date of Birth</label>
+    <input type="date" id="dob" />
+
+    <label for="university">University Name</label>
+    <input type="text" id="university" placeholder="Enter your university" />
+
+    <label for="skills">Skills</label>
+    <select id="skills" multiple>
+      <option value="Full Stack Web Development">Web Development</option>
+      <option value="App Development">App Development</option>
+      <option value="C,C++">C,C++</option>
+      <option value="Java">Java</option>
+      <option value="JavaScript">JavaScript</option>
+      <option value="UI/UX">UI/UX</option>
+      <option value="Machine Learning">Machine Learning</option>
+      <option value="Python">Python</option>
+      <option value="HTML,CSS">HTML,CSS</option>
+      <option value="AI">AI</option>
+    </select>
+
+    <label for="interests">Interested Fields</label>
+    <select id="interests" multiple>
+      <option value="Technology">Technology</option>
+      <option value="AI">AI</option>
+      <option value="Data Science">Data Science</option>
+      <option value="Machine Learning">Machine Learning</option>
+      <option value="Startups">Startups</option>
+      <option value="Cyber Security">Cyber Security</option>
+      <option value="UI/UX">UI/UX</option>
+    </select>
+
+    <button id="submitBtn">Save & Continue</button>
+  </div>
+
+  <!-- Choices.js Script -->
+  <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+
+  <!-- Firebase App -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
+
+  <!-- Your Firebase Config -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    // ✅ Import your firebaseConfig
+    import { firebaseConfig } from './firebase.js';
+
+    // ✅ Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // ✅ Initialize dropdowns
+    document.addEventListener('DOMContentLoaded', () => {
+      new Choices('#skills', {
+        removeItemButton: true,
+        searchEnabled: true,
+        placeholderValue: 'Select your skills',
+        noResultsText: 'No skill found',
+      });
+
+      new Choices('#interests', {
+        removeItemButton: true,
+        searchEnabled: true,
+        placeholderValue: 'Select interested fields',
+        noResultsText: 'No match found',
+      });
+    });
+
+    // ✅ On button click
+    document.getElementById('submitBtn').addEventListener('click', async () => {
+      const dob = document.getElementById('dob').value;
+      const university = document.getElementById('university').value;
+
+      // Get skills and interests as array of selected values
+      const skills = Array.from(document.getElementById('skills').selectedOptions).map(opt => opt.value);
+      const interests = Array.from(document.getElementById('interests').selectedOptions).map(opt => opt.value);
+
+      if (!dob || !university || skills.length === 0 || interests.length === 0) {
+        alert("Please fill all fields");
+        return;
+      }
+
+      // ✅ Wait for user to be logged in
+      onAuthStateChanged(auth, async (user) => {
+        if (user) {
+          const uid = user.uid;
+          const userRef = doc(db, "users", uid);
+
+          await setDoc(userRef, {
+            dob,
+            university,
+            skills,
+            interests
+          }, { merge: true });
+
+          // ✅ Redirect after saving
+          window.location.href = "/dashboard.html.html";
+        } else {
+          alert("No user logged in.");
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
+
