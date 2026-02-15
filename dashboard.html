@@ -152,12 +152,12 @@
 
       <!-- Credits & Skill Exchange -->
       <section class="bg-white p-8 rounded-3xl shadow-lg">
-        <h3 class="text-3xl font-bold mb-6">Your Credits</h3>
-        <p class="text-2xl font-semibold text-emerald-600 mb-6">Current Credits: <span id="creditsDisplay">0</span></p>
-        <button id="exchangeBtn" class="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-2xl font-bold text-lg transition">
-          Simulate Skill Exchange (+50 credits)
-        </button>
-      </section>
+  <h3 class="text-3xl font-bold mb-6">Your Credits</h3>
+  <p class="text-2xl font-semibold text-emerald-600 mb-6">Current Credits: <span id="creditsDisplay">0</span></p>
+  <button id="exchangeBtn" class="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-2xl font-bold text-lg transition">
+    Simulate Skill Exchange (+50 credits)
+  </button>
+</section>
     </div>
   </main>
 
@@ -204,6 +204,49 @@
       // Not logged in
       document.getElementById('userName').innerText = 'Guest';
       document.getElementById('userPic').src = 'https://api.dicebear.com/7.x/avataaars/svg?seed=Guest';
+    }
+  });
+</script>
+
+<script type="module">
+  // Make sure this path matches your firebase.js location
+  import { auth, db } from './firebase.js';
+  import { doc, getDoc, updateDoc, increment, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  // Load real credits when user logs in
+  auth.onAuthStateChanged(async (user) => {
+    if (user) {
+      const userRef = doc(db, 'users', user.uid);
+      const snap = await getDoc(userRef);
+
+      if (snap.exists()) {
+        const data = snap.data();
+        document.getElementById('creditsDisplay').innerText = data.credits || 0;
+      } else {
+        // New user - start with 0 credits
+        await setDoc(userRef, { credits: 0 });
+        document.getElementById('creditsDisplay').innerText = 0;
+      }
+    } else {
+      document.getElementById('creditsDisplay').innerText = 'Login to see credits';
+    }
+  });
+
+  // Button: Add +50 credits permanently
+  document.getElementById('exchangeBtn').addEventListener('click', async () => {
+    const user = auth.currentUser;
+    if (user) {
+      const userRef = doc(db, 'users', user.uid);
+      await updateDoc(userRef, {
+        credits: increment(50)
+      });
+
+      // Update screen immediately
+      let current = parseInt(document.getElementById('creditsDisplay').innerText) || 0;
+      document.getElementById('creditsDisplay').innerText = current + 50;
+      alert("Skill exchanged! +50 credits added permanently");
+    } else {
+      alert("Please log in first");
     }
   });
 </script>
