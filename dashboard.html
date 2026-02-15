@@ -154,9 +154,9 @@
       <section class="bg-white p-8 rounded-3xl shadow-lg">
   <h3 class="text-3xl font-bold mb-6">Your Credits</h3>
   <p class="text-2xl font-semibold text-emerald-600 mb-6">Current Credits: <span id="creditsDisplay">0</span></p>
-<button id="exchangeBtn" class="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-2xl font-bold text-lg transition">
-  Simulate Skill Exchange (+50 credits)
-</button>
+  <button id="exchangeBtn" class="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-2xl font-bold text-lg transition">
+    Simulate Skill Exchange (+50 credits)
+  </button>
 </section>
     </div>
   </main>
@@ -208,72 +208,15 @@
   });
 </script>
 
-<script type="module">
-  // Your Firebase (version 9.6.10)
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
-  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
-  import { getFirestore, doc, getDoc, updateDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyBazCIc5vdQInSwvqvohIcbPToTjnw7KJI",
-    authDomain: "zwapy-25.firebaseapp.com",
-    projectId: "zwapy-25",
-    storageBucket: "zwapy-25.firebasestorage.app",
-    messagingSenderId: "30612332450",
-    appId: "1:30612332450:web:9e23f36a69f89dbb325cfb",
-    measurementId: "G-THCGY8NH1Z"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
-
-  // Load credits when user logs in (always start at 0 if no data)
-  onAuthStateChanged(auth, async (user) => {
-    if (user) {
-      const userRef = doc(db, 'users', user.uid);
-      const snap = await getDoc(userRef);
-
-      if (snap.exists()) {
-        document.getElementById('creditsDisplay').innerText = snap.data().credits || 0;
-      } else {
-        // New user → 0 credits, no bonus claimed yet
-        await setDoc(userRef, { credits: 0, hasClaimedFirstExchange: false });
-        document.getElementById('creditsDisplay').innerText = 0;
-      }
-    } else {
-      document.getElementById('creditsDisplay').innerText = 'Login to see credits';
-    }
+<script>
+  // Button only shows message - NO credits added ever
+  document.getElementById('exchangeBtn').addEventListener('click', () => {
+    alert("Go exchange skills and come earn credits!");
+    // Credits stay 0 - nothing happens
   });
 
-  // Button: Add 50 credits ONLY ONCE (first skill exchange)
-  document.getElementById('exchangeBtn').addEventListener('click', async () => {
-    const user = auth.currentUser;
-    if (!user) {
-      alert("Please log in first");
-      return;
-    }
-
-    const userRef = doc(db, 'users', user.uid);
-    const snap = await getDoc(userRef);
-
-    if (snap.exists()) {
-      const data = snap.data();
-      if (data.hasClaimedFirstExchange === true) {
-        alert("You already exchanged your first skill — no more bonus credits!");
-        return;
-      }
-    }
-
-    // First time only
-    await updateDoc(userRef, {
-      credits: 50,
-      hasClaimedFirstExchange: true
-    });
-
-    document.getElementById('creditsDisplay').innerText = 50;
-    alert("You will get 50 credits on your 1st skill exchange!");
-  });
+  // Always force credits to 0 on load (no saving, no loading)
+  document.getElementById('creditsDisplay').innerText = '0';
 </script>
 
 </body>
