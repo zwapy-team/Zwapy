@@ -169,5 +169,55 @@
           }
         });
     </script>
+    <script type="module">
+  import { auth, db } from './firebase.js';
+  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+  import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      document.getElementById('profileName').innerText = user.displayName || 'New User';
+      document.getElementById('profilePhoto').src = user.photoURL || 'https://api.dicebear.com/7.x/avataaars/svg?seed=User';
+      document.getElementById('email').innerText = user.email || 'Not set';
+
+      // Get extra data from Firestore (credits, swaps, etc.)
+      const userRef = doc(db, 'users', user.uid);
+      const snap = await getDoc(userRef);
+      if (snap.exists()) {
+        const data = snap.data();
+        document.getElementById('totalSwaps').innerText = data.swaps || 0;
+        document.getElementById('feedback').innerText = data.feedback || '0%';
+        document.getElementById('globalRank').innerText = data.rank || '#---';
+        document.getElementById('badges').innerText = data.badges || 0;
+        document.getElementById('fullName').innerText = data.fullName || user.displayName || 'Not set';
+        document.getElementById('mobile').innerText = data.mobile || 'Not set';
+        document.getElementById('aboutText').innerText = data.about || 'No bio yet.';
+        // Expertise bars
+        document.getElementById('uiPercent').innerText = (data.expertise?.uiDesign || 0) + '%';
+        document.getElementById('uiBar').style.width = (data.expertise?.uiDesign || 0) + '%';
+        document.getElementById('reactPercent').innerText = (data.expertise?.reactDev || 0) + '%';
+        document.getElementById('reactBar').style.width = (data.expertise?.reactDev || 0) + '%';
+      } else {
+        // New user - save defaults
+        await setDoc(userRef, {
+          name: user.displayName,
+          email: user.email,
+          photoURL: user.photoURL,
+          swaps: 0,
+          feedback: '0%',
+          rank: '#---',
+          badges: 0,
+          about: 'No bio yet.',
+          expertise: { uiDesign: 0, reactDev: 0 },
+          fullName: '',
+          mobile: '',
+          timeline: []
+        });
+      }
+    } else {
+      document.getElementById('profileName').innerText = 'Please log in';
+    }
+  });
+</script>
 </body>
 </html>

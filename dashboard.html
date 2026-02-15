@@ -85,9 +85,11 @@
       </div>
 
       <div class="flex items-center space-x-4">
-        <span class="text-lg font-semibold" id="userName">Loading...</span>
-        <img id="userPic" src="https://api.dicebear.com/7.x/avataaars/svg?seed=User" alt="Profile" class="w-10 h-10 rounded-full border-2 border-slate-300">
-      </div>
+  <span id="userName" class="text-lg font-semibold">Loading...</span>
+  <img id="userPic" src="https://api.dicebear.com/7.x/avataaars/svg?seed=User" alt="Profile" class="w-10 h-10 rounded-full border-2 border-slate-300">
+  <!-- optional email if you want -->
+  <span id="userEmail" class="text-sm text-gray-600 hidden">Loading...</span>
+</div>
     </header>
 
     <!-- Dashboard Content -->
@@ -190,6 +192,30 @@
       alert("Skill exchanged! +50 credits");
     });
   </script>
+
+ <script type="module">
+  import { auth } from './firebase.js';  // adjust path if firebase.js is in different folder
+  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // Logged in → show real data
+      document.getElementById('userName').innerText = user.displayName || 'User';
+      document.getElementById('userPic').src = user.photoURL || 'https://api.dicebear.com/7.x/avataaars/svg?seed=User';
+      if (document.getElementById('userEmail')) {
+        document.getElementById('userEmail').innerText = user.email || 'Not set';
+      }
+      // Optional: hide login button or show logout
+    } else {
+      // Not logged in
+      document.getElementById('userName').innerText = 'Guest';
+      document.getElementById('userPic').src = 'https://api.dicebear.com/7.x/avataaars/svg?seed=Guest';
+      if (document.getElementById('userEmail')) {
+        document.getElementById('userEmail').innerText = '';
+      }
+    }
+  });
+</script>
 
 </body>
 </html>
