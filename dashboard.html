@@ -209,7 +209,7 @@
 </script>
 
 <script type="module">
-  // Firebase (your version 9.6.10)
+  // Firebase imports (your version)
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
   import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
   import { getFirestore, doc, getDoc, updateDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
@@ -228,7 +228,7 @@
   const auth = getAuth(app);
   const db = getFirestore(app);
 
-  // Load credits once when user logs in
+  // Load credits when logged in
   onAuthStateChanged(auth, async (user) => {
     if (user) {
       const userRef = doc(db, 'users', user.uid);
@@ -237,15 +237,16 @@
       if (snap.exists()) {
         document.getElementById('creditsDisplay').innerText = snap.data().credits || 0;
       } else {
-        await setDoc(userRef, { credits: 0 });
+        await setDoc(userRef, { credits: 0, hasClaimedFirstExchange: false });
         document.getElementById('creditsDisplay').innerText = 0;
       }
+    } else {
+      document.getElementById('creditsDisplay').innerText = 'Login to see credits';
     }
   });
 
-  // One-time +50 credits button
-  const exchangeBtn = document.getElementById('exchangeBtn');
-  exchangeBtn.addEventListener('click', async () => {
+  // Button - one-time +50 credits only
+  document.getElementById('exchangeBtn').addEventListener('click', async () => {
     const user = auth.currentUser;
     if (!user) {
       alert("Please log in first");
@@ -257,22 +258,20 @@
 
     if (snap.exists()) {
       const data = snap.data();
-      if (data.hasReceivedWelcomeCredits) {
-        alert("You already received your welcome 50 credits!");
+      if (data.hasClaimedFirstExchange === true) {
+        alert("You already exchanged your first skill — no more bonus credits!");
         return;
       }
     }
 
-    // First time: add 50 + save flag
+    // First time only - set exactly 50 credits
     await updateDoc(userRef, {
-      credits: increment(50),
-      hasReceivedWelcomeCredits: true
+      credits: 50,
+      hasClaimedFirstExchange: true
     });
 
-    let current = parseInt(document.getElementById('creditsDisplay').innerText) || 0;
-    document.getElementById('creditsDisplay').innerText = current + 50;
-
-    alert("Exchange skills to earn your first 50 credits!");
+    document.getElementById('creditsDisplay').innerText = 50;
+    alert("You will get 50 credits on your 1st skill exchange!");
   });
 </script>
 
