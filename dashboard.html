@@ -209,10 +209,10 @@
 </script>
 
 <script type="module">
-  // Firebase imports (your version 9.6.10)
+  // Firebase (your version 9.6.10)
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
   import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
-  import { getFirestore, doc, getDoc, updateDoc, increment, setDoc } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+  import { getFirestore, doc, getDoc, updateDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyBazCIc5vdQInSwvqvohIcbPToTjnw7KJI",
@@ -228,7 +228,7 @@
   const auth = getAuth(app);
   const db = getFirestore(app);
 
-  // Load credits when user logs in
+  // Load credits once when user logs in
   onAuthStateChanged(auth, async (user) => {
     if (user) {
       const userRef = doc(db, 'users', user.uid);
@@ -243,23 +243,36 @@
     }
   });
 
-  // Button click - add +50 every time (unlimited)
-  document.getElementById('exchangeBtn').addEventListener('click', async () => {
+  // One-time +50 credits button
+  const exchangeBtn = document.getElementById('exchangeBtn');
+  exchangeBtn.addEventListener('click', async () => {
     const user = auth.currentUser;
-    if (user) {
-      const userRef = doc(db, 'users', user.uid);
-      await updateDoc(userRef, {
-        credits: increment(50)
-      });
-
-      // Update screen immediately
-      let current = parseInt(document.getElementById('creditsDisplay').innerText) || 0;
-      document.getElementById('creditsDisplay').innerText = current + 50;
-
-      alert("Skill exchanged! +50 credits");
-    } else {
+    if (!user) {
       alert("Please log in first");
+      return;
     }
+
+    const userRef = doc(db, 'users', user.uid);
+    const snap = await getDoc(userRef);
+
+    if (snap.exists()) {
+      const data = snap.data();
+      if (data.hasReceivedWelcomeCredits) {
+        alert("You already received your welcome 50 credits!");
+        return;
+      }
+    }
+
+    // First time: add 50 + save flag
+    await updateDoc(userRef, {
+      credits: increment(50),
+      hasReceivedWelcomeCredits: true
+    });
+
+    let current = parseInt(document.getElementById('creditsDisplay').innerText) || 0;
+    document.getElementById('creditsDisplay').innerText = current + 50;
+
+    alert("Exchange skills to earn your first 50 credits!");
   });
 </script>
 
