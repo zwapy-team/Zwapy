@@ -85,8 +85,8 @@
       </div>
 
       <div class="flex items-center space-x-4">
-  <span id="userName" class="text-lg font-semibold">Loading...</span>
-  <img id="userPic" src="https://api.dicebear.com/7.x/avataaars/svg?seed=User" alt="Profile" class="w-10 h-10 rounded-full border-2 border-slate-300">
+  <span id="userName">Loading...</span>
+<img id="userPic" src="https://api.dicebear.com/7.x/avataaars/svg?seed=User" alt="Profile" class="w-10 h-10 rounded-full">
   <!-- optional email if you want -->
   <span id="userEmail" class="text-sm text-gray-600 hidden">Loading...</span>
 </div>
@@ -194,32 +194,16 @@
   </script>
 
  <script>
-  // Simple script - no module, no import issues
-  console.log("Script loaded - checking login...");
-
-  // Wait for Firebase to load from your firebase.js
-  setTimeout(() => {
-    if (typeof firebase !== 'undefined' && firebase.auth) {
-      firebase.auth().onAuthStateChanged((user) => {
-        console.log("User status:", user ? "Logged in" : "Not logged in");
-
-        if (user) {
-          console.log("Real name:", user.displayName);
-          console.log("Real photo:", user.photoURL);
-
-          // Update top-right
-          const nameEl = document.getElementById('userName');
-          const picEl = document.getElementById('userPic');
-          if (nameEl) nameEl.innerText = user.displayName || 'User';
-          if (picEl) picEl.src = user.photoURL || 'https://api.dicebear.com/7.x/avataaars/svg?seed=User';
-        } else {
-          console.log("No user logged in");
-        }
-      });
+  // Simple Firebase listener (uses your existing firebase.js)
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      document.getElementById('userName').innerText = user.displayName || 'User';
+      document.getElementById('userPic').src = user.photoURL || 'https://api.dicebear.com/7.x/avataaars/svg?seed=User';
     } else {
-      console.log("Firebase not loaded yet");
+      document.getElementById('userName').innerText = 'Guest';
+      document.getElementById('userPic').src = 'https://api.dicebear.com/7.x/avataaars/svg?seed=Guest';
     }
-  }, 2000);
+  });
 </script>
 
 </body>
