@@ -84,11 +84,9 @@
         <p class="text-xl font-extrabold">Welcome back!</p>
       </div>
 
-      <div class="flex items-center space-x-4">
-  <span id="userName">Loading...</span>
-<img id="userPic" src="https://api.dicebear.com/7.x/avataaars/svg?seed=User" alt="Profile" class="w-10 h-10 rounded-full">
-  <!-- optional email if you want -->
-  <span id="userEmail" class="text-sm text-gray-600 hidden">Loading...</span>
+     <div class="flex items-center space-x-4">
+  <span id="userName" class="text-lg font-semibold">Loading...</span>
+  <img id="userPic" src="https://api.dicebear.com/7.x/avataaars/svg?seed=User" alt="Profile" class="w-10 h-10 rounded-full border-2 border-slate-300">
 </div>
     </header>
 
@@ -193,13 +191,18 @@
     });
   </script>
 
- <script>
-  // Simple Firebase listener (uses your existing firebase.js)
-  firebase.auth().onAuthStateChanged((user) => {
+ <script type="module">
+  // Import from your existing firebase.js (adjust path if needed)
+  import { auth } from './firebase.js';
+
+  // Listen for user login status
+  auth.onAuthStateChanged((user) => {
     if (user) {
+      // User is logged in - update name and photo
       document.getElementById('userName').innerText = user.displayName || 'User';
       document.getElementById('userPic').src = user.photoURL || 'https://api.dicebear.com/7.x/avataaars/svg?seed=User';
     } else {
+      // Not logged in
       document.getElementById('userName').innerText = 'Guest';
       document.getElementById('userPic').src = 'https://api.dicebear.com/7.x/avataaars/svg?seed=Guest';
     }
