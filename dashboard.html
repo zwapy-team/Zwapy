@@ -209,7 +209,7 @@
 </script>
 
 <script type="module">
-  // Use your exact Firebase version (9.6.10)
+  // Firebase imports (your version 9.6.10)
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
   import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
   import { getFirestore, doc, getDoc, updateDoc, increment, setDoc } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
@@ -228,26 +228,22 @@
   const auth = getAuth(app);
   const db = getFirestore(app);
 
-  // Load real credits when user logs in
+  // Load credits when user logs in
   onAuthStateChanged(auth, async (user) => {
     if (user) {
       const userRef = doc(db, 'users', user.uid);
       const snap = await getDoc(userRef);
 
       if (snap.exists()) {
-        const data = snap.data();
-        document.getElementById('creditsDisplay').innerText = data.credits || 0;
+        document.getElementById('creditsDisplay').innerText = snap.data().credits || 0;
       } else {
-        // New user - start with 0 credits
         await setDoc(userRef, { credits: 0 });
         document.getElementById('creditsDisplay').innerText = 0;
       }
-    } else {
-      document.getElementById('creditsDisplay').innerText = 'Login to see credits';
     }
   });
 
-  // Button click - add +50 credits permanently
+  // Button click - add +50 every time (unlimited)
   document.getElementById('exchangeBtn').addEventListener('click', async () => {
     const user = auth.currentUser;
     if (user) {
@@ -259,7 +255,8 @@
       // Update screen immediately
       let current = parseInt(document.getElementById('creditsDisplay').innerText) || 0;
       document.getElementById('creditsDisplay').innerText = current + 50;
-      alert("Skill exchanged! +50 credits added permanently");
+
+      alert("Skill exchanged! +50 credits");
     } else {
       alert("Please log in first");
     }
