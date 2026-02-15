@@ -209,7 +209,7 @@
 </script>
 
 <script type="module">
-  // Firebase imports (your version)
+  // Your Firebase (version 9.6.10)
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
   import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
   import { getFirestore, doc, getDoc, updateDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
@@ -228,7 +228,7 @@
   const auth = getAuth(app);
   const db = getFirestore(app);
 
-  // Load credits when logged in
+  // Load credits when user logs in (always start at 0 if no data)
   onAuthStateChanged(auth, async (user) => {
     if (user) {
       const userRef = doc(db, 'users', user.uid);
@@ -237,6 +237,7 @@
       if (snap.exists()) {
         document.getElementById('creditsDisplay').innerText = snap.data().credits || 0;
       } else {
+        // New user → 0 credits, no bonus claimed yet
         await setDoc(userRef, { credits: 0, hasClaimedFirstExchange: false });
         document.getElementById('creditsDisplay').innerText = 0;
       }
@@ -245,7 +246,7 @@
     }
   });
 
-  // Button - one-time +50 credits only
+  // Button: Add 50 credits ONLY ONCE (first skill exchange)
   document.getElementById('exchangeBtn').addEventListener('click', async () => {
     const user = auth.currentUser;
     if (!user) {
@@ -264,7 +265,7 @@
       }
     }
 
-    // First time only - set exactly 50 credits
+    // First time only
     await updateDoc(userRef, {
       credits: 50,
       hasClaimedFirstExchange: true
