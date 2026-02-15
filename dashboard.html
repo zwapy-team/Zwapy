@@ -193,28 +193,33 @@
     });
   </script>
 
- <script type="module">
-  import { auth } from './firebase.js';  // adjust path if firebase.js is in different folder
-  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+ <script>
+  // Simple script - no module, no import issues
+  console.log("Script loaded - checking login...");
 
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      // Logged in → show real data
-      document.getElementById('userName').innerText = user.displayName || 'User';
-      document.getElementById('userPic').src = user.photoURL || 'https://api.dicebear.com/7.x/avataaars/svg?seed=User';
-      if (document.getElementById('userEmail')) {
-        document.getElementById('userEmail').innerText = user.email || 'Not set';
-      }
-      // Optional: hide login button or show logout
+  // Wait for Firebase to load from your firebase.js
+  setTimeout(() => {
+    if (typeof firebase !== 'undefined' && firebase.auth) {
+      firebase.auth().onAuthStateChanged((user) => {
+        console.log("User status:", user ? "Logged in" : "Not logged in");
+
+        if (user) {
+          console.log("Real name:", user.displayName);
+          console.log("Real photo:", user.photoURL);
+
+          // Update top-right
+          const nameEl = document.getElementById('userName');
+          const picEl = document.getElementById('userPic');
+          if (nameEl) nameEl.innerText = user.displayName || 'User';
+          if (picEl) picEl.src = user.photoURL || 'https://api.dicebear.com/7.x/avataaars/svg?seed=User';
+        } else {
+          console.log("No user logged in");
+        }
+      });
     } else {
-      // Not logged in
-      document.getElementById('userName').innerText = 'Guest';
-      document.getElementById('userPic').src = 'https://api.dicebear.com/7.x/avataaars/svg?seed=Guest';
-      if (document.getElementById('userEmail')) {
-        document.getElementById('userEmail').innerText = '';
-      }
+      console.log("Firebase not loaded yet");
     }
-  });
+  }, 2000);
 </script>
 
 </body>
