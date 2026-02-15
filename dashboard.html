@@ -192,13 +192,12 @@
   </script>
 
  <script type="module">
-  // Import from your existing firebase.js (adjust path if needed)
-  import { auth } from './firebase.js';
+  // Load Firebase from your existing firebase.js file
+  import { auth } from './firebase.js';  // if firebase.js is in same folder, otherwise adjust path
 
-  // Listen for user login status
   auth.onAuthStateChanged((user) => {
     if (user) {
-      // User is logged in - update name and photo
+      // Logged in → update name & photo
       document.getElementById('userName').innerText = user.displayName || 'User';
       document.getElementById('userPic').src = user.photoURL || 'https://api.dicebear.com/7.x/avataaars/svg?seed=User';
     } else {
