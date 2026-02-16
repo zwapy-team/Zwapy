@@ -120,9 +120,14 @@
           const snap = await getDocs(usersRef);
 
           if (snap.empty) {
-            skillsGrid.innerHTML = '<p class="text-center text-slate-500 py-8">No skills listed yet.</p>';
-            return;
-          }
+  skillsGrid.innerHTML = '<p class="text-center text-slate-500 py-8">No users found in Firestore (collection: users)</p>';
+  return;
+}
+console.log('Found ' + snap.size + ' users');
+snap.forEach(doc => {
+  console.log('User ID:', doc.id, 'Data:', doc.data());
+  // rest of the code...
+});
 
           snap.forEach(doc => {
             const user = doc.data();
