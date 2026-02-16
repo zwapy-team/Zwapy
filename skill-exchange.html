@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zwapy | Skill Exchange</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #EAF3FF; --dark: #0F172A; --blue: #2563EB; }
+        body { background-color: var(--bg); font-family: 'Plus Jakarta Sans', sans-serif; }
+       
+        .skill-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .skill-card:hover { transform: translateY(-5px); border-color: var(--blue); }
+       
+        /* Custom scrollbar for chat */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        @keyframes slideIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        .modal-animate { animation: slideIn 0.3s ease-out forwards; }
+    </style>
+</head>
+<body class="min-h-screen p-4 md:p-8">
+    <div class="max-w-7xl mx-auto space-y-8">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+            <div>
+                <h1 class="text-3xl font-black text-[#0F172A] italic uppercase tracking-tight">Skill Exchange</h1>
+                <p class="text-slate-500 font-medium">Find your next mentor or study buddy across campus.</p>
+            </div>
+           
+            <div class="flex flex-wrap items-center gap-3">
+                <input type="text" placeholder="Search skills (e.g. Figma, Python)..."
+                       class="px-6 py-3 rounded-2xl border border-blue-100 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 min-w-[300px]">
+                <button class="bg-[#0F172A] text-white px-6 py-3 rounded-2xl font-bold hover:bg-blue-600 transition shadow-lg">+ Add Offer</button>
+            </div>
+        </div>
+        <div id="skillsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <p class="text-center text-slate-500 py-8">Loading skills...</p>
+        </div>
+    </div>
+    <div id="chatModal" class="fixed inset-0 bg-[#0F172A]/80 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-4xl h-[80vh] rounded-[3rem] shadow-2xl overflow-hidden flex flex-col md:flex-row modal-animate">
+           
+            <div class="flex-1 flex flex-col bg-slate-50">
+                <div class="p-6 border-b flex items-center justify-between bg-white">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-full bg-blue-600"></div>
+                        <h3 id="chatPartner" class="font-bold text-slate-800">Connection</h3>
+                    </div>
+                    <div class="flex gap-2">
+                        <button class="p-2 bg-blue-50 text-blue-600 rounded-xl hover:bg-blue-600 hover:text-white transition">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" stroke-width="2"></path></svg>
+                        </button>
+                        <button onclick="closeChat()" class="p-2 hover:bg-red-50 text-red-400 rounded-xl">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-width="2"></path></svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="flex-1 p-6 space-y-4 overflow-y-auto">
+                    <div class="flex justify-end"><div class="bg-blue-600 text-white p-4 rounded-[1.5rem] rounded-tr-none max-w-[80%] text-sm">Hey! I saw your Python request. Interested?</div></div>
+                    <div class="flex justify-start"><div class="bg-white border p-4 rounded-[1.5rem] rounded-tl-none max-w-[80%] text-sm">Yes, absolutely! When are you free for a video call?</div></div>
+                </div>
+                <div class="p-6 bg-white border-t flex gap-4">
+                    <input type="text" placeholder="Type a message..." class="flex-1 bg-slate-100 rounded-2xl px-6 focus:outline-none focus:ring-2 focus:ring-blue-500/20">
+                    <button class="bg-blue-600 text-white p-4 rounded-2xl font-bold shadow-lg shadow-blue-500/20">Send</button>
+                </div>
+            </div>
+            <div class="hidden md:flex w-72 p-8 flex-col items-center border-l bg-white">
+                <div class="w-24 h-24 rounded-[2rem] bg-blue-50 mb-4 border-4 border-white shadow-xl"></div>
+                <h4 class="font-black text-center">Jayashankar</h4>
+                <p class="text-[10px] text-slate-400 uppercase font-black mb-8">Verified User</p>
+               
+                <div class="w-full space-y-4">
+                    <div class="bg-slate-50 p-4 rounded-2xl">
+                        <p class="text-[10px] font-bold text-blue-500 mb-1">Reputation</p>
+                        <p class="text-sm font-black italic">ELITE TRADER</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function openChat(name) {
+            document.getElementById('chatModal').classList.remove('hidden');
+            document.getElementById('chatPartner').innerText = name;
+            document.body.style.overflow = 'hidden'; // Prevent scroll
+        }
+        function closeChat() {
+            document.getElementById('chatModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+    </script>
+
+    <script type="module">
+        // Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+
+        const firebaseConfig = {
+          apiKey: "AIzaSyBazCIc5vdQInSwvqvohIcbPToTjnw7KJI",
+          authDomain: "zwapy-25.firebaseapp.com",
+          projectId: "zwapy-25",
+          storageBucket: "zwapy-25.firebasestorage.app",
+          messagingSenderId: "30612332450",
+          appId: "1:30612332450:web:9e23f36a69f89dbb325cfb",
+          measurementId: "G-THCGY8NH1Z"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Load users' skills when page loads
+        async function loadSkills() {
+          const skillsGrid = document.getElementById('skillsGrid');
+          skillsGrid.innerHTML = '';
+
+          const usersRef = collection(db, 'users');
+          const snap = await getDocs(usersRef);
+
+          if (snap.empty) {
+            skillsGrid.innerHTML = '<p class="text-center text-slate-500 py-8">No skills listed yet.</p>';
+            return;
+          }
+
+          snap.forEach(doc => {
+            const user = doc.data();
+            if (user.skills && user.skills.length > 0) {
+              user.skills.forEach(skill => {
+                const card = document.createElement('div');
+                card.className = 'skill-card bg-white p-6 rounded-[2.5rem] border border-blue-50 shadow-sm flex flex-col justify-between';
+                card.innerHTML = `
+                  <div>
+                    <div class="flex justify-between items-start mb-4">
+                      <span class="px-3 py-1 bg-blue-100 text-blue-700 text-[10px] font-black uppercase rounded-lg">Offer</span>
+                      <span class="text-[10px] font-bold text-slate-400">Date</span>
+                    </div>
+                    <h3 class="text-xl font-black text-slate-800">${skill.title || 'Skill'}</h3>
+                    <p class="text-sm text-blue-600 font-bold mb-3">by ${user.name || 'User'}</p>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-6 italic">"${skill.description || 'Description'}"</p>
+                  </div>
+                  <div class="flex items-center justify-between pt-4 border-t border-slate-50">
+                    <div class="flex -space-x-3">
+                      <img src="${user.photoURL || 'https://api.dicebear.com/7.x/avataaars/svg?seed=User'}" class="w-8 h-8 rounded-full border-2 border-white">
+                      <div class="w-8 h-8 rounded-full bg-slate-100 border-2 border-white flex items-center justify-center text-[10px] font-bold">+1</div>
+                    </div>
+                    <button onclick="openChat('${user.name || 'User'}')" class="bg-[#0F172A] text-white px-6 py-2.5 rounded-xl font-bold hover:bg-blue-600 transition">Connect</button>
+                  </div>
+                `;
+                skillsGrid.appendChild(card);
+              });
+            } else {
+              // If no skills, show user's name only
+              const card = document.createElement('div');
+              card.className = 'skill-card bg-white p-6 rounded-[2.5rem] border border-blue-50 shadow-sm flex flex-col justify-between';
+              card.innerHTML = `
+                <div>
+                  <div class="flex justify-between items-start mb-4">
+                    <span class="px-3 py-1 bg-blue-100 text-blue-700 text-[10px] font-black uppercase rounded-lg">User</span>
+                    <span class="text-[10px] font-bold text-slate-400">Date</span>
+                  </div>
+                  <h3 class="text-xl font-black text-slate-800">${user.name || 'User'}</h3>
+                  <p class="text-sm text-blue-600 font-bold mb-3">Skills Interested</p>
+                  <p class="text-slate-500 text-sm leading-relaxed mb-6 italic">"${user.interestedSkills || 'No interested skills listed'}"</p>
+                </div>
+                <div class="flex items-center justify-between pt-4 border-t border-slate-50">
+                  <div class="flex -space-x-3">
+                    <img src="${user.photoURL || 'https://api.dicebear.com/7.x/avataaars/svg?seed=User'}" class="w-8 h-8 rounded-full border-2 border-white">
+                    <div class="w-8 h-8 rounded-full bg-slate-100 border-2 border-white flex items-center justify-center text-[10px] font-bold">+1</div>
+                  </div>
+                  <button onclick="openChat('${user.name || 'User'}')" class="bg-[#0F172A] text-white px-6 py-2.5 rounded-xl font-bold hover:bg-blue-600 transition">Connect</button>
+                </div>
+              `;
+              skillsGrid.appendChild(card);
+            }
+          });
+        }
+
+        // Load on page load
+        window.addEventListener('load', loadSkills);
+    </script>
+</body>
+</html>
+"""
+
+print(code)
+</parameter>
+</xai:function_call>
