@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ZwapyClubs | Infinity Core</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root { --neon: #00D4FF; --bg: #010114; }
         body { background-color: var(--bg); font-family: 'Plus Jakarta Sans', sans-serif; color: white; overflow-x: hidden; margin: 0; }
@@ -43,7 +43,7 @@
         .cell {
             min-height: 140px; /* Bigger cells for 3 lines of description */
             background: rgba(1, 1, 20, 0.95);
-            padding: 1.2rem;
+            padding: 1rem;
             transition: 0.4s;
             cursor: pointer;
         }
@@ -61,7 +61,7 @@
             padding: 0.5rem 0.75rem;
             margin: 0.4rem 0;
             border-radius: 0.5rem;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             overflow: hidden;
             text-overflow: ellipsis;
             display: -webkit-box;
@@ -83,6 +83,7 @@
         }
         .close { position: absolute; top: 1rem; right: 1.5rem; font-size: 2rem; cursor: pointer; color: var(--neon); }
         .close:hover { color: white; }
+        .text-smaller { font-size: 0.95rem; line-height: 1.4; }
     </style>
 </head>
 <body class="p-4 md:p-10">
@@ -93,6 +94,7 @@
                   stroke="var(--neon)" stroke-width="4" stroke-linecap="round" />
         </svg>
     </div>
+
     <div class="max-w-[1500px] mx-auto space-y-8 relative z-10">
         <nav class="flex justify-between items-center neo-glass p-5 rounded-[2rem]">
             <div class="flex items-center gap-4">
@@ -122,19 +124,19 @@
 
         <div class="grid grid-cols-1 md:grid-cols-12 gap-5 pb-10">
             <div class="md:col-span-4 neo-glass p-6 rounded-[2.5rem] flex flex-col justify-center">
-                <h3 class="text-[#00D4FF] font-black uppercase text-[9px] tracking-[0.4em] mb-5 opacity-50">Quick Insights</h3>
+                <h3 class="text-[#00D4FF] font-black uppercase text-xs tracking-[0.4em] mb-5 opacity-50">Quick Insights</h3>
                 <div class="flex justify-between items-center px-4">
                     <div class="text-center">
-                        <p class="text-3xl font-black italic leading-none" id="activeEvents">0</p>
-                        <p class="text-[9px] text-slate-500 font-bold uppercase mt-1">Active</p>
+                        <p class="text-xl font-black italic leading-none" id="activeEvents">0</p>
+                        <p class="text-xs text-slate-500 font-bold uppercase mt-1">Active</p>
                     </div>
                     <div class="text-center">
-                        <p class="text-3xl font-black italic text-purple-500 leading-none" id="invites">0</p>
-                        <p class="text-[9px] text-slate-500 font-bold uppercase mt-1">Invites</p>
+                        <p class="text-xl font-black italic text-purple-500 leading-none" id="invites">0</p>
+                        <p class="text-xs text-slate-500 font-bold uppercase mt-1">Invites</p>
                     </div>
                     <div class="text-center">
-                        <p class="text-3xl font-black italic text-[#00D4FF] leading-none" id="totalUsers">0</p>
-                        <p class="text-[9px] text-slate-500 font-bold uppercase mt-1">Users</p>
+                        <p class="text-xl font-black italic text-[#00D4FF] leading-none" id="totalUsers">0</p>
+                        <p class="text-xs text-slate-500 font-bold uppercase mt-1">Users</p>
                     </div>
                 </div>
             </div>
@@ -142,9 +144,9 @@
             <div class="md:col-span-8 bg-[#00D4FF] p-6 rounded-[2.5rem] text-black flex items-center justify-between px-10">
                 <div>
                     <h3 class="text-xl font-black italic uppercase leading-none">Want to post ur event?</h3>
-                    <p class="text-[10px] font-bold opacity-80 mt-1 uppercase tracking-tight">Apply in <span class="bg-black text-white px-2 py-0.5 rounded">Club Head</span> admin portal.</p>
+                    <p class="text-xs font-bold opacity-80 mt-1 uppercase tracking-tight">Apply in <span class="bg-black text-white px-2 py-0.5 rounded">Club Head</span> admin portal.</p>
                 </div>
-                <button class="bg-black text-white px-10 py-4 rounded-2xl font-black text-[11px] tracking-[0.2em] hover:scale-105 active:scale-95 transition-all shadow-xl" onclick="openAdminPortal()">
+                <button class="bg-black text-white px-10 py-4 rounded-2xl font-black text-sm tracking-[0.2em] hover:scale-105 active:scale-95 transition-all shadow-xl" onclick="openAdminPortal()">
                     TAKE ME →
                 </button>
             </div>
