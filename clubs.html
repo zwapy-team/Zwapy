@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Zwapy Clubs</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zwapy Clubs Calendar</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --neon: #00d4ff;
             --bg: #0a001f;
-            --card: rgba(10, 0, 31, 0.75);
+            --card: rgba(10, 0, 31, 0.8);
         }
         body {
             background: var(--bg);
@@ -19,15 +19,14 @@
             margin: 0;
             overflow-x: hidden;
         }
-        /* Large rotating Zwapy logo background - made more visible */
         .bg-logo {
             position: fixed;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 90vmin; max-width: 1000px;
-            opacity: 0.08; /* slightly more visible */
+            width: 80vmin;
+            opacity: 0.07;
             z-index: -1;
-            animation: rotateSlow 40s linear infinite;
+            animation: rotateSlow 50s linear infinite;
             pointer-events: none;
         }
         @keyframes rotateSlow {
@@ -37,71 +36,115 @@
         .neo-glass {
             background: var(--card);
             backdrop-filter: blur(16px);
-            border: 1px solid rgba(0,212,255,0.12);
+            border: 1px solid rgba(0,212,255,0.15);
             border-radius: 1.25rem;
         }
-        .cell {
-            background: rgba(15, 5, 40, 0.92);
-            transition: all 0.25s ease;
-            cursor: pointer;
-            border-radius: 0.5rem;
-            padding: 0.8rem;
-            font-size: 0.95rem;
+        .calendar-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
         }
-        .cell:hover {
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
             background: rgba(0,212,255,0.08);
+            border-radius: 1rem;
+            padding: 0.5rem;
+        }
+        .day-header {
+            text-align: center;
+            font-weight: 600;
+            color: #a0a0ff;
+            padding: 0.75rem 0;
+            font-size: 0.9rem;
+        }
+        .day-cell {
+            min-height: 5rem;
+            background: rgba(15, 5, 40, 0.9);
+            border-radius: 0.75rem;
+            padding: 0.5rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            font-size: 0.9rem;
+        }
+        .day-cell:hover {
+            background: rgba(0,212,255,0.12);
             transform: scale(1.03);
         }
-        .modal-content {
-            background: rgba(10,0,31,0.96);
-            border: 1px solid var(--neon);
-            box-shadow: 0 0 35px rgba(0,212,255,0.2);
+        .day-number {
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.25rem;
         }
-        .text-smaller { font-size: 0.9rem; line-height: 1.4; }
+        .today {
+            background: rgba(0,212,255,0.2);
+            border: 2px solid var(--neon);
+        }
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+        }
+        .modal-content {
+            background: var(--card);
+            border: 1px solid var(--neon);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            max-width: 90%;
+            width: 28rem;
+            position: relative;
+        }
     </style>
 </head>
-<body class="p-5 md:p-8 lg:p-10 min-h-screen relative">
+<body class="p-6 md:p-10 lg:p-12 min-h-screen relative">
 
-    <!-- Large rotating Zwapy logo in background -->
+    <!-- Large rotating Zwapy logo background -->
     <div class="bg-logo pointer-events-none">
         <svg viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="250" cy="250" r="220" stroke="#00D4FF" stroke-width="1.2" stroke-dasharray="12 24" opacity="0.4"/>
-            <path d="M200 150C200 122 222 100 250 100C278 100 300 122 300 150V250H350C378 250 400 272 400 300C400 328 378 350 350 350H250V300H200C172 300 150 278 150 250C150 222 172 200 200 200V150Z" stroke="#00D4FF" stroke-width="2.8" stroke-linecap="round"/>
+            <circle cx="250" cy="250" r="220" stroke="#00D4FF" stroke-width="1" stroke-dasharray="12 24" opacity="0.4"/>
+            <path d="M200 150C200 122 222 100 250 100C278 100 300 122 300 150V250H350C378 250 400 272 400 300C400 328 378 350 350 350H250V300H200C172 300 150 278 150 250C150 222 172 200 200 200V150Z" stroke="#00D4FF" stroke-width="2.5" stroke-linecap="round"/>
         </svg>
     </div>
 
-    <div class="max-w-7xl mx-auto space-y-8 relative z-10">
-        <!-- Header with logo next to title -->
+    <div class="max-w-6xl mx-auto space-y-8 relative z-10">
+        <!-- Header -->
         <nav class="neo-glass flex items-center justify-between p-5 rounded-2xl">
             <div class="flex items-center gap-4">
-                <img src="assets/zwapy-logo.png" alt="Zwapy" class="w-10 h-10 rounded-xl shadow-[0_0_16px_rgba(0,212,255,0.3)]">
+                <img src="assets/zwapy-logo.png" alt="Zwapy" class="w-10 h-10 rounded-xl shadow-lg">
                 <h1 class="text-2xl font-black italic tracking-tight uppercase">
                     Zwapy<span class="text-[var(--neon)]">Clubs</span>
                 </h1>
             </div>
-            <button class="px-5 py-2.5 bg-black/50 border border-[var(--neon)]/25 text-[var(--neon)] rounded-xl text-sm font-bold tracking-wider hover:bg-[var(--neon)] hover:text-black transition-all">
+            <button class="px-5 py-2.5 bg-black/50 border border-[var(--neon)]/30 text-[var(--neon)] rounded-xl text-sm font-bold tracking-wider hover:bg-[var(--neon)] hover:text-black transition-all">
                 MY UNIVERSE ✦
             </button>
         </nav>
 
-        <!-- Calendar - starts from real current month -->
+        <!-- Calendar -->
         <section class="neo-glass p-6 rounded-2xl">
-            <div class="flex items-center justify-center gap-6 mb-6">
-                <span class="nav-arrow text-3xl cursor-pointer select-none" onclick="changeMonth(-1)">‹</span>
+            <div class="calendar-header">
+                <span class="nav-arrow cursor-pointer select-none" onclick="changeMonth(-1)">‹</span>
                 <div class="flex items-center gap-4">
-                    <h2 class="text-2xl font-black italic uppercase tracking-tight" id="monthName"></h2>
+                    <h2 class="text-2xl font-black italic uppercase" id="monthName"></h2>
                     <select id="yearList" class="bg-transparent text-[var(--neon)] text-xl font-medium outline-none cursor-pointer" onchange="changeYear(this.value)"></select>
                 </div>
-                <span class="nav-arrow text-3xl cursor-pointer select-none" onclick="changeMonth(1)">›</span>
+                <span class="nav-arrow cursor-pointer select-none" onclick="changeMonth(1)">›</span>
             </div>
 
-            <div class="calendar-grid grid grid-cols-7 gap-1" id="calendarGrid"></div>
+            <div class="calendar-grid" id="calendarGrid"></div>
         </section>
 
-        <!-- Clean Insights + CTA -->
+        <!-- Insights + CTA -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div class="neo-glass p-6 rounded-2xl text-center">
-                <h3 class="text-[var(--neon)] font-black uppercase text-xs tracking-[0.4em] mb-6 opacity-70">QUICK INSIGHTS</h3>
+                <h3 class="text-[var(--neon)] font-black uppercase text-xs tracking-widest mb-6 opacity-70">QUICK INSIGHTS</h3>
                 <div class="grid grid-cols-3 gap-6">
                     <div>
                         <p class="text-3xl font-black leading-none text-white" id="activeEvents">0</p>
@@ -130,22 +173,22 @@
         </div>
     </div>
 
-    <!-- Modal -->
-    <div id="eventModal" class="modal fixed inset-0 bg-black/85 hidden flex items-center justify-center z-50">
-        <div class="modal-content neo-glass p-6 rounded-2xl max-w-md w-[90%] relative">
+    <!-- Event Modal -->
+    <div id="eventModal" class="modal">
+        <div class="modal-content p-6 rounded-2xl">
             <span class="close absolute top-3 right-5 text-3xl cursor-pointer" onclick="closeModal()">×</span>
             <h2 id="modalTitle" class="text-xl font-black mb-3"></h2>
-            <p id="modalDescription" class="text-sm text-slate-200"></p>
+            <p id="modalDescription" class="text-base text-slate-200"></p>
         </div>
     </div>
 
     <script>
-        // Get real current date
+        // Real current date
         const today = new Date();
         let currentMonth = today.getMonth() + 1; // 1-12
         let currentYear  = today.getFullYear();
 
-        // No events by default
+        // No events
         let currentEvents = [];
 
         function generateCalendar() {
@@ -154,14 +197,14 @@
 
             // Day headers
             ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(d => {
-                grid.innerHTML += `<div class="p-3 text-center text-xs font-bold uppercase text-slate-500 border-b border-white/10">${d}</div>`;
+                grid.innerHTML += `<div class="p-2 text-center text-xs font-bold uppercase text-slate-500 border-b border-white/10">${d}</div>`;
             });
 
-            // First day of month offset
+            // First day offset
             const firstDay = new Date(currentYear, currentMonth-1, 1).getDay();
             const daysInMonth = new Date(currentYear, currentMonth, 0).getDate();
 
-            // Empty cells before 1st
+            // Empty cells
             for (let i = 0; i < firstDay; i++) {
                 grid.innerHTML += `<div class="cell opacity-30"></div>`;
             }
@@ -170,12 +213,12 @@
             for (let d = 1; d <= daysInMonth; d++) {
                 let cell = document.createElement('div');
                 cell.className = 'cell text-center';
-                cell.innerHTML = `<span class="text-lg font-bold">${d}</span>`;
+                cell.innerHTML = `<span class="text-base font-bold">${d}</span>`;
                 cell.onclick = () => showEvents(d);
                 grid.appendChild(cell);
             }
 
-            // Fill remaining cells
+            // Fill remaining
             const remaining = 42 - (firstDay + daysInMonth);
             for (let i = 0; i < remaining; i++) {
                 grid.innerHTML += `<div class="cell opacity-30"></div>`;
@@ -196,7 +239,7 @@
         }
 
         function openAdminPortal() {
-            alert("Redirecting to Club Head Admin Portal (full backend coming soon)...");
+            alert("Redirecting to Club Head Admin Portal...");
         }
 
         function changeMonth(dir) {
@@ -211,9 +254,9 @@
             generateCalendar();
         }
 
-        // Populate year dropdown
+        // Year dropdown
         const yearSelect = document.getElementById('yearList');
-        for (let y = currentYear - 1; y <= currentYear + 5; y++) {
+        for (let y = currentYear - 2; y <= currentYear + 3; y++) {
             let opt = document.createElement('option');
             opt.value = y;
             opt.text = y;
@@ -221,7 +264,7 @@
             yearSelect.appendChild(opt);
         }
 
-        // Initial load
+        // Init
         generateCalendar();
     </script>
 </body>
