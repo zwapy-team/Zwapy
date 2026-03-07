@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Zwapy – My Clubs</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root { --neon: #00D4FF; --bg: #010114; }
+    body { background-color: var(--bg); font-family: 'Plus Jakarta Sans', sans-serif; color: white; margin: 0; }
+    .bg-logo {
+      position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 35%; opacity: 0.06; z-index: -1;
+      animation: rotateSlow 30s linear infinite;
+    }
+    @keyframes rotateSlow { 0% { transform: translate(-50%, -50%) rotate(0deg); } 100% { transform: translate(-50%, -50%) rotate(360deg); } }
+    .neo-glass { background: rgba(2,0,36,0.75); backdrop-filter: blur(20px); border: 1px solid rgba(0,212,255,0.15); border-radius: 1.5rem; }
+    .club-card {
+      background: rgba(0,212,255,0.08);
+      border: 1px solid rgba(0,212,255,0.25);
+      transition: all 0.3s;
+    }
+    .club-card:hover { background: rgba(0,212,255,0.15); transform: translateY(-4px); }
+  </style>
+</head>
+<body class="p-6 md:p-12 min-h-screen relative">
+  <!-- Background rotating logo -->
+  <img src="assets/zwapy-logo.png" alt="Zwapy Logo" class="bg-logo">
+
+  <div class="max-w-6xl mx-auto space-y-10 relative z-10">
+    <!-- Header -->
+    <div class="neo-glass p-6 flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <div class="w-12 h-12 bg-[#00D4FF] rounded-xl flex items-center justify-center shadow-lg">
+          <span class="text-black font-black text-3xl">Z</span>
+        </div>
+        <h1 class="text-3xl font-black tracking-tight">My Clubs</h1>
+      </div>
+      <a href="dashboard.html" class="text-[#00D4FF] hover:underline">← Back to Dashboard</a>
+    </div>
+
+    <!-- Club List -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Club 1 -->
+      <div class="club-card rounded-2xl p-6">
+        <div class="flex items-center gap-4 mb-4">
+          <div class="w-16 h-16 bg-purple-600 rounded-xl flex items-center justify-center text-2xl font-black">C</div>
+          <div>
+            <h3 class="text-xl font-bold">Coding Club</h3>
+            <p class="text-sm text-gray-400">Active members: 128</p>
+          </div>
+        </div>
+        <p class="text-gray-300 mb-4">Weekly hackathons, coding sessions & tech talks.</p>
+        <button class="w-full bg-[#00D4FF]/20 hover:bg-[#00D4FF]/30 text-[#00D4FF] py-2 rounded-lg font-medium transition">
+          View Events
+        </button>
+      </div>
+
+      <!-- Club 2 -->
+      <div class="club-card rounded-2xl p-6">
+        <div class="flex items-center gap-4 mb-4">
+          <div class="w-16 h-16 bg-pink-600 rounded-xl flex items-center justify-center text-2xl font-black">D</div>
+          <div>
+            <h3 class="text-xl font-bold">Design Club</h3>
+            <p class="text-sm text-gray-400">Active members: 87</p>
+          </div>
+        </div>
+        <p class="text-gray-300 mb-4">Figma workshops, poster contests & UI/UX critiques.</p>
+        <button class="w-full bg-[#00D4FF]/20 hover:bg-[#00D4FF]/30 text-[#00D4FF] py-2 rounded-lg font-medium transition">
+          View Events
+        </button>
+      </div>
+
+      <!-- Add more clubs here later -->
+    </div>
+
+    <!-- Mini calendar teaser -->
+    <div class="neo-glass p-6 rounded-2xl mt-10">
+      <h2 class="text-2xl font-bold mb-4">Upcoming Club Events</h2>
+      <div class="space-y-4">
+        <div class="flex justify-between items-center">
+          <div>
+            <p class="font-medium">Python Bootcamp – Coding Club</p>
+            <p class="text-sm text-gray-400">Tomorrow • 4:00 PM • Lab 101</p>
+          </div>
+          <button class="bg-[#00D4FF]/20 px-4 py-2 rounded-lg text-[#00D4FF] text-sm">Details</button>
+        </div>
+        <!-- Add 2-3 more teaser events -->
+      </div>
+      <a href="#" class="block text-center text-[#00D4FF] mt-6 hover:underline">View Full Calendar →</a>
+    </div>
+  </div>
+</body>
+</html>
