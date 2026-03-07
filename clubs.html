@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zwapy Clubs Calendar</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --neon: #00d4ff;
@@ -24,9 +24,9 @@
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
             width: 80vmin;
-            opacity: 0.07;
+            opacity: 0.06;
             z-index: -1;
-            animation: rotateSlow 50s linear infinite;
+            animation: rotateSlow 45s linear infinite;
             pointer-events: none;
         }
         @keyframes rotateSlow {
@@ -49,26 +49,29 @@
         .calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 0.5rem;
+            gap: 0.75rem;
             background: rgba(0,212,255,0.08);
             border-radius: 1rem;
-            padding: 0.5rem;
+            padding: 0.75rem;
         }
         .day-header {
             text-align: center;
             font-weight: 600;
             color: #a0a0ff;
-            padding: 0.75rem 0;
-            font-size: 0.9rem;
+            padding: 1rem 0;
+            font-size: 0.95rem;
         }
         .day-cell {
-            min-height: 5rem;
-            background: rgba(15, 5, 40, 0.9);
-            border-radius: 0.75rem;
-            padding: 0.5rem;
+            min-height: 9rem; /* Bigger cells so 3 lines fit */
+            background: rgba(15, 5, 40, 0.92);
+            border-radius: 1rem;
+            padding: 1rem;
             cursor: pointer;
             transition: all 0.25s ease;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
         }
         .day-cell:hover {
             background: rgba(0,212,255,0.12);
@@ -77,11 +80,23 @@
         .day-number {
             font-weight: 700;
             color: white;
+            font-size: 1.2rem;
             margin-bottom: 0.25rem;
         }
-        .today {
-            background: rgba(0,212,255,0.2);
-            border: 2px solid var(--neon);
+        .event {
+            background: rgba(0,212,255,0.08);
+            border-left: 3px solid var(--neon);
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3; /* 3 lines visible */
+            -webkit-box-orient: vertical;
+        }
+        .event:hover {
+            background: rgba(0,212,255,0.15);
         }
         .modal {
             position: fixed;
@@ -96,11 +111,20 @@
             background: var(--card);
             border: 1px solid var(--neon);
             border-radius: 1rem;
-            padding: 1.5rem;
+            padding: 1.5rem 2rem;
             max-width: 90%;
-            width: 28rem;
+            width: 32rem;
             position: relative;
         }
+        .close {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--neon);
+        }
+        .close:hover { color: white; }
     </style>
 </head>
 <body class="p-6 md:p-10 lg:p-12 min-h-screen relative">
@@ -122,20 +146,20 @@
                     Zwapy<span class="text-[var(--neon)]">Clubs</span>
                 </h1>
             </div>
-            <button class="px-5 py-2.5 bg-black/50 border border-[var(--neon)]/30 text-[var(--neon)] rounded-xl text-sm font-bold tracking-wider hover:bg-[var(--neon)] hover:text-black transition-all">
+            <button class="px-5 py-2.5 bg-black/50 border border-[var(--neon)]/25 text-[var(--neon)] rounded-xl text-sm font-bold tracking-wider hover:bg-[var(--neon)] hover:text-black transition-all">
                 MY UNIVERSE ✦
             </button>
         </nav>
 
         <!-- Calendar -->
         <section class="neo-glass p-6 rounded-2xl">
-            <div class="calendar-header">
-                <span class="nav-arrow cursor-pointer select-none" onclick="changeMonth(-1)">‹</span>
+            <div class="calendar-header flex justify-center items-center gap-6 mb-6">
+                <span class="text-3xl cursor-pointer select-none" onclick="changeMonth(-1)">‹</span>
                 <div class="flex items-center gap-4">
                     <h2 class="text-2xl font-black italic uppercase" id="monthName"></h2>
                     <select id="yearList" class="bg-transparent text-[var(--neon)] text-xl font-medium outline-none cursor-pointer" onchange="changeYear(this.value)"></select>
                 </div>
-                <span class="nav-arrow cursor-pointer select-none" onclick="changeMonth(1)">›</span>
+                <span class="text-3xl cursor-pointer select-none" onclick="changeMonth(1)">›</span>
             </div>
 
             <div class="calendar-grid" id="calendarGrid"></div>
@@ -173,19 +197,23 @@
         </div>
     </div>
 
-    <!-- Event Modal -->
+    <!-- Event Detail Modal -->
     <div id="eventModal" class="modal">
-        <div class="modal-content p-6 rounded-2xl">
-            <span class="close absolute top-3 right-5 text-3xl cursor-pointer" onclick="closeModal()">×</span>
-            <h2 id="modalTitle" class="text-xl font-black mb-3"></h2>
-            <p id="modalDescription" class="text-base text-slate-200"></p>
+        <div class="modal-content p-6 rounded-2xl max-w-lg w-[90%] relative">
+            <span class="close absolute top-4 right-6 text-3xl cursor-pointer" onclick="closeModal()">×</span>
+            <h2 id="modalTitle" class="text-2xl font-black mb-4"></h2>
+            <p id="modalDescription" class="text-base text-slate-200 mb-6"></p>
+            <div class="flex gap-4">
+                <a href="#" class="bg-[var(--neon)] text-black px-6 py-2 rounded-lg font-medium hover:bg-white transition-all">Join Event</a>
+                <a href="#" class="border border-[var(--neon)] text-[var(--neon)] px-6 py-2 rounded-lg font-medium hover:bg-[var(--neon)] hover:text-black transition-all">View Club</a>
+            </div>
         </div>
     </div>
 
     <script>
         // Real current date
         const today = new Date();
-        let currentMonth = today.getMonth() + 1; // 1-12
+        let currentMonth = today.getMonth() + 1;
         let currentYear  = today.getFullYear();
 
         // No events
@@ -195,30 +223,25 @@
             const grid = document.getElementById('calendarGrid');
             grid.innerHTML = '';
 
-            // Day headers
             ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(d => {
                 grid.innerHTML += `<div class="p-2 text-center text-xs font-bold uppercase text-slate-500 border-b border-white/10">${d}</div>`;
             });
 
-            // First day offset
             const firstDay = new Date(currentYear, currentMonth-1, 1).getDay();
             const daysInMonth = new Date(currentYear, currentMonth, 0).getDate();
 
-            // Empty cells
             for (let i = 0; i < firstDay; i++) {
                 grid.innerHTML += `<div class="cell opacity-30"></div>`;
             }
 
-            // Real days
             for (let d = 1; d <= daysInMonth; d++) {
                 let cell = document.createElement('div');
                 cell.className = 'cell text-center';
-                cell.innerHTML = `<span class="text-base font-bold">${d}</span>`;
+                cell.innerHTML = `<span class="text-lg font-bold">${d}</span>`;
                 cell.onclick = () => showEvents(d);
                 grid.appendChild(cell);
             }
 
-            // Fill remaining
             const remaining = 42 - (firstDay + daysInMonth);
             for (let i = 0; i < remaining; i++) {
                 grid.innerHTML += `<div class="cell opacity-30"></div>`;
@@ -256,7 +279,7 @@
 
         // Year dropdown
         const yearSelect = document.getElementById('yearList');
-        for (let y = currentYear - 2; y <= currentYear + 3; y++) {
+        for (let y = currentYear - 2; y <= currentYear + 5; y++) {
             let opt = document.createElement('option');
             opt.value = y;
             opt.text = y;
