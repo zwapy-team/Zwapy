@@ -3,109 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zwapy Clubs Calendar</title>
+    <title>ZwapyClubs | Infinity Core</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --neon: #00d4ff;
-            --bg: #0a001f;
-            --card: rgba(10, 0, 31, 0.8);
-        }
-        body {
-            background: var(--bg);
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            color: #e0e0ff;
-            margin: 0;
-            overflow-x: hidden;
-        }
-        .bg-logo {
+        :root { --neon: #00D4FF; --bg: #010114; }
+        body { background-color: var(--bg); font-family: 'Plus Jakarta Sans', sans-serif; color: white; overflow-x: hidden; margin: 0; }
+        .bg-layer {
             position: fixed;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 80vmin;
-            opacity: 0.06;
+            top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1;
-            animation: rotateSlow 45s linear infinite;
-            pointer-events: none;
-        }
-        @keyframes rotateSlow {
-            from { transform: translate(-50%, -50%) rotate(0deg); }
-            to   { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-        .neo-glass {
-            background: var(--card);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(0,212,255,0.15);
-            border-radius: 1.25rem;
-        }
-        .calendar-header {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        @keyframes drift {
+            0% { transform: scale(1) rotate(0deg); opacity: 0.15; }
+            50% { transform: scale(1.1) rotate(5deg); opacity: 0.25; }
+            100% { transform: scale(1) rotate(0deg); opacity: 0.15; }
+        }
+        .floating-logo {
+            width: 60vw;
+            height: 60vw;
+            max-width: 800px;
+            animation: drift 12s ease-in-out infinite;
+        }
+        .neo-glass {
+            background: rgba(2, 0, 36, 0.7);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(0, 212, 255, 0.15);
         }
         .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 0.75rem;
-            background: rgba(0,212,255,0.08);
-            border-radius: 1rem;
-            padding: 0.75rem;
+            display: grid; grid-template-columns: repeat(7, 1fr);
+            gap: 1px; background: rgba(0, 212, 255, 0.2);
+            border-radius: 2rem; overflow: hidden;
         }
-        .day-header {
-            text-align: center;
-            font-weight: 600;
-            color: #a0a0ff;
-            padding: 1rem 0;
-            font-size: 0.95rem;
-        }
-        .day-cell {
-            min-height: 9rem; /* Bigger cells so 3 lines fit */
-            background: rgba(15, 5, 40, 0.92);
-            border-radius: 1rem;
-            padding: 1rem;
+        .cell {
+            min-height: 140px; /* Bigger cells for 3 lines of description */
+            background: rgba(1, 1, 20, 0.95);
+            padding: 1.2rem;
+            transition: 0.4s;
             cursor: pointer;
-            transition: all 0.25s ease;
-            font-size: 0.95rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.4rem;
         }
-        .day-cell:hover {
-            background: rgba(0,212,255,0.12);
-            transform: scale(1.03);
+        .cell:hover { background: rgba(0, 212, 255, 0.1); transform: translateY(-2px); }
+        .nav-arrow {
+            font-size: 2.5rem; color: rgba(255,255,255,0.3);
+            cursor: pointer; transition: 0.3s; user-select: none;
         }
-        .day-number {
-            font-weight: 700;
-            color: white;
-            font-size: 1.2rem;
-            margin-bottom: 0.25rem;
-        }
+        .nav-arrow:hover { color: var(--neon); text-shadow: 0 0 15px var(--neon); }
         .event {
             background: rgba(0,212,255,0.08);
             border-left: 3px solid var(--neon);
             padding: 0.5rem 0.75rem;
+            margin: 0.4rem 0;
             border-radius: 0.5rem;
             font-size: 0.9rem;
             overflow: hidden;
             text-overflow: ellipsis;
             display: -webkit-box;
-            -webkit-line-clamp: 3; /* 3 lines visible */
+            -webkit-line-clamp: 3; /* Exactly 3 lines visible */
             -webkit-box-orient: vertical;
         }
-        .event:hover {
-            background: rgba(0,212,255,0.15);
-        }
         .modal {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.85);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 50;
+            position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+            display: none; align-items: center; justify-content: center; z-index: 50;
         }
         .modal-content {
             background: var(--card);
@@ -116,94 +79,85 @@
             width: 32rem;
             position: relative;
         }
-        .close {
-            position: absolute;
-            top: 1rem;
-            right: 1.5rem;
-            font-size: 2rem;
-            cursor: pointer;
-            color: var(--neon);
-        }
+        .close { position: absolute; top: 1rem; right: 1.5rem; font-size: 2rem; cursor: pointer; color: var(--neon); }
         .close:hover { color: white; }
+        .text-smaller { font-size: 0.95rem; line-height: 1.4; }
     </style>
 </head>
-<body class="p-6 md:p-10 lg:p-12 min-h-screen relative">
-
-    <!-- Large rotating Zwapy logo background -->
-    <div class="bg-logo pointer-events-none">
-        <svg viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="250" cy="250" r="220" stroke="#00D4FF" stroke-width="1" stroke-dasharray="12 24" opacity="0.4"/>
-            <path d="M200 150C200 122 222 100 250 100C278 100 300 122 300 150V250H350C378 250 400 272 400 300C400 328 378 350 350 350H250V300H200C172 300 150 278 150 250C150 222 172 200 200 200V150Z" stroke="#00D4FF" stroke-width="2.5" stroke-linecap="round"/>
+<body class="p-4 md:p-10">
+    <div class="bg-layer">
+        <svg class="floating-logo" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="250" cy="250" r="220" stroke="var(--neon)" stroke-width="1" stroke-dasharray="10 20" opacity="0.3" />
+            <path d="M200 150C200 122.386 222.386 100 250 100C277.614 100 300 122.386 300 150V250H350C377.614 250 400 272.386 400 300C400 327.614 377.614 350 350 350H250V300H200C172.386 300 150 277.614 150 250C150 222.386 172.386 200 200 200V150Z"
+                  stroke="var(--neon)" stroke-width="4" stroke-linecap="round" />
         </svg>
     </div>
 
-    <div class="max-w-6xl mx-auto space-y-8 relative z-10">
-        <!-- Header -->
-        <nav class="neo-glass flex items-center justify-between p-5 rounded-2xl">
+    <div class="max-w-[1500px] mx-auto space-y-8 relative z-10">
+        <nav class="flex justify-between items-center neo-glass p-5 rounded-[2rem]">
             <div class="flex items-center gap-4">
-                <img src="assets/zwapy-logo.png" alt="Zwapy" class="w-10 h-10 rounded-xl shadow-lg">
-                <h1 class="text-2xl font-black italic tracking-tight uppercase">
-                    Zwapy<span class="text-[var(--neon)]">Clubs</span>
-                </h1>
+                <div class="w-11 h-11 bg-[#00D4FF] rounded-2xl flex items-center justify-center shadow-[0_0_20px_rgba(0,212,255,0.4)]">
+                    <span class="text-black font-black text-2xl italic leading-none">Z</span>
+                </div>
+                <h1 class="text-2xl font-black italic tracking-tighter uppercase">Zwapy<span class="text-[#00D4FF]">Clubs</span></h1>
             </div>
-            <button class="px-5 py-2.5 bg-black/50 border border-[var(--neon)]/25 text-[var(--neon)] rounded-xl text-sm font-bold tracking-wider hover:bg-[var(--neon)] hover:text-black transition-all">
-                MY UNIVERSE ✦
+            <button class="px-8 py-3 bg-black/40 border border-[#00D4FF]/20 text-[#00D4FF] rounded-2xl font-black text-[10px] tracking-widest hover:bg-[#00D4FF] hover:text-black transition-all">
+                ✦ MY UNIVERSE
             </button>
         </nav>
 
-        <!-- Calendar -->
-        <section class="neo-glass p-6 rounded-2xl">
-            <div class="calendar-header flex justify-center items-center gap-6 mb-6">
-                <span class="text-3xl cursor-pointer select-none" onclick="changeMonth(-1)">‹</span>
-                <div class="flex items-center gap-4">
-                    <h2 class="text-2xl font-black italic uppercase" id="monthName"></h2>
-                    <select id="yearList" class="bg-transparent text-[var(--neon)] text-xl font-medium outline-none cursor-pointer" onchange="changeYear(this.value)"></select>
+        <section class="neo-glass p-8 rounded-[3rem]">
+            <div class="flex justify-center items-center gap-12 mb-10">
+                <span class="nav-arrow cursor-pointer" onclick="changeMonth(-1)">&lt;</span>
+                <div class="flex items-center gap-5">
+                    <h2 class="text-5xl font-black italic uppercase tracking-tighter" id="monthName">March</h2>
+                    <select id="yearList" class="bg-transparent text-[#00D4FF] text-4xl font-light outline-none cursor-pointer" onchange="changeYear(this.value)">
+                    </select>
                 </div>
-                <span class="text-3xl cursor-pointer select-none" onclick="changeMonth(1)">›</span>
+                <span class="nav-arrow cursor-pointer" onclick="changeMonth(1)">&gt;</span>
             </div>
 
             <div class="calendar-grid" id="calendarGrid"></div>
         </section>
 
-        <!-- Insights + CTA -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div class="neo-glass p-6 rounded-2xl text-center">
-                <h3 class="text-[var(--neon)] font-black uppercase text-xs tracking-widest mb-6 opacity-70">QUICK INSIGHTS</h3>
-                <div class="grid grid-cols-3 gap-6">
-                    <div>
-                        <p class="text-3xl font-black leading-none text-white" id="activeEvents">0</p>
-                        <p class="text-xs text-slate-400 uppercase mt-1">Active Events</p>
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-5 pb-10">
+            <div class="md:col-span-4 neo-glass p-6 rounded-[2.5rem] flex flex-col justify-center">
+                <h3 class="text-[#00D4FF] font-black uppercase text-[9px] tracking-[0.4em] mb-5 opacity-50">Quick Insights</h3>
+                <div class="flex justify-between items-center px-4">
+                    <div class="text-center">
+                        <p class="text-3xl font-black italic leading-none" id="activeEvents">0</p>
+                        <p class="text-[9px] text-slate-500 font-bold uppercase mt-1">Active</p>
                     </div>
-                    <div>
-                        <p class="text-3xl font-black leading-none text-purple-300" id="invites">0</p>
-                        <p class="text-xs text-slate-400 uppercase mt-1">Invites</p>
+                    <div class="text-center">
+                        <p class="text-3xl font-black italic text-purple-500 leading-none" id="invites">0</p>
+                        <p class="text-[9px] text-slate-500 font-bold uppercase mt-1">Invites</p>
                     </div>
-                    <div>
-                        <p class="text-3xl font-black leading-none text-[var(--neon)]" id="totalUsers">0</p>
-                        <p class="text-xs text-slate-400 uppercase mt-1">Club Members</p>
+                    <div class="text-center">
+                        <p class="text-3xl font-black italic text-[#00D4FF] leading-none" id="totalUsers">0</p>
+                        <p class="text-[9px] text-slate-500 font-bold uppercase mt-1">Users</p>
                     </div>
                 </div>
             </div>
 
-            <div class="neo-glass p-6 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-6">
-                <div class="text-center md:text-left">
-                    <h3 class="text-xl font-black leading-tight">Want to post your event?</h3>
-                    <p class="text-sm text-slate-300 mt-1">Only club heads can post & edit events</p>
+            <div class="md:col-span-8 bg-[#00D4FF] p-6 rounded-[2.5rem] text-black flex items-center justify-between px-10">
+                <div>
+                    <h3 class="text-xl font-black italic uppercase leading-none">Want to post ur event?</h3>
+                    <p class="text-[10px] font-bold opacity-80 mt-1 uppercase tracking-tight">Apply in <span class="bg-black text-white px-2 py-0.5 rounded">Club Head</span> admin portal.</p>
                 </div>
-                <button onclick="openAdminPortal()" class="bg-[var(--neon)] text-black px-8 py-3 rounded-xl font-bold text-sm tracking-wider hover:bg-white hover:text-black transition-all shadow-md">
-                    GO TO CLUB HEAD ADMIN PORTAL →
+                <button class="bg-black text-white px-10 py-4 rounded-2xl font-black text-[11px] tracking-[0.2em] hover:scale-105 active:scale-95 transition-all shadow-xl" onclick="openAdminPortal()">
+                    TAKE ME →
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- Event Detail Modal -->
-    <div id="eventModal" class="modal">
-        <div class="modal-content p-6 rounded-2xl max-w-lg w-[90%] relative">
-            <span class="close absolute top-4 right-6 text-3xl cursor-pointer" onclick="closeModal()">×</span>
-            <h2 id="modalTitle" class="text-2xl font-black mb-4"></h2>
-            <p id="modalDescription" class="text-base text-slate-200 mb-6"></p>
-            <div class="flex gap-4">
+    <!-- Event Modal -->
+    <div id="eventModal" class="modal fixed inset-0 bg-black/85 hidden flex items-center justify-center z-50">
+        <div class="modal-content neo-glass p-6 md:p-10 rounded-2xl max-w-lg w-[90%] relative">
+            <span class="close absolute top-3 right-5 text-3xl cursor-pointer" onclick="closeModal()">×</span>
+            <h2 id="modalTitle" class="text-xl md:text-2xl font-black mb-3"></h2>
+            <p id="modalDescription" class="text-sm md:text-base text-slate-200 mb-6"></p>
+            <div class="flex flex-wrap gap-3 mt-4">
                 <a href="#" class="bg-[var(--neon)] text-black px-6 py-2 rounded-lg font-medium hover:bg-white transition-all">Join Event</a>
                 <a href="#" class="border border-[var(--neon)] text-[var(--neon)] px-6 py-2 rounded-lg font-medium hover:bg-[var(--neon)] hover:text-black transition-all">View Club</a>
             </div>
@@ -214,37 +168,36 @@
         // Real current date
         const today = new Date();
         let currentMonth = today.getMonth() + 1;
-        let currentYear  = today.getFullYear();
+        let currentYear = today.getFullYear();
 
-        // No events
-        let currentEvents = [];
+        let currentEvents = []; // No events by default
 
         function generateCalendar() {
             const grid = document.getElementById('calendarGrid');
             grid.innerHTML = '';
 
             ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(d => {
-                grid.innerHTML += `<div class="p-2 text-center text-xs font-bold uppercase text-slate-500 border-b border-white/10">${d}</div>`;
+                grid.innerHTML += `<div class="p-4 text-center text-[10px] font-black uppercase tracking-widest text-slate-500 border-b border-white/5">${d}</div>`;
             });
 
             const firstDay = new Date(currentYear, currentMonth-1, 1).getDay();
             const daysInMonth = new Date(currentYear, currentMonth, 0).getDate();
 
             for (let i = 0; i < firstDay; i++) {
-                grid.innerHTML += `<div class="cell opacity-30"></div>`;
+                grid.innerHTML += `<div class="cell opacity-20"></div>`;
             }
 
             for (let d = 1; d <= daysInMonth; d++) {
                 let cell = document.createElement('div');
-                cell.className = 'cell text-center';
-                cell.innerHTML = `<span class="text-lg font-bold">${d}</span>`;
+                cell.className = 'cell';
+                cell.innerHTML = `<span class="text-2xl font-black italic">${d < 10 ? '0'+d : d}</span>`;
                 cell.onclick = () => showEvents(d);
                 grid.appendChild(cell);
             }
 
             const remaining = 42 - (firstDay + daysInMonth);
             for (let i = 0; i < remaining; i++) {
-                grid.innerHTML += `<div class="cell opacity-30"></div>`;
+                grid.innerHTML += `<div class="cell opacity-20"></div>`;
             }
 
             document.getElementById('monthName').innerText = new Date(currentYear, currentMonth-1).toLocaleString('default', { month: 'long' });
@@ -253,12 +206,12 @@
         function showEvents(date) {
             const modal = document.getElementById('eventModal');
             document.getElementById('modalTitle').innerText = `${date} ${document.getElementById('monthName').innerText} ${currentYear}`;
-            document.getElementById('modalDescription').innerHTML = 'No events scheduled yet.<br><br>Club heads can post & edit events in the <strong>Club Head Admin Portal</strong>.';
-            modal.classList.remove('hidden');
+            document.getElementById('modalDescription').innerHTML = 'No events scheduled yet.<br><br>Club heads can post & edit events in the <strong>Club Head Admin Portal</strong>.<br><br><a href="#" class="text-[var(--neon)] underline">Join Event</a> | <a href="#" class="text-[var(--neon)] underline">View Club</a>';
+            modal.style.display = 'flex';
         }
 
         function closeModal() {
-            document.getElementById('eventModal').classList.add('hidden');
+            document.getElementById('eventModal').style.display = 'none';
         }
 
         function openAdminPortal() {
@@ -277,7 +230,7 @@
             generateCalendar();
         }
 
-        // Year dropdown
+        // Populate year dropdown
         const yearSelect = document.getElementById('yearList');
         for (let y = currentYear - 2; y <= currentYear + 5; y++) {
             let opt = document.createElement('option');
