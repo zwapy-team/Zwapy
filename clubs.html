@@ -53,6 +53,8 @@
             cursor: pointer; transition: 0.3s; user-select: none;
         }
         .nav-arrow:hover { color: var(--neon); text-shadow: 0 0 15px var(--neon); }
+        select::-webkit-scrollbar { width: 4px; }
+        select::-webkit-scrollbar-thumb { background: var(--neon); border-radius: 10px; }
         .event {
             background: rgba(0,212,255,0.08);
             border-left: 3px solid var(--neon);
@@ -63,7 +65,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
             display: -webkit-box;
-            -webkit-line-clamp: 3; /* Exactly 3 lines visible */
+            -webkit-line-clamp: 3; /* 3 lines visible */
             -webkit-box-orient: vertical;
         }
         .modal {
@@ -81,7 +83,6 @@
         }
         .close { position: absolute; top: 1rem; right: 1.5rem; font-size: 2rem; cursor: pointer; color: var(--neon); }
         .close:hover { color: white; }
-        .text-smaller { font-size: 0.95rem; line-height: 1.4; }
     </style>
 </head>
 <body class="p-4 md:p-10">
@@ -92,7 +93,6 @@
                   stroke="var(--neon)" stroke-width="4" stroke-linecap="round" />
         </svg>
     </div>
-
     <div class="max-w-[1500px] mx-auto space-y-8 relative z-10">
         <nav class="flex justify-between items-center neo-glass p-5 rounded-[2rem]">
             <div class="flex items-center gap-4">
@@ -110,7 +110,7 @@
             <div class="flex justify-center items-center gap-12 mb-10">
                 <span class="nav-arrow cursor-pointer" onclick="changeMonth(-1)">&lt;</span>
                 <div class="flex items-center gap-5">
-                    <h2 class="text-5xl font-black italic uppercase tracking-tighter" id="monthName">March</h2>
+                    <h2 class="text-5xl font-black italic uppercase tracking-tighter" id="monthName"></h2>
                     <select id="yearList" class="bg-transparent text-[#00D4FF] text-4xl font-light outline-none cursor-pointer" onchange="changeYear(this.value)">
                     </select>
                 </div>
@@ -151,7 +151,7 @@
         </div>
     </div>
 
-    <!-- Event Modal -->
+    <!-- Modal for Full Event Description -->
     <div id="eventModal" class="modal fixed inset-0 bg-black/85 hidden flex items-center justify-center z-50">
         <div class="modal-content neo-glass p-6 md:p-10 rounded-2xl max-w-lg w-[90%] relative">
             <span class="close absolute top-3 right-5 text-3xl cursor-pointer" onclick="closeModal()">×</span>
@@ -170,13 +170,15 @@
         let currentMonth = today.getMonth() + 1;
         let currentYear = today.getFullYear();
 
-        let currentEvents = []; // No events by default
+        // No events by default
+        let currentEvents = [];
 
         function generateCalendar() {
             const grid = document.getElementById('calendarGrid');
             grid.innerHTML = '';
 
-            ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(d => {
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            days.forEach(d => {
                 grid.innerHTML += `<div class="p-4 text-center text-[10px] font-black uppercase tracking-widest text-slate-500 border-b border-white/5">${d}</div>`;
             });
 
@@ -231,13 +233,11 @@
         }
 
         // Populate year dropdown
-        const yearSelect = document.getElementById('yearList');
+        const yr = document.getElementById('yearList');
         for (let y = currentYear - 2; y <= currentYear + 5; y++) {
-            let opt = document.createElement('option');
-            opt.value = y;
-            opt.text = y;
-            if (y === currentYear) opt.selected = true;
-            yearSelect.appendChild(opt);
+            const o = document.createElement('option');
+            o.value = y; o.innerHTML = y; o.className = "bg-[#010114] text-white";
+            yr.appendChild(o);
         }
 
         // Init
