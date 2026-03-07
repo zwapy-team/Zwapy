@@ -1,95 +1,255 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Zwapy – My Clubs</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    :root { --neon: #00D4FF; --bg: #010114; }
-    body { background-color: var(--bg); font-family: 'Plus Jakarta Sans', sans-serif; color: white; margin: 0; }
-    .bg-logo {
-      position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      width: 35%; opacity: 0.06; z-index: -1;
-      animation: rotateSlow 30s linear infinite;
-    }
-    @keyframes rotateSlow { 0% { transform: translate(-50%, -50%) rotate(0deg); } 100% { transform: translate(-50%, -50%) rotate(360deg); } }
-    .neo-glass { background: rgba(2,0,36,0.75); backdrop-filter: blur(20px); border: 1px solid rgba(0,212,255,0.15); border-radius: 1.5rem; }
-    .club-card {
-      background: rgba(0,212,255,0.08);
-      border: 1px solid rgba(0,212,255,0.25);
-      transition: all 0.3s;
-    }
-    .club-card:hover { background: rgba(0,212,255,0.15); transform: translateY(-4px); }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zwapy Clubs Calendar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --neon: #00D4FF; --bg: #010114; }
+        body { background-color: var(--bg); font-family: 'Plus Jakarta Sans', sans-serif; color: white; overflow-x: hidden; margin: 0; }
+        /* Background Zwapy Logo Watermark */
+        .bg-logo {
+            position: fixed;
+            top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 30%; height: auto; opacity: 0.05; z-index: -1;
+            animation: rotateSlow 20s linear infinite;
+        }
+        @keyframes rotateSlow { 0% { transform: translate(-50%, -50%) rotate(0deg); } 100% { transform: translate(-50%, -50%) rotate(360deg); } }
+        .bg-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; display: flex; align-items: center; justify-content: center; pointer-events: none; overflow: hidden; }
+        .neo-glass { background: rgba(2, 0, 36, 0.7); backdrop-filter: blur(25px); border: 1px solid rgba(0, 212, 255, 0.15); }
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background: rgba(0, 212, 255, 0.2); border-radius: 2rem; overflow: hidden; }
+        .cell { min-height: 120px; background: rgba(1, 1, 20, 0.95); padding: 1.2rem; transition: 0.4s; cursor: pointer; }
+        .cell:hover { background: rgba(0, 212, 255, 0.1); transform: translateY(-2px); }
+        .nav-arrow { font-size: 2.5rem; color: rgba(255,255,255,0.3); cursor: pointer; transition: 0.3s; user-select: none; }
+        .nav-arrow:hover { color: var(--neon); text-shadow: 0 0 15px var(--neon); }
+        select::-webkit-scrollbar { width: 4px; }
+        select::-webkit-scrollbar-thumb { background: var(--neon); border-radius: 10px; }
+        /* Modal Styles */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); }
+        .modal-content { background-color: var(--bg); margin: 15% auto; padding: 20px; border-radius: 10px; width: 80%; max-width: 500px; border: 1px solid var(--neon); }
+        .close { color: var(--neon); float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
+        .close:hover { color: white; }
+        .like-btn { background: #ff6b6b; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; margin-left: 5px; transition: 0.3s; }
+        .like-btn:hover { background: #ff5252; }
+        .edit-btn { background: #4caf50; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; margin-left: 5px; display: none; transition: 0.3s; }
+        .club-head:hover .edit-btn { display: inline-block; }
+        .edit-btn:hover { background: #45a049; }
+        h1 { color: #ffd93d; }
+        .month-header { grid-column: 1 / -1; text-align: center; font-size: 1.5em; }
+    </style>
 </head>
-<body class="p-6 md:p-12 min-h-screen relative">
-  <!-- Background rotating logo -->
-  <img src="assets/zwapy-logo.png" alt="Zwapy Logo" class="bg-logo">
-
-  <div class="max-w-6xl mx-auto space-y-10 relative z-10">
-    <!-- Header -->
-    <div class="neo-glass p-6 flex items-center justify-between">
-      <div class="flex items-center gap-4">
-        <div class="w-12 h-12 bg-[#00D4FF] rounded-xl flex items-center justify-center shadow-lg">
-          <span class="text-black font-black text-3xl">Z</span>
-        </div>
-        <h1 class="text-3xl font-black tracking-tight">My Clubs</h1>
-      </div>
-      <a href="dashboard.html" class="text-[#00D4FF] hover:underline">← Back to Dashboard</a>
+<body class="p-4 md:p-10">
+    <!-- Background Zwapy Logo Watermark -->
+    <div class="bg-layer">
+        <svg class="bg-logo" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="250" cy="250" r="220" stroke="#00D4FF" stroke-width="1" stroke-dasharray="10 20" opacity="0.3" />
+            <path d="M200 150C200 122.386 222.386 100 250 100C277.614 100 300 122.386 300 150V250H350C377.614 250 400 272.386 400 300C400 327.614 377.614 350 350 350H250V300H200C172.386 300 150 277.614 150 250C150 222.386 172.386 200 200 200V150Z" stroke="#00D4FF" stroke-width="4" stroke-linecap="round" />
+        </svg>
     </div>
 
-    <!-- Club List -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <!-- Club 1 -->
-      <div class="club-card rounded-2xl p-6">
-        <div class="flex items-center gap-4 mb-4">
-          <div class="w-16 h-16 bg-purple-600 rounded-xl flex items-center justify-center text-2xl font-black">C</div>
-          <div>
-            <h3 class="text-xl font-bold">Coding Club</h3>
-            <p class="text-sm text-gray-400">Active members: 128</p>
-          </div>
-        </div>
-        <p class="text-gray-300 mb-4">Weekly hackathons, coding sessions & tech talks.</p>
-        <button class="w-full bg-[#00D4FF]/20 hover:bg-[#00D4FF]/30 text-[#00D4FF] py-2 rounded-lg font-medium transition">
-          View Events
-        </button>
-      </div>
+    <div class="max-w-[1500px] mx-auto space-y-8 relative z-10">
+        <nav class="flex justify-between items-center neo-glass p-5 rounded-[2rem]">
+            <div class="flex items-center gap-4">
+                <div class="w-11 h-11 bg-[#00D4FF] rounded-2xl flex items-center justify-center shadow-[0_0_20px_rgba(0,212,255,0.4)]">
+                    <span class="text-black font-black text-2xl italic leading-none">Z</span>
+                </div>
+                <h1 class="text-2xl font-black italic tracking-tighter uppercase">Zwapy<span class="text-[#00D4FF]">Clubs</span></h1>
+            </div>
+            <button class="px-8 py-3 bg-black/40 border border-[#00D4FF]/20 text-[#00D4FF] rounded-2xl font-black text-[10px] tracking-widest hover:bg-[#00D4FF] hover:text-black transition-all">
+                ✦ MY UNIVERSE
+            </button>
+        </nav>
 
-      <!-- Club 2 -->
-      <div class="club-card rounded-2xl p-6">
-        <div class="flex items-center gap-4 mb-4">
-          <div class="w-16 h-16 bg-pink-600 rounded-xl flex items-center justify-center text-2xl font-black">D</div>
-          <div>
-            <h3 class="text-xl font-bold">Design Club</h3>
-            <p class="text-sm text-gray-400">Active members: 87</p>
-          </div>
-        </div>
-        <p class="text-gray-300 mb-4">Figma workshops, poster contests & UI/UX critiques.</p>
-        <button class="w-full bg-[#00D4FF]/20 hover:bg-[#00D4FF]/30 text-[#00D4FF] py-2 rounded-lg font-medium transition">
-          View Events
-        </button>
-      </div>
+        <section class="neo-glass p-8 rounded-[3rem]">
+            <div class="flex justify-center items-center gap-12 mb-10">
+                <span class="nav-arrow" onclick="changeMonth(-1)">&lt;</span>
+                <div class="flex items-center gap-5">
+                    <h2 class="text-5xl font-black italic uppercase tracking-tighter" id="monthName">July</h2>
+                    <select id="yearList" class="bg-transparent text-[#00D4FF] text-4xl font-light outline-none cursor-pointer" onchange="changeYear(this.value)">
+                        <option value="2025">2025</option>
+                        <option value="2026">2026</option>
+                        <!-- Add more years as needed -->
+                    </select>
+                </div>
+                <span class="nav-arrow" onclick="changeMonth(1)">&gt;</span>
+            </div>
+            <div class="calendar-grid" id="calendarGrid">
+                <!-- Calendar will be generated by JS -->
+            </div>
+        </section>
 
-      <!-- Add more clubs here later -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-5 pb-10">
+            <div class="md:col-span-4 neo-glass p-6 rounded-[2.5rem] flex flex-col justify-center">
+                <h3 class="text-[#00D4FF] font-black uppercase text-[9px] tracking-[0.4em] mb-5 opacity-50">Quick Insights</h3>
+                <div class="flex justify-between items-center px-4">
+                    <div class="text-center">
+                        <p class="text-3xl font-black italic leading-none" id="activeEvents">12</p>
+                        <p class="text-[9px] text-slate-500 font-bold uppercase mt-1">Active</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-3xl font-black italic text-purple-500 leading-none" id="invites">4</p>
+                        <p class="text-[9px] text-slate-500 font-bold uppercase mt-1">Invites</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-3xl font-black italic text-[#00D4FF] leading-none" id="totalUsers">1.2k</p>
+                        <p class="text-[9px] text-slate-500 font-bold uppercase mt-1">Users</p>
+                    </div>
+                </div>
+            </div>
+            <div class="md:col-span-8 bg-[#00D4FF] p-6 rounded-[2.5rem] text-black flex items-center justify-between px-10">
+                <div>
+                    <h3 class="text-xl font-black italic uppercase leading-none">Want to post ur event?</h3>
+                    <p class="text-[10px] font-bold opacity-80 mt-1 uppercase tracking-tight">Apply in <span class="bg-black text-white px-2 py-0.5 rounded">Club Head</span> admin portal.</p>
+                </div>
+                <button class="bg-black text-white px-10 py-4 rounded-2xl font-black text-[11px] tracking-[0.2em] hover:scale-105 active:scale-95 transition-all shadow-xl" onclick="openAdminPortal()">
+                    TAKE ME →
+                </button>
+            </div>
+        </div>
     </div>
 
-    <!-- Mini calendar teaser -->
-    <div class="neo-glass p-6 rounded-2xl mt-10">
-      <h2 class="text-2xl font-bold mb-4">Upcoming Club Events</h2>
-      <div class="space-y-4">
-        <div class="flex justify-between items-center">
-          <div>
-            <p class="font-medium">Python Bootcamp – Coding Club</p>
-            <p class="text-sm text-gray-400">Tomorrow • 4:00 PM • Lab 101</p>
-          </div>
-          <button class="bg-[#00D4FF]/20 px-4 py-2 rounded-lg text-[#00D4FF] text-sm">Details</button>
+    <!-- Modal for Event Description -->
+    <div id="eventModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle"></h2>
+            <p id="modalDescription"></p>
+            <button class="like-btn" onclick="likeEventModal()">Like</button>
+            <button class="edit-btn" onclick="toggleEditModal()" id="editBtnModal">Edit</button>
         </div>
-        <!-- Add 2-3 more teaser events -->
-      </div>
-      <a href="#" class="block text-center text-[#00D4FF] mt-6 hover:underline">View Full Calendar →</a>
     </div>
-  </div>
+
+    <script>
+        // Mock current data for events (replace with backend fetch, e.g., API call)
+        let currentEvents = [
+            { id: 'python', date: 5, title: 'Python Workshop - Coding Club', description: 'Learn Python basics with hands-on coding. Perfect for beginners. Time: 4-6 PM. Location: Lab 101. Organized by Coding Club Head.', clubHead: true },
+            { id: 'social', date: 7, title: 'Social Media Strategy - Marketing Club', description: 'Master Insta ads and content strategies. Bring your ideas! Time: 5-7 PM. Location: Auditorium. Organized by Marketing Club Head.', clubHead: true },
+            { id: 'figma', date: 10, title: 'Figma Tutorial - Design Club', description: 'UI/UX basics with Figma. Design your first app screen. Time: 3-5 PM. Location: Design Studio. Organized by Design Club Head.', clubHead: true },
+            { id: 'hackathon', date: 12, title: 'Hackathon Prep - Coding Club', description: 'Team up for hacks and prep for the big hackathon. Time: 6-8 PM. Location: Lab 102. Organized by Coding Club Head.', clubHead: true },
+            { id: 'brand', date: 20, title: 'Brand Pitch Night - Marketing Club', description: 'Pitch your ideas and get feedback. Time: 4-6 PM. Location: Conference Room. Organized by Marketing Club Head.', clubHead: true },
+            { id: 'poster', date: 25, title: 'Poster Contest - Design Club', description: 'Design for Zwapy and win prizes. Time: 2-4 PM. Location: Art Room. Organized by Design Club Head.', clubHead: true }
+        ];
+
+        let currentMonth = 7; // July (1-based)
+        let currentYear = 2025;
+
+        // Generate calendar
+        function generateCalendar() {
+            const calendarGrid = document.getElementById('calendarGrid');
+            calendarGrid.innerHTML = '';
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            days.forEach(d => {
+                calendarGrid.innerHTML += `<div class="p-4 text-center text-[10px] font-black uppercase tracking-widest text-slate-500 border-b border-white/5">${d}</div>`;
+            });
+
+            // Mock 35 cells for the month
+            for (let i = 1; i <= 35; i++) {
+                let dNum = i > 31 ? i - 31 : i;
+                let fade = i > 31 ? 'opacity-20' : '';
+                let today = i === 7 ? 'border-2 border-[#00D4FF] shadow-[inset_0_0_20px_rgba(0,212,255,0.1)]' : '';
+                let cellHTML = `<div class="cell ${fade} ${today}" onclick="showEvents(${dNum})">
+                    <span class="text-2xl font-black italic ${i===7 ? 'text-[#00D4FF]' : 'text-slate-800'}">${dNum < 10 ? '0' + dNum : dNum}</span>
+                </div>`;
+                calendarGrid.innerHTML += cellHTML;
+            }
+
+            // Add events to cells
+            currentEvents.forEach(event => {
+                if (event.date === 5 || event.date === 7 || event.date === 10 || event.date === 12 || event.date === 20 || event.date === 25) { // Mock matching dates
+                    const cell = document.querySelector(`[onclick="showEvents(${event.date})"]`);
+                    if (cell) {
+                        const eventDiv = document.createElement('div');
+                        eventDiv.className = 'event ' + (event.clubHead ? 'club-head' : '');
+                        eventDiv.id = 'event-' + event.id;
+                        eventDiv.innerHTML = `
+                            <div>${event.title}</div>
+                            <button class="like-btn" onclick="likeEvent('${event.id}')">Like</button>
+                            ${event.clubHead ? `<button class="edit-btn" onclick="toggleEdit('${event.id}')">Edit</button>` : ''}
+                        `;
+                        cell.appendChild(eventDiv);
+                    }
+                }
+            });
+
+            // Update insights (mock current data)
+            document.getElementById('activeEvents').innerText = currentEvents.length;
+            document.getElementById('invites').innerText = '4';
+            document.getElementById('totalUsers').innerText = '1.2k';
+        }
+
+        // Show events for date
+        function showEvents(date) {
+            const eventsForDate = currentEvents.filter(e => e.date === date);
+            if (eventsForDate.length > 0) {
+                const modal = document.getElementById('eventModal');
+                const modalTitle = document.getElementById('modalTitle');
+                const modalDescription = document.getElementById('modalDescription');
+                modalTitle.innerHTML = eventsForDate[0].title; // Show first event
+                modalDescription.innerHTML = eventsForDate[0].description;
+                document.getElementById('editBtnModal').style.display = eventsForDate[0].clubHead ? 'inline-block' : 'none';
+                modal.style.display = 'block';
+            } else {
+                alert('No events on this date. Check back soon!');
+            }
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('eventModal').style.display = 'none';
+        }
+
+        // Like event
+        function likeEvent(eventId) {
+            const event = document.getElementById('event-' + eventId);
+            event.innerHTML += ' ❤️ Liked!';
+            event.querySelector('.like-btn').style.display = 'none';
+        }
+
+        // Toggle edit (mock for club heads)
+        function toggleEdit(eventId) {
+            alert('Edit mode activated for ' + eventId + '. Redirecting to Admin Portal... (Full backend integration by Yashas)');
+            // In real app, redirect to admin page
+        }
+
+        // Mock admin portal open
+        function openAdminPortal() {
+            alert('Redirecting to Club Head Admin Portal... (Full integration by Yashas)');
+            // In real app, redirect to /admin
+        }
+
+        // Change month/year (mock for now)
+        function changeMonth(direction) {
+            currentMonth += direction;
+            if (currentMonth < 1) { currentMonth = 12; currentYear--; }
+            if (currentMonth > 12) { currentMonth = 1; currentYear++; }
+            updateMonthName();
+            generateCalendar(); // Regenerate with new month
+        }
+
+        function changeYear(year) {
+            currentYear = parseInt(year);
+            updateMonthName();
+            generateCalendar();
+        }
+
+        function updateMonthName() {
+            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            document.getElementById('monthName').innerText = monthNames[currentMonth - 1];
+        }
+
+        // Initial load
+        generateCalendar();
+        updateMonthName();
+
+        // Close modal on outside click
+        window.onclick = function(event) {
+            const modal = document.getElementById('eventModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+    </script>
 </body>
 </html>
