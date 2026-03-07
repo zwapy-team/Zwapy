@@ -8,35 +8,37 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root { --neon: #00D4FF; --bg: #010114; }
-        body { background-color: var(--bg); font-family: 'Plus Jakarta Sans', sans-serif; color: white; overflow-x: hidden; margin: 0; }
-        /* Background Zwapy Logo Watermark */
+        body { background-color: var(--bg); font-family: 'Plus Jakarta Sans', sans-serif; color: white; margin: 0; overflow-x: hidden; }
+        
+        /* Full background rotating Zwapy logo watermark */
         .bg-logo {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 30%; height: auto; opacity: 0.05; z-index: -1;
-            animation: rotateSlow 20s linear infinite;
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%; max-width: 1200px;
+            opacity: 0.04;
+            z-index: -1;
+            animation: rotateSlow 40s linear infinite;
+            pointer-events: none;
         }
         @keyframes rotateSlow { 0% { transform: translate(-50%, -50%) rotate(0deg); } 100% { transform: translate(-50%, -50%) rotate(360deg); } }
-        .neo-glass { background: rgba(2, 0, 36, 0.7); backdrop-filter: blur(25px); border: 1px solid rgba(0, 212, 255, 0.15); }
-        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background: rgba(0, 212, 255, 0.2); border-radius: 2rem; overflow: hidden; }
-        .cell { min-height: 120px; background: rgba(1, 1, 20, 0.95); padding: 1.2rem; transition: 0.4s; cursor: pointer; border-radius: 0.5rem; margin: 0.5rem; }
-        .cell:hover { background: rgba(0, 212, 255, 0.1); transform: translateY(-2px); }
+
+        .neo-glass { background: rgba(2,0,36,0.75); backdrop-filter: blur(20px); border: 1px solid rgba(0,212,255,0.15); border-radius: 1.5rem; }
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background: rgba(0,212,255,0.2); border-radius: 2rem; overflow: hidden; }
+        .cell { min-height: 120px; background: rgba(1,1,20,0.95); padding: 1.2rem; transition: 0.4s; cursor: pointer; }
+        .cell:hover { background: rgba(0,212,255,0.1); transform: translateY(-2px); }
         .nav-arrow { font-size: 2.5rem; color: rgba(255,255,255,0.3); cursor: pointer; transition: 0.3s; user-select: none; }
         .nav-arrow:hover { color: var(--neon); text-shadow: 0 0 15px var(--neon); }
-        .event { background: rgba(255,255,255,0.2); margin: 5px 0; padding: 8px; border-radius: 8px; cursor: pointer; transition: 0.3s; }
-        .event:hover { background: rgba(255,255,255,0.3); transform: scale(1.02); }
-        .like-btn { background: #ff6b6b; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; margin-left: 5px; font-size: 0.8rem; }
-        .like-btn:hover { background: #ff5252; }
-        /* Modal */
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); }
-        .modal-content { background: var(--bg); margin: 10% auto; padding: 20px; border-radius: 10px; width: 80%; max-width: 500px; border: 1px solid var(--neon); position: relative; }
-        .close { color: var(--neon); float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
+        .modal-content { background: var(--bg); margin: 15% auto; padding: 30px; border-radius: 16px; width: 90%; max-width: 500px; border: 1px solid var(--neon); }
+        .close { color: var(--neon); float: right; font-size: 32px; font-weight: bold; cursor: pointer; }
         .close:hover { color: white; }
         h1 { color: #ffd93d; }
-        .month-header { grid-column: 1 / -1; text-align: center; font-size: 1.5em; }
+        .month-header { grid-column: 1 / -1; text-align: center; font-size: 2.5rem; font-weight: 800; letter-spacing: -1px; }
     </style>
 </head>
-<body class="p-4 md:p-10">
-    <!-- Background Zwapy Logo -->
+<body class="p-4 md:p-12 min-h-screen relative">
+    <!-- Large rotating Zwapy logo in background -->
     <div class="bg-logo">
         <svg viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="250" cy="250" r="220" stroke="#00D4FF" stroke-width="1" stroke-dasharray="10 20" opacity="0.3" />
@@ -44,206 +46,174 @@
         </svg>
     </div>
 
-    <div class="max-w-[1500px] mx-auto space-y-8 relative z-10">
-        <nav class="flex justify-between items-center neo-glass p-5 rounded-[2rem]">
-            <div class="flex items-center gap-4">
-                <div class="w-11 h-11 bg-[#00D4FF] rounded-2xl flex items-center justify-center shadow-[0_0_20px_rgba(0,212,255,0.4)]">
-                    <span class="text-black font-black text-2xl italic leading-none">Z</span>
-                </div>
-                <h1 class="text-2xl font-black italic tracking-tighter uppercase">ZwapyClubs</h1>
+    <div class="max-w-7xl mx-auto space-y-10 relative z-10">
+        <!-- Header with Zwapy logo next to title -->
+        <nav class="flex justify-between items-center neo-glass p-6 md:p-8 rounded-3xl">
+            <div class="flex items-center gap-5">
+                <img src="assets/zwapy-logo.png" alt="Zwapy Logo" class="w-12 h-12 md:w-16 md:h-16 rounded-xl shadow-[0_0_20px_rgba(0,212,255,0.4)]">
+                <h1 class="text-3xl md:text-5xl font-black italic tracking-tight uppercase">
+                    Zwapy<span class="text-[#00D4FF]">Clubs</span>
+                </h1>
             </div>
-            <button class="px-8 py-3 bg-black/40 border border-[#00D4FF]/20 text-[#00D4FF] rounded-2xl font-black text-[10px] tracking-widest hover:bg-[#00D4FF] hover:text-black transition-all">
+            <button class="px-6 py-3 md:px-10 md:py-4 bg-black/50 border border-[#00D4FF]/30 text-[#00D4FF] rounded-2xl font-black text-sm md:text-base tracking-widest hover:bg-[#00D4FF] hover:text-black transition-all">
                 ✦ MY UNIVERSE
             </button>
         </nav>
 
-        <section class="neo-glass p-8 rounded-[3rem]">
-            <div class="flex justify-center items-center gap-12 mb-10">
+        <!-- Calendar Section -->
+        <section class="neo-glass p-6 md:p-10 rounded-3xl">
+            <div class="flex justify-center items-center gap-8 md:gap-16 mb-8 md:mb-12">
                 <span class="nav-arrow" onclick="changeMonth(-1)">&lt;</span>
-                <div class="flex items-center gap-5">
-                    <h2 class="text-5xl font-black italic uppercase tracking-tighter" id="monthName">July</h2>
-                    <select id="yearList" class="bg-transparent text-[#00D4FF] text-4xl font-light outline-none cursor-pointer" onchange="changeYear(this.value)">
+                <div class="flex items-center gap-6">
+                    <h2 class="text-4xl md:text-6xl font-black italic uppercase tracking-tighter" id="monthName">July</h2>
+                    <select id="yearList" class="bg-transparent text-[#00D4FF] text-3xl md:text-5xl font-light outline-none cursor-pointer" onchange="changeYear(this.value)">
                         <option value="2025">2025</option>
                         <option value="2026">2026</option>
                     </select>
                 </div>
-                <span class="nav-arrow" onclick="changeMonth(1)">></span>
+                <span class="nav-arrow" onclick="changeMonth(1)">&gt;</span>
             </div>
+
             <div class="calendar-grid" id="calendarGrid">
-                <!-- Generated by JS -->
+                <!-- Days and cells generated by JS -->
             </div>
         </section>
 
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-5 pb-10">
-            <div class="md:col-span-4 neo-glass p-6 rounded-[2.5rem] flex flex-col justify-center">
-                <h3 class="text-[#00D4FF] font-black uppercase text-[9px] tracking-[0.4em] mb-5 opacity-50">Quick Insights</h3>
-                <div class="flex justify-between items-center px-4">
-                    <div class="text-center">
-                        <p class="text-3xl font-black italic leading-none" id="activeEvents">12</p>
-                        <p class="text-[9px] text-slate-500 font-bold uppercase mt-1">Active</p>
+        <!-- Quick Insights + Admin Call to Action -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+            <div class="md:col-span-4 neo-glass p-8 rounded-3xl flex flex-col justify-center">
+                <h3 class="text-[#00D4FF] font-black uppercase text-sm tracking-[0.4em] mb-6 opacity-60">Quick Insights</h3>
+                <div class="flex justify-between items-center px-4 text-center">
+                    <div>
+                        <p class="text-4xl md:text-5xl font-black italic leading-none" id="activeEvents">0</p>
+                        <p class="text-xs md:text-sm text-slate-500 font-bold uppercase mt-2">Active Events</p>
                     </div>
-                    <div class="text-center">
-                        <p class="text-3xl font-black italic text-purple-500 leading-none" id="invites">4</p>
-                        <p class="text-[9px] text-slate-500 font-bold uppercase mt-1">Invites</p>
+                    <div>
+                        <p class="text-4xl md:text-5xl font-black italic text-purple-500 leading-none" id="invites">0</p>
+                        <p class="text-xs md:text-sm text-slate-500 font-bold uppercase mt-2">Invites</p>
                     </div>
-                    <div class="text-center">
-                        <p class="text-3xl font-black italic text-[#00D4FF] leading-none" id="totalUsers">1.2k</p>
-                        <p class="text-[9px] text-slate-500 font-bold uppercase mt-1">Users</p>
+                    <div>
+                        <p class="text-4xl md:text-5xl font-black italic text-[#00D4FF] leading-none" id="totalUsers">0</p>
+                        <p class="text-xs md:text-sm text-slate-500 font-bold uppercase mt-2">Club Members</p>
                     </div>
                 </div>
             </div>
-            <div class="md:col-span-8 bg-[#00D4FF] p-6 rounded-[2.5rem] text-black flex items-center justify-between px-10">
+
+            <div class="md:col-span-8 neo-glass p-8 rounded-3xl flex flex-col md:flex-row items-center justify-between gap-6 md:gap-12">
                 <div>
-                    <h3 class="text-xl font-black italic uppercase leading-none">Want to post ur event?</h3>
-                    <p class="text-[10px] font-bold opacity-80 mt-1 uppercase tracking-tight">Apply in <span class="bg-black text-white px-2 py-0.5 rounded">Club Head</span> admin portal.</p>
+                    <h3 class="text-2xl md:text-3xl font-black italic uppercase leading-tight">Want to post your event?</h3>
+                    <p class="text-sm md:text-base text-gray-400 mt-2">Only club heads can post & edit events</p>
                 </div>
-                <button class="bg-black text-white px-10 py-4 rounded-2xl font-black text-[11px] tracking-[0.2em] hover:scale-105 active:scale-95 transition-all shadow-xl" onclick="openAdminPortal()">
-                    TAKE ME →
+                <button onclick="openAdminPortal()" class="bg-[#00D4FF] text-black px-10 md:px-16 py-4 md:py-6 rounded-2xl font-black text-base md:text-xl tracking-widest hover:bg-white hover:text-black transition-all shadow-xl">
+                    GO TO CLUB HEAD ADMIN PORTAL →
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- Modal for Event Description -->
+    <!-- Event Detail Modal -->
     <div id="eventModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
-            <h2 id="modalTitle"></h2>
-            <p id="modalDescription"></p>
-            <div class="mt-4 flex gap-2">
+            <h2 id="modalTitle" class="text-3xl font-bold mb-4"></h2>
+            <p id="modalDescription" class="text-lg text-gray-300 mb-6"></p>
+            <div class="flex gap-4">
                 <button class="like-btn" onclick="likeEventModal()">Like ❤️</button>
-                <button id="editBtnModal" class="edit-btn" onclick="toggleEditModal()" style="display:none;">Edit</button>
+                <button id="editBtnModal" class="edit-btn" onclick="toggleEditModal()" style="display:none;">Edit (Club Head Only)</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Current mock data for events (July 2025 - replace with API fetch later)
-        let currentEvents = [
-            { id: 'python', date: 5, title: 'Python Workshop - Coding Club', description: 'Learn Python basics with hands-on coding. Perfect for beginners. Time: 4-6 PM. Location: Lab 101. Organized by Coding Club Head.', clubHead: true },
-            { id: 'social', date: 7, title: 'Social Media Strategy - Marketing Club', description: 'Master Insta ads and content strategies. Bring your ideas! Time: 5-7 PM. Location: Auditorium. Organized by Marketing Club Head.', clubHead: true },
-            { id: 'figma', date: 10, title: 'Figma Tutorial - Design Club', description: 'UI/UX basics with Figma. Design your first app screen. Time: 3-5 PM. Location: Design Studio. Organized by Design Club Head.', clubHead: true },
-            { id: 'hackathon', date: 12, title: 'Hackathon Prep - Coding Club', description: 'Team up for hacks and prep for the big hackathon. Time: 6-8 PM. Location: Lab 102. Organized by Coding Club Head.', clubHead: true },
-            { id: 'brand', date: 20, title: 'Brand Pitch Night - Marketing Club', description: 'Pitch your ideas and get feedback. Time: 4-6 PM. Location: Conference Room. Organized by Marketing Club Head.', clubHead: true },
-            { id: 'poster', date: 25, title: 'Poster Contest - Design Club', description: 'Design for Zwapy and win prizes. Time: 2-4 PM. Location: Art Room. Organized by Design Club Head.', clubHead: true }
-        ];
+        // Mock: no events by default (everything zero until club heads post)
+        let currentEvents = []; // ← empty on purpose
 
         let currentMonth = 7; // July
         let currentYear = 2025;
 
-        // Generate calendar
         function generateCalendar() {
-            const calendarGrid = document.getElementById('calendarGrid');
-            calendarGrid.innerHTML = '';
-            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-            days.forEach(d => {
-                calendarGrid.innerHTML += `<div class="p-4 text-center text-[10px] font-black uppercase tracking-widest text-slate-500 border-b border-white/5">${d}</div>`;
+            const grid = document.getElementById('calendarGrid');
+            grid.innerHTML = '';
+
+            // Day headers
+            ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(d => {
+                grid.innerHTML += `<div class="p-4 text-center text-sm font-black uppercase text-slate-500 border-b border-white/10">${d}</div>`;
             });
 
-            // Generate 35 cells for the month
-            for (let i = 1; i <= 35; i++) {
+            // 42 cells (6 weeks) to cover any month
+            for (let i = 1; i <= 42; i++) {
                 let dNum = i > 31 ? i - 31 : i;
-                let fade = i > 31 ? 'opacity-20' : '';
-                let today = i === 20 ? 'border-2 border-[#00D4FF] shadow-[inset_0_0_20px_rgba(0,212,255,0.1)]' : ''; // Mock today
-                let cellHTML = `<div class="cell ${fade} ${today}" onclick="showEvents(${dNum})">
-                    <span class="text-2xl font-black italic ${i===20 ? 'text-[#00D4FF]' : 'text-slate-800'}">${dNum < 10 ? '0' + dNum : dNum}</span>
-                </div>`;
-                calendarGrid.innerHTML += cellHTML;
+                let fade = i > 31 ? 'opacity-30' : '';
+                let cell = document.createElement('div');
+                cell.className = `cell ${fade}`;
+                cell.innerHTML = `<span class="text-3xl font-black italic">${dNum < 10 ? '0'+dNum : dNum}</span>`;
+                cell.onclick = () => showEvents(dNum);
+                grid.appendChild(cell);
             }
 
-            // Add events to matching dates
-            currentEvents.forEach(event => {
-                const cell = document.querySelector(`[onclick="showEvents(${event.date})"]`);
+            // Add any events (currently none)
+            currentEvents.forEach(e => {
+                const cell = document.querySelectorAll('.cell')[e.date - 1];
                 if (cell) {
-                    const eventDiv = document.createElement('div');
-                    eventDiv.className = 'event ' + (event.clubHead ? 'club-head' : '');
-                    eventDiv.id = 'event-' + event.id;
-                    eventDiv.innerHTML = `
-                        <div>${event.title}</div>
-                        <button class="like-btn" onclick="likeEvent('${event.id}')">Like</button>
-                        ${event.clubHead ? `<button class="edit-btn" onclick="toggleEdit('${event.id}')">Edit</button>` : ''}
-                    `;
-                    cell.appendChild(eventDiv);
+                    const div = document.createElement('div');
+                    div.className = 'event mt-2 p-2 rounded bg-white/5';
+                    div.innerHTML = `<div class="font-bold">${e.title}</div>`;
+                    cell.appendChild(div);
                 }
             });
 
-            // Update insights (mock current data)
+            // Show zero counts
             document.getElementById('activeEvents').innerText = currentEvents.length;
-            document.getElementById('invites').innerText = '4';
-            document.getElementById('totalUsers').innerText = '1.2k';
+            document.getElementById('invites').innerText = '0';
+            document.getElementById('totalUsers').innerText = '0';
         }
 
-        // Show events for date in modal
         function showEvents(date) {
-            const eventsForDate = currentEvents.filter(e => e.date === date);
-            if (eventsForDate.length > 0) {
-                const modal = document.getElementById('eventModal');
-                const modalTitle = document.getElementById('modalTitle');
-                const modalDescription = document.getElementById('modalDescription');
-                modalTitle.innerHTML = eventsForDate[0].title;
-                modalDescription.innerHTML = eventsForDate[0].description;
-                document.getElementById('editBtnModal').style.display = eventsForDate[0].clubHead ? 'inline-block' : 'none';
-                modal.style.display = 'block';
+            const events = currentEvents.filter(e => e.date === date);
+            const modal = document.getElementById('eventModal');
+            const title = document.getElementById('modalTitle');
+            const desc = document.getElementById('modalDescription');
+            const editBtn = document.getElementById('editBtnModal');
+
+            if (events.length > 0) {
+                title.innerHTML = events[0].title;
+                desc.innerHTML = events[0].description || 'No description yet';
+                editBtn.style.display = events[0].clubHead ? 'inline-block' : 'none';
             } else {
-                alert('No events on this date. Check back soon!');
+                title.innerHTML = `No events on ${date} ${document.getElementById('monthName').innerText}`;
+                desc.innerHTML = 'Club heads can post events in the admin portal.';
+                editBtn.style.display = 'none';
             }
+
+            modal.style.display = 'block';
         }
 
-        // Close modal
         function closeModal() {
             document.getElementById('eventModal').style.display = 'none';
         }
 
-        // Like event
-        function likeEvent(eventId) {
-            const event = document.getElementById('event-' + eventId);
-            event.innerHTML += ' ❤️ Liked!';
-            event.querySelector('.like-btn').style.display = 'none';
-        }
-
-        // Toggle edit (mock for club heads)
-        function toggleEdit(eventId) {
-            alert('Edit mode activated for ' + eventId + '. Redirecting to Club Head Admin Portal...');
-            // Later: window.location.href = 'admin-portal.html';
-        }
-
-        // Open admin portal (mock)
         function openAdminPortal() {
-            alert('Redirecting to Club Head Admin Portal to post/edit events...');
-            // Later: window.location.href = 'admin-portal.html';
+            alert("Redirecting to Club Head Admin Portal (full backend coming soon)...");
+            // Later: window.location.href = '/admin/club-head';
         }
 
-        // Change month (mock - updates calendar)
-        function changeMonth(direction) {
-            currentMonth += direction;
+        function changeMonth(dir) {
+            currentMonth += dir;
             if (currentMonth < 1) { currentMonth = 12; currentYear--; }
             if (currentMonth > 12) { currentMonth = 1; currentYear++; }
-            updateMonthName();
-            generateCalendar(); // Regenerate with new month (mock events stay July for now)
+            document.getElementById('monthName').innerText = new Date(currentYear, currentMonth-1).toLocaleString('default', { month: 'long' });
+            generateCalendar();
         }
 
         function changeYear(year) {
             currentYear = parseInt(year);
-            updateMonthName();
+            document.getElementById('monthName').innerText = new Date(currentYear, currentMonth-1).toLocaleString('default', { month: 'long' });
             generateCalendar();
         }
 
-        function updateMonthName() {
-            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-            document.getElementById('monthName').innerText = monthNames[currentMonth - 1];
-        }
-
-        // Initial load
+        // Init
         generateCalendar();
-        updateMonthName();
-
-        // Close modal on outside click
-        window.onclick = function(event) {
-            const modal = document.getElementById('eventModal');
-            if (event.target == modal) {
-                modal.style.display = 'none';
-            }
-        }
+        document.getElementById('monthName').innerText = 'July';
     </script>
 </body>
 </html>
