@@ -1,816 +1,267 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Zwapy</title>
-
-	<!-- ICO format (for most browsers) -->
-<link rel="icon" type="image/x-icon" href="favicon.ico" />
-
-<!-- SVG format (for modern browsers with scalable support) -->
-<link rel="icon" type="image/svg+xml" href="favicon.svg" />
-
-	<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;700;900&display=swap" rel="stylesheet" />
-
-	<!-- AOS Animation Library -->
-	<link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" />
-
-	<style>
-		/* Reset */
-		* {
-			margin: 0;
-			padding: 0;
-			box-sizing: border-box;
-		}
-
-		body {
-			font-family: 'Sora', sans-serif;
-			font-weight: 700;
-			background-color: #f5f1e6;
-			color: #111;
-			display: flex;
-			flex-direction: column;
-			min-height: 100vh;
-			overflow-x: hidden;
-		}
-
-		/* Header */
-		header {
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			padding: 1.5rem 2rem;
-			border-bottom: 1px solid #222;
-		}
-
-		.logo {
-			font-size: 1.5rem;
-			font-weight: bold;
-		}
-
-		.menu {
-			font-size: 1rem;
-			display: flex;
-			align-items: center;
-			gap: 0.5rem;
-			cursor: pointer;
-		}
-
-		/* Main */
-		main {
-			flex: 1;
-			text-align: center;
-			padding: 11rem 1rem 11rem;
-			background-color: #f5f1e6;
-		}
-
-		main h1 {
-			font-size: 5rem;
-			font-weight: 900;
-			margin-bottom: 1rem;
-			line-height: 1.2;
-		}
-
-		main p {
-			font-size: 1.2rem;
-			margin-bottom: 2rem;
-		}
-
-		.about-btn {
-			padding: 0.8rem 2rem;
-			border: 1px solid #000;
-			border-radius: 2rem;
-			text-decoration: none;
-			color: #000;
-			font-size: 1rem;
-			transition: all 0.3s ease;
-		}
-
-		.about-btn:hover {
-			background-color: #000;
-			color: #fff;
-		}
-
-		/* Footer Marquee */
-		footer.marquee-footer {
-			border-top: 1px solid #222;
-			overflow: hidden;
-			white-space: nowrap;
-			background-color: #f5f1e6;
-		}
-
-		.marquee {
-			display: inline-block;
-			padding: 1rem 0;
-			animation: scroll 2s linear infinite;
-			font-size: 1.2rem;
-		}
-
-		@keyframes scroll {
-			0% {
-				transform: translateX(0%);
-			}
-
-			100% {
-				transform: translateX(-10%);
-			}
-		}
-
-		/* Animation Base */
-		.animate {
-			opacity: 0;
-			transform: translateY(40px);
-			transition: all 0.8s ease-out;
-		}
-
-		.animate.visible {
-			opacity: 1;
-			transform: translateY(0);
-		}
-
-		/* Vision Section */
-		.vision-section {
-			display: flex;
-			flex-wrap: wrap;
-			min-height: 100vh;
-			background-color: #f5f1e6;
-		}
-
-		.vision-text {
-			flex: 1;
-			padding: 4rem;
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-		}
-
-		.vision-text h2 {
-			font-size: 3.5rem;
-			font-weight: 900;
-			margin-bottom: 1.5rem;
-			line-height: 1.1;
-		}
-
-		.vision-text p {
-			font-size: 1.2rem;
-			line-height: 1.6;
-			margin-bottom: 2rem;
-		}
-
-		.vision-text .learn-btn {
-			padding: 0.8rem 2rem;
-			font-size: 1rem;
-			border-radius: 2rem;
-			border: 1px solid #000;
-			text-decoration: none;
-			color: #000;
-			width: fit-content;
-			transition: all 0.3s ease;
-		}
-
-		.vision-text .learn-btn:hover {
-			background-color: #000;
-			color: #fff;
-		}
-
-		.vision-image {
-			flex: 1;
-			background-image: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80');
-			background-size: cover;
-			background-position: center;
-			min-height: 400px;
-		}
-
-		/* Features Section */
-		.features {
-			padding: 0px 0px;
-			background-color: #f5f1e6;
-			color: #1e1e1e;
-		}
-
-		.features h2 {
-			font-size: 3rem;
-			text-align: left;
-			margin-top: 40px;
-			margin-bottom: 40px;
-			margin-left: 25px;
-		}
-
-		.grid {
-			display: grid;
-			grid-template-columns: 1fr 1fr;
-			gap: 0;
-			border: 1px solid #000;
-			position: relative;
-		}
-
-		.grid::before {
-			content: '';
-			position: absolute;
-			top: 0;
-			bottom: 0;
-			left: 50%;
-			width: 1px;
-			background-color: #000;
-			transform: translateX(-0.5px);
-		}
-
-		.feature-box {
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			padding: 40px;
-			min-height: 300px;
-			background: #f5f1e6;
-		}
-
-		.grid > div:nth-child(odd) {
-			border-right: 1px solid #000;
-		}
-
-		.grid > div:nth-child(n+3) {
-			border-top: 1px solid #000;
-		}
-
-		.feature-title {
-			display: flex;
-			align-items: center;
-			font-size: 2rem;
-			font-weight: 700;
-			flex-wrap: wrap;
-		}
-
-		.feature-icon {
-			font-size: 2rem;
-			margin-right: 16px;
-		}
-
-		.feature-sub {
-			font-size: 1.1rem;
-			margin-top: 10px;
-		}
-
-		.feature-desc {
-			font-size: 1.1rem;
-			line-height: 1.6;
-		}
-
-		/* Join Now Section */
-		.join-section {
-			min-height: 60vh;
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			justify-content: center;
-			padding: 20px;
-			text-align: center;
-			background-color: #fdf7f0;
-			color: #000;
-		}
-
-		.join-title {
-			font-size: 4rem;
-			font-weight: 700;
-		}
-
-		.join-subtitle {
-			font-size: 1.5rem;
-			margin-top: 1rem;
-			font-weight: 400;
-		}
-
-		.join-description {
-			font-size: 1.25rem;
-			margin-top: 2rem;
-			max-width: 600px;
-			line-height: 1.6;
-		}
-
-		.register-btn {
-			margin-top: 3rem;
-			padding: 15px 30px;
-			font-size: 1.25rem;
-			border: 2px solid #000;
-			background: transparent;
-			border-radius: 50px;
-			cursor: pointer;
-			transition: background 0.3s ease, color 0.3s ease;
-		}
-
-		.register-btn:hover {
-			background: #000;
-			color: #fff;
-		}
-
-		/* Footer */
-		footer.footer-main {
-			border-top: 1px solid #000;
-			color: #000;
-			background-color: #fdf7f0;
-		}
-
-		.footer-container {
-			display: flex;
-			flex-direction: column;
-		}
-
-		.footer-logo {
-			font-size: 40px;
-			font-weight: bold;
-			padding: 40px;
-		}
-
-		.footer-sections {
-			display: flex;
-			justify-content: space-between;
-			padding: 0;
-			border-top: 1px solid #000;
-			border-bottom: 1px solid #000;
-		}
-
-		.footer-section {
-			font-size: 20px;
-			line-height: 1.7;
-			flex: 1;
-			padding: 60px 30px 20px;
-			border-left: 1px solid #000;
-		}
-
-		.footer-section:first-child {
-			border-left: none;
-		}
-
-		.social-icons {
-			display: flex;
-			gap: 20px;
-			margin-top: 30px;
-		}
-
-		.social-icons img {
-			width: 20px;
-			height: 20px;
-		}
-
-		.footer-copyright {
-			font-size: 18px;
-			margin-top: 20px;
-		}
-
-		/* Menu Overlay */
-		.menu-overlay {
-			position: fixed;
-			top: 0;
-			right: -100%;
-			width: 80%;
-			max-width: 300px;
-			height: 100%;
-			background-color: #fff;
-			box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
-			transition: right 0.3s ease;
-			z-index: 999;
-			padding: 2rem 1.5rem;
-			display: flex;
-			flex-direction: column;
-			gap: 1.5rem;
-		}
-
-		.menu-overlay.active {
-  transform: translateX(0); 
-}
-
-
-		.menu-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 250px;
-  height: 100%;
-  background-color: #fff;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-  transform: translateX(-100%);
-  transition: transform 0.3s ease-in-out;
-  z-index: 1001;
-}
-
-.menu-overlay a {
-  color: #000; /* Set to black or any neutral text color you want */
-  text-decoration: none; /* Removes underline */
-  font-weight: 600; /* Optional: makes it clean but not bold */
-}
-
-.menu-overlay a:hover {
-  color: #333; /* Optional hover effect */
-}
-
-
-
-		.menu-overlay .close-btn {
-			font-size: 1.5rem;
-			align-self: flex-end;
-			cursor: pointer;
-			margin-bottom: 1rem;
-		}
-
-		/* Backdrop */
-		.backdrop {
-			position: fixed;
-			top: 0;
-			left: 0;
-			height: 100%;
-			width: 100%;
-			background-color: rgba(0, 0, 0, 0.5);
-			display: none;
-			z-index: 99;
-		}
-
-		.backdrop.active {
-			display: block;
-		}
-
-		/* Responsive */
-		@media (max-width: 768px) {
-			header {
-				flex-direction: row;
-				padding: 1rem;
-			}
-
-			main {
-				padding: 6rem 1rem;
-			}
-
-			main h1 {
-				font-size: 2.5rem;
-				line-height: 1.2;
-			}
-
-			main p {
-				font-size: 1rem;
-			}
-
-			/* Vision */
-			.vision-section {
-				flex-direction: column;
-			}
-
-			.vision-text {
-				padding: 2rem;
-				text-align: center;
-			}
-
-			.vision-text h2 {
-				font-size: 2.5rem;
-			}
-
-			.vision-image {
-				height: 250px;
-			}
-
-			/* Features - Mobile Grid Fix */
-			.grid {
-				grid-template-columns: 1fr;
-				border: 1px solid #000;
-			}
-
-			.grid::before {
-				display: none; /* Hide vertical line on mobile */
-			}
-
-			.grid > div:nth-child(odd) {
-				border-right: none; /* Remove right border on mobile */
-			}
-
-			.grid > div:nth-child(n+2) {
-				border-top: 1px solid #000; /* Add top border to all except first */
-			}
-
-			.feature-box {
-				padding: 40px;
-				min-height: auto;
-			}
-
-			.features h2 {
-				font-size: 1.5rem;
-			}
-
-			/* Join Section */
-			.join-title {
-				padding-top: 40px;
-				font-size: 2rem;
-			}
-
-			.join-subtitle,
-			.join-description {
-				font-size: 1rem;
-			}
-
-			/* Footer */
-			.footer-sections {
-				flex-direction: column;
-				gap: 40px;
-				border-bottom: none;
-			}
-
-			.footer-section {
-				border-left: none;
-				border-top: 1px solid #000;
-				padding: 30px 20px 30px;
-				text-align: left;
-			}
-
-			.footer-section:first-child {
-				border-top: none;
-			}
-
-			.footer-logo {
-				font-size: 1.8rem;
-				padding: 30px 20px 30px;
-				text-align: left;
-			}
-
-			.footer-copyright {
-				font-size: 0.85rem;
-				text-align: left;
-				padding: 0px;
-			}
-
-			.social-icons {
-				justify-content: left;
-				margin-top: 1rem;
-			}
-
-			.register-btn,
-			.about-btn,
-			.learn-btn {
-				width: 100%;
-				max-width: 300px;
-				margin: auto;
-			}
-		}
-
-		html {
-			scroll-behavior: smooth;
-		}
-
-		.divider {
-			border: none;
-			border-top: 1px solid #000;
-			margin: 1px auto;
-			width: 100%;
-		}
-
-		.normal-text {
-			font-weight: 400;
-		}
-
-		.norma-text {
-			font-weight: 600;
-		}
-
-.auth-buttons {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap; /* Wrap buttons if screen is narrow */
-  justify-content: flex-end;
-}
-
-.auth-btn {
-  padding: 0.5rem 1rem;
-  border: 1px solid #000;
-  border-radius: 9999px;
-  text-decoration: none;
-  color: #000;
-  font-weight: 600;
-  font-size: 0.9rem;
-  transition: all 0.3s ease;
-  white-space: nowrap;
-}
-
-/* ✅ Responsive styles for small screens */
-@media (max-width: 480px) {
-  .auth-buttons {
-    justify-content: center;
-    gap: 0.5rem;
-    margin-top: 1rem;
-  }
-
-  .auth-btn {
-    font-size: 0.85rem;
-    padding: 0.4rem 0.8rem;
-  }
-}
-
-
-
-	</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zwapy | The Neural Student Network</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-cyan: #00D4FF;
+            --deep-navy: #020024;
+            --bg-dark: #010114;
+        }
+        body {
+            background-color: var(--bg-dark);
+            color: white;
+            font-family: 'Sora', sans-serif;
+            overflow-x: hidden;
+            margin: 0;
+        }
+        #neuralCanvas {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at center, var(--deep-navy) 0%, var(--bg-dark) 100%);
+        }
+        .text-glow { text-shadow: 0 0 20px rgba(0, 212, 255, 0.5); }
+       
+        .neo-glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 212, 255, 0.1);
+        }
+        .btn-primary {
+            background: var(--neon-cyan);
+            color: black;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 800;
+            transition: 0.3s;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+        }
+        .btn-primary:hover { transform: scale(1.05); box-shadow: 0 0 40px var(--neon-cyan); }
+        .btn-outline {
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 800;
+            transition: 0.3s;
+        }
+        .btn-outline:hover { background: white; color: black; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        .float-img { animation: float 6s ease-in-out infinite; }
+    </style>
 </head>
-
 <body>
+    <canvas id="neuralCanvas"></canvas>
 
-	<!-- Header -->
-    <header class="animate">
-  <div style="display: flex; align-items: center; gap: 1rem;">
-    <div class="menu" onclick="toggleMenu()">☰</div>
-    <div class="logo">Zwapy</div>
-  </div>
-  <div class="auth-buttons">
-    <a href="login.html" class="auth-btn">Sign In</a>
-    <a href="signup.html" class="auth-btn">Sign Up</a>
-  </div>
-</header>
+    <nav class="flex justify-between items-center px-6 py-5 md:px-12 md:py-6 sticky top-0 z-50 bg-black/40 backdrop-blur-md">
+        <div class="flex items-center gap-3">
+            <!-- Real Zwapy logo next to text -->
+            <img src="assets/zwapy-logo.png" alt="Zwapy Logo" class="w-9 h-9 md:w-11 md:h-11 filter drop-shadow-[0_0_10px_#00D4FF]">
+            <span class="text-2xl md:text-3xl font-black italic tracking-tighter">ZWAPY</span>
+        </div>
+        <a href="signup.html" class="text-xs md:text-sm font-black border border-[#00D4FF] text-[#00D4FF] px-5 py-2 md:px-6 md:py-2.5 rounded-full hover:bg-[#00D4FF] hover:text-black transition-all">
+            START SYNC
+        </a>
+    </nav>
 
+    <section class="min-h-screen flex flex-col justify-center items-center text-center px-6 md:px-12">
+        <h1 class="text-5xl md:text-8xl lg:text-[9rem] font-black italic tracking-tighter leading-[0.9] mb-8 md:mb-12">
+            <span class="text-white">CONNECTING</span><br>
+            <span class="text-[#00D4FF] text-glow">THE GLOBE</span>
+        </h1>
+        <p class="max-w-xl text-lg md:text-xl text-slate-400 font-medium mb-10 md:mb-14">
+            The neural student network. Skill exchange, campus events, and real-world collaboration—pulsing through one central hub.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4 md:gap-6">
+            <a href="signup.html" class="btn-primary text-base md:text-lg">JOIN THE NETWORK</a>
+            <a href="#vision" class="btn-outline text-base md:text-lg">LEARN VISION</a>
+            <a href="about.html" class="btn-outline text-base md:text-lg">ABOUT US</a>
+        </div>
+    </section>
 
+    <section class="py-20 px-6 md:px-12">
+        <div class="max-w-7xl mx-auto relative">
+            <div class="absolute -inset-4 bg-[#00D4FF] opacity-10 blur-[100px] rounded-full"></div>
+            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1600&q=80"
+                 alt="Students Connecting"
+                 class="relative rounded-[3rem] w-full object-cover h-[60vh] md:h-[70vh] border border-white/10 grayscale hover:grayscale-0 transition-all duration-1000 shadow-2xl">
+            <div class="absolute bottom-6 left-6 md:bottom-10 md:left-10 neo-glass p-6 md:p-8 max-w-xs md:max-w-md">
+                <h3 class="text-xl md:text-2xl font-black italic mb-2">NEURAL EXCHANGE</h3>
+                <p class="text-sm md:text-base text-slate-300">Experience a world where skills aren't just learned—they are traded, amplified, and connected across borders.</p>
+            </div>
+        </div>
+    </section>
 
-	<!-- Menu Overlay -->
-	<div class="menu-overlay" id="menuOverlay">
-		<div class="close-btn" onclick="toggleMenu()">✕</div>
-		<a href="index.html">Home</a>
-		<a href="form.html">Join Beta</a>
-		<a href="#privacy-policy">Privacy Policy</a>
-		<a href="#footer-main">Contact</a>
-	</div>
+    <section id="vision" class="py-24 md:py-32 px-6 md:px-12 max-w-7xl mx-auto">
+        <div class="grid md:grid-cols-2 gap-12 md:gap-20 items-center">
+            <div>
+                <h2 class="text-4xl md:text-6xl lg:text-7xl font-black italic uppercase leading-none mb-8">
+                    Empowering<br><span class="text-[#00D4FF]">The Core</span>
+                </h2>
+                <div class="space-y-6 md:space-y-8">
+                    <div class="flex gap-5 md:gap-6">
+                        <div class="text-3xl md:text-4xl text-[#00D4FF]">✳</div>
+                        <div>
+                            <h4 class="text-lg md:text-xl font-bold uppercase mb-2 italic">Skill Liquidity</h4>
+                            <p class="text-sm md:text-base text-slate-400">Trade your coding skills for design help. Move faster by collaborating with the best minds on campus.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-5 md:gap-6">
+                        <div class="text-3xl md:text-4xl text-[#00D4FF]">✳</div>
+                        <div>
+                            <h4 class="text-lg md:text-xl font-bold uppercase mb-2 italic">Event Pulsing</h4>
+                            <p class="text-sm md:text-base text-slate-400">Never miss a club event. From hackathons to workshops, the hub tracks every heartbeat of campus life.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-	<!-- Backdrop -->
-	<div class="backdrop" id="backdrop" onclick="toggleMenu()"></div>
+            <div class="grid grid-cols-2 gap-4 md:gap-6">
+                <div class="space-y-4 pt-8 md:pt-12">
+                    <div class="neo-glass p-5 md:p-6 rounded-2xl md:rounded-3xl h-48 md:h-64 flex flex-col justify-end">
+                        <p class="text-3xl md:text-4xl font-black italic">0+</p>
+                        <p class="text-[10px] md:text-xs font-bold opacity-40 uppercase tracking-widest mt-1">Global Students</p>
+                    </div>
+                    <div class="bg-[#00D4FF] p-5 md:p-6 rounded-2xl md:rounded-3xl h-40 md:h-48 text-black flex flex-col justify-end">
+                        <p class="text-2xl md:text-3xl font-black italic">0+</p>
+                        <p class="text-[10px] md:text-xs font-bold opacity-60 uppercase tracking-widest mt-1">Active Clubs</p>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <div class="neo-glass p-5 md:p-6 rounded-2xl md:rounded-3xl h-40 md:h-48 flex flex-col justify-end">
+                        <p class="text-2xl md:text-3xl font-black italic">0</p>
+                        <p class="text-[10px] md:text-xs font-bold opacity-40 uppercase tracking-widest mt-1">Real Projects Shared</p>
+                    </div>
+                    <div class="neo-glass p-5 md:p-6 rounded-2xl md:rounded-3xl h-48 md:h-64 border-[#00D4FF]/30 flex flex-col justify-end">
+                        <p class="text-3xl md:text-4xl font-black italic">∞</p>
+                        <p class="text-[10px] md:text-xs font-bold opacity-40 uppercase tracking-widest mt-1">Potential</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-	<!-- Main -->
-	<main>
-		<h1 class="animate"><strong>Connect and <br /> Collaborate</strong></h1>
-		<p class="animate">
-			<strong>Zwapy:</strong>
-			<span class="normal-text">Connecting students through learning, collaboration, and club events.</span>
-		</p>
-		<a href="#vision" class="about-btn animate normal-text">About Us</a>
-	</main>
+    <section class="py-24 md:py-40 px-6 md:px-12 text-center">
+        <div class="neo-glass p-12 md:p-20 rounded-[3rem] md:rounded-[4rem] max-w-5xl mx-auto border-[#00D4FF]/20">
+            <h2 class="text-4xl md:text-6xl lg:text-7xl font-black italic uppercase mb-8 md:mb-10">
+                Ready to join the<br><span class="text-[#00D4FF]">Sync?</span>
+            </h2>
+            <div class="flex justify-center gap-4 md:gap-6">
+                <button class="btn-primary px-10 md:px-16 text-base md:text-lg">CREATE ACCOUNT</button>
+            </div>
+        </div>
+    </section>
 
-	<!-- Footer Marquee -->
-	<footer class="marquee-footer animate">
-		<div class="marquee">
-			<span>
-        •  Join Beta Waitlist  •  Join Beta Waitlist  •  Join Beta Waitlist  •  Join Beta Waitlist  • 
-         Join Beta Waitlist  •  Join Beta Waitlist  •  Join Beta Waitlist  •  Join Beta Waitlist • 
-      </span>
-		</div>
-	</footer>
+    <footer class="py-16 md:py-20 px-6 md:px-12 border-t border-white/5 bg-black/40">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between gap-10 md:gap-12">
+            <div>
+                <div class="flex items-center gap-3 mb-5 md:mb-6">
+                    <img src="assets/zwapy-logo.png" alt="Zwapy" class="w-10 md:w-12">
+                    <span class="text-2xl md:text-3xl font-black italic tracking-tighter">ZWAPY</span>
+                </div>
+                <p class="text-slate-500 max-w-xs mb-6 text-sm md:text-base">
+                    Revolutionizing student synergy through skill exchange and connectivity.
+                </p>
+                <div class="flex gap-5">
+                    <a href="#" class="text-slate-400 hover:text-[#00D4FF] text-sm md:text-base">IG</a>
+                    <a href="#" class="text-slate-400 hover:text-[#00D4FF] text-sm md:text-base">LI</a>
+                    <a href="#" class="text-slate-400 hover:text-[#00D4FF] text-sm md:text-base">TW</a>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-8 md:gap-12">
+                <div>
+                    <h5 class="font-black text-[#00D4FF] mb-4 md:mb-6 text-sm md:text-base">ZWAPY TEAM</h5>
+                    <p class="text-xs md:text-sm text-slate-500 mb-1">+91 6362053192</p>
+                    <p class="text-xs md:text-sm text-slate-500">zwapyteam@gmail.com</p>
+                </div>
+                <div>
+                    <h5 class="font-black text-[#00D4FF] mb-4 md:mb-6 text-sm md:text-base">LOCATION</h5>
+                    <p class="text-xs md:text-sm text-slate-500 mb-1">Presidency University</p>
+                    <p class="text-xs md:text-sm text-slate-500">Bangalore, India</p>
+                </div>
+                <div>
+                    <h5 class="font-black text-[#00D4FF] mb-4 md:mb-6 text-sm md:text-base">LEGAL</h5>
+                    <p class="text-xs md:text-sm text-slate-500 mb-1">Privacy Policy</p>
+                    <p class="text-xs md:text-sm text-slate-500">Terms of Sync</p>
+                </div>
+            </div>
+        </div>
+        <p class="text-center text-slate-600 text-xs md:text-sm mt-10 md:mt-12">
+            © <span id="currentYear">2026</span> Zwapy Team. All rights reserved.
+        </p>
+    </footer>
 
-	<hr class="divider">
+    <script>
+        // Neural Canvas Animation (unchanged)
+        const canvas = document.getElementById('neuralCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let mouse = { x: null, y: null };
 
-	<!-- Vision Section -->
-	<section id="vision" class="vision-section animate">
-		<div class="vision-text">
-			<h2>Our Student–<br />Centric Vision</h2>
-				<p><span class="normal-text">At Zwapy, we are dedicated to enhancing student experiences through skill exchange and campus event
-					engagement. Our platform is designed to foster a vibrant student community focused on learning,
-					sharing, and growing together.</span></p>
-				<a href="#features" class="learn-btn animate"><span class="normal-text">Learn More</span></a>
-		</div>
-		<div class="vision-image"></div>
-	</section>
-
-	<hr class="divider">
-
-	<!-- Features Section -->
-	<section id="features" class="features">
-		<h2 data-aos="zoom-in">Features</h2>
-		<div class="grid">
-			<!-- Connectivity -->
-			<div class="feature-box" data-aos="fade">
-				<div class="feature-title"><span class="feature-icon">✳</span> Connectivity</div>
-				<div class="feature-sub"><span class="normal-text">Enhanced Student Interactions</span></div>
-			</div>
-			<div class="feature-box" data-aos="fade">
-				<div class="feature-desc">
-					<span class="normal-text">Zwapy facilitates seamless connectivity for students to engage in knowledge-sharing and
-					collaboration.</span>
-				</div>
-			</div>
-
-			<!-- Empowerment -->
-			<div class="feature-box" data-aos="fade">
-				<div class="feature-title"><span class="feature-icon">✳</span> Empowerment</div>
-				<div class="feature-sub"><span class="normal-text">Student Growth Focus</span></div>
-			</div>
-			<div class="feature-box" data-aos="fade">
-				<div class="feature-desc">
-					<span class="normal-text">Empower students by providing them with opportunities to develop new skills and expand their
-					horizons.</span>
-				</div>
-			</div>
-
-			<!-- Innovation -->
-			<div class="feature-box" data-aos="fade">
-				<div class="feature-title"><span class="feature-icon">✳</span> Innovation</div>
-				<div class="feature-sub"><span class="normal-text">Creative Student Hub</span></div>
-			</div>
-			<div class="feature-box" data-aos="fade">
-				<div class="feature-desc">
-					<span class="normal-text">Encouraging innovative practices and creative exchanges within a diverse student network.</span>
-				</div>
-			</div>
-		</div>
-	</section>
-
-	<!-- Join Now Section -->
-	<section class="join-section">
-		<h1 class="join-title">Join Now</h1>
-		<h2 class="join-subtitle"><span class="norma-text">Get Involved Today</span></h2>
-		<p class="join-description">
-			<span class="normal-text">Take the first step towards a dynamic student experience with Zwapy.</span>
-		</p>
-		<button class="register-btn" onclick="registerNow()"><span class="normal-text">Register Now</span></button>
-	</section>
-
-	<!-- Footer Main -->
-	<footer class="footer-main">
-		<div class="footer-container">
-			<div class="footer-logo">Zwapy</div>
-
-			<div class="footer-sections">
-				<div class="footer-section">
-				<span class="normal-text"> <div>+91-6362053192</div>
-					<div>zwapyteam@gmail.com</div>
-				</div></span>
-
-				<div class="footer-section">
-				<span class="normal-text"><div>Chellikere,</div>
-					<div>Hennur cross,</div>
-					<div>Near Hennur Dmart,</div>
-					<div>Bangalore,Karnataka, India</div></span>
-
-					<div class="social-icons">
-					<a href=""><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/facebook.svg" alt="Facebook"></a>
-      <a href="https://www.instagram.com/zwapyofficial?utm_source=qr&igsh=MThvaDJwbjJjaG11aA=="><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/instagram.svg" alt="Instagram"></a>
-      <a href=""><img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/x.svg" alt="X">
-      <a href="https://www.linkedin.com/company/zwapy/"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/linkedin.svg" alt="LinkedIn"></a>
-          </div>
-					</div>
-
-					<div class="footer-section">
-					<span class="normal-text"><div>Privacy Policy</div>
-						<div>Accessibility Statement</div>
-						<div>Terms & Conditions</div>
-						<div>Refund Policy</div>
-						<div class="footer-copyright">
-							© 2025 by Zwapy.</span>
-						</div>
-					</div>
-				</div>
-			</div>
-	</footer>
-
-	<!-- Scripts -->
-	<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
-	<script>
-		AOS.init({
-      duration: 1000,
-      once: true,
-      offset: 50
-    });
-
-    function revealOnScroll() {
-      const elements = document.querySelectorAll('.animate');
-      const windowHeight = window.innerHeight;
-
-      elements.forEach(el => {
-        const elementTop = el.getBoundingClientRect().top;
-        if (elementTop < windowHeight - 50) {
-          el.classList.add('visible');
+        function init() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            particles = [];
+            for(let i=0; i<100; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    vx: (Math.random() - 0.5) * 0.4,
+                    vy: (Math.random() - 0.5) * 0.4,
+                    size: Math.random() * 2
+                });
+            }
         }
-      });
-    }
 
-    function animateOnScroll() {
-      const sections = document.querySelectorAll('.animate');
-      sections.forEach(section => {
-        const top = section.getBoundingClientRect().top;
-        if (top < window.innerHeight - 50) {
-          section.classList.add('visible');
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#00D4FF';
+            ctx.strokeStyle = 'rgba(0, 212, 255, 0.1)';
+            particles.forEach(p => {
+                if (mouse.x) {
+                    let dx = mouse.x - p.x;
+                    let dy = mouse.y - p.y;
+                    let dist = Math.hypot(dx, dy);
+                    if (dist < 200) {
+                        p.x += dx * 0.01;
+                        p.y += dy * 0.01;
+                    }
+                }
+                p.x += p.vx;
+                p.y += p.vy;
+                if(p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                if(p.y < 0 || p.y > canvas.height) p.vy *= -1;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+                particles.forEach(p2 => {
+                    let d = Math.hypot(p.x - p2.x, p.y - p2.y);
+                    if (d < 150) {
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                });
+            });
+            requestAnimationFrame(draw);
         }
-      });
-    }
 
-    window.addEventListener('scroll', () => {
-      revealOnScroll();
-      animateOnScroll();
-    });
+        window.addEventListener('mousemove', e => { mouse.x = e.x; mouse.y = e.y; });
+        window.addEventListener('resize', init);
+        init();
+        draw();
 
-    window.addEventListener('load', () => {
-      revealOnScroll();
-      animateOnScroll();
-    });
-
-    function registerNow() {
-      window.location.href = "form.html";
-    }
-
-    function toggleMenu() {
-      const menu = document.getElementById('menuOverlay');
-      const backdrop = document.getElementById('backdrop');
-      menu.classList.toggle('active');
-      backdrop.classList.toggle('active');
-    }
-	</script>
+        // Set current year in footer
+        document.getElementById('currentYear').innerText = new Date().getFullYear();
+    </script>
 </body>
-
 </html>
