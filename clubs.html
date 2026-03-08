@@ -2,73 +2,69 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZwapyClubs | Infinity Core</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ZwapyClubs | Live Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root { --neon: #00D4FF; --bg: #010114; }
-        body { background-color: var(--bg); font-family: 'Plus Jakarta Sans', sans-serif; color: white; overflow-x: hidden; margin: 0; }
+        body {
+            background-color: var(--bg);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: white;
+            margin: 0;
+            touch-action: manipulation;
+            overflow-x: hidden;
+        }
         .bg-layer {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             pointer-events: none;
-            overflow: hidden;
         }
         @keyframes drift {
-            0% { transform: scale(1) rotate(0deg); opacity: 0.15; }
-            50% { transform: scale(1.1) rotate(5deg); opacity: 0.25; }
-            100% { transform: scale(1) rotate(0deg); opacity: 0.15; }
+            0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.1; }
+            50% { transform: scale(1.15) rotate(3deg); opacity: 0.25; }
         }
-        .floating-logo {
-            width: 100vw;
-            height: 100vw;
-            max-width: 1200px;
-            animation: drift 12s ease-in-out infinite;
-        }
+        .floating-logo { width: 100vw; max-width: 800px; animation: drift 12s ease-in-out infinite; }
         .neo-glass {
-            background: rgba(2, 0, 36, 0.7);
-            backdrop-filter: blur(25px);
+            background: rgba(2, 0, 36, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(0, 212, 255, 0.15);
         }
         .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 1px;
-            background: rgba(0, 212, 255, 0.2);
-            border-radius: 2rem;
-            overflow: hidden;
+            display: grid; grid-template-columns: repeat(7, 1fr);
+            gap: 1px; background: rgba(0, 212, 255, 0.1);
+            border-radius: 1.5rem; overflow: hidden;
         }
         .cell {
-            min-height: 140px; /* Bigger for 3 lines description */
-            background: rgba(1, 1, 20, 0.95);
-            padding: 1rem;
-            transition: 0.4s;
-            cursor: pointer;
+            aspect-ratio: 1 / 1.1;
+            background: rgba(1, 1, 20, 0.98);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: 0.2s; position: relative; padding: 0.5rem;
+            font-size: 0.85rem;
         }
-        .cell:hover { background: rgba(0, 212, 255, 0.1); transform: translateY(-2px); }
-        .nav-arrow {
-            font-size: 2.5rem; color: rgba(255,255,255,0.3);
-            cursor: pointer; transition: 0.3s; user-select: none;
+        .today-cell {
+            background: rgba(0, 212, 255, 0.1);
+            box-shadow: inset 0 0 15px rgba(0, 212, 255, 0.2);
         }
-        .nav-arrow:hover { color: var(--neon); text-shadow: 0 0 15px var(--neon); }
-        select::-webkit-scrollbar { width: 4px; }
-        select::-webkit-scrollbar-thumb { background: var(--neon); border-radius: 10px; }
+        .today-cell span { color: var(--neon); text-shadow: 0 0 10px var(--neon); }
+        .today-dot { position: absolute; top: 6px; right: 6px; width: 5px; height: 5px; background: var(--neon); border-radius: 50%; box-shadow: 0 0 8px var(--neon); }
+        .nav-arrow { font-size: 1.8rem; color: var(--neon); cursor: pointer; padding: 10px; transition: 0.2s; }
+        .nav-arrow:active { transform: scale(0.8); opacity: 0.5; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
         .event {
             background: rgba(0,212,255,0.08);
             border-left: 3px solid var(--neon);
-            padding: 0.5rem 0.75rem;
-            margin: 0.4rem 0;
-            border-radius: 0.5rem;
-            font-size: 0.85rem;
+            padding: 0.4rem 0.6rem;
+            margin-top: 0.3rem;
+            border-radius: 0.4rem;
+            font-size: 0.8rem;
             overflow: hidden;
             text-overflow: ellipsis;
             display: -webkit-box;
-            -webkit-line-clamp: 3; /* 3 lines visible */
+            -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
         }
         .modal {
@@ -86,74 +82,56 @@
         }
         .close { position: absolute; top: 1rem; right: 1.5rem; font-size: 2rem; cursor: pointer; color: var(--neon); }
         .close:hover { color: white; }
-        .text-smaller { font-size: 0.95rem; line-height: 1.4; }
-        @media (max-width: 640px) {
-            .nav-arrow { font-size: 2rem; }
-            .cell { min-height: 100px; padding: 0.8rem; }
-            h2 { font-size: 2.5rem !important; }
-            .text-5xl { font-size: 2.5rem !important; }
-        }
     </style>
 </head>
-<body class="p-4 md:p-10">
+<body class="p-4 md:p-8 no-scrollbar">
     <div class="bg-layer">
-        <svg class="floating-logo" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="250" cy="250" r="220" stroke="var(--neon)" stroke-width="1" stroke-dasharray="10 20" opacity="0.3" />
+        <svg class="floating-logo" viewBox="0 0 500 500" fill="none">
             <path d="M200 150C200 122.386 222.386 100 250 100C277.614 100 300 122.386 300 150V250H350C377.614 250 400 272.386 400 300C400 327.614 377.614 350 350 350H250V300H200C172.386 300 150 277.614 150 250C150 222.386 172.386 200 200 200V150Z"
                   stroke="var(--neon)" stroke-width="4" stroke-linecap="round" />
+            <circle cx="250" cy="250" r="230" stroke="var(--neon)" stroke-width="1" stroke-dasharray="8 16" opacity="0.3" />
         </svg>
     </div>
 
-    <div class="max-w-[1500px] mx-auto space-y-8 relative z-10">
-        <nav class="flex justify-between items-center neo-glass p-5 rounded-[2rem]">
-            <div class="flex items-center gap-4">
-                <img src="assets/zwapy-logo.png" alt="Zwapy" class="w-10 h-10 md:w-12 md:h-12 rounded-xl shadow-[0_0_20px_rgba(0,212,255,0.4)]">
-                <h1 class="text-2xl font-black italic tracking-tighter uppercase">Zwapy<span class="text-[#00D4FF]">Clubs</span></h1>
+    <div class="max-w-5xl mx-auto space-y-5 md:space-y-8">
+        <nav class="flex justify-between items-center neo-glass p-4 rounded-2xl">
+            <div class="flex items-center gap-3">
+                <img src="assets/zwapy-logo.png" alt="Zwapy" class="w-9 h-9 md:w-11 md:h-11 rounded-xl shadow-[0_0_20px_rgba(0,212,255,0.3)]">
+                <h1 class="text-xl md:text-2xl font-black italic uppercase tracking-tighter">Zwapy<span class="text-[#00D4FF]">Clubs</span></h1>
             </div>
-            <button class="px-8 py-3 bg-black/40 border border-[#00D4FF]/20 text-[#00D4FF] rounded-2xl font-black text-[10px] tracking-widest hover:bg-[#00D4FF] hover:text-black transition-all">
+            <button class="px-5 py-2.5 bg-black/40 border border-[#00D4FF]/20 text-[#00D4FF] rounded-xl font-black text-[9px] md:text-[10px] tracking-widest hover:bg-[#00D4FF] hover:text-black transition-all">
                 ✦ MY UNIVERSE
             </button>
         </nav>
 
-        <section class="neo-glass p-8 rounded-[3rem]">
-            <div class="flex justify-center items-center gap-12 mb-10">
-                <span class="nav-arrow cursor-pointer" onclick="changeMonth(-1)">&lt;</span>
-                <div class="flex items-center gap-5">
-                    <h2 class="text-5xl font-black italic uppercase tracking-tighter" id="monthName"></h2>
-                    <select id="yearList" class="bg-transparent text-[#00D4FF] text-4xl font-light outline-none cursor-pointer" onchange="changeYear(this.value)">
-                    </select>
+        <section class="neo-glass p-5 rounded-[2.5rem]">
+            <div class="flex justify-center items-center gap-6 mb-6">
+                <span id="prevM" class="nav-arrow cursor-pointer">&lt;</span>
+                <div class="text-center">
+                    <h2 id="mName" class="text-3xl md:text-4xl font-black italic uppercase tracking-tighter leading-none"></h2>
+                    <p id="yName" class="text-[#00D4FF] text-sm md:text-base font-bold tracking-[0.4em] mt-1"></p>
                 </div>
-                <span class="nav-arrow cursor-pointer" onclick="changeMonth(1)">&gt;</span>
+                <span id="nextM" class="nav-arrow cursor-pointer">&gt;</span>
             </div>
-
-            <div class="calendar-grid" id="calendarGrid"></div>
+            <div id="gridBody" class="calendar-grid"></div>
         </section>
 
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-5 pb-10">
-            <div class="md:col-span-4 neo-glass p-6 rounded-[2.5rem] flex flex-col justify-center">
-                <h3 class="text-[#00D4FF] font-black uppercase text-[9px] tracking-[0.4em] mb-5 opacity-50">Quick Insights</h3>
-                <div class="flex justify-between items-center px-4">
-                    <div class="text-center">
-                        <p class="text-xl font-black italic leading-none" id="activeEvents">0</p>
-                        <p class="text-[9px] text-slate-500 font-bold uppercase mt-1">Active</p>
-                    </div>
-                    <div class="text-center">
-                        <p class="text-xl font-black italic text-purple-500 leading-none" id="invites">0</p>
-                        <p class="text-[9px] text-slate-500 font-bold uppercase mt-1">Invites</p>
-                    </div>
-                    <div class="text-center">
-                        <p class="text-xl font-black italic text-[#00D4FF] leading-none" id="totalUsers">0</p>
-                        <p class="text-[9px] text-slate-500 font-bold uppercase mt-1">Users</p>
-                    </div>
+        <div class="space-y-4">
+            <div class="neo-glass p-5 rounded-[2rem]">
+                <h3 class="text-[#00D4FF] font-black uppercase text-[8px] md:text-[9px] tracking-[0.5em] mb-5 opacity-50">Quick Insights</h3>
+                <div class="flex justify-between px-4 text-center">
+                    <div><p class="text-2xl md:text-3xl font-black italic leading-none" id="activeEvents">0</p><p class="text-[8px] md:text-[9px] text-slate-500 font-bold uppercase mt-1">Active</p></div>
+                    <div><p class="text-2xl md:text-3xl font-black italic text-purple-500 leading-none" id="invites">0</p><p class="text-[8px] md:text-[9px] text-slate-500 font-bold uppercase mt-1">Invites</p></div>
+                    <div><p class="text-2xl md:text-3xl font-black italic text-[#00D4FF] leading-none" id="totalUsers">0</p><p class="text-[8px] md:text-[9px] text-slate-500 font-bold uppercase mt-1">Users</p></div>
                 </div>
             </div>
 
-            <div class="md:col-span-8 bg-[#00D4FF] p-6 rounded-[2.5rem] text-black flex items-center justify-between px-10">
-                <div>
-                    <h3 class="text-xl font-black italic uppercase leading-none">Want to post ur event?</h3>
-                    <p class="text-[10px] font-bold opacity-80 mt-1 uppercase tracking-tight">Apply in <span class="bg-black text-white px-2 py-0.5 rounded">Club Head</span> admin portal.</p>
+            <div class="bg-[#00D4FF] p-5 rounded-[2rem] text-black flex flex-col sm:flex-row items-center justify-between gap-4 shadow-[0_15px_30px_rgba(0,212,255,0.3)]">
+                <div class="text-center sm:text-left max-w-[70%]">
+                    <h3 class="text-base md:text-lg font-black italic uppercase leading-none">Want to post ur event?</h3>
+                    <p class="text-[8px] md:text-[10px] font-bold opacity-80 uppercase mt-1">Apply in <span class="bg-black text-white px-2 py-0.5 rounded">Club Head</span> portal.</p>
                 </div>
-                <button class="bg-black text-white px-10 py-4 rounded-2xl font-black text-[11px] tracking-[0.2em] hover:scale-105 active:scale-95 transition-all shadow-xl" onclick="openAdminPortal()">
+                <button class="w-full sm:w-auto bg-black text-white px-8 py-3 rounded-xl font-black text-[9px] md:text-[11px] tracking-widest shadow-2xl active:scale-95 transition" onclick="openAdminPortal()">
                     TAKE ME →
                 </button>
             </div>
@@ -174,49 +152,54 @@
     </div>
 
     <script>
-        // Real current date
-        const today = new Date();
-        let currentMonth = today.getMonth() + 1;
-        let currentYear = today.getFullYear();
+        const mDisplay = document.getElementById('mName');
+        const yDisplay = document.getElementById('yName');
+        const gridBody = document.getElementById('gridBody');
+       
+        let curr = new Date(); // Real current date
+        function loadGrid() {
+            gridBody.innerHTML = '';
+            const mList = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            const dList = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+           
+            mDisplay.innerText = mList[curr.getMonth()];
+            yDisplay.innerText = curr.getFullYear();
 
-        // No events by default
-        let currentEvents = [];
-
-        function generateCalendar() {
-            const grid = document.getElementById('calendarGrid');
-            grid.innerHTML = '';
-
-            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-            days.forEach(d => {
-                grid.innerHTML += `<div class="p-4 text-center text-[10px] font-black uppercase tracking-widest text-slate-500 border-b border-white/5">${d}</div>`;
+            // Headers
+            dList.forEach(day => {
+                gridBody.innerHTML += `<div class="p-2 md:p-3 text-center text-[8px] md:text-[10px] font-black text-slate-600 border-b border-white/5 bg-black/20">${day}</div>`;
             });
 
-            const firstDay = new Date(currentYear, currentMonth-1, 1).getDay();
-            const daysInMonth = new Date(currentYear, currentMonth, 0).getDate();
+            const startIdx = new Date(curr.getFullYear(), curr.getMonth(), 1).getDay();
+            const totalDays = new Date(curr.getFullYear(), curr.getMonth() + 1, 0).getDate();
+            const prevTotal = new Date(curr.getFullYear(), curr.getMonth(), 0).getDate();
+            const realToday = new Date();
 
-            for (let i = 0; i < firstDay; i++) {
-                grid.innerHTML += `<div class="cell opacity-20"></div>`;
+            // Previous month
+            for (let x = startIdx; x > 0; x--) {
+                gridBody.innerHTML += `<div class="cell opacity-20 text-xs">${prevTotal - x + 1}</div>`;
             }
 
-            for (let d = 1; d <= daysInMonth; d++) {
-                let cell = document.createElement('div');
-                cell.className = 'cell';
-                cell.innerHTML = `<span class="text-2xl font-black italic">${d < 10 ? '0'+d : d}</span>`;
-                cell.onclick = () => showEvents(d);
-                grid.appendChild(cell);
+            // Current month
+            for (let i = 1; i <= totalDays; i++) {
+                const isToday = i === realToday.getDate() && curr.getMonth() === realToday.getMonth() && curr.getFullYear() === realToday.getFullYear();
+                gridBody.innerHTML += `
+                    <div class="cell ${isToday ? 'today-cell' : ''}" onclick="showEvents(${i})">
+                        ${isToday ? '<div class="today-dot"></div>' : ''}
+                        <span class="text-lg md:text-xl font-black italic">${i < 10 ? '0'+i : i}</span>
+                    </div>`;
             }
 
-            const remaining = 42 - (firstDay + daysInMonth);
-            for (let i = 0; i < remaining; i++) {
-                grid.innerHTML += `<div class="cell opacity-20"></div>`;
+            // Next month
+            const filled = startIdx + totalDays;
+            for (let j = 1; j <= (42 - filled); j++) {
+                gridBody.innerHTML += `<div class="cell opacity-20 text-xs">${j < 10 ? '0'+j : j}</div>`;
             }
-
-            document.getElementById('monthName').innerText = new Date(currentYear, currentMonth-1).toLocaleString('default', { month: 'long' });
         }
 
         function showEvents(date) {
             const modal = document.getElementById('eventModal');
-            document.getElementById('modalTitle').innerText = `${date} ${document.getElementById('monthName').innerText} ${currentYear}`;
+            document.getElementById('modalTitle').innerText = `${date} ${document.getElementById('mName').innerText} ${document.getElementById('yName').innerText}`;
             document.getElementById('modalDescription').innerHTML = 'No events scheduled yet.<br><br>Club heads can post & edit events in the <strong>Club Head Admin Portal</strong>.<br><br><a href="#" class="text-[var(--neon)] underline">Join Event</a> | <a href="#" class="text-[var(--neon)] underline">View Club</a>';
             modal.style.display = 'flex';
         }
@@ -229,28 +212,10 @@
             alert("Redirecting to Club Head Admin Portal...");
         }
 
-        function changeMonth(dir) {
-            currentMonth += dir;
-            if (currentMonth < 1) { currentMonth = 12; currentYear--; }
-            if (currentMonth > 12) { currentMonth = 1; currentYear++; }
-            generateCalendar();
-        }
+        document.getElementById('prevM').onclick = () => { curr.setMonth(curr.getMonth() - 1); loadGrid(); };
+        document.getElementById('nextM').onclick = () => { curr.setMonth(curr.getMonth() + 1); loadGrid(); };
 
-        function changeYear(year) {
-            currentYear = parseInt(year);
-            generateCalendar();
-        }
-
-        // Populate year dropdown
-        const yr = document.getElementById('yearList');
-        for (let y = currentYear - 2; y <= currentYear + 5; y++) {
-            const o = document.createElement('option');
-            o.value = y; o.innerHTML = y; o.className = "bg-[#010114] text-white";
-            yr.appendChild(o);
-        }
-
-        // Init
-        generateCalendar();
+        loadGrid();
     </script>
 </body>
 </html>
