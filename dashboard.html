@@ -190,7 +190,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 .feed-empty{font-size:.75rem;color:var(--muted);text-align:center;padding:18px 0;font-style:italic;}
 
 /* ── SIDEBAR ── */
-.sidebar{position:fixed;inset-y:0;left:0;width:260px;background:rgba(2,0,36,0.97);backdrop-filter:blur(30px);border-right:1px solid rgba(0,212,255,0.09);z-index:600;padding:22px 16px;transform:translateX(-100%);transition:transform .32s cubic-bezier(.4,0,.2,1);}
+.sidebar-foot{margin-top:auto;background:rgba(0,212,255,0.05);border:1px solid rgba(0,212,255,0.12);border-radius:13px;padding:15px;}
 .sidebar.open{transform:translateX(0);}
 .sidebar-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:26px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,0.05);}
 .sidebar-logo{display:flex;align-items:center;gap:8px;}
@@ -689,14 +689,23 @@ onAuthStateChanged(auth, async user=>{
     const btn = $('modalConfirm');
     btn.disabled = true; btn.textContent = 'Processing...';
 
-    coins += 50; exchanges += 1;
+    const freshSnap = await getDoc(userRef);
+const currentCoins = freshSnap.data().coins || 0;
+const currentExchanges = freshSnap.data().exchanges || 0;
 
-    await updateDoc(userRef, { coins, exchanges });
-    await addDoc(collection(db,'users',user.uid,'activity'), {
-      title: `${type}: ${offer} ↔ ${need}`,
-      desc:  `— ${duration} · +50 coins earned`,
-      createdAt: serverTimestamp()
-    });
+const isFirstExchange = currentExchanges === 0;
+const skillReward = parseInt($('skillLevel').value);
+const coinReward = isFirstExchange ? 50 : skillReward;
+
+coins = currentCoins + coinReward;
+exchanges = currentExchanges + 1;
+
+await updateDoc(userRef, { coins, exchanges });
+await addDoc(collection(db,'users',user.uid,'activity'), {
+  title: `${type}: ${offer} ↔ ${need}`,
+  desc:  `— ${duration} · +${coinReward} coins earned`,
+  createdAt: serverTimestamp()
+});
 
     refreshCreditsUI(coins);
     $('statExchanges').textContent = fmt(exchanges);
