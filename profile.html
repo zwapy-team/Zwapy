@@ -1,246 +1,470 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile | Zwapy</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --neon-cyan: #00D4FF;   /* Neon cyan accent */
-            --deep-navy: #020024;   /* Deep navy dark */
-            --bg-dark: #010114;     /* Almost black background */
-        }
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: var(--bg-dark);
-            color: white;
-            overflow-x: hidden;
-        }
-        /* Logout Animation (kept same) */
-        .logout-container {
-            position: relative;
-            display: flex;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 6px 14px;
-            border-radius: 50px;
-            border: 1px solid rgba(0, 212, 255, 0.2);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .logout-container:hover {
-            background: rgba(239, 68, 68, 0.1);
-            border-color: #ef4444;
-        }
-        .anim-box { position: relative; width: 40px; height: 28px; }
-        .doorway {
-            position: absolute; right: 0; width: 20px; height: 20px;
-            border: 2px solid var(--neon-cyan); border-radius: 4px;
-        }
-        .man {
-            position: absolute; left: 0; bottom: 2px; font-size: 20px;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .logout-container:hover .man { transform: translateX(20px); }
-        .logout-container.executing .man { opacity: 0; transform: translateX(30px) scale(0.8); }
-        .logout-container.executing .doorway { background: #ef4444; border-color: #ef4444; }
-        .falling-man {
-            position: absolute; top: 10px; right: 10px; font-size: 20px;
-            display: none; z-index: 100;
-        }
-        .animate-fall { display: block; animation: fallAndSpin 1s forwards cubic-bezier(0.7, 0.1, 1, 1); }
-        @keyframes fallAndSpin {
-            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(600px) rotate(720deg); opacity: 0; }
-        }
-        /* Glass UI */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(0, 212, 255, 0.1);
-            border-radius: 24px;
-        }
-        /* Timeline hover */
-        .timeline-item:hover {
-            transform: translateX(8px);
-            border-color: var(--neon-cyan);
-        }
-        .expertise-bar {
-            box-shadow: 0 0 15px rgba(0, 212, 255, 0.4);
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-up { animation: fadeIn 0.7s ease-out forwards; }
-    </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Profile | Zwapy</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --cyan:#00D4FF;--cyan-dim:rgba(0,212,255,0.1);
+  --bg:#010114;--navy:#020024;
+  --border:rgba(0,212,255,0.1);--border-h:rgba(0,212,255,0.35);
+  --muted:#64748b;--dim:#94a3b8;
+  --green:#10b981;--red:#ef4444;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+::selection{background:var(--cyan);color:#000;}
+body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:100vh;overflow-x:hidden;}
+
+/* scanline + noise */
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.022) 2px,rgba(0,0,0,0.022) 4px);pointer-events:none;z-index:9999;}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9998;opacity:.3;}
+
+.bg-glow{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse 60% 40% at 20% 20%,rgba(0,212,255,0.04) 0%,transparent 60%),
+             radial-gradient(ellipse 40% 50% at 80% 80%,rgba(99,102,241,0.04) 0%,transparent 60%);}
+
+/* load screen */
+#loadScreen{position:fixed;inset:0;background:var(--bg);z-index:10000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;transition:opacity .5s;}
+#loadScreen.hide{opacity:0;pointer-events:none;}
+.load-logo{font-size:2rem;font-weight:900;font-style:italic;color:var(--cyan);}
+.load-bar{width:140px;height:2px;background:rgba(0,212,255,0.12);border-radius:100px;overflow:hidden;}
+.load-fill{height:100%;background:var(--cyan);animation:lf 1.1s ease forwards;}
+@keyframes lf{from{width:0}to{width:100%}}
+.load-text{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
+
+/* layout */
+.layout{position:relative;z-index:10;max-width:800px;margin:0 auto;padding:0 22px 120px;}
+
+/* topbar */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid rgba(0,212,255,0.06);margin-bottom:32px;position:sticky;top:0;z-index:200;background:rgba(1,1,20,0.93);backdrop-filter:blur(24px);margin-left:-22px;margin-right:-22px;padding-left:22px;padding-right:22px;}
+.topbar-logo{display:flex;align-items:center;gap:9px;text-decoration:none;flex-shrink:0;}
+.logo-node{width:38px;height:38px;background:rgba(0,212,255,0.07);border:1px solid rgba(0,212,255,0.2);border-radius:11px;display:flex;align-items:center;justify-content:center;transition:all .3s;}
+.topbar-logo:hover .logo-node{border-color:var(--cyan);box-shadow:0 0 16px rgba(0,212,255,0.2);}
+.logo-text{font-size:1.25rem;font-weight:900;font-style:italic;}
+.back-btn{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:100px;padding:7px 14px;font-size:.72rem;font-weight:700;color:var(--dim);text-decoration:none;transition:all .25s;cursor:pointer;}
+.back-btn:hover{border-color:var(--border-h);color:white;}
+
+/* page header */
+.page-header{margin-bottom:28px;}
+.page-label{font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.22em;text-transform:uppercase;color:var(--cyan);opacity:.6;margin-bottom:5px;}
+.page-title{font-size:clamp(1.6rem,5vw,2.4rem);font-weight:900;font-style:italic;letter-spacing:-.02em;}
+
+/* card */
+.card{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:22px;padding:28px;margin-bottom:16px;position:relative;overflow:hidden;transition:border-color .3s;}
+.card:hover{border-color:rgba(0,212,255,0.15);}
+.card-title{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--cyan);opacity:.7;margin-bottom:18px;}
+
+/* ── AVATAR SECTION ── */
+.avatar-section{display:flex;align-items:center;gap:22px;flex-wrap:wrap;}
+.avatar-wrap{position:relative;flex-shrink:0;}
+.avatar-img{width:90px;height:90px;border-radius:50%;border:3px solid rgba(0,212,255,0.25);object-fit:cover;display:block;transition:border-color .3s;}
+.avatar-wrap:hover .avatar-img{border-color:var(--cyan);}
+.avatar-cam-btn{position:absolute;bottom:2px;right:2px;width:28px;height:28px;background:var(--cyan);border:2px solid var(--bg);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .2s;font-size:.75rem;}
+.avatar-cam-btn:hover{transform:scale(1.1);}
+#cameraInput{display:none;}
+.avatar-info h3{font-size:1.1rem;font-weight:800;font-style:italic;margin-bottom:3px;}
+.avatar-info p{font-size:.75rem;color:var(--muted);line-height:1.5;}
+.avatar-info .email-tag{display:inline-block;font-family:'Space Mono',monospace;font-size:.6rem;background:rgba(0,212,255,0.07);border:1px solid rgba(0,212,255,0.15);color:var(--cyan);border-radius:100px;padding:3px 10px;margin-top:6px;}
+
+/* ── STATS ROW ── */
+.stats-mini{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
+.stat-mini{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:16px;padding:16px 14px;text-align:center;}
+.sm-val{font-family:'Space Mono',monospace;font-size:1.5rem;font-weight:700;line-height:1;margin-bottom:3px;}
+.sm-val.c{color:var(--cyan);text-shadow:0 0 14px rgba(0,212,255,.3);}
+.sm-val.g{color:var(--green);text-shadow:0 0 14px rgba(16,185,129,.3);}
+.sm-val.i{color:#818cf8;text-shadow:0 0 14px rgba(129,140,248,.3);}
+.sm-label{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);}
+
+/* ── FORM FIELDS ── */
+.field{margin-bottom:18px;}
+.field label{display:block;font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-bottom:7px;}
+.field input,.field select{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:13px 16px;font-size:.9rem;color:white;font-family:'Sora',sans-serif;outline:none;transition:border-color .2s,box-shadow .2s;}
+.field input::placeholder{color:var(--muted);}
+.field input:focus,.field select:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(0,212,255,0.07);}
+.field input:disabled{opacity:.45;cursor:not-allowed;}
+.field select option{background:#020024;}
+.field-hint{font-size:.62rem;color:var(--muted);margin-top:5px;}
+
+/* two col */
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:500px){.field-row{grid-template-columns:1fr;}}
+
+/* ── SKILLS TAG INPUT ── */
+.skills-wrap{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:10px 12px;min-height:52px;display:flex;flex-wrap:wrap;gap:7px;align-items:center;cursor:text;transition:border-color .2s,box-shadow .2s;}
+.skills-wrap:focus-within{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(0,212,255,0.07);}
+.skill-chip{display:flex;align-items:center;gap:5px;background:rgba(0,212,255,0.09);border:1px solid rgba(0,212,255,0.2);border-radius:100px;padding:4px 11px;font-size:.68rem;font-weight:700;color:var(--cyan);white-space:nowrap;animation:chipIn .2s ease;}
+@keyframes chipIn{from{opacity:0;transform:scale(0.85);}to{opacity:1;transform:scale(1);}}
+.skill-chip button{background:none;border:none;color:var(--cyan);cursor:pointer;font-size:.7rem;padding:0;line-height:1;opacity:.6;transition:opacity .2s;}
+.skill-chip button:hover{opacity:1;}
+.skill-input{background:none;border:none;outline:none;color:white;font-family:'Sora',sans-serif;font-size:.85rem;min-width:120px;flex:1;}
+.skill-input::placeholder{color:var(--muted);}
+
+/* ── SAVE BUTTON ── */
+.save-btn{width:100%;background:var(--cyan);color:#000;border:none;border-radius:13px;padding:15px;font-size:.88rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:all .25s;position:relative;overflow:hidden;margin-top:4px;}
+.save-btn::before{content:'';position:absolute;top:-50%;left:-60%;width:40%;height:200%;background:rgba(255,255,255,.28);transform:skewX(-20deg);animation:glint 3.5s ease infinite;}
+@keyframes glint{0%,70%,100%{left:-60%;}40%{left:120%;}}
+.save-btn:hover{box-shadow:0 0 24px rgba(0,212,255,.4);transform:translateY(-1px);}
+.save-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+
+/* toast */
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.28);border-radius:100px;padding:10px 22px;font-size:.78rem;font-weight:700;color:var(--green);z-index:3000;opacity:0;transition:all .35s ease;pointer-events:none;white-space:nowrap;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.toast.error{background:rgba(239,68,68,0.1);border-color:rgba(239,68,68,0.28);color:var(--red);}
+
+/* danger zone */
+.danger-card{background:rgba(239,68,68,0.04);border:1px solid rgba(239,68,68,0.12);border-radius:22px;padding:24px 28px;margin-bottom:16px;}
+.danger-title{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--red);opacity:.7;margin-bottom:14px;}
+.danger-row{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.danger-text h4{font-size:.88rem;font-weight:700;margin-bottom:3px;}
+.danger-text p{font-size:.74rem;color:var(--muted);}
+.logout-btn{display:flex;align-items:center;gap:8px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:10px;padding:10px 18px;font-size:.75rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--red);cursor:pointer;transition:all .25s;font-family:'Sora',sans-serif;}
+.logout-btn:hover{background:rgba(239,68,68,0.16);box-shadow:0 0 16px rgba(239,68,68,.15);}
+
+/* bottom nav */
+.bottom-nav{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:380px;background:rgba(2,0,36,0.95);backdrop-filter:blur(28px);border:1px solid rgba(0,212,255,0.14);border-radius:100px;padding:7px 12px;display:flex;justify-content:space-around;align-items:center;z-index:500;box-shadow:0 8px 32px rgba(0,0,0,.6);}
+.nav-item{width:42px;height:42px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:all .22s;text-decoration:none;color:var(--muted);font-size:1.1rem;position:relative;}
+.nav-item.active{background:rgba(0,212,255,0.11);color:var(--cyan);}
+.nav-item:hover{background:rgba(0,212,255,0.08);color:var(--cyan);}
+.nav-badge{position:absolute;top:6px;right:6px;width:7px;height:7px;background:#ef4444;border-radius:50%;border:2px solid var(--bg);}
+.nav-av{width:26px;height:26px;border-radius:50%;border:2px solid rgba(0,212,255,.28);overflow:hidden;}
+.nav-av img{width:100%;height:100%;object-fit:cover;}
+
+/* fade */
+.fade-up{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease;}
+.fade-up.in{opacity:1;transform:translateY(0);}
+.d1{transition-delay:.05s;}.d2{transition-delay:.1s;}.d3{transition-delay:.15s;}.d4{transition-delay:.2s;}
+
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-thumb{background:rgba(0,212,255,0.16);border-radius:100px;}
+</style>
 </head>
-<body class="min-h-screen py-6 md:py-12 px-4">
-    <div class="max-w-5xl mx-auto space-y-8 animate-up">
-        <section class="bg-[var(--deep-navy)] rounded-[3rem] p-8 md:p-12 text-white relative overflow-hidden shadow-2xl">
-            <div class="absolute top-0 right-0 w-96 h-96 bg-[var(--neon-cyan)]/10 rounded-full blur-[100px] -mr-40 -mt-40"></div>
-           
-            <div class="relative z-10 flex flex-col md:flex-row items-center md:items-end gap-8">
-                <div class="relative">
-                    <img id="profilePhoto" src="https://api.dicebear.com/7.x/avataaars/svg?seed=User" class="w-32 h-32 md:w-44 md:h-44 rounded-[2.5rem] bg-white border-4 border-slate-800 shadow-2xl">
-                    <div class="absolute bottom-3 right-3 w-6 h-6 bg-emerald-500 border-4 border-[var(--deep-navy)] rounded-full"></div>
-                </div>
-               
-                <div class="text-center md:text-left flex-1 pb-2">
-                    <h1 class="text-4xl font-black tracking-tight" id="profileName">Loading...</h1>
-                    <p class="text-slate-400 font-medium mt-1" id="profileRole">Skill Trader</p>
-                    <div class="flex flex-wrap gap-2 mt-4 justify-center md:justify-start">
-                        <span id="proBadge" class="hidden px-4 py-1.5 bg-[var(--neon-cyan)]/20 text-[var(--neon-cyan)] border border-[var(--neon-cyan)]/30 rounded-full text-[10px] font-bold uppercase tracking-widest">Pro Member</span>
-                        <span class="px-4 py-1.5 bg-white/5 text-slate-400 border border-white/10 rounded-full text-[10px] font-bold uppercase tracking-widest">Member since <span id="memberSince">2024</span></span>
-                    </div>
-                </div>
-                <button class="px-8 py-3 bg-white/10 hover:bg-white text-white hover:text-[var(--deep-navy)] rounded-2xl font-bold transition-all border border-white/10 backdrop-blur-md">
-                    Edit Profile
-                </button>
-            </div>
-        </section>
+<body>
+<div class="bg-glow"></div>
 
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-            <div class="bg-white p-6 rounded-[2.2rem] border border-[var(--neon-cyan)]/10 shadow-sm text-center">
-                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Total Swaps</p>
-                <p class="text-3xl font-black" id="totalSwaps">0</p>
-            </div>
-            <div class="bg-white p-6 rounded-[2.2rem] border border-[var(--neon-cyan)]/10 shadow-sm text-center">
-                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Feedback</p>
-                <p class="text-3xl font-black text-emerald-500" id="feedback">0%</p>
-            </div>
-            <div class="bg-white p-6 rounded-[2.2rem] border border-[var(--neon-cyan)]/10 shadow-sm text-center">
-                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Global Rank</p>
-                <p class="text-3xl font-black text-[var(--neon-cyan)]" id="globalRank">#---</p>
-            </div>
-            <div class="bg-white p-6 rounded-[2.2rem] border border-[var(--neon-cyan)]/10 shadow-sm text-center">
-                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Badges</p>
-                <p class="text-3xl font-black" id="badges">0</p>
-            </div>
-        </div>
+<!-- LOAD SCREEN -->
+<div id="loadScreen">
+  <div class="load-logo">ZWAPY</div>
+  <div class="load-bar"><div class="load-fill"></div></div>
+  <div class="load-text">Loading profile...</div>
+</div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div class="space-y-8">
-                <div class="bg-white p-8 rounded-[2.5rem] border border-[var(--neon-cyan)]/10 shadow-sm">
-                    <h3 class="text-xl font-extrabold mb-4 italic">About Me</h3>
-                    <p id="aboutText" class="text-slate-500 text-sm leading-relaxed">"No bio yet. Tell us about yourself!"</p>
-                </div>
-                <div class="bg-[var(--deep-navy)] p-8 rounded-[2.5rem] text-white shadow-xl">
-                    <h3 class="text-sm font-black text-[var(--neon-cyan)] uppercase tracking-widest mb-8">Expertise Level</h3>
-                    <div class="space-y-8">
-                        <div>
-                            <div class="flex justify-between text-[10px] font-bold mb-2"><span>UI DESIGN</span><span id="uiPercent">0%</span></div>
-                            <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
-                                <div id="uiBar" class="bg-[var(--neon-cyan)] h-full w-[0%] expertise-bar"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex justify-between text-[10px] font-bold mb-2"><span>REACT DEV</span><span id="reactPercent">0%</span></div>
-                            <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
-                                <div id="reactBar" class="bg-[var(--neon-cyan)] h-full w-[0%] opacity-80"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="lg:col-span-2 space-y-8">
-                <div class="bg-white p-8 rounded-[2.5rem] border border-[var(--neon-cyan)]/10 shadow-sm space-y-4">
-                    <div class="flex items-center p-4 bg-slate-50 rounded-3xl border border-slate-100">
-                        <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-2xl flex items-center justify-center mr-4 text-xl">👤</div>
-                        <div class="flex-1">
-                            <p class="text-[9px] font-bold text-slate-400 uppercase">Full Name</p>
-                            <p id="fullName" class="text-sm font-bold">Not set</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center p-4 bg-slate-50 rounded-3xl border border-slate-100">
-                        <div class="w-12 h-12 bg-teal-100 text-teal-600 rounded-2xl flex items-center justify-center mr-4 text-xl">📱</div>
-                        <div class="flex-1">
-                            <p class="text-[9px] font-bold text-slate-400 uppercase">Mobile</p>
-                            <p id="mobile" class="text-sm font-bold">Not set</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center p-4 bg-slate-50 rounded-3xl border border-slate-100">
-                        <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center mr-4 text-xl">✉️</div>
-                        <div class="flex-1">
-                            <p class="text-[9px] font-bold text-slate-400 uppercase">Email</p>
-                            <p id="email" class="text-sm font-bold">Loading...</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-white p-8 rounded-[2.5rem] border border-[var(--neon-cyan)]/10 shadow-sm">
-                    <div class="flex justify-between items-center mb-8">
-                        <h3 class="text-2xl font-black">Success Timeline</h3>
-                        <button class="text-[var(--neon-cyan)] font-bold text-sm">View History</button>
-                    </div>
-                    <div id="timelineContainer" class="space-y-6">
-                        <p class="text-slate-500 text-center py-8 text-lg">No activities yet. Start swapping skills!</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<div class="layout">
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <a href="dashboard.html" class="topbar-logo">
+      <div class="logo-node">
+        <img src="assets/zwapy-logo.png" style="width:26px;height:26px;object-fit:contain;">
+      </div>
+      <span class="logo-text">ZWAPY</span>
+    </a>
+    <a href="dashboard.html" class="back-btn">← Dashboard</a>
+  </header>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header fade-up d1">
+    <div class="page-label">// Your identity</div>
+    <h1 class="page-title">Profile</h1>
+  </div>
+
+  <!-- AVATAR + INFO CARD -->
+  <div class="card fade-up d1">
+    <div class="card-title">// Identity</div>
+    <div class="avatar-section">
+      <div class="avatar-wrap">
+        <img id="avatarImg" src="https://api.dicebear.com/7.x/avataaars/svg?seed=default" class="avatar-img" alt="Avatar">
+        <label for="cameraInput" class="avatar-cam-btn" title="Take photo">📷</label>
+        <input type="file" id="cameraInput" accept="image/*" capture="user">
+      </div>
+      <div class="avatar-info">
+        <h3 id="displayName">—</h3>
+        <p id="displayRole">Student · Zwapy Network</p>
+        <span class="email-tag" id="displayEmail">—</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-mini fade-up d2">
+    <div class="stat-mini">
+      <div class="sm-val c" id="statCoins">—</div>
+      <div class="sm-label">Skill Coins</div>
+    </div>
+    <div class="stat-mini">
+      <div class="sm-val g" id="statExchanges">0</div>
+      <div class="sm-label">Exchanges</div>
+    </div>
+    <div class="stat-mini">
+      <div class="sm-val i" id="statRank">#—</div>
+      <div class="sm-label">Network Rank</div>
+    </div>
+  </div>
+
+  <!-- EDIT FORM -->
+  <div class="card fade-up d3">
+    <div class="card-title">// Edit Profile</div>
+
+    <div class="field-row">
+      <div class="field">
+        <label>Full Name</label>
+        <input type="text" id="fieldName" placeholder="Your name"/>
+      </div>
+      <div class="field">
+        <label>Role</label>
+        <select id="fieldRole">
+          <option value="Student">Student</option>
+          <option value="Founder">Founder</option>
+          <option value="Designer">Designer</option>
+          <option value="Developer">Developer</option>
+          <option value="Marketer">Marketer</option>
+          <option value="Creator">Creator</option>
+        </select>
+      </div>
     </div>
 
-    <script type="module">
-        // Firebase config (paste your real config here)
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-        import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    <div class="field">
+      <label>University</label>
+      <input type="text" id="fieldUniversity" placeholder="e.g. Presidency University"/>
+    </div>
 
-        const firebaseConfig = {
-            // PASTE YOUR REAL CONFIG HERE (from firebase.js)
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_PROJECT.firebaseapp.com",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_PROJECT.appspot.com",
-            messagingSenderId: "YOUR_SENDER_ID",
-            appId: "YOUR_APP_ID"
-        };
+    <div class="field">
+      <label>Email</label>
+      <input type="email" id="fieldEmail" disabled/>
+      <div class="field-hint">Email is linked to your login — cannot be changed here.</div>
+    </div>
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
+    <div class="field">
+      <label>Skills <span style="color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0;font-size:.62rem">(press Enter or comma to add)</span></label>
+      <div class="skills-wrap" id="skillsWrap">
+        <input class="skill-input" id="skillInput" placeholder="Add a skill..."/>
+      </div>
+    </div>
 
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                document.getElementById('profileName').innerText = user.displayName || 'New User';
-                document.getElementById('profilePhoto').src = user.photoURL || 'https://api.dicebear.com/7.x/avataaars/svg?seed=User';
-                document.getElementById('email').innerText = user.email || 'Not set';
+    <button class="save-btn" id="saveBtn">Save Changes</button>
+  </div>
 
-                const userRef = doc(db, 'users', user.uid);
-                const snap = await getDoc(userRef);
-                if (snap.exists()) {
-                    const data = snap.data();
-                    document.getElementById('totalSwaps').innerText = data.swaps || 0;
-                    document.getElementById('feedback').innerText = data.feedback || '0%';
-                    document.getElementById('globalRank').innerText = data.rank || '#---';
-                    document.getElementById('badges').innerText = data.badges || 0;
-                    document.getElementById('fullName').innerText = data.fullName || 'Not set';
-                    document.getElementById('mobile').innerText = data.mobile || 'Not set';
-                    document.getElementById('aboutText').innerText = data.about || 'No bio yet.';
-                    document.getElementById('uiPercent').innerText = (data.expertise?.uiDesign || 0) + '%';
-                    document.getElementById('uiBar').style.width = (data.expertise?.uiDesign || 0) + '%';
-                    document.getElementById('reactPercent').innerText = (data.expertise?.reactDev || 0) + '%';
-                    document.getElementById('reactBar').style.width = (data.expertise?.reactDev || 0) + '%';
-                } else {
-                    // New user - initialize with defaults
-                    await setDoc(userRef, {
-                        swaps: 0,
-                        feedback: '0%',
-                        rank: '#---',
-                        badges: 0,
-                        about: 'No bio yet.',
-                        expertise: { uiDesign: 0, reactDev: 0 },
-                        fullName: '',
-                        mobile: '',
-                        timeline: []
-                    });
-                }
-            } else {
-                document.getElementById('profileName').innerText = 'Please log in';
-            }
-        });
-    </script>
+  <!-- DANGER ZONE -->
+  <div class="danger-card fade-up d4">
+    <div class="danger-title">// Account</div>
+    <div class="danger-row">
+      <div class="danger-text">
+        <h4>Sign Out</h4>
+        <p>You'll be redirected to the login page.</p>
+      </div>
+      <button class="logout-btn" id="logoutBtn">🚪 &nbsp;Sign Out</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <a href="dashboard.html" class="nav-item">🏠</a>
+  <a href="clubs.html" class="nav-item">🛡️</a>
+  <a href="#" class="nav-item">💬<span class="nav-badge"></span></a>
+  <a href="#" class="nav-item">🔍</a>
+  <a href="profile.html" class="nav-item active">
+    <div class="nav-av"><img id="navAvatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=default" alt=""></div>
+  </a>
+</nav>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+import { getFirestore, doc, getDoc, updateDoc, getDocs, collection } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+import { getStorage, ref, uploadString, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-storage.js";
+
+const app  = initializeApp({
+  apiKey:"AIzaSyBazCIc5vdQInSwvqvohIcbPToTjnw7KJI",
+  authDomain:"zwapy-25.firebaseapp.com",
+  projectId:"zwapy-25",
+  storageBucket:"zwapy-25.firebasestorage.app",
+  messagingSenderId:"30612332450",
+  appId:"1:30612332450:web:9e23f36a69f89dbb325cfb"
+});
+const auth    = getAuth(app);
+const db      = getFirestore(app);
+const storage = getStorage(app);
+
+const $ = id => document.getElementById(id);
+
+function fmt(n){ return Number(n||0).toLocaleString(); }
+
+function showToast(msg, type='success'){
+  const t = $('toast');
+  t.textContent = msg;
+  t.className = 'toast ' + type + ' show';
+  setTimeout(() => t.className = 'toast', 3000);
+}
+
+// ── SKILLS TAG ENGINE ──
+let skills = [];
+
+function renderSkills(){
+  // remove all chips first
+  document.querySelectorAll('.skill-chip').forEach(c => c.remove());
+  skills.forEach(s => {
+    const chip = document.createElement('div');
+    chip.className = 'skill-chip';
+    chip.innerHTML = `${s}<button type="button">✕</button>`;
+    chip.querySelector('button').addEventListener('click', () => {
+      skills = skills.filter(x => x !== s);
+      chip.remove();
+    });
+    $('skillsWrap').insertBefore(chip, $('skillInput'));
+  });
+}
+
+function addSkill(val){
+  const s = val.trim().replace(/,$/,'').trim();
+  if(!s || skills.includes(s)) return;
+  skills.push(s);
+  renderSkills();
+  $('skillInput').value = '';
+}
+
+$('skillInput').addEventListener('keydown', e => {
+  if(e.key === 'Enter'){ e.preventDefault(); addSkill($('skillInput').value); }
+  if(e.key === ','){ e.preventDefault(); addSkill($('skillInput').value); }
+  if(e.key === 'Backspace' && !$('skillInput').value && skills.length){
+    skills.pop(); renderSkills();
+  }
+});
+$('skillInput').addEventListener('blur', () => {
+  if($('skillInput').value.trim()) addSkill($('skillInput').value);
+});
+$('skillsWrap').addEventListener('click', () => $('skillInput').focus());
+
+// ── CAMERA / PHOTO UPLOAD ──
+let newPhotoBase64 = null;
+
+$('cameraInput').addEventListener('change', e => {
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    newPhotoBase64 = ev.target.result;
+    $('avatarImg').src = newPhotoBase64;
+    $('navAvatar').src = newPhotoBase64;
+    showToast('📷 Photo ready — save to apply');
+  };
+  reader.readAsDataURL(file);
+});
+
+// ── AUTH + LOAD DATA ──
+onAuthStateChanged(auth, async user => {
+  if(!user){ window.location.href = 'login.html'; return; }
+
+  const userRef = doc(db, 'users', user.uid);
+  const snap    = await getDoc(userRef);
+  const ud      = snap.exists() ? snap.data() : {};
+
+  const name       = ud.name || user.displayName || 'Student';
+  const university = ud.university || '';
+  const role       = ud.role || 'Student';
+  const coins      = ud.coins || 0;
+  const exchanges  = ud.exchanges || 0;
+  const userSkills = ud.skills || [];
+  const photoURL   = ud.photoURL || user.photoURL ||
+    `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(name)}`;
+
+  // populate identity card
+  $('displayName').textContent  = name;
+  $('displayRole').textContent  = `${role} · Zwapy Network`;
+  $('displayEmail').textContent = user.email;
+  $('avatarImg').src            = photoURL;
+  $('navAvatar').src            = photoURL;
+
+  // populate form
+  $('fieldName').value       = name;
+  $('fieldUniversity').value = university;
+  $('fieldEmail').value      = user.email;
+  $('fieldRole').value       = role;
+
+  // skills
+  skills = [...userSkills];
+  renderSkills();
+
+  // stats
+  $('statCoins').textContent    = fmt(coins);
+  $('statExchanges').textContent= fmt(exchanges);
+
+  // rank
+  const allSnap = await getDocs(collection(db,'users'));
+  let rank = 1;
+  allSnap.forEach(d => { if(d.id !== user.uid && (d.data().coins||0) > coins) rank++; });
+  $('statRank').textContent = `#${rank}`;
+
+  // ── SAVE ──
+  $('saveBtn').addEventListener('click', async () => {
+    const btn  = $('saveBtn');
+    const newName = $('fieldName').value.trim();
+    const newUni  = $('fieldUniversity').value.trim();
+    const newRole = $('fieldRole').value;
+
+    if(!newName){ showToast('❌ Name cannot be empty', 'error'); return; }
+
+    btn.disabled = true; btn.textContent = 'Saving...';
+
+    try {
+      let photoURLToSave = photoURL;
+
+      // upload photo if new one was taken
+      if(newPhotoBase64){
+        const storageRef = ref(storage, `avatars/${user.uid}`);
+        await uploadString(storageRef, newPhotoBase64, 'data_url');
+        photoURLToSave = await getDownloadURL(storageRef);
+        await updateProfile(user, { photoURL: photoURLToSave });
+        newPhotoBase64 = null;
+      }
+
+      // add any pending skill
+      if($('skillInput').value.trim()) addSkill($('skillInput').value);
+
+      // save to firestore
+      await updateDoc(userRef, {
+        name: newName,
+        university: newUni,
+        role: newRole,
+        skills,
+        photoURL: photoURLToSave
+      });
+
+      // update auth display name
+      await updateProfile(user, { displayName: newName });
+
+      // refresh identity card
+      $('displayName').textContent = newName;
+      $('displayRole').textContent = `${newRole} · Zwapy Network`;
+      $('avatarImg').src           = photoURLToSave;
+      $('navAvatar').src           = photoURLToSave;
+
+      showToast('✅ Profile saved!');
+    } catch(err){
+      showToast('❌ ' + err.message, 'error');
+    }
+
+    btn.disabled = false; btn.textContent = 'Save Changes';
+  });
+
+  // ── LOGOUT ──
+  $('logoutBtn').addEventListener('click', async () => {
+    await signOut(auth);
+    window.location.href = 'login.html';
+  });
+
+  // hide loader
+  setTimeout(() => {
+    $('loadScreen').classList.add('hide');
+    setTimeout(() => $('loadScreen').remove(), 500);
+    document.querySelectorAll('.fade-up').forEach(el => el.classList.add('in'));
+  }, 800);
+});
+</script>
 </body>
 </html>
