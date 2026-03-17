@@ -6,162 +6,290 @@
 <title>Dashboard | Zwapy</title>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
-/* ═══════════════════════════════════════════
-   VARIABLES & RESET
-═══════════════════════════════════════════ */
 :root {
   --cyan: #00D4FF;
   --cyan-dim: rgba(0,212,255,0.12);
-  --cyan-glow: rgba(0,212,255,0.35);
   --navy: #020024;
   --bg: #010114;
-  --card: rgba(2,0,36,0.7);
   --border: rgba(0,212,255,0.1);
-  --border-hover: rgba(0,212,255,0.35);
-  --text-muted: #64748b;
-  --text-dim: #94a3b8;
-  --green: #10b981;
-  --amber: #f59e0b;
-  --red: #ef4444;
-  --indigo: #6366f1;
+  --border-h: rgba(0,212,255,0.35);
+  --muted: #64748b;
+  --dim: #94a3b8;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 ::selection{background:var(--cyan);color:#000;}
 html{scroll-behavior:smooth;}
-body{
-  font-family:'Sora',sans-serif;
-  background:var(--bg);
-  color:white;
-  overflow-x:hidden;
-  min-height:100vh;
-}
-/* ═══════════════════════════════════════════
-   SCANLINE + NOISE OVERLAY
-═══════════════════════════════════════════ */
-body::before{
-  content:'';position:fixed;inset:0;
-  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px);
-  pointer-events:none;z-index:9999;
-}
-body::after{
-  content:'';position:fixed;inset:0;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
-  pointer-events:none;z-index:9998;opacity:.4;
-}
-/* ═══════════════════════════════════════════
-   AMBIENT BACKGROUND GLOW
-═══════════════════════════════════════════ */
-.bg-glow{
-  position:fixed;inset:0;pointer-events:none;z-index:0;
+body{font-family:'Sora',sans-serif;background:var(--bg);color:white;overflow-x:hidden;min-height:100vh;}
+
+/* Scanline */
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.022) 2px,rgba(0,0,0,0.022) 4px);pointer-events:none;z-index:9999;}
+/* Noise */
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9998;opacity:.32;}
+
+/* Ambient */
+.bg-glow{position:fixed;inset:0;pointer-events:none;z-index:0;
   background:
-    radial-gradient(ellipse 60% 40% at 10% 20%, rgba(0,212,255,0.04) 0%, transparent 60%),
-    radial-gradient(ellipse 40% 50% at 90% 80%, rgba(99,102,241,0.04) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 60% at 50% 50%, rgba(2,0,36,0.9) 0%, var(--bg) 100%);
-}
-/* ═══════════════════════════════════════════
-   LAYOUT
-═══════════════════════════════════════════ */
-.layout{
-  position:relative;z-index:10;
-  max-width:1400px;margin:0 auto;
-  padding:0 28px 120px;
-}
-/* ═══════════════════════════════════════════
-   TOP BAR - improved mobile layout
-═══════════════════════════════════════════ */
+    radial-gradient(ellipse 60% 40% at 10% 20%,rgba(0,212,255,0.04) 0%,transparent 60%),
+    radial-gradient(ellipse 40% 50% at 90% 80%,rgba(99,102,241,0.04) 0%,transparent 60%),
+    radial-gradient(ellipse 50% 60% at 50% 50%,rgba(2,0,36,0.9) 0%,var(--bg) 100%);}
+
+/* ── LOAD SCREEN ── */
+#loadScreen{position:fixed;inset:0;background:var(--bg);z-index:10000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;transition:opacity .5s ease;}
+#loadScreen.hide{opacity:0;pointer-events:none;}
+.load-logo{font-size:2rem;font-weight:900;font-style:italic;color:var(--cyan);letter-spacing:-.02em;}
+.load-bar{width:140px;height:2px;background:rgba(0,212,255,0.12);border-radius:100px;overflow:hidden;}
+.load-bar-fill{height:100%;background:var(--cyan);border-radius:100px;animation:loadFill 1.1s ease forwards;}
+@keyframes loadFill{from{width:0%;}to{width:100%;}}
+.load-text{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
+
+/* ── LAYOUT ── */
+.layout{position:relative;z-index:10;max-width:1400px;margin:0 auto;padding:0 22px 120px;}
+
+/* ── TOPBAR ── */
 .topbar{
-  display:flex;
-  flex-wrap:wrap;
-  align-items:center;
-  justify-content:space-between;
-  padding:16px 0 24px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 0;
   border-bottom:1px solid rgba(0,212,255,0.06);
-  margin-bottom:28px;
+  margin-bottom:30px;
   position:sticky;top:0;z-index:200;
-  background:rgba(1,1,20,0.88);
+  background:rgba(1,1,20,0.93);
   backdrop-filter:blur(24px);
-  margin-left:-28px;margin-right:-28px;
-  padding-left:20px;padding-right:20px;
+  margin-left:-22px;margin-right:-22px;
+  padding-left:22px;padding-right:22px;
   gap:12px;
 }
-.topbar-logo{
-  display:flex;align-items:center;gap:10px;cursor:pointer;text-decoration:none;
-  flex-shrink:0;
-}
-.logo-node{
-  width:40px;height:40px;
-  background:rgba(0,212,255,0.08);
-  border:1px solid rgba(0,212,255,0.25);
-  border-radius:12px;
-  display:flex;align-items:center;justify-content:center;
-  transition:all .3s;
-}
-.topbar-logo:hover .logo-node{border-color:var(--cyan);box-shadow:0 0 16px rgba(0,212,255,0.3);}
-.logo-text{font-size:1.35rem;font-weight:900;font-style:italic;letter-spacing:-.02em;color:white;}
-.topbar-right{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  flex-wrap:wrap;
-  justify-content:flex-end;
-  flex:1;
-}
-.user-chip{
-  display:flex;flex-direction:column;align-items:flex-end;
-  font-size:0.85rem;
-}
-.user-chip .role{font-size:0.6rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:var(--cyan);}
-.user-chip .name{font-weight:700;}
-.avatar{
-  width:36px;height:36px;border-radius:50%;
-  border:2px solid rgba(0,212,255,0.3);
-  overflow:hidden;
-}
-.avatar img{width:100%;height:100%;object-fit:cover;}
-.logout-container{
-  display:flex;align-items:center;
-  background:rgba(255,255,255,0.05);
-  padding:6px 12px;
-  border-radius:50px;
-  border:1px solid rgba(0,212,255,0.2);
-  cursor:pointer;
-  transition:all .3s;
-  font-size:0.75rem;
-}
+.topbar-logo{display:flex;align-items:center;gap:9px;cursor:pointer;text-decoration:none;flex-shrink:0;}
+.logo-node{width:38px;height:38px;background:rgba(0,212,255,0.07);border:1px solid rgba(0,212,255,0.2);border-radius:11px;display:flex;align-items:center;justify-content:center;transition:all .3s;}
+.topbar-logo:hover .logo-node{border-color:var(--cyan);box-shadow:0 0 16px rgba(0,212,255,0.22);}
+.logo-text{font-size:1.25rem;font-weight:900;font-style:italic;letter-spacing:-.02em;}
+
+/* Right side — flex, no overflow */
+.topbar-right{display:flex;align-items:center;gap:8px;min-width:0;}
+
+/* User chip only on md+ */
+.user-chip{display:none;flex-direction:column;align-items:flex-end;min-width:0;}
+@media(min-width:560px){.user-chip{display:flex;}}
+.user-chip .role{font-size:.52rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);white-space:nowrap;}
+.user-chip .uname{font-size:.8rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:140px;}
+
+.avatar-ring{width:36px;height:36px;border-radius:50%;border:2px solid rgba(0,212,255,0.25);overflow:hidden;flex-shrink:0;transition:border-color .3s;}
+.avatar-ring:hover{border-color:var(--cyan);}
+.avatar-ring img{width:100%;height:100%;object-fit:cover;}
+
+/* ── LOGOUT (original preserved) ── */
+.logout-container{position:relative;display:flex;align-items:center;background:rgba(255,255,255,0.05);padding:5px 11px;border-radius:50px;border:1px solid rgba(0,212,255,0.2);cursor:pointer;transition:all .3s;user-select:none;flex-shrink:0;}
 .logout-container:hover{background:rgba(239,68,68,0.1);border-color:#ef4444;}
-/* Mobile adjustments for topbar */
-@media(max-width:640px){
-  .topbar{
-    flex-direction:column;
-    align-items:flex-start;
-    padding:16px 20px;
-    gap:16px;
-  }
-  .topbar-right{
-    width:100%;
-    justify-content:space-between;
-    flex-wrap:nowrap;
-  }
-  .user-chip{
-    align-items:flex-start;
-  }
-  .logout-container{
-    font-size:0.7rem;
-    padding:6px 10px;
-  }
-}
-/* Rest of your styles remain unchanged... */
+.anim-box{position:relative;width:34px;height:24px;}
+.doorway{position:absolute;right:0;width:17px;height:17px;border:2px solid var(--cyan);border-radius:4px;}
+.man{position:absolute;left:0;bottom:1px;font-size:17px;transition:all .5s cubic-bezier(.4,0,.2,1);}
+.logout-container:hover .man{transform:translateX(17px);}
+.logout-container.executing .man{opacity:0;transform:translateX(26px) scale(0.8);}
+.logout-container.executing .doorway{background:#ef4444;border-color:#ef4444;}
+.falling-man{position:fixed;top:10px;right:10px;font-size:20px;display:none;z-index:9000;}
+.animate-fall{display:block;animation:fallAndSpin 1s forwards cubic-bezier(.7,.1,1,1);}
+.logout-label{font-size:.6rem;font-weight:800;letter-spacing:.07em;margin-right:4px;text-transform:uppercase;display:none;}
+@media(min-width:420px){.logout-label{display:block;}}
+@keyframes fallAndSpin{0%{transform:translateY(0) rotate(0deg);opacity:1;}100%{transform:translateY(600px) rotate(720deg);opacity:0;}}
+
+/* ── GREETING ── */
+.greeting-strip{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:28px;gap:14px;flex-wrap:wrap;}
+.greeting-label{font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:var(--cyan);opacity:.6;margin-bottom:5px;}
+.greeting-title{font-size:clamp(1.5rem,5vw,2.8rem);font-weight:900;font-style:italic;letter-spacing:-.03em;line-height:1;}
+.greeting-title span{color:var(--cyan);}
+.greeting-sub{font-size:.8rem;color:var(--dim);margin-top:7px;line-height:1.6;max-width:360px;}
+.status-pill{display:flex;align-items:center;gap:6px;background:rgba(16,185,129,0.07);border:1px solid rgba(16,185,129,0.18);border-radius:100px;padding:6px 13px;font-size:.65rem;font-weight:700;letter-spacing:.07em;color:#10b981;text-transform:uppercase;flex-shrink:0;}
+.status-dot{width:6px;height:6px;background:#10b981;border-radius:50%;animation:pg 2s ease infinite;}
+@keyframes pg{0%,100%{box-shadow:0 0 0 0 rgba(16,185,129,.5);}50%{box-shadow:0 0 0 5px rgba(16,185,129,0);}}
+
+/* ── SKILLS ── */
+.skills-row{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:28px;min-height:1px;}
+.skill-tag{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.09em;text-transform:uppercase;padding:4px 11px;border-radius:100px;background:rgba(0,212,255,0.06);border:1px solid rgba(0,212,255,0.16);color:var(--cyan);}
+
+/* ── STAT CARDS ── */
+.stats-row{display:grid;grid-template-columns:repeat(2,1fr);gap:11px;margin-bottom:22px;}
+@media(min-width:580px){.stats-row{grid-template-columns:repeat(4,1fr);}}
+.stat-card{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:17px;padding:18px 16px;position:relative;overflow:hidden;transition:border-color .3s,transform .3s;cursor:default;}
+.stat-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(0,212,255,0.07) 0%,transparent 60%);opacity:0;transition:opacity .3s;pointer-events:none;}
+.stat-card:hover{border-color:var(--border-h);transform:translateY(-3px);}
+.stat-card:hover::before{opacity:1;}
+.stat-label{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.17em;text-transform:uppercase;color:var(--muted);margin-bottom:7px;}
+.stat-value{font-family:'Space Mono',monospace;font-size:1.65rem;font-weight:700;line-height:1;margin-bottom:3px;}
+.sv-c{color:var(--cyan);text-shadow:0 0 16px rgba(0,212,255,.28);}
+.sv-g{color:#10b981;text-shadow:0 0 16px rgba(16,185,129,.28);}
+.sv-a{color:#f59e0b;text-shadow:0 0 16px rgba(245,158,11,.28);}
+.sv-i{color:#818cf8;text-shadow:0 0 16px rgba(129,140,248,.28);}
+.stat-delta{font-size:.62rem;color:var(--muted);}
+.stat-delta.up{color:#10b981;}
+.stat-icon{position:absolute;top:14px;right:14px;font-size:1.1rem;opacity:.18;transition:opacity .3s;}
+.stat-card:hover .stat-icon{opacity:.45;}
+
+/* ── MAIN GRID ── */
+.main-grid{display:grid;grid-template-columns:1fr;gap:16px;}
+@media(min-width:900px){.main-grid{grid-template-columns:1fr 310px;}}
+
+/* ── HERO CARD ── */
+.hero-card{background:linear-gradient(135deg,rgba(0,212,255,0.06) 0%,rgba(2,0,36,0.8) 50%,rgba(99,102,241,0.05) 100%);border:1px solid rgba(0,212,255,0.14);border-radius:24px;padding:34px 30px;position:relative;overflow:hidden;margin-bottom:16px;}
+.hero-card::before{content:'';position:absolute;top:-50px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(0,212,255,0.09) 0%,transparent 70%);pointer-events:none;}
+.hero-card::after{content:'ZWAPY';position:absolute;bottom:-16px;right:-8px;font-size:5.5rem;font-weight:900;font-style:italic;color:rgba(0,212,255,0.028);letter-spacing:-.05em;pointer-events:none;line-height:1;}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.17em;text-transform:uppercase;color:var(--cyan);background:rgba(0,212,255,0.06);border:1px solid rgba(0,212,255,0.16);border-radius:100px;padding:4px 10px;margin-bottom:16px;}
+.hero-tag-dot{width:5px;height:5px;background:var(--cyan);border-radius:50%;animation:tp 2s ease infinite;}
+@keyframes tp{0%,100%{box-shadow:0 0 0 0 rgba(0,212,255,.6);}50%{box-shadow:0 0 0 5px rgba(0,212,255,0);}}
+.hero-headline{font-size:clamp(1.4rem,4vw,2.5rem);font-weight:900;font-style:italic;letter-spacing:-.03em;line-height:.95;margin-bottom:10px;}
+.hero-headline span{color:var(--cyan);}
+.hero-sub{font-size:.82rem;color:var(--dim);line-height:1.65;margin-bottom:22px;max-width:380px;}
+.hero-btn{display:inline-flex;align-items:center;gap:8px;background:var(--cyan);color:#000;padding:12px 26px;border-radius:12px;font-weight:800;font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;border:none;cursor:pointer;transition:transform .2s,box-shadow .3s;box-shadow:0 0 20px rgba(0,212,255,.38);position:relative;overflow:hidden;}
+.hero-btn::before{content:'';position:absolute;top:-50%;left:-60%;width:40%;height:200%;background:rgba(255,255,255,.3);transform:skewX(-20deg);animation:glint 3.5s ease infinite;}
+@keyframes glint{0%,70%,100%{left:-60%;}40%{left:120%;}}
+.hero-btn:hover{transform:translateY(-2px);box-shadow:0 0 36px rgba(0,212,255,.55);}
+.btn-arrow{transition:transform .2s;}
+.hero-btn:hover .btn-arrow{transform:translateX(4px);}
+
+/* ── FEATURE CARDS ── */
+.feature-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:11px;}
+.feature-card{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:18px;padding:20px 16px;position:relative;overflow:hidden;transition:all .3s;text-decoration:none;color:white;display:flex;flex-direction:column;gap:10px;}
+.feature-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--ac,var(--cyan)),transparent);transform:scaleX(0);transition:transform .4s ease;}
+.feature-card:hover::after{transform:scaleX(1);}
+.feature-card:hover{border-color:var(--border-h);transform:translateY(-3px);background:rgba(0,212,255,0.03);}
+.fc-icon{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:1.15rem;transition:transform .3s;flex-shrink:0;}
+.feature-card:hover .fc-icon{transform:scale(1.1);}
+.fc-title{font-size:.85rem;font-weight:800;font-style:italic;text-transform:uppercase;}
+.fc-desc{font-size:.72rem;color:var(--muted);line-height:1.55;flex:1;}
+.fc-link{font-size:.66rem;font-weight:800;letter-spacing:.05em;display:flex;align-items:center;gap:4px;transition:gap .2s;}
+.feature-card:hover .fc-link{gap:7px;}
+
+/* ── RIGHT COL ── */
+.right-col{display:flex;flex-direction:column;gap:16px;}
+
+/* Credits */
+.credits-card{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:20px;padding:24px;position:relative;overflow:hidden;}
+.credits-card::before{content:'';position:absolute;bottom:-36px;right:-36px;width:140px;height:140px;background:radial-gradient(circle,rgba(0,212,255,0.07) 0%,transparent 70%);pointer-events:none;}
+.cc-label{font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.19em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
+.cc-title{font-size:.88rem;font-weight:800;font-style:italic;text-transform:uppercase;margin-bottom:16px;}
+.cc-value{font-family:'Space Mono',monospace;font-size:2.6rem;font-weight:700;color:var(--cyan);line-height:1;text-shadow:0 0 26px rgba(0,212,255,.38);margin-bottom:3px;}
+.cc-sub{font-size:.65rem;color:var(--muted);margin-bottom:18px;}
+.cc-bar{height:4px;background:rgba(255,255,255,0.05);border-radius:100px;margin-bottom:18px;overflow:hidden;}
+.cc-bar-fill{height:100%;background:linear-gradient(90deg,var(--cyan),rgba(0,212,255,0.35));border-radius:100px;width:0%;transition:width 1.2s cubic-bezier(.4,0,.2,1);box-shadow:0 0 7px rgba(0,212,255,.45);}
+.cc-btn{width:100%;background:rgba(16,185,129,0.07);border:1px solid rgba(16,185,129,0.2);border-radius:11px;padding:11px;font-weight:800;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:#10b981;cursor:pointer;transition:all .3s;display:flex;align-items:center;justify-content:center;gap:6px;position:relative;overflow:hidden;}
+.cc-btn:hover{background:rgba(16,185,129,0.16);box-shadow:0 0 16px rgba(16,185,129,.14);transform:translateY(-1px);}
+
+/* Activity */
+.activity-card{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:20px;padding:22px;flex:1;}
+.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.section-title{font-size:.85rem;font-weight:800;font-style:italic;text-transform:uppercase;letter-spacing:.02em;}
+.section-badge{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.12em;background:var(--cyan-dim);border:1px solid rgba(0,212,255,.16);color:var(--cyan);border-radius:100px;padding:3px 8px;text-transform:uppercase;}
+.activity-item{display:flex;align-items:flex-start;gap:11px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,0.04);transition:opacity .3s;}
+.activity-item:last-child{border-bottom:none;}
+.ai-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:5px;}
+.ai-dot.cyan{background:var(--cyan);box-shadow:0 0 6px rgba(0,212,255,.55);}
+.ai-dot.green{background:#10b981;box-shadow:0 0 6px rgba(16,185,129,.55);}
+.ai-dot.amber{background:#f59e0b;box-shadow:0 0 6px rgba(245,158,11,.55);}
+.ai-dot.indigo{background:#818cf8;box-shadow:0 0 6px rgba(129,140,248,.55);}
+.ai-text{font-size:.74rem;line-height:1.5;flex:1;color:var(--dim);}
+.ai-text strong{color:white;font-weight:700;}
+.ai-time{font-family:'Space Mono',monospace;font-size:.52rem;color:var(--muted);flex-shrink:0;margin-top:2px;}
+.feed-empty{font-size:.75rem;color:var(--muted);text-align:center;padding:18px 0;font-style:italic;}
+
+/* ── SIDEBAR ── */
+.sidebar{position:fixed;inset-y:0;left:0;width:260px;background:rgba(2,0,36,0.97);backdrop-filter:blur(30px);border-right:1px solid rgba(0,212,255,0.09);z-index:600;padding:22px 16px;transform:translateX(-100%);transition:transform .32s cubic-bezier(.4,0,.2,1);}
+.sidebar.open{transform:translateX(0);}
+.sidebar-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:26px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,0.05);}
+.sidebar-logo{display:flex;align-items:center;gap:8px;}
+.sidebar-logo span{font-size:1.15rem;font-weight:900;font-style:italic;}
+.sidebar-close{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;color:var(--muted);font-size:.8rem;}
+.sidebar-close:hover{background:rgba(239,68,68,0.1);border-color:#ef4444;color:#ef4444;}
+.sidebar-sec{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);padding:0 9px;margin-bottom:7px;}
+.sidebar-nav{display:flex;flex-direction:column;gap:2px;margin-bottom:22px;}
+.sidebar-nav a{display:flex;align-items:center;gap:10px;padding:11px 13px;border-radius:11px;text-decoration:none;color:var(--muted);font-size:.8rem;font-weight:600;transition:all .2s;}
+.sidebar-nav a.active{background:rgba(0,212,255,0.08);border-left:3px solid var(--cyan);color:white;padding-left:10px;}
+.sidebar-nav a:hover:not(.active){background:rgba(255,255,255,0.04);color:white;}
+.sidebar-foot{position:absolute;bottom:22px;left:16px;right:16px;background:rgba(0,212,255,0.05);border:1px solid rgba(0,212,255,0.12);border-radius:13px;padding:15px;}
+.sf-label{font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:3px;}
+.sf-val{font-family:'Space Mono',monospace;font-size:1.4rem;font-weight:700;color:var(--cyan);}
+.sf-name{font-size:.7rem;color:var(--dim);margin-top:3px;}
+
+/* Overlay */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);z-index:550;opacity:0;pointer-events:none;transition:opacity .3s;}
+.overlay.active{opacity:1;pointer-events:all;}
+
+/* ── BOTTOM NAV ── */
+.bottom-nav{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:380px;background:rgba(2,0,36,0.95);backdrop-filter:blur(28px);border:1px solid rgba(0,212,255,0.14);border-radius:100px;padding:7px 12px;display:flex;justify-content:space-around;align-items:center;z-index:500;box-shadow:0 8px 32px rgba(0,0,0,.6);}
+.nav-item{width:42px;height:42px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:all .22s;text-decoration:none;color:var(--muted);font-size:1.1rem;position:relative;}
+.nav-item.active{background:rgba(0,212,255,0.11);color:var(--cyan);}
+.nav-item:hover{background:rgba(0,212,255,0.08);color:var(--cyan);}
+.nav-badge{position:absolute;top:6px;right:6px;width:7px;height:7px;background:#ef4444;border-radius:50%;border:2px solid var(--bg);}
+.nav-av{width:26px;height:26px;border-radius:50%;border:2px solid rgba(0,212,255,.28);overflow:hidden;}
+.nav-av img{width:100%;height:100%;object-fit:cover;}
+
+/* Fade up */
+.fade-up{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease;}
+.fade-up.in{opacity:1;transform:translateY(0);}
+.d1{transition-delay:.05s;}.d2{transition-delay:.1s;}.d3{transition-delay:.15s;}.d4{transition-delay:.2s;}.d5{transition-delay:.25s;}
+
+/* Ripple */
+@keyframes ripple{0%{transform:scale(0);opacity:.5;}100%{transform:scale(4);opacity:0;}}
+.ripple{position:absolute;border-radius:50%;background:rgba(16,185,129,0.28);animation:ripple .6s ease forwards;pointer-events:none;}
+
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-thumb{background:rgba(0,212,255,0.16);border-radius:100px;}
 </style>
 </head>
 <body>
 <div class="bg-glow"></div>
 
+<!-- LOAD SCREEN -->
+<div id="loadScreen">
+  <div class="load-logo">ZWAPY</div>
+  <div class="load-bar"><div class="load-bar-fill"></div></div>
+  <div class="load-text">Connecting to network...</div>
+</div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-logo">
+      <svg width="28" height="28" viewBox="0 0 42 42" fill="none">
+        <circle cx="21" cy="21" r="4.5" fill="#00D4FF"/>
+        <circle cx="10" cy="14" r="2.5" fill="#00D4FF" opacity=".8"/>
+        <circle cx="32" cy="14" r="2.5" fill="#00D4FF" opacity=".8"/>
+        <circle cx="10" cy="28" r="2.5" fill="#00D4FF" opacity=".8"/>
+        <circle cx="32" cy="28" r="2.5" fill="#00D4FF" opacity=".8"/>
+        <line x1="21" y1="16.5" x2="10" y2="14" stroke="#00D4FF" stroke-width="1.5" opacity=".6"/>
+        <line x1="21" y1="16.5" x2="32" y2="14" stroke="#00D4FF" stroke-width="1.5" opacity=".6"/>
+        <line x1="21" y1="25.5" x2="10" y2="28" stroke="#00D4FF" stroke-width="1.5" opacity=".6"/>
+        <line x1="21" y1="25.5" x2="32" y2="28" stroke="#00D4FF" stroke-width="1.5" opacity=".6"/>
+        <circle cx="21" cy="21" r="19" stroke="#00D4FF" stroke-width=".8" stroke-dasharray="3 4" opacity=".3"/>
+      </svg>
+      <span>ZWAPY</span>
+    </div>
+    <button class="sidebar-close" id="sidebarClose">✕</button>
+  </div>
+  <p class="sidebar-sec">Navigation</p>
+  <nav class="sidebar-nav">
+    <a href="dashboard.html" class="active">🏠 &nbsp;Dashboard</a>
+    <a href="profile.html">👤 &nbsp;Profile</a>
+    <a href="skill-exchange.html">🔄 &nbsp;Skill Exchange</a>
+    <a href="clubs.html">🛡️ &nbsp;Clubs</a>
+    <a href="#">📅 &nbsp;Events</a>
+    <a href="#">🔍 &nbsp;Discover</a>
+  </nav>
+  <div class="sidebar-foot">
+    <div class="sf-label">Skill Coins</div>
+    <div class="sf-val" id="sidebarCredits">—</div>
+    <div class="sf-name" id="sidebarName">Loading...</div>
+  </div>
+</aside>
+<div class="overlay" id="overlay"></div>
+
+<!-- Falling man -->
+<span id="dropMan" class="falling-man">🏃‍➡️</span>
+
 <div class="layout">
-  <!-- TOP BAR (cleaned for mobile) -->
+
+  <!-- TOPBAR -->
   <header class="topbar">
     <a href="#" class="topbar-logo" id="logoBtn">
       <div class="logo-node">
-        <svg width="24" height="24" viewBox="0 0 42 42" fill="none">
+        <svg width="20" height="20" viewBox="0 0 42 42" fill="none">
           <circle cx="21" cy="21" r="4" fill="#00D4FF"/>
           <circle cx="10" cy="14" r="2" fill="#00D4FF" opacity=".8"/>
           <circle cx="32" cy="14" r="2" fill="#00D4FF" opacity=".8"/>
@@ -177,13 +305,13 @@ body::after{
     </a>
     <div class="topbar-right">
       <div class="user-chip">
-        <span class="role">Founder & CEO</span>
-        <span class="name" id="userName">Jayashankar R</span>
+        <span class="role" id="topRole">Student</span>
+        <span class="uname" id="topName">—</span>
       </div>
-      <div class="avatar">
-        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Jayashankar" alt="Avatar">
+      <div class="avatar-ring">
+        <img id="topAvatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=default" alt="Avatar">
       </div>
-      <div class="logout-container" id="logoutBtnAction">
+      <div class="logout-container" id="logoutBtn">
         <span class="logout-label">Logout</span>
         <div class="anim-box">
           <span class="man">🏃‍➡️</span>
@@ -193,105 +321,100 @@ body::after{
     </div>
   </header>
 
-  <!-- GREETING - no blinking cursor -->
+  <!-- GREETING -->
   <div class="greeting-strip fade-up d1">
-    <div class="greeting-left">
+    <div>
       <div class="greeting-label">// Welcome back</div>
       <h1 class="greeting-title">
-        <span id="greetText">Good evening</span>,<br>
-        <span>Jayashankar</span>
+        <span id="greetTime">Good morning</span>,<br>
+        <span id="greetName">—</span>
       </h1>
-      <p class="greeting-sub">Your campus network is live. Build something that matters today.</p>
+      <p class="greeting-sub" id="greetUni">Your campus network is live.</p>
     </div>
-    <div class="greeting-status">
-      <span class="status-dot"></span>
-      Network Active
-    </div>
+    <div class="status-pill"><span class="status-dot"></span>Network Active</div>
   </div>
 
-  <!-- STAT CARDS -->
+  <!-- SKILLS -->
+  <div class="skills-row fade-up d2" id="skillsRow"></div>
+
+  <!-- STATS -->
   <div class="stats-row fade-up d2">
-    <div class="stat-card" id="sc1">
-      <div class="stat-card-icon">💰</div>
+    <div class="stat-card">
+      <div class="stat-icon">💰</div>
       <div class="stat-label">Skill Coins</div>
-      <div class="stat-value" id="statCredits">0</div>
-      <div class="stat-delta up">+20 this week</div>
+      <div class="stat-value sv-c" id="statCoins">—</div>
+      <div class="stat-delta up">Your balance</div>
     </div>
-    <div class="stat-card" id="sc2">
-      <div class="stat-card-icon">🔄</div>
+    <div class="stat-card">
+      <div class="stat-icon">🔄</div>
       <div class="stat-label">Exchanges</div>
-      <div class="stat-value green">0</div>
+      <div class="stat-value sv-g" id="statExchanges">0</div>
       <div class="stat-delta">Lifetime total</div>
     </div>
-    <div class="stat-card" id="sc3">
-      <div class="stat-card-icon">🛡️</div>
-      <div class="stat-label">Clubs Joined</div>
-      <div class="stat-value amber">0</div>
+    <div class="stat-card">
+      <div class="stat-icon">🛡️</div>
+      <div class="stat-label">Clubs</div>
+      <div class="stat-value sv-a" id="statClubs">0</div>
       <div class="stat-delta">Active memberships</div>
     </div>
-    <div class="stat-card" id="sc4">
-      <div class="stat-card-icon">🌐</div>
+    <div class="stat-card">
+      <div class="stat-icon">🌐</div>
       <div class="stat-label">Network Rank</div>
-      <div class="stat-value indigo">#1</div>
-      <div class="stat-delta up">Founder position</div>
+      <div class="stat-value sv-i" id="statRank">#—</div>
+      <div class="stat-delta up" id="statRankLabel">By coins</div>
     </div>
   </div>
 
   <!-- MAIN GRID -->
   <div class="main-grid">
-    <!-- LEFT COL -->
     <div>
-      <!-- HERO CARD -->
+      <!-- HERO -->
       <div class="hero-card fade-up d3">
-        <div class="hero-tag"><span class="hero-tag-dot"></span> Phase 1 — Live at Presidency</div>
+        <div class="hero-tag"><span class="hero-tag-dot"></span>Phase 1 — Live at Presidency</div>
         <h2 class="hero-headline">Your Skills are<br><span>Currency.</span></h2>
         <p class="hero-sub">Stop searching for inspiration, start trading it. You're inside the network that changes everything for students.</p>
-        <a href="skill-exchange.html" class="hero-btn">
-          Start Swapping <span class="hero-btn-arrow">→</span>
-        </a>
+        <a href="skill-exchange.html" class="hero-btn">Start Swapping <span class="btn-arrow">→</span></a>
       </div>
 
-      <!-- FEATURE CARDS -->
+      <!-- FEATURES -->
       <div class="feature-grid fade-up d4">
-        <a href="skill-exchange.html" class="feature-card" style="--cyan-color:#00D4FF;">
+        <a href="skill-exchange.html" class="feature-card" style="--ac:#00D4FF;">
           <div class="fc-icon" style="background:rgba(0,212,255,0.08);">🔄</div>
           <div>
             <div class="fc-title">Skill Exchange</div>
-            <div class="fc-desc">Trade your UI craft for Motion mastery. Time is the only currency.</div>
+            <div class="fc-desc">Trade your craft for what you need. Time is the only price.</div>
           </div>
-          <div class="fc-link" style="color:var(--cyan);">Enter Portal <span>→</span></div>
+          <div class="fc-link" style="color:var(--cyan);">Enter Portal →</div>
         </a>
-        <a href="clubs.html" class="feature-card" style="--cyan-color:#6366f1;">
+        <a href="clubs.html" class="feature-card" style="--ac:#6366f1;">
           <div class="fc-icon" style="background:rgba(99,102,241,0.1);">🛡️</div>
           <div>
             <div class="fc-title">Creative Clubs</div>
-            <div class="fc-desc">High-signal circles for top-tier creators. No noise, just signal.</div>
+            <div class="fc-desc">High-signal circles. No noise, just signal.</div>
           </div>
-          <div class="fc-link" style="color:#818cf8;">Find Tribe <span>→</span></div>
+          <div class="fc-link" style="color:#818cf8;">Find Tribe →</div>
         </a>
-        <a href="#" class="feature-card" style="--cyan-color:#10b981;">
+        <a href="#" class="feature-card" style="--ac:#10b981;">
           <div class="fc-icon" style="background:rgba(16,185,129,0.1);">📅</div>
           <div>
             <div class="fc-title">Live Events</div>
-            <div class="fc-desc">Workshops, hackathons, showcases — the stage is yours.</div>
+            <div class="fc-desc">Workshops, hackathons — the stage is yours.</div>
           </div>
-          <div class="fc-link" style="color:#10b981;">Check Schedule <span>→</span></div>
+          <div class="fc-link" style="color:#10b981;">Check Schedule →</div>
         </a>
       </div>
     </div>
 
     <!-- RIGHT COL -->
     <div class="right-col fade-up d5">
-      <!-- CREDITS CARD -->
+      <!-- CREDITS -->
       <div class="credits-card">
         <div class="cc-label">// Your economy</div>
         <div class="cc-title">Skill Coins</div>
-        <div class="cc-value" id="creditsDisplay">0</div>
-        <div class="cc-sub" id="creditsSub">Begin your first exchange to earn coins</div>
+        <div class="cc-value" id="creditsDisplay">—</div>
+        <div class="cc-sub" id="creditsSub">Loading your balance...</div>
         <div class="cc-bar"><div class="cc-bar-fill" id="creditBar"></div></div>
-        <button class="cc-btn" id="exchangeBtn">
-          <span>⚡</span> Simulate Exchange (+50)
-        </button>
+        <button class="cc-btn" id="exchangeBtn">⚡ &nbsp;Simulate Exchange (+50)</button>
       </div>
 
       <!-- ACTIVITY FEED -->
@@ -300,13 +423,8 @@ body::after{
           <div class="section-title">Activity Feed</div>
           <div class="section-badge">Live</div>
         </div>
-        <div class="activity-list" id="activityFeed">
-          <div class="activity-item">
-            <div class="ai-dot cyan"></div>
-            <div class="ai-text"><strong>Zwapy launched</strong> at Presidency University <span>— Phase 1 is live</span></div>
-            <div class="ai-time">now</div>
-          </div>
-          <!-- more simulated items... -->
+        <div id="activityFeed">
+          <div class="feed-empty">Loading activity...</div>
         </div>
       </div>
     </div>
@@ -315,58 +433,207 @@ body::after{
 
 <!-- BOTTOM NAV -->
 <nav class="bottom-nav">
-  <a href="dashboard.html" class="nav-pill-item active">🏠</a>
-  <a href="clubs.html" class="nav-pill-item">🛡️</a>
-  <a href="#" class="nav-pill-item">💬<span class="nav-badge"></span></a>
-  <a href="#" class="nav-pill-item">🔍</a>
-  <a href="profile.html" class="nav-pill-item">
-    <div class="nav-avatar">
-      <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Jayashankar" alt="Avatar">
-    </div>
+  <a href="dashboard.html" class="nav-item active">🏠</a>
+  <a href="clubs.html" class="nav-item">🛡️</a>
+  <a href="#" class="nav-item">💬<span class="nav-badge"></span></a>
+  <a href="#" class="nav-item">🔍</a>
+  <a href="profile.html" class="nav-item">
+    <div class="nav-av"><img id="navAvatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=default" alt=""></div>
   </a>
 </nav>
 
-<script>
-// ── GREETING (no blinking cursor now)
-const hour = new Date().getHours();
-const greet = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
-document.getElementById('greetText').textContent = greet;
+<!-- FIREBASE -->
+<script type="module">
+import { initializeApp }       from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+import {
+  getFirestore, doc, getDoc, setDoc, updateDoc,
+  collection, query, orderBy, limit, onSnapshot,
+  addDoc, serverTimestamp, getDocs
+} from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
-// ── PAGE LOAD REVEAL ──
-setTimeout(() => {
-  document.querySelectorAll('.fade-up').forEach(el => el.classList.add('in'));
-}, 80);
+const app  = initializeApp({
+  apiKey:"AIzaSyBazCIc5vdQInSwvqvohIcbPToTjnw7KJI",
+  authDomain:"zwapy-25.firebaseapp.com",
+  projectId:"zwapy-25",
+  storageBucket:"zwapy-25.firebasestorage.app",
+  messagingSenderId:"30612332450",
+  appId:"1:30612332450:web:9e23f36a69f89dbb325cfb"
+});
+const auth = getAuth(app);
+const db   = getFirestore(app);
 
-// ── BENTO GLOW ON STAT CARDS ──
-document.querySelectorAll('.stat-card').forEach(c => {
-  c.addEventListener('mousemove', e => {
-    const r = c.getBoundingClientRect();
-    c.style.setProperty('--mx', ((e.clientX-r.left)/r.width*100)+'%');
-    c.style.setProperty('--my', ((e.clientY-r.top)/r.height*100)+'%');
+/* helpers */
+const $  = id => document.getElementById(id);
+const fmt = n => Number(n||0).toLocaleString();
+function timeAgo(ts){
+  if(!ts) return 'just now';
+  const m = Math.floor((Date.now()-ts.toMillis())/60000);
+  if(m<1) return 'just now';
+  if(m<60) return `${m}m ago`;
+  const h=Math.floor(m/60);
+  if(h<24) return `${h}h ago`;
+  return `${Math.floor(h/24)}d ago`;
+}
+
+/* greeting */
+const hr = new Date().getHours();
+$('greetTime').textContent = hr<12?'Good morning':hr<17?'Good afternoon':'Good evening';
+
+/* stat card glow */
+document.querySelectorAll('.stat-card').forEach(c=>{
+  c.addEventListener('mousemove',e=>{
+    const r=c.getBoundingClientRect();
+    c.style.setProperty('--mx',((e.clientX-r.left)/r.width*100)+'%');
+    c.style.setProperty('--my',((e.clientY-r.top)/r.height*100)+'%');
   });
 });
 
-// ── CREDITS ENGINE (placeholder) ──
-let credits = 0;
-const display = document.getElementById('creditsDisplay');
-const statDisp = document.getElementById('statCredits');
-const bar = document.getElementById('creditBar');
-const sub = document.getElementById('creditsSub');
+/* sidebar */
+function openSB(){ $('sidebar').classList.add('open'); $('overlay').classList.add('active'); }
+function closeSB(){ $('sidebar').classList.remove('open'); $('overlay').classList.remove('active'); }
+$('logoBtn').addEventListener('click',e=>{e.preventDefault();openSB();});
+$('sidebarClose').addEventListener('click',closeSB);
+$('overlay').addEventListener('click',closeSB);
 
-document.getElementById('exchangeBtn').addEventListener('click', function(){
-  credits += 50;
-  const pct = Math.min((credits / 500) * 100, 100);
-  display.textContent = credits;
-  statDisp.textContent = credits;
-  bar.style.width = pct + '%';
-  sub.textContent = credits >= 500 ? 'Max tier reached 🔥' : `${500-credits} coins to next tier`;
+/* logout */
+$('logoutBtn').addEventListener('click',()=>{
+  $('logoutBtn').classList.add('executing');
+  setTimeout(()=>$('dropMan').classList.add('animate-fall'),300);
+  setTimeout(()=>signOut(auth).then(()=>window.location.href='index.html'),1200);
 });
 
-// ── LOGOUT ──
-const logoutBtn = document.getElementById('logoutBtnAction');
-logoutBtn.addEventListener('click', () => {
-  logoutBtn.classList.add('executing');
-  setTimeout(() => { window.location.href = 'index.html'; }, 1200);
+/* auth gate */
+onAuthStateChanged(auth, async user=>{
+  if(!user){ window.location.href='login.html'; return; }
+
+  /* user doc */
+  const userRef = doc(db,'users',user.uid);
+  const snap    = await getDoc(userRef);
+  let ud = {};
+
+  if(snap.exists()){
+    ud = snap.data();
+  } else {
+    ud = {
+      name: user.displayName||'Student',
+      email: user.email,
+      university: 'Presidency University',
+      skills: [],
+      coins: 0,
+      exchanges: 0,
+      clubs: 0,
+      createdAt: serverTimestamp()
+    };
+    await setDoc(userRef, ud);
+  }
+
+  const name  = ud.name || user.displayName || 'Student';
+  const uni   = ud.university || 'Presidency University';
+  const skills= ud.skills || [];
+  let coins   = ud.coins || 0;
+  let exchanges = ud.exchanges || 0;
+  const clubs = ud.clubs || 0;
+
+  const avatarUrl = user.photoURL ||
+    `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(name)}`;
+
+  /* populate */
+  $('greetName').textContent   = name.split(' ')[0];
+  $('greetUni').textContent    = `${uni} · Your network is live.`;
+  $('topName').textContent     = name;
+  $('topRole').textContent     = ud.role || 'Student';
+  $('topAvatar').src           = avatarUrl;
+  $('navAvatar').src           = avatarUrl;
+  $('sidebarName').textContent = name;
+  $('sidebarCredits').textContent = fmt(coins);
+
+  /* skills tags */
+  const sr = $('skillsRow');
+  sr.innerHTML = skills.length
+    ? skills.map(s=>`<span class="skill-tag">${s}</span>`).join('')
+    : '';
+
+  /* stats */
+  $('statCoins').textContent     = fmt(coins);
+  $('statExchanges').textContent = fmt(exchanges);
+  $('statClubs').textContent     = fmt(clubs);
+
+  /* rank */
+  const all = await getDocs(collection(db,'users'));
+  let rank=1;
+  all.forEach(d=>{ if(d.id!==user.uid&&(d.data().coins||0)>coins) rank++; });
+  $('statRank').textContent      = `#${rank}`;
+  $('statRankLabel').textContent = rank===1?'🔥 Top of network':'By coins';
+
+  /* credits card */
+  function refreshCreditsUI(c){
+    $('creditsDisplay').textContent = fmt(c);
+    $('sidebarCredits').textContent = fmt(c);
+    $('statCoins').textContent      = fmt(c);
+    $('creditBar').style.width      = Math.min((c/500)*100,100)+'%';
+    $('creditsSub').textContent     = c>=500?'Max tier reached 🔥':`${500-c} coins to next tier`;
+  }
+  refreshCreditsUI(coins);
+
+  /* live activity feed */
+  const feedRef = collection(db,'users',user.uid,'activity');
+  const feedQ   = query(feedRef, orderBy('createdAt','desc'), limit(8));
+  const COLORS  = ['cyan','green','amber','indigo'];
+
+  onSnapshot(feedQ, snap=>{
+    const feed = $('activityFeed');
+    if(snap.empty){
+      feed.innerHTML=`<div class="feed-empty">No activity yet — make your first exchange!</div>`;
+      return;
+    }
+    feed.innerHTML='';
+    snap.forEach((d,i)=>{
+      const a=d.data();
+      const div=document.createElement('div');
+      div.className='activity-item';
+      div.style.cssText='opacity:0;transform:translateX(-8px);transition:all .3s ease;';
+      div.innerHTML=`
+        <div class="ai-dot ${COLORS[i%COLORS.length]}"></div>
+        <div class="ai-text"><strong>${a.title||'Activity'}</strong> <span>${a.desc||''}</span></div>
+        <div class="ai-time">${timeAgo(a.createdAt)}</div>`;
+      feed.appendChild(div);
+      requestAnimationFrame(()=>requestAnimationFrame(()=>{
+        div.style.opacity='1'; div.style.transform='translateX(0)';
+      }));
+    });
+  });
+
+  /* simulate exchange */
+  $('exchangeBtn').addEventListener('click', async function(e){
+    /* ripple */
+    const rect=this.getBoundingClientRect();
+    const rip=document.createElement('div');
+    const size=Math.max(rect.width,rect.height);
+    rip.className='ripple';
+    rip.style.cssText=`width:${size}px;height:${size}px;left:${e.clientX-rect.left-size/2}px;top:${e.clientY-rect.top-size/2}px;`;
+    this.appendChild(rip);
+    setTimeout(()=>rip.remove(),700);
+
+    coins+=50; exchanges+=1;
+
+    await updateDoc(userRef,{coins, exchanges});
+    await addDoc(collection(db,'users',user.uid,'activity'),{
+      title:'Skill exchange completed',
+      desc:'— +50 coins earned',
+      createdAt:serverTimestamp()
+    });
+
+    refreshCreditsUI(coins);
+    $('statExchanges').textContent=fmt(exchanges);
+  });
+
+  /* hide loader */
+  setTimeout(()=>{
+    $('loadScreen').classList.add('hide');
+    setTimeout(()=>$('loadScreen').remove(),600);
+    document.querySelectorAll('.fade-up').forEach(el=>el.classList.add('in'));
+  },800);
 });
 </script>
 </body>
