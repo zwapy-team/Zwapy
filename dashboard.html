@@ -231,6 +231,34 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 
 ::-webkit-scrollbar{width:3px;}
 ::-webkit-scrollbar-thumb{background:rgba(0,212,255,0.16);border-radius:100px;}
+
+/* ── EXCHANGE MODAL ── */
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(8px);z-index:2000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s ease;}
+.modal-backdrop.open{opacity:1;pointer-events:all;}
+.modal{background:rgba(2,0,36,0.97);border:1px solid rgba(0,212,255,0.2);border-radius:24px;padding:32px 28px;width:100%;max-width:420px;position:relative;transform:translateY(24px) scale(0.97);transition:transform .3s ease;overflow:hidden;}
+.modal-backdrop.open .modal{transform:translateY(0) scale(1);}
+.modal::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:60%;height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);}
+.modal-tag{font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan);background:rgba(0,212,255,0.07);border:1px solid rgba(0,212,255,0.16);border-radius:100px;padding:4px 10px;display:inline-block;margin-bottom:16px;}
+.modal h3{font-size:1.25rem;font-weight:900;font-style:italic;margin-bottom:6px;}
+.modal p{font-size:.78rem;color:var(--dim);line-height:1.6;margin-bottom:22px;}
+.modal-field{margin-bottom:16px;}
+.modal-field label{display:block;font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-bottom:7px;}
+.modal-field input,.modal-field select{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:11px;padding:12px 14px;font-size:.88rem;color:white;font-family:'Sora',sans-serif;outline:none;transition:border-color .2s,box-shadow .2s;}
+.modal-field input::placeholder{color:var(--muted);}
+.modal-field input:focus,.modal-field select:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(0,212,255,0.08);}
+.modal-field select option{background:#020024;}
+.modal-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.modal-actions{display:flex;gap:10px;margin-top:22px;}
+.modal-cancel{flex:1;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:11px;padding:12px;font-size:.78rem;font-weight:700;color:var(--dim);cursor:pointer;transition:all .2s;font-family:'Sora',sans-serif;}
+.modal-cancel:hover{border-color:rgba(255,255,255,0.2);color:white;}
+.modal-confirm{flex:2;background:var(--cyan);border:none;border-radius:11px;padding:12px;font-size:.78rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#000;cursor:pointer;transition:all .25s;font-family:'Sora',sans-serif;position:relative;overflow:hidden;}
+.modal-confirm:hover{box-shadow:0 0 20px rgba(0,212,255,.4);transform:translateY(-1px);}
+.modal-confirm:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+
+/* success flash */
+.coin-flash{position:fixed;top:80px;left:50%;transform:translateX(-50%) translateY(-20px);background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);border-radius:100px;padding:10px 22px;font-size:.8rem;font-weight:700;color:#10b981;z-index:3000;opacity:0;transition:all .4s ease;pointer-events:none;white-space:nowrap;}
+.coin-flash.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
 </style>
 </head>
 <body>
@@ -267,9 +295,6 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
   <nav class="sidebar-nav">
     <a href="dashboard.html" class="active">🏠 &nbsp;Dashboard</a>
     <a href="profile.html">👤 &nbsp;Profile</a>
-    <a href="skill-exchange.html">🔄 &nbsp;Skill Exchange</a>
-    <a href="clubs.html">🛡️ &nbsp;Clubs</a>
-    <a href="#">📅 &nbsp;Events</a>
     <a href="#">🔍 &nbsp;Discover</a>
   </nav>
   <div class="sidebar-foot">
@@ -442,6 +467,54 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
   </a>
 </nav>
 
+<!-- EXCHANGE MODAL -->
+<div class="modal-backdrop" id="exchangeModal">
+  <div class="modal">
+    <div class="modal-tag">⚡ Skill Exchange</div>
+    <h3>Start an Exchange</h3>
+    <p>Tell us what you're offering and what you need. Each exchange costs <strong style="color:var(--cyan)">50 Skill Coins</strong>.</p>
+
+    <div class="modal-row">
+      <div class="modal-field">
+        <label>You're Offering</label>
+        <input type="text" id="offerSkill" placeholder="e.g. UI Design"/>
+      </div>
+      <div class="modal-field">
+        <label>You Need</label>
+        <input type="text" id="needSkill" placeholder="e.g. Python"/>
+      </div>
+    </div>
+
+    <div class="modal-field">
+      <label>Exchange Type</label>
+      <select id="exchangeType">
+        <option value="Skill Swap">Skill Swap — teach each other</option>
+        <option value="Project Collab">Project Collab — build together</option>
+        <option value="Mentorship">Mentorship — learn from senior</option>
+        <option value="Resource Share">Resource Share — notes / tools</option>
+      </select>
+    </div>
+
+    <div class="modal-field">
+      <label>Duration</label>
+      <select id="exchangeDuration">
+        <option value="1 session">1 Session (~1hr)</option>
+        <option value="1 week">1 Week</option>
+        <option value="2 weeks">2 Weeks</option>
+        <option value="1 month">1 Month</option>
+      </select>
+    </div>
+
+    <div class="modal-actions">
+      <button class="modal-cancel" id="modalCancel">Cancel</button>
+      <button class="modal-confirm" id="modalConfirm">Confirm Exchange → +50 Coins</button>
+    </div>
+  </div>
+</div>
+
+<!-- COIN FLASH -->
+<div class="coin-flash" id="coinFlash">✅ +50 Coins earned!</div>
+
 <!-- FIREBASE -->
 <script type="module">
 import { initializeApp }       from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
@@ -604,28 +677,58 @@ onAuthStateChanged(auth, async user=>{
     });
   });
 
-  /* simulate exchange */
-  $('exchangeBtn').addEventListener('click', async function(e){
-    /* ripple */
-    const rect=this.getBoundingClientRect();
-    const rip=document.createElement('div');
-    const size=Math.max(rect.width,rect.height);
-    rip.className='ripple';
-    rip.style.cssText=`width:${size}px;height:${size}px;left:${e.clientX-rect.left-size/2}px;top:${e.clientY-rect.top-size/2}px;`;
-    this.appendChild(rip);
-    setTimeout(()=>rip.remove(),700);
+  /* ── EXCHANGE MODAL FLOW ── */
+  const modal    = $('exchangeModal');
+  const coinFlash= $('coinFlash');
 
-    coins+=50; exchanges+=1;
+  // Open modal on button click
+  $('exchangeBtn').addEventListener('click', () => {
+    $('offerSkill').value = '';
+    $('needSkill').value  = '';
+    modal.classList.add('open');
+  });
 
-    await updateDoc(userRef,{coins, exchanges});
-    await addDoc(collection(db,'users',user.uid,'activity'),{
-      title:'Skill exchange completed',
-      desc:'— +50 coins earned',
-      createdAt:serverTimestamp()
+  // Close on cancel or backdrop click
+  $('modalCancel').addEventListener('click', () => modal.classList.remove('open'));
+  modal.addEventListener('click', e => { if(e.target === modal) modal.classList.remove('open'); });
+
+  // Confirm exchange
+  $('modalConfirm').addEventListener('click', async () => {
+    const offer    = $('offerSkill').value.trim();
+    const need     = $('needSkill').value.trim();
+    const type     = $('exchangeType').value;
+    const duration = $('exchangeDuration').value;
+
+    if(!offer || !need){
+      $('offerSkill').style.borderColor = !offer ? '#ef4444' : '';
+      $('needSkill').style.borderColor  = !need  ? '#ef4444' : '';
+      return;
+    }
+    $('offerSkill').style.borderColor = '';
+    $('needSkill').style.borderColor  = '';
+
+    const btn = $('modalConfirm');
+    btn.disabled = true; btn.textContent = 'Processing...';
+
+    coins += 50; exchanges += 1;
+
+    await updateDoc(userRef, { coins, exchanges });
+    await addDoc(collection(db,'users',user.uid,'activity'), {
+      title: `${type}: ${offer} ↔ ${need}`,
+      desc:  `— ${duration} · +50 coins earned`,
+      createdAt: serverTimestamp()
     });
 
     refreshCreditsUI(coins);
-    $('statExchanges').textContent=fmt(exchanges);
+    $('statExchanges').textContent = fmt(exchanges);
+
+    // Close modal + show flash
+    modal.classList.remove('open');
+    btn.disabled = false; btn.textContent = 'Confirm Exchange → +50 Coins';
+
+    coinFlash.textContent = `✅ +50 Coins — ${offer} ↔ ${need}`;
+    coinFlash.classList.add('show');
+    setTimeout(() => coinFlash.classList.remove('show'), 3000);
   });
 
   /* hide loader */
