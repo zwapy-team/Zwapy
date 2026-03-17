@@ -1,97 +1,177 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Login | Zwapy</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      font-family: 'Poppins', sans-serif;
-      box-sizing: border-box;
-    }
-    body {
-      background: #f5f1e6;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-    }
-    .container {
-      background: #f5f1e6;
-      padding: 40px;
-      border-radius: 20px;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-      width: 100%;
-      max-width: 400px;
-    }
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-      color: #333;
-    }
-    input {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-    }
-    button {
-      width: 100%;
-      padding: 12px;
-      background: #666;
-      color: #f5f1e6;
-      font-weight: bold;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-    button:hover {
-      background: #444;
-    }
-    .google-btn {
-      background: #f5f1e6;
-      border: 1px solid #ccc;
-      color: #333;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    }
-    .google-btn img {
-      width: 20px;
-      height: 20px;
-    }
-    .or {
-      text-align: center;
-      margin: 20px 0 10px;
-      color: #666;
-    }
-  </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Login | Zwapy</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--cyan:#00D4FF;--bg:#010114;--border:rgba(0,212,255,0.15);--muted:#64748b;--dim:#94a3b8;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;}
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.02) 2px,rgba(0,0,0,0.02) 4px);pointer-events:none;z-index:0;}
+.glow{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(0,212,255,0.06) 0%,transparent 70%);z-index:0;}
+
+.card{position:relative;z-index:1;width:100%;max-width:420px;background:rgba(2,0,36,0.8);border:1px solid var(--border);border-radius:28px;padding:40px 36px;backdrop-filter:blur(20px);}
+.card::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:60%;height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);}
+
+.logo{display:flex;align-items:center;justify-content:center;gap:9px;margin-bottom:28px;text-decoration:none;}
+.logo span{font-size:1.4rem;font-weight:900;font-style:italic;color:white;}
+
+.card h2{font-size:1.5rem;font-weight:900;font-style:italic;text-align:center;margin-bottom:6px;}
+.card p{font-size:.8rem;color:var(--dim);text-align:center;margin-bottom:28px;}
+
+.field{margin-bottom:18px;}
+.field label{display:block;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin-bottom:7px;}
+.field input{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:13px 16px;font-size:.9rem;color:white;font-family:'Sora',sans-serif;transition:border-color .2s,box-shadow .2s;outline:none;}
+.field input::placeholder{color:var(--muted);}
+.field input:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(0,212,255,0.08);}
+
+.btn-primary{width:100%;background:var(--cyan);color:#000;border:none;border-radius:12px;padding:14px;font-size:.88rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:all .25s;margin-top:4px;}
+.btn-primary:hover{box-shadow:0 0 24px rgba(0,212,255,.45);transform:translateY(-1px);}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+
+.divider{display:flex;align-items:center;gap:12px;margin:20px 0;}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:rgba(255,255,255,0.07);}
+.divider span{font-size:.68rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;}
+
+.btn-google{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:13px;font-size:.85rem;font-weight:700;color:white;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:10px;font-family:'Sora',sans-serif;}
+.btn-google:hover{border-color:rgba(255,255,255,0.25);background:rgba(255,255,255,0.07);}
+.btn-google img{width:18px;height:18px;}
+
+.foot{text-align:center;margin-top:24px;font-size:.78rem;color:var(--muted);}
+.foot a{color:var(--cyan);text-decoration:none;font-weight:700;}
+.foot a:hover{text-decoration:underline;}
+
+.msg{display:none;padding:11px 14px;border-radius:10px;font-size:.78rem;font-weight:600;margin-bottom:16px;text-align:center;}
+.msg.error{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);color:#ef4444;}
+.msg.success{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.25);color:#10b981;}
+</style>
 </head>
 <body>
+<div class="glow"></div>
 
-  <div class="container">
-    <h2>Login to Zwapy</h2>
-    <input type="email" id="email" placeholder="Email Address" />
-    <input type="password" id="password" placeholder="Password" />
-    <button id="email-login">Login</button>
+<div class="card">
+  <a href="index.html" class="logo">
+    <svg width="28" height="28" viewBox="0 0 42 42" fill="none">
+      <circle cx="21" cy="21" r="4.5" fill="#00D4FF"/>
+      <circle cx="10" cy="14" r="2.5" fill="#00D4FF" opacity=".8"/>
+      <circle cx="32" cy="14" r="2.5" fill="#00D4FF" opacity=".8"/>
+      <circle cx="10" cy="28" r="2.5" fill="#00D4FF" opacity=".8"/>
+      <circle cx="32" cy="28" r="2.5" fill="#00D4FF" opacity=".8"/>
+      <line x1="21" y1="16.5" x2="10" y2="14" stroke="#00D4FF" stroke-width="1.5" opacity=".6"/>
+      <line x1="21" y1="16.5" x2="32" y2="14" stroke="#00D4FF" stroke-width="1.5" opacity=".6"/>
+      <line x1="21" y1="25.5" x2="10" y2="28" stroke="#00D4FF" stroke-width="1.5" opacity=".6"/>
+      <line x1="21" y1="25.5" x2="32" y2="28" stroke="#00D4FF" stroke-width="1.5" opacity=".6"/>
+      <circle cx="21" cy="21" r="19" stroke="#00D4FF" stroke-width=".8" stroke-dasharray="3 4" opacity=".3"/>
+    </svg>
+    <span>ZWAPY</span>
+  </a>
 
-    <div class="or">or</div>
-    
-    <button id="google-login" class="google-btn">
-      <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" />
-      Sign in with Google
-    </button>
+  <h2>Welcome Back</h2>
+  <p>Log in to access your network</p>
+
+  <div class="msg" id="msg"></div>
+
+  <div class="field">
+    <label>Email Address</label>
+    <input type="email" id="email" />
+  </div>
+  <div class="field">
+    <label>Password</label>
+    <input type="password" id="password" />
   </div>
 
-  <!-- Firebase and login logic scripts -->
-  <script type="module" src="./firebase.js"></script>
-  <script type="module" src="./login.js"></script>
+  <button class="btn-primary" id="loginBtn">Log In →</button>
 
+  <div class="divider"><span>or</span></div>
+
+  <button class="btn-google" id="googleBtn">
+    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google"/>
+    Continue with Google
+  </button>
+
+  <p class="foot">No account yet? <a href="signup.html">Sign up free</a></p>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+
+const app = initializeApp({
+  apiKey:"AIzaSyBazCIc5vdQInSwvqvohIcbPToTjnw7KJI",
+  authDomain:"zwapy-25.firebaseapp.com",
+  projectId:"zwapy-25",
+  storageBucket:"zwapy-25.firebasestorage.app",
+  messagingSenderId:"30612332450",
+  appId:"1:30612332450:web:9e23f36a69f89dbb325cfb"
+});
+const auth = getAuth(app);
+const db   = getFirestore(app);
+
+// If already logged in → go straight to dashboard
+onAuthStateChanged(auth, user => {
+  if(user) window.location.href = 'dashboard.html';
+});
+
+function showMsg(text, type){
+  const m = document.getElementById('msg');
+  m.textContent = text; m.className = 'msg ' + type; m.style.display = 'block';
+}
+
+async function afterLogin(user){
+  // Make sure Firestore doc exists (for Google sign-in users)
+  const ref  = doc(db,'users',user.uid);
+  const snap = await getDoc(ref);
+  if(!snap.exists()){
+    await setDoc(ref,{
+      name: user.displayName||'Student',
+      email: user.email,
+      university:'', skills:[],
+      coins:0, exchanges:0, clubs:0,
+      createdAt: serverTimestamp()
+    });
+    // New Google user — collect extra details
+    window.location.href = 'extra-details.html';
+    return;
+  }
+  // Check if profile is complete
+  const d = snap.data();
+  if(!d.university || !d.skills || d.skills.length === 0){
+    window.location.href = 'extra-details.html';
+    return;
+  }
+  window.location.href = 'dashboard.html';
+}
+
+// Email login
+document.getElementById('loginBtn').addEventListener('click', async () => {
+  const btn   = document.getElementById('loginBtn');
+  const email = document.getElementById('email').value.trim();
+  const pass  = document.getElementById('password').value;
+  if(!email || !pass){ showMsg('❌ Please fill in both fields', 'error'); return; }
+  btn.disabled = true; btn.textContent = 'Logging in...';
+  try {
+    const cred = await signInWithEmailAndPassword(auth, email, pass);
+    showMsg('✅ Welcome back!', 'success');
+    await afterLogin(cred.user);
+  } catch(err){
+    showMsg('❌ ' + err.message, 'error');
+    btn.disabled = false; btn.textContent = 'Log In →';
+  }
+});
+
+// Google login
+document.getElementById('googleBtn').addEventListener('click', async () => {
+  try {
+    const result = await signInWithPopup(auth, new GoogleAuthProvider());
+    showMsg('✅ Welcome ' + result.user.displayName + '!', 'success');
+    await afterLogin(result.user);
+  } catch(err){
+    showMsg('❌ ' + err.message, 'error');
+  }
+});
+</script>
 </body>
 </html>

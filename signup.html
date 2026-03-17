@@ -1,176 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sign Up | Zwapy</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --background: #f5f1e6;
-      --card-bg: #f5f1e6;
-      --input-border: #000000;
-      --input-bg: #f5f1e6b;
-      --text: #000000;
-      --button-bg: #000000;
-      --button-text: #f5f1e6;
-      --button-hover: #1a1a1a;
-    }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Sign Up | Zwapy</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--cyan:#00D4FF;--bg:#010114;--navy:#020024;--border:rgba(0,212,255,0.15);--muted:#64748b;--dim:#94a3b8;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;}
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.02) 2px,rgba(0,0,0,0.02) 4px);pointer-events:none;z-index:0;}
+.glow{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(0,212,255,0.06) 0%,transparent 70%);z-index:0;}
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+.card{position:relative;z-index:1;width:100%;max-width:420px;background:rgba(2,0,36,0.8);border:1px solid var(--border);border-radius:28px;padding:40px 36px;backdrop-filter:blur(20px);}
+.card::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:60%;height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);}
 
-    body {
-      font-family: 'Poppins', sans-serif;
-      background-color: var(--background);
-      color: var(--text);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-    }
+.logo{display:flex;align-items:center;justify-content:center;gap:9px;margin-bottom:28px;text-decoration:none;}
+.logo span{font-size:1.4rem;font-weight:900;font-style:italic;color:white;}
 
-    .container {
-      background-color: var(--card-bg);
-      padding: 1rem;
-      border-radius: 16px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-      width: 100%;
-      max-width: 400px;
-    }
+.card h2{font-size:1.5rem;font-weight:900;font-style:italic;text-align:center;margin-bottom:6px;}
+.card p{font-size:.8rem;color:var(--dim);text-align:center;margin-bottom:28px;}
 
-    .container h2 {
-      text-align: center;
-      font-weight: 600;
-      margin-bottom: 1.5rem;
-      font-size: 1.5rem;
-    }
+.field{margin-bottom:18px;}
+.field label{display:block;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin-bottom:7px;}
+.field input{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:13px 16px;font-size:.9rem;color:white;font-family:'Sora',sans-serif;transition:border-color .2s,box-shadow .2s;outline:none;}
+.field input::placeholder{color:var(--muted);}
+.field input:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(0,212,255,0.08);}
 
-    form label {
-      font-size: 0.95rem;
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: 500;
-    }
+.btn-primary{width:100%;background:var(--cyan);color:#000;border:none;border-radius:12px;padding:14px;font-size:.88rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:all .25s;margin-top:4px;position:relative;overflow:hidden;}
+.btn-primary:hover{box-shadow:0 0 24px rgba(0,212,255,.45);transform:translateY(-1px);}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed;transform:none;}
 
-    form input {
-      width: 100%;
-      padding: 0.75rem 1rem;
-      border: 1px solid var(--input-border);
-      border-radius: 10px;
-      font-size: 1rem;
-      background-color: var(--input-bg);
-      margin-bottom: 1.25rem;
-      color: var(--text);
-    }
+.divider{display:flex;align-items:center;gap:12px;margin:20px 0;}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:rgba(255,255,255,0.07);}
+.divider span{font-size:.68rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;}
 
-    form button, #googleLoginBtn {
-      width: 100%;
-      border: none;
-      border-radius: 10px;
-      padding: 0.85rem;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
+.btn-google{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:13px;font-size:.85rem;font-weight:700;color:white;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:10px;font-family:'Sora',sans-serif;}
+.btn-google:hover{border-color:rgba(255,255,255,0.25);background:rgba(255,255,255,0.07);}
+.btn-google img{width:18px;height:18px;}
 
-    form button {
-      background-color: var(--button-bg);
-      color: var(--button-text);
-    }
+.foot{text-align:center;margin-top:24px;font-size:.78rem;color:var(--muted);}
+.foot a{color:var(--cyan);text-decoration:none;font-weight:700;}
+.foot a:hover{text-decoration:underline;}
 
-    form button:hover {
-      background-color: var(--button-hover);
-    }
-
-    #googleLoginBtn {
-      margin-top: 1rem;
-      background-color: #ffffff;
-      color: #000;
-      border: 1px solid #000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-    }
-
-    @media (max-width: 480px) {
-      .container {
-        margin: 1rem;
-        padding: 1.5rem;
-      }
-    }
-  </style>
+.msg{display:none;padding:11px 14px;border-radius:10px;font-size:.78rem;font-weight:600;margin-bottom:16px;text-align:center;}
+.msg.error{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);color:#ef4444;}
+.msg.success{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.25);color:#10b981;}
+</style>
 </head>
 <body>
+<div class="glow"></div>
 
-  <div class="container">
-    <h2>Create Your Account</h2>
-    <form id="signupForm">
-      <label for="name">Full Name</label>
-      <input type="text" id="name" name="name" placeholder="John Doe" required>
+<div class="card">
+  <a href="index.html" class="logo">
+    <svg width="28" height="28" viewBox="0 0 42 42" fill="none">
+      <circle cx="21" cy="21" r="4.5" fill="#00D4FF"/>
+      <circle cx="10" cy="14" r="2.5" fill="#00D4FF" opacity=".8"/>
+      <circle cx="32" cy="14" r="2.5" fill="#00D4FF" opacity=".8"/>
+      <circle cx="10" cy="28" r="2.5" fill="#00D4FF" opacity=".8"/>
+      <circle cx="32" cy="28" r="2.5" fill="#00D4FF" opacity=".8"/>
+      <line x1="21" y1="16.5" x2="10" y2="14" stroke="#00D4FF" stroke-width="1.5" opacity=".6"/>
+      <line x1="21" y1="16.5" x2="32" y2="14" stroke="#00D4FF" stroke-width="1.5" opacity=".6"/>
+      <line x1="21" y1="25.5" x2="10" y2="28" stroke="#00D4FF" stroke-width="1.5" opacity=".6"/>
+      <line x1="21" y1="25.5" x2="32" y2="28" stroke="#00D4FF" stroke-width="1.5" opacity=".6"/>
+      <circle cx="21" cy="21" r="19" stroke="#00D4FF" stroke-width=".8" stroke-dasharray="3 4" opacity=".3"/>
+    </svg>
+    <span>ZWAPY</span>
+  </a>
 
-      <label for="email">Email Address</label>
-      <input type="email" id="email" name="email" placeholder="you@example.com" required>
+  <h2>Join the Network</h2>
+  <p>Create your account and start exchanging skills</p>
 
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" placeholder="••••••••" required>
+  <div class="msg" id="msg"></div>
 
-      <button type="submit">Sign Up</button>
-    </form>
+  <form id="signupForm">
+    <div class="field">
+      <label>Full Name</label>
+      <input type="text" id="name" placeholder="Jayashankar R" required/>
+    </div>
+    <div class="field">
+      <label>Email Address</label>
+      <input type="email" id="email" placeholder="you@example.com" required/>
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" id="password" placeholder="Min. 6 characters" required/>
+    </div>
+    <button type="submit" class="btn-primary" id="submitBtn">Create Account →</button>
+  </form>
 
-    <button id="googleLoginBtn">
-      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" width="20" height="20" />
-      Continue with Google
-    </button>
-  </div>
+  <div class="divider"><span>or</span></div>
 
-    <script type="module" src="firebase.js"></script>
-  <script type="module">
-    import { auth } from "./firebase.js";
-    import {
-      createUserWithEmailAndPassword,
-      updateProfile,
-      GoogleAuthProvider,
-      signInWithPopup
-    } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+  <button class="btn-google" id="googleBtn">
+    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google"/>
+    Continue with Google
+  </button>
 
-    const form = document.getElementById("signupForm");
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const name = form["name"].value.trim();
-      const email = form["email"].value.trim();
-      const password = form["password"].value;
+  <p class="foot">Already have an account? <a href="login.html">Log in</a></p>
+</div>
 
-      try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        await updateProfile(userCredential.user, { displayName: name });
-        alert("✅ Signup successful! Welcome, " + name);
-        setTimeout(() => {
-          window.location.href = "/extra-details.html";
-        }, 500);
-      } catch (error) {
-        alert("❌ " + error.message);
-      }
-    });
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, updateProfile, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
-    const googleLoginBtn = document.getElementById("googleLoginBtn");
-    googleLoginBtn.addEventListener("click", async () => {
-      const provider = new GoogleAuthProvider();
-      try {
-        const result = await signInWithPopup(auth, provider);
-        alert("✅ Google Sign-in successful! Welcome, " + result.user.displayName);
-        setTimeout(() => {
-          window.location.href = "/extra-details.html";
-        }, 500);
-      } catch (error) {
-        alert("❌ " + error.message);
-      }
-    });
-  </script>
+const app = initializeApp({
+  apiKey:"AIzaSyBazCIc5vdQInSwvqvohIcbPToTjnw7KJI",
+  authDomain:"zwapy-25.firebaseapp.com",
+  projectId:"zwapy-25",
+  storageBucket:"zwapy-25.firebasestorage.app",
+  messagingSenderId:"30612332450",
+  appId:"1:30612332450:web:9e23f36a69f89dbb325cfb"
+});
+const auth = getAuth(app);
+const db   = getFirestore(app);
+
+function showMsg(text, type){
+  const m = document.getElementById('msg');
+  m.textContent = text;
+  m.className = 'msg ' + type;
+  m.style.display = 'block';
+}
+
+async function createUserDoc(user, extraName){
+  const name = extraName || user.displayName || 'Student';
+  await setDoc(doc(db,'users',user.uid), {
+    name, email: user.email,
+    university: '', skills: [],
+    coins: 0, exchanges: 0, clubs: 0,
+    createdAt: serverTimestamp()
+  }, { merge: true });
+}
+
+// Email signup
+document.getElementById('signupForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const btn  = document.getElementById('submitBtn');
+  const name = document.getElementById('name').value.trim();
+  const email= document.getElementById('email').value.trim();
+  const pass = document.getElementById('password').value;
+  btn.disabled = true; btn.textContent = 'Creating...';
+  try {
+    const cred = await createUserWithEmailAndPassword(auth, email, pass);
+    await updateProfile(cred.user, { displayName: name });
+    await createUserDoc(cred.user, name);
+    showMsg('✅ Account created! Taking you to setup...', 'success');
+    setTimeout(() => window.location.href = 'extra-details.html', 1000);
+  } catch(err){
+    showMsg('❌ ' + err.message, 'error');
+    btn.disabled = false; btn.textContent = 'Create Account →';
+  }
+});
+
+// Google signup
+document.getElementById('googleBtn').addEventListener('click', async () => {
+  try {
+    const result = await signInWithPopup(auth, new GoogleAuthProvider());
+    await createUserDoc(result.user, result.user.displayName);
+    showMsg('✅ Welcome ' + result.user.displayName + '!', 'success');
+    setTimeout(() => window.location.href = 'extra-details.html', 1000);
+  } catch(err){
+    showMsg('❌ ' + err.message, 'error');
+  }
+});
+</script>
 </body>
 </html>
