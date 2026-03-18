@@ -3,109 +3,295 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Setup Profile | Zwapy</title>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<title>Complete Your Profile | Zwapy</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
 <style>
-:root{--cyan:#00D4FF;--bg:#010114;--border:rgba(0,212,255,0.15);--muted:#64748b;--dim:#94a3b8;}
+:root{
+  --cyan:#00D4FF;--bg:#010114;--navy:#020024;
+  --border:rgba(0,212,255,0.12);--border-focus:rgba(0,212,255,0.4);
+  --muted:#64748b;--dim:#94a3b8;--green:#10b981;--red:#ef4444;
+}
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;}
+::selection{background:var(--cyan);color:#000;}
+body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:100vh;padding:24px 20px 60px;}
 body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.02) 2px,rgba(0,0,0,0.02) 4px);pointer-events:none;z-index:0;}
-.glow{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(0,212,255,0.06) 0%,transparent 70%);z-index:0;}
+.bg-glow{position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(0,212,255,0.05) 0%,transparent 65%);}
 
-.card{position:relative;z-index:1;width:100%;max-width:460px;background:rgba(2,0,36,0.8);border:1px solid var(--border);border-radius:28px;padding:40px 36px;backdrop-filter:blur(20px);}
-.card::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:60%;height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);}
+/* Load screen */
+#loadScreen{position:fixed;inset:0;background:var(--bg);z-index:10000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;transition:opacity .4s;}
+#loadScreen.hide{opacity:0;pointer-events:none;}
+.ls-logo{font-size:1.8rem;font-weight:900;font-style:italic;color:var(--cyan);}
+.ls-bar{width:120px;height:2px;background:rgba(0,212,255,0.1);border-radius:100px;overflow:hidden;}
+.ls-fill{height:100%;background:var(--cyan);border-radius:100px;animation:lf .9s ease forwards;}
+@keyframes lf{from{width:0}to{width:100%}}
+.ls-text{font-family:'Space Mono',monospace;font-size:.54rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
 
-.logo{display:flex;align-items:center;justify-content:center;gap:9px;margin-bottom:28px;text-decoration:none;}
-.logo span{font-size:1.4rem;font-weight:900;font-style:italic;color:white;}
+/* Wrapper */
+.wrapper{position:relative;z-index:1;max-width:600px;margin:0 auto;}
 
-.step-bar{display:flex;align-items:center;gap:8px;margin-bottom:28px;justify-content:center;}
-.step{width:28px;height:4px;border-radius:100px;background:rgba(255,255,255,0.1);}
-.step.done{background:var(--cyan);}
-.step.active{background:rgba(0,212,255,0.5);}
+/* Logo header */
+.top-logo{display:flex;align-items:center;justify-content:center;gap:9px;margin-bottom:32px;text-decoration:none;}
+.top-logo span{font-size:1.3rem;font-weight:900;font-style:italic;}
 
-.card h2{font-size:1.4rem;font-weight:900;font-style:italic;text-align:center;margin-bottom:6px;}
-.card p{font-size:.8rem;color:var(--dim);text-align:center;margin-bottom:28px;}
+/* Progress bar */
+.progress-wrap{margin-bottom:32px;}
+.progress-steps{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:10px;}
+.step-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.1);transition:all .3s;}
+.step-dot.done{background:var(--cyan);}
+.step-dot.active{background:rgba(0,212,255,0.5);width:24px;border-radius:100px;}
+.progress-label{font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan);opacity:.6;text-align:center;}
 
-.field{margin-bottom:20px;}
-.field label{display:block;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin-bottom:7px;}
-.field input,.field select{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:13px 16px;font-size:.9rem;color:white;font-family:'Sora',sans-serif;transition:border-color .2s,box-shadow .2s;outline:none;appearance:none;}
-.field input::placeholder{color:var(--muted);}
-.field input:focus,.field select:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(0,212,255,0.08);}
+/* Section heading */
+.section-heading{margin-bottom:24px;}
+.section-tag{font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan);opacity:.65;margin-bottom:6px;}
+.section-title{font-size:1.5rem;font-weight:900;font-style:italic;letter-spacing:-.02em;}
+.section-sub{font-size:.78rem;color:var(--dim);margin-top:5px;line-height:1.6;}
+
+/* Photo upload */
+.photo-section{display:flex;flex-direction:column;align-items:center;margin-bottom:32px;}
+.photo-ring{width:100px;height:100px;border-radius:50%;border:2px solid var(--border);overflow:hidden;position:relative;cursor:pointer;transition:border-color .3s;flex-shrink:0;}
+.photo-ring:hover{border-color:var(--cyan);}
+.photo-ring img{width:100%;height:100%;object-fit:cover;display:block;}
+.photo-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;font-size:1.4rem;}
+.photo-ring:hover .photo-overlay{opacity:1;}
+.photo-hint{font-size:.72rem;color:var(--muted);margin-top:10px;text-align:center;line-height:1.5;}
+.photo-hint strong{color:var(--cyan);}
+#photoInput{display:none;}
+
+/* Divider card */
+.form-card{background:rgba(2,0,36,0.6);border:1px solid var(--border);border-radius:20px;padding:28px 24px;margin-bottom:16px;position:relative;overflow:hidden;}
+.form-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(0,212,255,0.2),transparent);}
+.form-card-label{font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.2em;text-transform:uppercase;color:var(--cyan);opacity:.55;margin-bottom:18px;}
+
+/* Fields */
+.field{margin-bottom:18px;}
+.field:last-child{margin-bottom:0;}
+.field label{display:block;font-size:.7rem;font-weight:600;letter-spacing:.06em;color:var(--dim);margin-bottom:7px;}
+.field label .required{color:var(--cyan);margin-left:2px;}
+.field input,.field select,.field textarea{
+  width:100%;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:11px;
+  padding:13px 16px;
+  font-size:.9rem;
+  color:white;
+  font-family:'Sora',sans-serif;
+  outline:none;
+  transition:border-color .2s,box-shadow .2s;
+  -webkit-appearance:none;
+}
+.field input::placeholder,.field textarea::placeholder{color:var(--muted);font-size:.85rem;}
+.field input:focus,.field select:focus,.field textarea:focus{
+  border-color:var(--cyan);
+  box-shadow:0 0 0 3px rgba(0,212,255,0.07);
+}
+.field input.error{border-color:var(--red);}
 .field select option{background:#020024;color:white;}
+.field textarea{resize:vertical;min-height:90px;line-height:1.6;}
+.field-hint{font-size:.62rem;color:var(--muted);margin-top:5px;line-height:1.5;}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:480px){.field-row{grid-template-columns:1fr;}}
+
+/* Phone + OTP row */
+.phone-row{display:flex;gap:10px;align-items:flex-end;}
+.phone-row .field{flex:1;margin-bottom:0;}
+.otp-btn{background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.2);border-radius:11px;padding:13px 16px;font-size:.75rem;font-weight:700;color:var(--cyan);cursor:pointer;white-space:nowrap;transition:all .2s;font-family:'Sora',sans-serif;flex-shrink:0;}
+.otp-btn:hover{background:rgba(0,212,255,0.14);}
+.otp-btn:disabled{opacity:.4;cursor:not-allowed;}
 
 /* Skills tag input */
-.skills-wrap{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:10px 12px;min-height:52px;display:flex;flex-wrap:wrap;gap:7px;align-items:center;cursor:text;transition:border-color .2s,box-shadow .2s;}
-.skills-wrap:focus-within{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(0,212,255,0.08);}
-.skill-chip{display:flex;align-items:center;gap:5px;background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.22);border-radius:100px;padding:3px 10px;font-size:.7rem;font-weight:700;color:var(--cyan);white-space:nowrap;}
-.skill-chip button{background:none;border:none;color:var(--cyan);cursor:pointer;font-size:.75rem;padding:0;line-height:1;opacity:.7;}
+.skills-wrap{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:11px;padding:9px 12px;min-height:50px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;cursor:text;transition:border-color .2s,box-shadow .2s;}
+.skills-wrap:focus-within{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(0,212,255,0.07);}
+.skill-chip{display:flex;align-items:center;gap:5px;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.18);border-radius:100px;padding:4px 10px;font-size:.68rem;font-weight:600;color:var(--cyan);white-space:nowrap;animation:ci .2s ease;}
+@keyframes ci{from{opacity:0;transform:scale(0.85);}to{opacity:1;transform:scale(1);}}
+.skill-chip button{background:none;border:none;color:var(--cyan);cursor:pointer;font-size:.68rem;padding:0;line-height:1;opacity:.55;transition:opacity .2s;}
 .skill-chip button:hover{opacity:1;}
 .skill-input{background:none;border:none;outline:none;color:white;font-family:'Sora',sans-serif;font-size:.85rem;min-width:100px;flex:1;}
 .skill-input::placeholder{color:var(--muted);}
-.skill-hint{font-size:.65rem;color:var(--muted);margin-top:5px;}
 
-.btn-primary{width:100%;background:var(--cyan);color:#000;border:none;border-radius:12px;padding:14px;font-size:.88rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:all .25s;margin-top:4px;}
-.btn-primary:hover{box-shadow:0 0 24px rgba(0,212,255,.4);transform:translateY(-1px);}
-.btn-primary:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+/* Year picker */
+.year-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:2px;}
+@media(max-width:400px){.year-grid{grid-template-columns:repeat(3,1fr);}}
+.year-btn{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:10px 6px;font-size:.8rem;font-weight:600;cursor:pointer;transition:all .2s;text-align:center;color:var(--dim);}
+.year-btn.selected{background:rgba(0,212,255,0.1);border-color:var(--cyan);color:var(--cyan);font-weight:800;}
+.year-btn:hover:not(.selected){border-color:rgba(0,212,255,0.25);color:white;}
 
-.msg{display:none;padding:11px 14px;border-radius:10px;font-size:.78rem;font-weight:600;margin-bottom:16px;text-align:center;}
-.msg.error{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);color:#ef4444;}
-.msg.success{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.25);color:#10b981;}
+/* Submit */
+.submit-btn{width:100%;background:var(--cyan);color:#000;border:none;border-radius:13px;padding:16px;font-size:.9rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:all .25s;margin-top:8px;position:relative;overflow:hidden;}
+.submit-btn::before{content:'';position:absolute;top:-50%;left:-60%;width:40%;height:200%;background:rgba(255,255,255,.25);transform:skewX(-20deg);animation:glint 3.5s ease infinite;}
+@keyframes glint{0%,70%,100%{left:-60%;}40%{left:120%;}}
+.submit-btn:hover{box-shadow:0 0 24px rgba(0,212,255,.4);transform:translateY(-1px);}
+.submit-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+
+/* Message */
+.msg{display:none;padding:12px 16px;border-radius:11px;font-size:.78rem;font-weight:600;margin-bottom:16px;text-align:center;line-height:1.5;}
+.msg.error{background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.22);color:var(--red);}
+.msg.success{background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.22);color:var(--green);}
+
+/* Character count */
+.char-count{font-size:.6rem;color:var(--muted);text-align:right;margin-top:4px;}
+.char-count.warn{color:var(--amber,#f59e0b);}
 </style>
 </head>
 <body>
-<div class="glow"></div>
+<div class="bg-glow"></div>
 
-<div class="card">
-  <a href="index.html" class="logo">
-    <img src="assets/zwapy-logo.png" style="width:32px;height:32px;object-fit:contain;">
+<div id="loadScreen">
+  <div class="ls-logo">ZWAPY</div>
+  <div class="ls-bar"><div class="ls-fill"></div></div>
+  <div class="ls-text">Loading your profile setup...</div>
+</div>
+
+<div class="wrapper" id="mainContent" style="display:none;">
+
+  <a href="index.html" class="top-logo">
+    <img src="assets/zwapy-logo.png" style="width:30px;height:30px;object-fit:contain;">
     <span>ZWAPY</span>
   </a>
 
-  <div class="step-bar">
-    <div class="step done"></div>
-    <div class="step active"></div>
-    <div class="step"></div>
+  <!-- Progress -->
+  <div class="progress-wrap">
+    <div class="progress-steps">
+      <div class="step-dot done"></div>
+      <div class="step-dot active"></div>
+      <div class="step-dot"></div>
+    </div>
+    <div class="progress-label">Step 2 of 3 — Complete Your Profile</div>
   </div>
 
-  <h2>Complete Your Profile</h2>
-  <p>Tell us about yourself so we can match you better</p>
+  <!-- Section heading -->
+  <div class="section-heading">
+    <div class="section-tag">// Profile Setup</div>
+    <h1 class="section-title">Tell Us About Yourself</h1>
+    <p class="section-sub">This information will appear on your Zwapy profile. Please fill in all required fields accurately.</p>
+  </div>
 
   <div class="msg" id="msg"></div>
 
-  <form id="detailsForm">
+  <!-- PHOTO -->
+  <div class="form-card">
+    <div class="form-card-label">Profile Photo</div>
+    <div class="photo-section">
+      <label for="photoInput">
+        <div class="photo-ring">
+          <img id="photoPreview" src="https://api.dicebear.com/7.x/avataaars/svg?seed=default" alt="Profile Photo">
+          <div class="photo-overlay">📷</div>
+        </div>
+      </label>
+      <input type="file" id="photoInput" accept="image/*" capture="user">
+      <p class="photo-hint">Tap the photo to upload.<br><strong>Use a clear, recent photo of yourself.</strong><br>No logos, illustrations, or group photos.</p>
+    </div>
+  </div>
+
+  <!-- PERSONAL DETAILS -->
+  <div class="form-card">
+    <div class="form-card-label">Personal Information</div>
+
     <div class="field">
-      <label>University</label>
-      <input type="text" id="university" placeholder="e.g. Presidency University" required/>
+      <label>Full Name <span class="required">*</span></label>
+      <input type="text" id="fullName" placeholder="As per your official documents" autocomplete="name"/>
     </div>
 
     <div class="field">
-      <label>Your Skills <span style="color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0">(press Enter or comma to add)</span></label>
-      <div class="skills-wrap" id="skillsWrap">
-        <input class="skill-input" id="skillInput" placeholder="e.g. UI Design, Python, Video Editing..."/>
+      <label>Date of Birth <span class="required">*</span></label>
+      <input type="date" id="dob"/>
+      <div class="field-hint">You must be 16 years or older to use Zwapy.</div>
+    </div>
+
+    <div class="field">
+      <label>Phone Number <span class="required">*</span></label>
+      <div class="phone-row">
+        <div class="field">
+          <input type="tel" id="phone" placeholder="+91 98765 43210" maxlength="15"/>
+        </div>
+        <button class="otp-btn" id="otpBtn" disabled>Verify (Soon)</button>
       </div>
-      <div class="skill-hint">Add at least 1 skill. These show on your profile.</div>
+      <div class="field-hint">OTP verification will be available in the next update. Enter your number for now.</div>
     </div>
 
     <div class="field">
-      <label>Role</label>
-      <select id="role">
-        <option value="Student">Student</option>
-        <option value="Founder">Founder</option>
-        <option value="Designer">Designer</option>
-        <option value="Developer">Developer</option>
-        <option value="Marketer">Marketer</option>
-        <option value="Creator">Creator</option>
+      <label>Email Address</label>
+      <input type="email" id="emailField" disabled/>
+      <div class="field-hint">This is your login email and cannot be changed here.</div>
+    </div>
+  </div>
+
+  <!-- ACADEMIC DETAILS -->
+  <div class="form-card">
+    <div class="form-card-label">Academic Information</div>
+
+    <div class="field">
+      <label>University <span class="required">*</span></label>
+      <select id="university">
+        <option value="" disabled selected>Select your university</option>
+        <option value="Presidency University, Bangalore">Presidency University, Bangalore</option>
+      </select>
+      <div class="field-hint">More universities will be added as Zwapy expands.</div>
+    </div>
+
+    <div class="field">
+      <label>Course / Programme <span class="required">*</span></label>
+      <select id="course">
+        <option value="" disabled selected>Select your course</option>
+        <option value="B.Tech Computer Science Engineering">B.Tech Computer Science Engineering</option>
+        <option value="B.Tech CSE (IoT)">B.Tech CSE (IoT)</option>
+        <option value="B.Tech CSE (AI & ML)">B.Tech CSE (AI & ML)</option>
+        <option value="B.Tech CSE (Data Science)">B.Tech CSE (Data Science)</option>
+        <option value="B.Tech Electronics & Communication">B.Tech Electronics & Communication</option>
+        <option value="B.Tech Mechanical Engineering">B.Tech Mechanical Engineering</option>
+        <option value="B.Tech Civil Engineering">B.Tech Civil Engineering</option>
+        <option value="BCA">BCA</option>
+        <option value="BBA">BBA</option>
+        <option value="B.Com">B.Com</option>
+        <option value="MBA">MBA</option>
+        <option value="MCA">MCA</option>
+        <option value="M.Tech">M.Tech</option>
+        <option value="Other">Other</option>
       </select>
     </div>
 
-    <button type="submit" class="btn-primary" id="submitBtn">Complete Setup →</button>
-  </form>
+    <div class="field">
+      <label>Year of Passout <span class="required">*</span></label>
+      <div class="year-grid" id="yearGrid"></div>
+      <input type="hidden" id="yearOfPassout"/>
+    </div>
+  </div>
+
+  <!-- PROFESSIONAL DETAILS -->
+  <div class="form-card">
+    <div class="form-card-label">Professional Information</div>
+
+    <div class="field">
+      <label>LinkedIn Profile URL</label>
+      <input type="url" id="linkedin" placeholder="https://linkedin.com/in/yourname"/>
+      <div class="field-hint">Optional but recommended. Helps others verify your background.</div>
+    </div>
+
+    <div class="field">
+      <label>Your Skills <span class="required">*</span> <span style="font-size:.6rem;color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0">(Press Enter or comma to add)</span></label>
+      <div class="skills-wrap" id="skillsWrap">
+        <input class="skill-input" id="skillInput" placeholder="e.g. Python, UI Design, Video Editing..."/>
+      </div>
+      <div class="field-hint">Add at least 1 skill. These will be visible to other students for skill exchange.</div>
+    </div>
+
+    <div class="field">
+      <label>Bio <span class="required">*</span></label>
+      <textarea id="bio" maxlength="200" placeholder="Write a short introduction about yourself. What are you passionate about? What do you want to build or learn?"></textarea>
+      <div class="char-count" id="bioCount">0 / 200</div>
+    </div>
+  </div>
+
+  <button class="submit-btn" id="submitBtn">Complete Profile →</button>
+
 </div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
-import { getFirestore, doc, updateDoc } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+import { getAuth, onAuthStateChanged, updateProfile, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+import { getFirestore, doc, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+import { getStorage, ref, uploadString, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-storage.js";
 
 const app = initializeApp({
   apiKey:"AIzaSyBazCIc5vdQInSwvqvohIcbPToTjnw7KJI",
@@ -115,71 +301,197 @@ const app = initializeApp({
   messagingSenderId:"30612332450",
   appId:"1:30612332450:web:9e23f36a69f89dbb325cfb"
 });
-const auth = getAuth(app);
-const db   = getFirestore(app);
+const auth    = getAuth(app);
+const db      = getFirestore(app);
+const storage = getStorage(app);
+await setPersistence(auth, browserLocalPersistence);
 
-// redirect if not logged in
-onAuthStateChanged(auth, user => {
-  if(!user) window.location.href = 'login.html';
+const $ = id => document.getElementById(id);
+
+// ── YEAR GRID ──
+const currentYear = new Date().getFullYear();
+const years = [];
+for(let y = currentYear; y <= currentYear + 6; y++) years.push(y);
+let selectedYear = null;
+
+const yearGrid = $('yearGrid');
+years.forEach(y => {
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'year-btn';
+  btn.textContent = y;
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.year-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    selectedYear = y;
+    $('yearOfPassout').value = y;
+  });
+  yearGrid.appendChild(btn);
 });
 
-// ── SKILLS TAG INPUT ──
-const skills = [];
-const wrap   = document.getElementById('skillsWrap');
-const input  = document.getElementById('skillInput');
+// ── SKILLS TAG ──
+let skills = [];
+
+function renderSkills(){
+  document.querySelectorAll('.skill-chip').forEach(c => c.remove());
+  skills.forEach(s => {
+    const chip = document.createElement('div');
+    chip.className = 'skill-chip';
+    chip.innerHTML = `${s}<button type="button">✕</button>`;
+    chip.querySelector('button').addEventListener('click', () => {
+      skills = skills.filter(x => x !== s);
+      chip.remove();
+    });
+    $('skillsWrap').insertBefore(chip, $('skillInput'));
+  });
+}
 
 function addSkill(val){
   const s = val.trim().replace(/,$/,'').trim();
-  if(!s || skills.includes(s)) return;
+  if(!s || skills.includes(s) || skills.length >= 10) return;
   skills.push(s);
-  const chip = document.createElement('div');
-  chip.className = 'skill-chip';
-  chip.innerHTML = `${s}<button type="button" onclick="removeSkill(this,'${s}')">✕</button>`;
-  wrap.insertBefore(chip, input);
-  input.value = '';
+  renderSkills();
+  $('skillInput').value = '';
 }
 
-window.removeSkill = (btn, s) => {
-  skills.splice(skills.indexOf(s), 1);
-  btn.closest('.skill-chip').remove();
-};
-
-input.addEventListener('keydown', e => {
-  if(e.key === 'Enter'){ e.preventDefault(); addSkill(input.value); }
-  if(e.key === ','){ e.preventDefault(); addSkill(input.value); }
-});
-input.addEventListener('blur', () => { if(input.value.trim()) addSkill(input.value); });
-wrap.addEventListener('click', () => input.focus());
-
-// ── FORM SUBMIT ──
-function showMsg(text, type){
-  const m = document.getElementById('msg');
-  m.textContent = text; m.className = 'msg ' + type; m.style.display = 'block';
-}
-
-document.getElementById('detailsForm').addEventListener('submit', async e => {
-  e.preventDefault();
-  const btn = document.getElementById('submitBtn');
-  const uni  = document.getElementById('university').value.trim();
-  const role = document.getElementById('role').value;
-
-  if(!uni){ showMsg('❌ Please enter your university', 'error'); return; }
-  if(skills.length === 0){ showMsg('❌ Please add at least one skill', 'error'); return; }
-
-  btn.disabled = true; btn.textContent = 'Saving...';
-
-  // add any pending skill in the input box
-  if(input.value.trim()) addSkill(input.value);
-
-  const user = auth.currentUser;
-  try {
-    await updateDoc(doc(db,'users',user.uid), { university: uni, skills, role });
-    showMsg('✅ Profile saved! Loading your dashboard...', 'success');
-    setTimeout(() => window.location.href = 'dashboard.html', 1000);
-  } catch(err){
-    showMsg('❌ ' + err.message, 'error');
-    btn.disabled = false; btn.textContent = 'Complete Setup →';
+$('skillInput').addEventListener('keydown', e => {
+  if(e.key === 'Enter'){ e.preventDefault(); addSkill($('skillInput').value); }
+  if(e.key === ','){ e.preventDefault(); addSkill($('skillInput').value); }
+  if(e.key === 'Backspace' && !$('skillInput').value && skills.length){
+    skills.pop(); renderSkills();
   }
+});
+$('skillInput').addEventListener('blur', () => { if($('skillInput').value.trim()) addSkill($('skillInput').value); });
+$('skillsWrap').addEventListener('click', () => $('skillInput').focus());
+
+// ── BIO COUNTER ──
+$('bio').addEventListener('input', () => {
+  const len = $('bio').value.length;
+  const counter = $('bioCount');
+  counter.textContent = `${len} / 200`;
+  counter.className = len > 170 ? 'char-count warn' : 'char-count';
+});
+
+// ── PHOTO ──
+let photoBase64 = null;
+$('photoInput').addEventListener('change', e => {
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    photoBase64 = ev.target.result;
+    $('photoPreview').src = photoBase64;
+  };
+  reader.readAsDataURL(file);
+});
+
+// ── VALIDATION ──
+function showMsg(text, type){
+  const m = $('msg');
+  m.textContent = text; m.className = 'msg ' + type; m.style.display = 'block';
+  m.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+function validateAge(dob){
+  if(!dob) return false;
+  const birth = new Date(dob);
+  const today = new Date();
+  const age = today.getFullYear() - birth.getFullYear();
+  const m = today.getMonth() - birth.getMonth();
+  return age > 16 || (age === 16 && m >= 0);
+}
+
+// ── AUTH ──
+onAuthStateChanged(auth, async user => {
+  if(!user){ window.location.href = 'login.html'; return; }
+
+  // Pre-fill email and name
+  $('emailField').value = user.email || '';
+
+  const snap = await getDoc(doc(db,'users',user.uid));
+  if(snap.exists()){
+    const ud = snap.data();
+    if(ud.name) $('fullName').value = ud.name;
+    // If already complete, go to dashboard
+    if(ud.university && ud.skills && ud.skills.length > 0 && ud.dob && ud.phone){
+      window.location.href = 'dashboard.html';
+      return;
+    }
+  }
+
+  // Show page
+  $('loadScreen').classList.add('hide');
+  setTimeout(() => { if($('loadScreen')) $('loadScreen').remove(); }, 500);
+  $('mainContent').style.display = 'block';
+
+  // ── SUBMIT ──
+  $('submitBtn').addEventListener('click', async () => {
+    const btn = $('submitBtn');
+
+    const fullName  = $('fullName').value.trim();
+    const dob       = $('dob').value;
+    const phone     = $('phone').value.trim();
+    const university= $('university').value;
+    const course    = $('course').value;
+    const yearPass  = $('yearOfPassout').value;
+    const linkedin  = $('linkedin').value.trim();
+    const bio       = $('bio').value.trim();
+
+    // Add any pending skill
+    if($('skillInput').value.trim()) addSkill($('skillInput').value);
+
+    // Validate
+    if(!fullName)      { showMsg('Please enter your full name.', 'error'); return; }
+    if(!dob)           { showMsg('Please enter your date of birth.', 'error'); return; }
+    if(!validateAge(dob)){ showMsg('You must be at least 16 years old to use Zwapy.', 'error'); return; }
+    if(!phone)         { showMsg('Please enter your phone number.', 'error'); return; }
+    if(phone.replace(/\D/g,'').length < 10){ showMsg('Please enter a valid phone number.', 'error'); return; }
+    if(!university)    { showMsg('Please select your university.', 'error'); return; }
+    if(!course)        { showMsg('Please select your course.', 'error'); return; }
+    if(!yearPass)      { showMsg('Please select your year of passout.', 'error'); return; }
+    if(skills.length === 0){ showMsg('Please add at least one skill.', 'error'); return; }
+    if(!bio)           { showMsg('Please write a short bio about yourself.', 'error'); return; }
+    if(bio.length < 20){ showMsg('Your bio should be at least 20 characters.', 'error'); return; }
+
+    btn.disabled = true; btn.textContent = 'Saving...';
+
+    try{
+      let photoURL = user.photoURL || '';
+
+      // Upload photo if selected
+      if(photoBase64){
+        const storageRef = ref(storage, `avatars/${user.uid}`);
+        await uploadString(storageRef, photoBase64, 'data_url');
+        photoURL = await getDownloadURL(storageRef);
+        await updateProfile(user, { photoURL });
+      }
+
+      // Update display name
+      await updateProfile(user, { displayName: fullName });
+
+      // Save to Firestore
+      await updateDoc(doc(db,'users',user.uid), {
+        name: fullName,
+        dob,
+        phone,
+        university,
+        course,
+        yearOfPassout: parseInt(yearPass),
+        linkedin: linkedin || '',
+        skills,
+        bio,
+        photoURL,
+        profileComplete: true
+      });
+
+      showMsg('Profile saved successfully. Redirecting to your dashboard...', 'success');
+      setTimeout(() => window.location.href = 'dashboard.html', 1200);
+
+    } catch(err){
+      showMsg('Something went wrong: ' + err.message, 'error');
+      btn.disabled = false; btn.textContent = 'Complete Profile →';
+    }
+  });
 });
 </script>
 </body>
