@@ -425,6 +425,22 @@ onAuthStateChanged(auth, async user => {
   $('mainContent').style.display = 'block';
 
   // ── SUBMIT ──
+  // Compress image to max width and quality
+function compressImage(base64, maxWidth, quality){
+  return new Promise(resolve => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      const scale  = Math.min(1, maxWidth / img.width);
+      canvas.width  = img.width  * scale;
+      canvas.height = img.height * scale;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      resolve(canvas.toDataURL('image/jpeg', quality));
+    };
+    img.src = base64;
+  });
+}
   $('submitBtn').addEventListener('click', async () => {
     const btn = $('submitBtn');
 
@@ -453,18 +469,22 @@ onAuthStateChanged(auth, async user => {
     if(!bio)           { showMsg('Please write a short bio about yourself.', 'error'); return; }
     if(bio.length < 20){ showMsg('Your bio should be at least 20 characters.', 'error'); return; }
 
-    btn.disabled = true; btn.textContent = 'Saving...';
+    btn.disabled = true; btn.textContent = 'Saving... please wait';
 
     try{
       let photoURL = user.photoURL || '';
 
-      // Upload photo if selected
-      if(photoBase64){
-        const storageRef = ref(storage, `avatars/${user.uid}`);
-        await uploadString(storageRef, photoBase64, 'data_url');
-        photoURL = await getDownloadURL(storageRef);
-        await updateProfile(user, { photoURL });
-      }
+      // Upload photo if selected — compressed first
+if(photoBase64){
+  btn.textContent = 'Uploading photo...';
+  // Compress image before upload
+  const compressed = await compressImage(photoBase64, 400, 0.7);
+  const storageRef = ref(storage, `avatars/${user.uid}`);
+  await uploadString(storageRef, compressed, 'data_url');
+  photoURL = await getDownloadURL(storageRef);
+  await updateProfile(user, { photoURL });
+}
+btn.textContent = 'Saving details...';
 
       // Update display name
       await updateProfile(user, { displayName: fullName });
