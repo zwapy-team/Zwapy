@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Discover | Zwapy</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --cyan:#00D4FF;--cyan-dim:rgba(0,212,255,0.1);
+  --bg:#010114;--navy:#020024;
+  --border:rgba(0,212,255,0.1);--border-h:rgba(0,212,255,0.3);
+  --muted:#64748b;--dim:#94a3b8;
+  --green:#10b981;--amber:#f59e0b;--indigo:#818cf8;--red:#ef4444;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+::selection{background:var(--cyan);color:#000;}
+html{scroll-behavior:smooth;}
+body{font-family:'Sora',sans-serif;background:var(--bg);color:white;overflow-x:hidden;min-height:100vh;}
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.022) 2px,rgba(0,0,0,0.022) 4px);pointer-events:none;z-index:9999;}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9998;opacity:.28;}
+.bg-glow{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse 60% 40% at 10% 20%,rgba(0,212,255,0.04) 0%,transparent 60%),
+             radial-gradient(ellipse 40% 50% at 90% 80%,rgba(129,140,248,0.04) 0%,transparent 60%);}
+
+/* Load */
+#loadScreen{position:fixed;inset:0;background:var(--bg);z-index:10000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;transition:opacity .4s;}
+#loadScreen.hide{opacity:0;pointer-events:none;}
+.load-logo{font-size:2rem;font-weight:900;font-style:italic;color:var(--cyan);}
+.load-bar{width:140px;height:2px;background:rgba(0,212,255,0.1);border-radius:100px;overflow:hidden;}
+.load-fill{height:100%;background:var(--cyan);border-radius:100px;animation:lf 1s ease forwards;}
+@keyframes lf{from{width:0}to{width:100%}}
+.load-text{font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
+
+/* Layout */
+.layout{position:relative;z-index:10;max-width:1300px;margin:0 auto;padding:0 22px 120px;}
+
+/* Topbar */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid rgba(0,212,255,0.06);margin-bottom:30px;position:sticky;top:0;z-index:200;background:rgba(1,1,20,0.93);backdrop-filter:blur(24px);margin-left:-22px;margin-right:-22px;padding-left:22px;padding-right:22px;gap:12px;}
+.topbar-logo{display:flex;align-items:center;gap:9px;text-decoration:none;flex-shrink:0;}
+.logo-node{width:38px;height:38px;background:rgba(0,212,255,0.07);border:1px solid rgba(0,212,255,0.2);border-radius:11px;display:flex;align-items:center;justify-content:center;transition:all .3s;}
+.topbar-logo:hover .logo-node{border-color:var(--cyan);box-shadow:0 0 16px rgba(0,212,255,0.2);}
+.logo-text{font-size:1.25rem;font-weight:900;font-style:italic;}
+.back-btn{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:100px;padding:7px 14px;font-size:.72rem;font-weight:700;color:var(--dim);text-decoration:none;transition:all .2s;}
+.back-btn:hover{border-color:var(--border-h);color:white;}
+
+/* Page header */
+.page-head{margin-bottom:32px;}
+.page-label{font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.22em;text-transform:uppercase;color:var(--cyan);opacity:.6;margin-bottom:5px;}
+.page-title{font-size:clamp(1.8rem,5vw,3rem);font-weight:900;font-style:italic;letter-spacing:-.03em;line-height:1;}
+.page-title span{color:var(--cyan);}
+.page-sub{font-size:.82rem;color:var(--dim);margin-top:8px;line-height:1.6;}
+
+/* Search + Filter bar */
+.filter-bar{display:flex;gap:10px;margin-bottom:28px;flex-wrap:wrap;align-items:center;}
+.search-wrap{flex:1;min-width:200px;position:relative;}
+.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:.9rem;pointer-events:none;}
+.search-input{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:12px 16px 12px 38px;font-size:.86rem;color:white;font-family:'Sora',sans-serif;outline:none;transition:border-color .2s,box-shadow .2s;}
+.search-input::placeholder{color:var(--muted);}
+.search-input:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(0,212,255,0.07);}
+.filter-tabs{display:flex;gap:7px;flex-wrap:wrap;}
+.filter-tab{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:100px;padding:8px 16px;font-size:.7rem;font-weight:700;cursor:pointer;transition:all .2s;color:var(--muted);white-space:nowrap;}
+.filter-tab.active{background:rgba(0,212,255,0.1);border-color:rgba(0,212,255,0.3);color:var(--cyan);}
+.filter-tab:hover:not(.active){border-color:rgba(255,255,255,0.2);color:white;}
+
+/* Section title */
+.sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;margin-top:32px;}
+.sec-title{font-size:1rem;font-weight:800;font-style:italic;text-transform:uppercase;letter-spacing:.02em;}
+.sec-count{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.12em;background:var(--cyan-dim);border:1px solid rgba(0,212,255,.16);color:var(--cyan);border-radius:100px;padding:3px 10px;text-transform:uppercase;}
+
+/* ── CLUBS GRID ── */
+.clubs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;}
+.club-card{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:22px;padding:24px;position:relative;overflow:hidden;transition:all .3s;cursor:pointer;}
+.club-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--cc,var(--cyan)),transparent);transform:scaleX(0);transition:transform .4s ease;}
+.club-card:hover::before{transform:scaleX(1);}
+.club-card:hover{border-color:var(--border-h);transform:translateY(-4px);background:rgba(0,212,255,0.03);}
+.club-card-top{display:flex;align-items:flex-start;gap:14px;margin-bottom:14px;}
+.club-avatar{width:48px;height:48px;border-radius:14px;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.15);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;transition:transform .3s;}
+.club-card:hover .club-avatar{transform:scale(1.08);}
+.club-info{flex:1;min-width:0;}
+.club-name{font-size:.95rem;font-weight:800;font-style:italic;text-transform:uppercase;letter-spacing:.01em;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.club-uni{font-size:.68rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.club-cat{display:inline-block;font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:100px;margin-top:4px;}
+.club-desc{font-size:.75rem;color:var(--dim);line-height:1.6;margin-bottom:14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.club-footer{display:flex;align-items:center;justify-content:space-between;}
+.club-members{font-size:.68rem;color:var(--muted);display:flex;align-items:center;gap:5px;}
+.club-join-btn{background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.2);border-radius:8px;padding:6px 14px;font-size:.68rem;font-weight:800;color:var(--cyan);cursor:pointer;transition:all .2s;font-family:'Sora',sans-serif;}
+.club-join-btn:hover{background:rgba(0,212,255,0.16);box-shadow:0 0 12px rgba(0,212,255,.2);}
+.club-join-btn.joined{background:rgba(16,185,129,0.08);border-color:rgba(16,185,129,0.2);color:var(--green);}
+
+/* ── EVENTS GRID ── */
+.events-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;}
+.event-card{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:20px;padding:22px;position:relative;overflow:hidden;transition:all .3s;cursor:pointer;}
+.event-card:hover{border-color:var(--border-h);transform:translateY(-3px);}
+.event-type-bar{position:absolute;top:0;left:0;right:0;height:3px;}
+.event-type-bar.event{background:linear-gradient(90deg,var(--cyan),rgba(0,212,255,0.3));}
+.event-type-bar.hackathon{background:linear-gradient(90deg,var(--amber),rgba(245,158,11,0.3));}
+.event-type-bar.announcement{background:linear-gradient(90deg,var(--indigo),rgba(129,140,248,0.3));}
+.event-header{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:12px;}
+.event-type-pill{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.12em;text-transform:uppercase;padding:3px 9px;border-radius:100px;flex-shrink:0;}
+.event-type-pill.event{background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,.18);color:var(--cyan);}
+.event-type-pill.hackathon{background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,.18);color:var(--amber);}
+.event-type-pill.announcement{background:rgba(129,140,248,0.08);border:1px solid rgba(129,140,248,.18);color:var(--indigo);}
+.event-title{font-size:.95rem;font-weight:800;line-height:1.3;margin-bottom:8px;}
+.event-desc{font-size:.74rem;color:var(--dim);line-height:1.6;margin-bottom:14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.event-meta{display:flex;flex-direction:column;gap:5px;margin-bottom:14px;}
+.event-meta-row{display:flex;align-items:center;gap:7px;font-size:.7rem;color:var(--muted);}
+.event-meta-icon{font-size:.8rem;flex-shrink:0;}
+.event-club-tag{display:flex;align-items:center;gap:6px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.05);}
+.event-club-dot{width:6px;height:6px;border-radius:50%;background:var(--cyan);flex-shrink:0;}
+.event-club-name{font-size:.68rem;color:var(--muted);font-style:italic;}
+
+/* ── MODAL ── */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(10px);z-index:3000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s;}
+.modal-bg.open{opacity:1;pointer-events:all;}
+.modal{background:rgba(2,0,36,0.98);border:1px solid rgba(0,212,255,0.18);border-radius:26px;width:100%;max-width:500px;position:relative;transform:translateY(24px) scale(0.97);transition:transform .3s;overflow:hidden;max-height:90vh;overflow-y:auto;}
+.modal-bg.open .modal{transform:translateY(0) scale(1);}
+.modal-top-bar{height:3px;width:100%;}
+.modal-body{padding:28px;}
+.modal-close{position:absolute;top:16px;right:16px;width:32px;height:32px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.8rem;color:var(--muted);transition:all .2s;}
+.modal-close:hover{background:rgba(239,68,68,0.1);border-color:var(--red);color:var(--red);}
+.modal-type-pill{display:inline-block;font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.12em;text-transform:uppercase;padding:4px 11px;border-radius:100px;margin-bottom:14px;}
+.modal-title{font-size:1.4rem;font-weight:900;font-style:italic;line-height:1.1;margin-bottom:10px;}
+.modal-desc{font-size:.82rem;color:var(--dim);line-height:1.7;margin-bottom:20px;}
+.modal-details{display:flex;flex-direction:column;gap:10px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:16px;margin-bottom:18px;}
+.modal-detail-row{display:flex;align-items:center;gap:10px;font-size:.78rem;}
+.modal-detail-icon{font-size:.9rem;width:20px;text-align:center;flex-shrink:0;}
+.modal-detail-label{color:var(--muted);min-width:60px;font-size:.68rem;font-family:'Space Mono',monospace;text-transform:uppercase;letter-spacing:.08em;}
+.modal-detail-value{color:white;font-weight:600;flex:1;}
+.modal-club-row{display:flex;align-items:center;gap:10px;padding:14px;background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.1);border-radius:12px;}
+.modal-club-av{width:36px;height:36px;border-radius:10px;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.15);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+.modal-club-info .club-n{font-size:.82rem;font-weight:800;}
+.modal-club-info .club-u{font-size:.68rem;color:var(--muted);}
+
+/* Empty state */
+.empty-state{text-align:center;padding:60px 20px;color:var(--muted);}
+.empty-state .empty-icon{font-size:2.5rem;margin-bottom:14px;opacity:.4;}
+.empty-state p{font-size:.82rem;line-height:1.6;}
+
+/* Bottom nav */
+.bottom-nav{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:380px;background:rgba(2,0,36,0.95);backdrop-filter:blur(28px);border:1px solid rgba(0,212,255,0.14);border-radius:100px;padding:7px 12px;display:flex;justify-content:space-around;align-items:center;z-index:500;box-shadow:0 8px 32px rgba(0,0,0,.6);}
+.nav-item{width:42px;height:42px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:all .22s;text-decoration:none;color:var(--muted);font-size:1.1rem;position:relative;}
+.nav-item.active{background:rgba(0,212,255,0.11);color:var(--cyan);}
+.nav-item:hover{background:rgba(0,212,255,0.08);color:var(--cyan);}
+.nav-badge{position:absolute;top:6px;right:6px;width:7px;height:7px;background:#ef4444;border-radius:50%;border:2px solid var(--bg);}
+.nav-av{width:26px;height:26px;border-radius:50%;border:2px solid rgba(0,212,255,.28);overflow:hidden;}
+.nav-av img{width:100%;height:100%;object-fit:cover;}
+
+/* Toast */
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,.28);border-radius:100px;padding:10px 22px;font-size:.76rem;font-weight:700;color:var(--green);z-index:4000;opacity:0;transition:all .35s;pointer-events:none;white-space:nowrap;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* Fade */
+.fade-up{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease;}
+.fade-up.in{opacity:1;transform:translateY(0);}
+.d1{transition-delay:.05s;}.d2{transition-delay:.1s;}.d3{transition-delay:.15s;}.d4{transition-delay:.2s;}
+
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-thumb{background:rgba(0,212,255,0.16);border-radius:100px;}
+
+/* Category colors */
+.cat-tech{--cc:#00D4FF;background:rgba(0,212,255,0.07);border:1px solid rgba(0,212,255,0.2);color:var(--cyan);}
+.cat-design{--cc:#f59e0b;background:rgba(245,158,11,0.07);border:1px solid rgba(245,158,11,0.2);color:#f59e0b;}
+.cat-business{--cc:#10b981;background:rgba(16,185,129,0.07);border:1px solid rgba(16,185,129,0.2);color:#10b981;}
+.cat-arts{--cc:#f472b6;background:rgba(244,114,182,0.07);border:1px solid rgba(244,114,182,0.2);color:#f472b6;}
+.cat-science{--cc:#818cf8;background:rgba(129,140,248,0.07);border:1px solid rgba(129,140,248,0.2);color:#818cf8;}
+.cat-sports{--cc:#fb923c;background:rgba(251,146,60,0.07);border:1px solid rgba(251,146,60,0.2);color:#fb923c;}
+.cat-other{--cc:#94a3b8;background:rgba(148,163,184,0.07);border:1px solid rgba(148,163,184,0.2);color:#94a3b8;}
+</style>
+</head>
+<body>
+<div class="bg-glow"></div>
+
+<div id="loadScreen">
+  <div class="load-logo">ZWAPY</div>
+  <div class="load-bar"><div class="load-fill"></div></div>
+  <div class="load-text">Loading discover...</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- EVENT DETAIL MODAL -->
+<div class="modal-bg" id="eventModal">
+  <div class="modal">
+    <div class="modal-top-bar" id="modalBar"></div>
+    <div class="modal-body">
+      <button class="modal-close" id="modalClose">✕</button>
+      <div class="modal-type-pill" id="modalTypePill"></div>
+      <div class="modal-title" id="modalTitle"></div>
+      <div class="modal-desc" id="modalDesc"></div>
+      <div class="modal-details" id="modalDetails"></div>
+      <div class="modal-club-row" id="modalClub"></div>
+    </div>
+  </div>
+</div>
+
+<div class="layout">
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <a href="dashboard.html" class="topbar-logo">
+      <div class="logo-node">
+        <img src="assets/zwapy-logo.png" style="width:26px;height:26px;object-fit:contain;">
+      </div>
+      <span class="logo-text">ZWAPY</span>
+    </a>
+    <a href="dashboard.html" class="back-btn">← Dashboard</a>
+  </header>
+
+  <!-- PAGE HEADER -->
+  <div class="page-head fade-up d1">
+    <div class="page-label">// Explore the Network</div>
+    <h1 class="page-title">Discover <span>Clubs</span><br>& Events</h1>
+    <p class="page-sub">Find clubs to join, events to attend, and opportunities to connect with your campus network.</p>
+  </div>
+
+  <!-- SEARCH + FILTER -->
+  <div class="filter-bar fade-up d2">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input class="search-input" id="searchInput" placeholder="Search clubs, events, hackathons..."/>
+    </div>
+    <div class="filter-tabs">
+      <div class="filter-tab active" data-filter="all">All</div>
+      <div class="filter-tab" data-filter="event">Events</div>
+      <div class="filter-tab" data-filter="hackathon">Hackathons</div>
+      <div class="filter-tab" data-filter="announcement">Announcements</div>
+      <div class="filter-tab" data-filter="clubs">Clubs</div>
+    </div>
+  </div>
+
+  <!-- CLUBS SECTION -->
+  <div id="clubsSection">
+    <div class="sec-head fade-up d2">
+      <div class="sec-title">Active Clubs</div>
+      <div class="sec-count" id="clubsCount">0</div>
+    </div>
+    <div class="clubs-grid" id="clubsGrid">
+      <div class="empty-state"><div class="empty-icon">🛡️</div><p>Loading clubs...</p></div>
+    </div>
+  </div>
+
+  <!-- EVENTS SECTION -->
+  <div id="eventsSection">
+    <div class="sec-head fade-up d3">
+      <div class="sec-title">Upcoming Posts</div>
+      <div class="sec-count" id="eventsCount">0</div>
+    </div>
+    <div class="events-grid" id="eventsGrid">
+      <div class="empty-state"><div class="empty-icon">📅</div><p>Loading events...</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <a href="dashboard.html" class="nav-item">🏠</a>
+  <a href="clubs.html" class="nav-item">🛡️</a>
+  <a href="#" class="nav-item">💬<span class="nav-badge"></span></a>
+  <a href="discover.html" class="nav-item active">🔍</a>
+  <a href="profile.html" class="nav-item">
+    <div class="nav-av"><img id="navAvatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=default" alt=""></div>
+  </a>
+</nav>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+import { getAuth, onAuthStateChanged, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+import {
+  getFirestore, collection, getDocs, doc,
+  getDoc, updateDoc, arrayUnion, arrayRemove
+} from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+
+const app = initializeApp({
+  apiKey:"AIzaSyBazCIc5vdQInSwvqvohIcbPToTjnw7KJI",
+  authDomain:"zwapy-25.firebaseapp.com",
+  projectId:"zwapy-25",
+  storageBucket:"zwapy-25.firebasestorage.app",
+  messagingSenderId:"30612332450",
+  appId:"1:30612332450:web:9e23f36a69f89dbb325cfb"
+});
+const auth = getAuth(app);
+const db   = getFirestore(app);
+await setPersistence(auth, browserLocalPersistence);
+
+const $ = id => document.getElementById(id);
+
+function toast(msg, col='#10b981'){
+  const t=$('toast');t.textContent=msg;t.style.color=col;
+  t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+function catClass(cat){
+  const map={Technology:'cat-tech',Design:'cat-design',Business:'cat-business',Arts:'cat-arts',Science:'cat-science',Sports:'cat-sports'};
+  return map[cat]||'cat-other';
+}
+function catIcon(cat){
+  const map={Technology:'💻',Design:'🎨',Business:'💼',Arts:'🎭',Science:'🔬',Sports:'⚽'};
+  return map[cat]||'🛡️';
+}
+function typeColor(type){
+  if(type==='hackathon') return '#f59e0b';
+  if(type==='announcement') return '#818cf8';
+  return '#00D4FF';
+}
+function formatDate(dateStr){
+  if(!dateStr) return null;
+  const d = new Date(dateStr);
+  return d.toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
+}
+
+// ── DATA STORE ──
+let allClubs  = [];
+let allPosts  = [];
+let joinedClubs = [];
+let currentUser = null;
+let activeFilter = 'all';
+let searchQuery  = '';
+
+// ── RENDER CLUBS ──
+function renderClubs(){
+  const grid = $('clubsGrid');
+  let filtered = allClubs;
+
+  if(searchQuery){
+    filtered = filtered.filter(c =>
+      c.name.toLowerCase().includes(searchQuery) ||
+      (c.desc||'').toLowerCase().includes(searchQuery) ||
+      (c.category||'').toLowerCase().includes(searchQuery)
+    );
+  }
+
+  if(activeFilter === 'clubs') {
+    // show all clubs
+  } else if(activeFilter !== 'all'){
+    // hide clubs section when filtering by event type
+    $('clubsSection').style.display = 'none';
+    return;
+  }
+  $('clubsSection').style.display = 'block';
+  $('clubsCount').textContent = filtered.length;
+
+  if(!filtered.length){
+    grid.innerHTML='<div class="empty-state"><div class="empty-icon">🛡️</div><p>No clubs found matching your search.</p></div>';
+    return;
+  }
+
+  grid.innerHTML = filtered.map(club => {
+    const joined = joinedClubs.includes(club.id);
+    const cc = catClass(club.category||'Other');
+    return `
+    <div class="club-card" style="--cc:${typeColor('event')}" onclick="openClubPosts('${club.id}')">
+      <div class="club-card-top">
+        <div class="club-avatar">${catIcon(club.category||'Other')}</div>
+        <div class="club-info">
+          <div class="club-name">${club.name}</div>
+          <div class="club-uni">${club.university||''}</div>
+          <span class="club-cat ${cc}">${club.category||'Other'}</span>
+        </div>
+      </div>
+      <div class="club-desc">${club.desc||'No description provided.'}</div>
+      <div class="club-footer">
+        <div class="club-members">👥 ${(club.members||[]).length} members</div>
+        <button class="club-join-btn ${joined?'joined':''}"
+          onclick="event.stopPropagation();toggleJoin('${club.id}',this)"
+          data-id="${club.id}">
+          ${joined?'✓ Joined':'+ Join'}
+        </button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── RENDER POSTS ──
+function renderPosts(){
+  const grid = $('eventsGrid');
+  let filtered = allPosts;
+
+  if(searchQuery){
+    filtered = filtered.filter(p =>
+      (p.title||'').toLowerCase().includes(searchQuery) ||
+      (p.desc||'').toLowerCase().includes(searchQuery) ||
+      (p.clubName||'').toLowerCase().includes(searchQuery)
+    );
+  }
+
+  if(activeFilter !== 'all' && activeFilter !== 'clubs'){
+    filtered = filtered.filter(p => p.type === activeFilter);
+    $('eventsSection').style.display = 'block';
+  } else {
+    $('eventsSection').style.display = 'block';
+  }
+
+  if(activeFilter === 'clubs'){
+    $('eventsSection').style.display = 'none';
+    return;
+  }
+
+  $('eventsCount').textContent = filtered.length;
+
+  if(!filtered.length){
+    grid.innerHTML='<div class="empty-state"><div class="empty-icon">📅</div><p>No posts found. Check back later when clubs start posting events.</p></div>';
+    return;
+  }
+
+  grid.innerHTML = filtered.map(post => {
+    const col = typeColor(post.type);
+    return `
+    <div class="event-card" onclick="openPostModal(${JSON.stringify(post).replace(/"/g,'&quot;')})">
+      <div class="event-type-bar ${post.type||'event'}"></div>
+      <div class="event-header">
+        <div style="flex:1">
+          <span class="event-type-pill ${post.type||'event'}">${post.type||'event'}</span>
+        </div>
+      </div>
+      <div class="event-title">${post.title||'Untitled'}</div>
+      <div class="event-desc">${post.desc||'No description.'}</div>
+      <div class="event-meta">
+        ${post.date?`<div class="event-meta-row"><span class="event-meta-icon">📅</span>${formatDate(post.date)}${post.time?' at '+post.time:''}</div>`:''}
+        ${post.venue?`<div class="event-meta-row"><span class="event-meta-icon">📍</span>${post.venue}</div>`:''}
+      </div>
+      <div class="event-club-tag">
+        <div class="event-club-dot"></div>
+        <span class="event-club-name">${post.clubName||'Zwapy Club'}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── OPEN POST MODAL ──
+window.openPostModal = function(post){
+  const col = typeColor(post.type);
+  $('modalBar').style.background = `linear-gradient(90deg,${col},transparent)`;
+
+  const pillClass = post.type||'event';
+  $('modalTypePill').className = `modal-type-pill event-type-pill ${pillClass}`;
+  $('modalTypePill').textContent = post.type||'event';
+  $('modalTitle').textContent = post.title||'Untitled';
+  $('modalDesc').textContent  = post.desc||'No description provided.';
+
+  const details = [];
+  if(post.date) details.push(`<div class="modal-detail-row"><span class="modal-detail-icon">📅</span><span class="modal-detail-label">Date</span><span class="modal-detail-value">${formatDate(post.date)}${post.time?' at '+post.time:''}</span></div>`);
+  if(post.venue) details.push(`<div class="modal-detail-row"><span class="modal-detail-icon">📍</span><span class="modal-detail-label">Venue</span><span class="modal-detail-value">${post.venue}</span></div>`);
+  if(!details.length) details.push(`<div class="modal-detail-row"><span class="modal-detail-icon">ℹ️</span><span class="modal-detail-label">Info</span><span class="modal-detail-value">Check with the club for more details.</span></div>`);
+  $('modalDetails').innerHTML = details.join('');
+
+  $('modalClub').innerHTML = `
+    <div class="modal-club-av">${catIcon('')}</div>
+    <div class="modal-club-info">
+      <div class="club-n">${post.clubName||'Zwapy Club'}</div>
+      <div class="club-u">${post.university||'Presidency University'}</div>
+    </div>`;
+
+  $('eventModal').classList.add('open');
+};
+
+// ── OPEN CLUB POSTS ── scroll to events and filter
+window.openClubPosts = function(clubId){
+  const club = allClubs.find(c=>c.id===clubId);
+  if(!club) return;
+  searchQuery = club.name;
+  $('searchInput').value = club.name;
+  activeFilter = 'all';
+  document.querySelectorAll('.filter-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelector('[data-filter="all"]').classList.add('active');
+  renderClubs(); renderPosts();
+  $('eventsSection').scrollIntoView({behavior:'smooth'});
+};
+
+// ── JOIN / LEAVE CLUB ──
+window.toggleJoin = async function(clubId, btn){
+  if(!currentUser) return;
+  const joined = joinedClubs.includes(clubId);
+  const clubRef = doc(db,'clubs',clubId);
+  const userRef = doc(db,'users',currentUser.uid);
+
+  try{
+    if(joined){
+      await updateDoc(clubRef,{members: arrayRemove(currentUser.uid)});
+      await updateDoc(userRef,{clubs: Math.max(0,(await getDoc(userRef)).data().clubs-1)});
+      joinedClubs = joinedClubs.filter(id=>id!==clubId);
+      btn.textContent='+ Join'; btn.classList.remove('joined');
+      toast('Left club','#94a3b8');
+    } else {
+      await updateDoc(clubRef,{members: arrayUnion(currentUser.uid)});
+      const ud = (await getDoc(userRef)).data();
+      await updateDoc(userRef,{clubs:(ud.clubs||0)+1});
+      joinedClubs.push(clubId);
+      btn.textContent='✓ Joined'; btn.classList.add('joined');
+      toast('✅ Joined club!');
+    }
+    // Update local member count
+    const c = allClubs.find(x=>x.id===clubId);
+    if(c){
+      c.members = c.members||[];
+      if(joined) c.members = c.members.filter(uid=>uid!==currentUser.uid);
+      else c.members.push(currentUser.uid);
+    }
+  } catch(err){
+    toast('❌ Error: '+err.message,'#ef4444');
+  }
+};
+
+// ── FILTERS ──
+document.querySelectorAll('.filter-tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.filter-tab').forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    activeFilter = tab.dataset.filter;
+    renderClubs(); renderPosts();
+  });
+});
+
+$('searchInput').addEventListener('input', e=>{
+  searchQuery = e.target.value.toLowerCase().trim();
+  renderClubs(); renderPosts();
+});
+
+// Close modal
+$('modalClose').addEventListener('click',()=>$('eventModal').classList.remove('open'));
+$('eventModal').addEventListener('click',e=>{if(e.target===$('eventModal'))$('eventModal').classList.remove('open');});
+
+// ── AUTH + LOAD DATA ──
+onAuthStateChanged(auth, async user=>{
+  if(!user){ window.location.href='login.html'; return; }
+  currentUser = user;
+
+  // Avatar
+  const userSnap = await getDoc(doc(db,'users',user.uid));
+  if(userSnap.exists()){
+    const ud = userSnap.data();
+    $('navAvatar').src = ud.photoURL || user.photoURL ||
+      `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(ud.name||'user')}`;
+    joinedClubs = ud.joinedClubs || [];
+  }
+
+  // Load all clubs
+  const clubsSnap = await getDocs(collection(db,'clubs'));
+  allClubs = [];
+  clubsSnap.forEach(d => allClubs.push({id:d.id, ...d.data()}));
+
+  // Load all posts from every club
+  allPosts = [];
+  for(const club of allClubs){
+    const postsSnap = await getDocs(collection(db,'clubs',club.id,'posts'));
+    postsSnap.forEach(d => {
+      allPosts.push({
+        id:d.id, clubId:club.id,
+        clubName:club.name,
+        university:club.university,
+        ...d.data()
+      });
+    });
+  }
+
+  // Sort posts newest first
+  allPosts.sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
+
+  renderClubs();
+  renderPosts();
+
+  // Reveal
+  setTimeout(()=>{
+    $('loadScreen').classList.add('hide');
+    setTimeout(()=>{if($('loadScreen'))$('loadScreen').remove();},500);
+    document.querySelectorAll('.fade-up').forEach(el=>el.classList.add('in'));
+  },600);
+});
+</script>
+</body>
+</html>
