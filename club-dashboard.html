@@ -203,6 +203,14 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
           <label>Venue / Location</label>
           <input type="text" id="postVenue" placeholder="e.g. Room 301, Block A"/>
         </div>
+        <div class="field">
+          <label>Poster Image URL <span style="font-weight:400;text-transform:none;font-size:.58rem;color:var(--muted)">(optional — paste image link)</span></label>
+          <input type="url" id="postPoster" placeholder="https://... paste image URL"/>
+        </div>
+        <div class="field">
+          <label>Registration / Info Link <span style="font-weight:400;text-transform:none;font-size:.58rem;color:var(--muted)">(optional)</span></label>
+          <input type="url" id="postLink" placeholder="https://forms.google.com/..."/>
+        </div>
         <button class="btn-indigo" id="postBtn">Publish Post →</button>
       </div>
 
@@ -350,6 +358,8 @@ onAuthStateChanged(auth, async user=>{
     const date  = $('postDate').value;
     const time  = $('postTime').value;
     const venue = $('postVenue').value.trim();
+    const poster= $('postPoster').value.trim();
+    const link  = $('postLink').value.trim();
 
     if(!title){toast('❌ Please add a title');return;}
 
@@ -358,6 +368,8 @@ onAuthStateChanged(auth, async user=>{
 
     await addDoc(postsRef,{
       title, desc, type, date, time, venue,
+      posterUrl: poster||'',
+      link: link||'',
       clubName:ud.clubName||'',
       university:ud.university||'',
       createdAt:serverTimestamp()
@@ -365,6 +377,7 @@ onAuthStateChanged(auth, async user=>{
 
     $('postTitle').value='';$('postDesc').value='';
     $('postDate').value='';$('postTime').value='';$('postVenue').value='';
+    $('postPoster').value='';$('postLink').value='';
     toast('✅ Post published!');
     btn.disabled=false;btn.textContent='Publish Post →';
   });

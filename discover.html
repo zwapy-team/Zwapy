@@ -530,7 +530,7 @@ onAuthStateChanged(auth, async user=>{
     const ud = userSnap.data();
     $('navAvatar').src = ud.photoURL || user.photoURL ||
       `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(ud.name||'user')}`;
-    joinedClubs = ud.joinedClubs || ud.joinedClubsList || [];
+    joinedClubs = ud.joinedClubs || [];
   }
 
   // Load all clubs
