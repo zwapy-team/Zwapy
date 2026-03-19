@@ -1,194 +1,552 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zwapy | Skill Exchange</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        :root { --bg: #EAF3FF; --dark: #0F172A; --blue: #2563EB; }
-        body { background-color: var(--bg); font-family: 'Plus Jakarta Sans', sans-serif; }
-       
-        .skill-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        .skill-card:hover { transform: translateY(-5px); border-color: var(--blue); }
-       
-        /* Custom scrollbar for chat */
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-        @keyframes slideIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-        .modal-animate { animation: slideIn 0.3s ease-out forwards; }
-    </style>
-</head>
-<body class="min-h-screen p-4 md:p-8">
-    <div class="max-w-7xl mx-auto space-y-8">
-        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-            <div>
-                <h1 class="text-3xl font-black text-[#0F172A] italic uppercase tracking-tight">Skill Exchange</h1>
-                <p class="text-slate-500 font-medium">Find your next mentor or study buddy across campus.</p>
-            </div>
-           
-            <div class="flex flex-wrap items-center gap-3">
-                <input type="text" placeholder="Search skills (e.g. Figma, Python)..."
-                       class="px-6 py-3 rounded-2xl border border-blue-100 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 min-w-[300px]">
-                <button class="bg-[#0F172A] text-white px-6 py-3 rounded-2xl font-bold hover:bg-blue-600 transition shadow-lg">+ Add Offer</button>
-            </div>
-        </div>
-        <div id="skillsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <p class="text-center text-slate-500 py-8">Loading skills...</p>
-        </div>
-    </div>
-    <div id="chatModal" class="fixed inset-0 bg-[#0F172A]/80 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-4xl h-[80vh] rounded-[3rem] shadow-2xl overflow-hidden flex flex-col md:flex-row modal-animate">
-           
-            <div class="flex-1 flex flex-col bg-slate-50">
-                <div class="p-6 border-b flex items-center justify-between bg-white">
-                    <div class="flex items-center gap-4">
-                        <div class="w-10 h-10 rounded-full bg-blue-600"></div>
-                        <h3 id="chatPartner" class="font-bold text-slate-800">Connection</h3>
-                    </div>
-                    <div class="flex gap-2">
-                        <button class="p-2 bg-blue-50 text-blue-600 rounded-xl hover:bg-blue-600 hover:text-white transition">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" stroke-width="2"></path></svg>
-                        </button>
-                        <button onclick="closeChat()" class="p-2 hover:bg-red-50 text-red-400 rounded-xl">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-width="2"></path></svg>
-                        </button>
-                    </div>
-                </div>
-                <div class="flex-1 p-6 space-y-4 overflow-y-auto">
-                    <div class="flex justify-end"><div class="bg-blue-600 text-white p-4 rounded-[1.5rem] rounded-tr-none max-w-[80%] text-sm">Hey! I saw your Python request. Interested?</div></div>
-                    <div class="flex justify-start"><div class="bg-white border p-4 rounded-[1.5rem] rounded-tl-none max-w-[80%] text-sm">Yes, absolutely! When are you free for a video call?</div></div>
-                </div>
-                <div class="p-6 bg-white border-t flex gap-4">
-                    <input type="text" placeholder="Type a message..." class="flex-1 bg-slate-100 rounded-2xl px-6 focus:outline-none focus:ring-2 focus:ring-blue-500/20">
-                    <button class="bg-blue-600 text-white p-4 rounded-2xl font-bold shadow-lg shadow-blue-500/20">Send</button>
-                </div>
-            </div>
-            <div class="hidden md:flex w-72 p-8 flex-col items-center border-l bg-white">
-                <div class="w-24 h-24 rounded-[2rem] bg-blue-50 mb-4 border-4 border-white shadow-xl"></div>
-                <h4 class="font-black text-center">Jayashankar</h4>
-                <p class="text-[10px] text-slate-400 uppercase font-black mb-8">Verified User</p>
-               
-                <div class="w-full space-y-4">
-                    <div class="bg-slate-50 p-4 rounded-2xl">
-                        <p class="text-[10px] font-bold text-blue-500 mb-1">Reputation</p>
-                        <p class="text-sm font-black italic">ELITE TRADER</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script>
-        function openChat(name) {
-            document.getElementById('chatModal').classList.remove('hidden');
-            document.getElementById('chatPartner').innerText = name;
-            document.body.style.overflow = 'hidden'; // Prevent scroll
-        }
-        function closeChat() {
-            document.getElementById('chatModal').classList.add('hidden');
-            document.body.style.overflow = 'auto';
-        }
-    </script>
-
-    <script type="module">
-        // Firebase
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
-        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
-
-        const firebaseConfig = {
-          apiKey: "AIzaSyBazCIc5vdQInSwvqvohIcbPToTjnw7KJI",
-          authDomain: "zwapy-25.firebaseapp.com",
-          projectId: "zwapy-25",
-          storageBucket: "zwapy-25.firebasestorage.app",
-          messagingSenderId: "30612332450",
-          appId: "1:30612332450:web:9e23f36a69f89dbb325cfb",
-          measurementId: "G-THCGY8NH1Z"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-
-        // Load users' skills when page loads
-        async function loadSkills() {
-          const skillsGrid = document.getElementById('skillsGrid');
-          skillsGrid.innerHTML = '';
-
-          const usersRef = collection(db, 'users');
-          const snap = await getDocs(usersRef);
-
-          if (snap.empty) {
-  skillsGrid.innerHTML = '<p class="text-center text-slate-500 py-8">No users found in Firestore (collection: users)</p>';
-  return;
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Skill Exchange | Zwapy</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --cyan:#00D4FF;--cyan-dim:rgba(0,212,255,0.1);
+  --bg:#010114;--navy:#020024;
+  --border:rgba(0,212,255,0.1);--border-h:rgba(0,212,255,0.3);
+  --muted:#64748b;--dim:#94a3b8;
+  --green:#10b981;--amber:#f59e0b;--indigo:#818cf8;
 }
-console.log('Found ' + snap.size + ' users');
-snap.forEach(doc => {
-  console.log('User ID:', doc.id, 'Data:', doc.data());
-  // rest of the code...
+*{margin:0;padding:0;box-sizing:border-box;}
+::selection{background:var(--cyan);color:#000;}
+body{font-family:'Sora',sans-serif;background:var(--bg);color:white;overflow-x:hidden;min-height:100vh;}
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.022) 2px,rgba(0,0,0,0.022) 4px);pointer-events:none;z-index:9999;}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9998;opacity:.28;}
+.bg-glow{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse 60% 40% at 10% 20%,rgba(0,212,255,0.04) 0%,transparent 60%),
+             radial-gradient(ellipse 40% 50% at 90% 80%,rgba(16,185,129,0.03) 0%,transparent 60%);}
+
+#loadScreen{position:fixed;inset:0;background:var(--bg);z-index:10000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;transition:opacity .4s;}
+#loadScreen.hide{opacity:0;pointer-events:none;}
+.load-logo{font-size:2rem;font-weight:900;font-style:italic;color:var(--cyan);}
+.load-bar{width:140px;height:2px;background:rgba(0,212,255,0.1);border-radius:100px;overflow:hidden;}
+.load-fill{height:100%;background:var(--cyan);border-radius:100px;animation:lf 1s ease forwards;}
+@keyframes lf{from{width:0}to{width:100%}}
+.load-text{font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
+
+.layout{position:relative;z-index:10;max-width:1200px;margin:0 auto;padding:0 22px 120px;}
+
+/* Topbar */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid rgba(0,212,255,0.06);margin-bottom:28px;position:sticky;top:0;z-index:200;background:rgba(1,1,20,0.93);backdrop-filter:blur(24px);margin-left:-22px;margin-right:-22px;padding-left:22px;padding-right:22px;gap:12px;}
+.topbar-logo{display:flex;align-items:center;gap:9px;text-decoration:none;flex-shrink:0;}
+.logo-node{width:38px;height:38px;background:rgba(0,212,255,0.07);border:1px solid rgba(0,212,255,0.2);border-radius:11px;display:flex;align-items:center;justify-content:center;transition:all .3s;}
+.topbar-logo:hover .logo-node{border-color:var(--cyan);}
+.logo-text{font-size:1.25rem;font-weight:900;font-style:italic;}
+.back-btn{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:100px;padding:7px 14px;font-size:.72rem;font-weight:700;color:var(--dim);text-decoration:none;transition:all .2s;}
+.back-btn:hover{border-color:var(--border-h);color:white;}
+
+/* Page header */
+.page-head{margin-bottom:28px;}
+.page-label{font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.22em;text-transform:uppercase;color:var(--cyan);opacity:.6;margin-bottom:5px;}
+.page-title{font-size:clamp(1.8rem,5vw,3rem);font-weight:900;font-style:italic;letter-spacing:-.03em;line-height:1;}
+.page-title span{color:var(--cyan);}
+.page-sub{font-size:.82rem;color:var(--dim);margin-top:8px;line-height:1.6;}
+
+/* Stats strip */
+.stats-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin-bottom:28px;}
+.stat-chip{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:16px;padding:16px 14px;}
+.stat-chip-val{font-family:'Space Mono',monospace;font-size:1.4rem;font-weight:700;color:var(--cyan);line-height:1;margin-bottom:3px;}
+.stat-chip-label{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);}
+
+/* Post a request card */
+.post-card{background:linear-gradient(135deg,rgba(0,212,255,0.05) 0%,rgba(2,0,36,0.8) 100%);border:1px solid rgba(0,212,255,0.15);border-radius:24px;padding:28px;margin-bottom:24px;position:relative;overflow:hidden;}
+.post-card::before{content:'';position:absolute;top:-40px;right:-40px;width:160px;height:160px;background:radial-gradient(circle,rgba(0,212,255,0.08) 0%,transparent 70%);pointer-events:none;}
+.post-card-title{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--cyan);opacity:.7;margin-bottom:18px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+@media(max-width:520px){.form-row{grid-template-columns:1fr;}}
+.field label{display:block;font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin-bottom:6px;}
+.field input,.field select,.field textarea{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:11px;padding:12px 14px;font-size:.88rem;color:white;font-family:'Sora',sans-serif;outline:none;transition:border-color .2s,box-shadow .2s;}
+.field input::placeholder,.field textarea::placeholder{color:var(--muted);}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(0,212,255,0.07);}
+.field select option{background:#020024;}
+.field textarea{resize:vertical;min-height:70px;}
+.field{margin-bottom:0;}
+.post-btn{background:var(--cyan);color:#000;border:none;border-radius:11px;padding:13px 28px;font-size:.82rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:all .25s;margin-top:14px;font-family:'Sora',sans-serif;position:relative;overflow:hidden;}
+.post-btn::before{content:'';position:absolute;top:-50%;left:-60%;width:40%;height:200%;background:rgba(255,255,255,.25);transform:skewX(-20deg);animation:glint 3.5s ease infinite;}
+@keyframes glint{0%,70%,100%{left:-60%;}40%{left:120%;}}
+.post-btn:hover{box-shadow:0 0 20px rgba(0,212,255,.4);transform:translateY(-1px);}
+.post-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+
+/* Filter bar */
+.filter-bar{display:flex;gap:10px;margin-bottom:22px;flex-wrap:wrap;align-items:center;}
+.search-wrap{flex:1;min-width:180px;position:relative;}
+.search-icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:.85rem;pointer-events:none;}
+.search-input{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:11px;padding:11px 14px 11px 36px;font-size:.84rem;color:white;font-family:'Sora',sans-serif;outline:none;transition:border-color .2s;}
+.search-input::placeholder{color:var(--muted);}
+.search-input:focus{border-color:var(--cyan);}
+.filter-tabs{display:flex;gap:7px;flex-wrap:wrap;}
+.ftab{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:100px;padding:7px 14px;font-size:.68rem;font-weight:700;cursor:pointer;transition:all .2s;color:var(--muted);white-space:nowrap;}
+.ftab.active{background:rgba(0,212,255,0.1);border-color:rgba(0,212,255,0.3);color:var(--cyan);}
+.ftab:hover:not(.active){border-color:rgba(255,255,255,0.2);color:white;}
+
+/* Section head */
+.sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
+.sec-title{font-size:.95rem;font-weight:800;font-style:italic;text-transform:uppercase;}
+.sec-badge{font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.12em;background:var(--cyan-dim);border:1px solid rgba(0,212,255,.16);color:var(--cyan);border-radius:100px;padding:3px 9px;}
+
+/* Exchange cards grid */
+.exchange-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px;}
+
+/* Exchange card */
+.ex-card{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:20px;padding:0;overflow:hidden;transition:all .3s;position:relative;}
+.ex-card:hover{border-color:var(--border-h);transform:translateY(-3px);}
+.ex-card-top-bar{height:3px;}
+.ex-card-body{padding:20px;}
+.ex-card-header{display:flex;align-items:center;gap:11px;margin-bottom:14px;}
+.ex-avatar{width:38px;height:38px;border-radius:50%;overflow:hidden;border:2px solid rgba(0,212,255,0.2);flex-shrink:0;}
+.ex-avatar img{width:100%;height:100%;object-fit:cover;}
+.ex-user-info .ex-name{font-size:.82rem;font-weight:700;}
+.ex-user-info .ex-uni{font-size:.62rem;color:var(--muted);}
+.ex-time{font-family:'Space Mono',monospace;font-size:.5rem;color:var(--muted);margin-left:auto;flex-shrink:0;}
+
+/* The swap visual */
+.swap-visual{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:13px;padding:14px;margin-bottom:12px;}
+.swap-side{flex:1;min-width:0;}
+.swap-label{font-family:'Space Mono',monospace;font-size:.48rem;letter-spacing:.15em;text-transform:uppercase;margin-bottom:5px;}
+.swap-label.offering{color:var(--cyan);}
+.swap-label.needs{color:var(--green);}
+.swap-skill{font-size:.88rem;font-weight:800;font-style:italic;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.swap-arrow{font-size:1.1rem;flex-shrink:0;opacity:.4;}
+.ex-desc{font-size:.74rem;color:var(--dim);line-height:1.6;margin-bottom:14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.ex-footer{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;}
+.ex-tags{display:flex;gap:6px;flex-wrap:wrap;}
+.ex-tag{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:100px;}
+.ex-tag.level{background:rgba(129,140,248,0.08);border:1px solid rgba(129,140,248,0.18);color:var(--indigo);}
+.ex-tag.duration{background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.18);color:var(--amber);}
+.connect-btn{background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.22);border-radius:9px;padding:7px 16px;font-size:.7rem;font-weight:800;color:var(--cyan);cursor:pointer;transition:all .2s;font-family:'Sora',sans-serif;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;}
+.connect-btn:hover{background:rgba(0,212,255,0.18);box-shadow:0 0 12px rgba(0,212,255,.2);}
+.connect-btn.mine{background:rgba(239,68,68,0.07);border-color:rgba(239,68,68,0.2);color:#ef4444;}
+.connect-btn.mine:hover{background:rgba(239,68,68,0.15);}
+
+/* Empty */
+.empty-state{text-align:center;padding:50px 20px;color:var(--muted);}
+.empty-icon{font-size:2.5rem;margin-bottom:12px;opacity:.35;}
+.empty-text{font-size:.8rem;line-height:1.6;}
+
+/* Connect modal */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(10px);z-index:3000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s;}
+.modal-bg.open{opacity:1;pointer-events:all;}
+.modal{background:rgba(2,0,36,0.98);border:1px solid rgba(0,212,255,0.18);border-radius:24px;width:100%;max-width:440px;padding:28px;position:relative;transform:translateY(20px) scale(.97);transition:transform .3s;overflow:hidden;}
+.modal-bg.open .modal{transform:translateY(0) scale(1);}
+.modal::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:60%;height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);}
+.modal-close{position:absolute;top:14px;right:14px;width:30px;height:30px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.75rem;color:var(--muted);transition:all .2s;}
+.modal-close:hover{border-color:#ef4444;color:#ef4444;}
+.modal-tag{font-family:'Space Mono',monospace;font-size:.54rem;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);background:rgba(0,212,255,0.07);border:1px solid rgba(0,212,255,0.15);border-radius:100px;padding:3px 10px;display:inline-block;margin-bottom:14px;}
+.modal h3{font-size:1.2rem;font-weight:900;font-style:italic;margin-bottom:6px;}
+.modal-sub{font-size:.76rem;color:var(--dim);margin-bottom:20px;line-height:1.6;}
+.modal-swap-box{background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.12);border-radius:14px;padding:16px;margin-bottom:20px;}
+.modal-swap-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.modal-swap-row:last-child{margin-bottom:0;}
+.msr-label{font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);min-width:70px;}
+.msr-val{font-size:.88rem;font-weight:800;color:white;}
+.modal-msg-label{font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin-bottom:7px;}
+.modal-textarea{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:11px;padding:12px 14px;font-size:.86rem;color:white;font-family:'Sora',sans-serif;outline:none;resize:vertical;min-height:90px;transition:border-color .2s;margin-bottom:16px;}
+.modal-textarea:focus{border-color:var(--cyan);}
+.modal-textarea::placeholder{color:var(--muted);}
+.modal-send-btn{width:100%;background:var(--cyan);color:#000;border:none;border-radius:11px;padding:13px;font-size:.82rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:all .25s;font-family:'Sora',sans-serif;}
+.modal-send-btn:hover{box-shadow:0 0 18px rgba(0,212,255,.4);transform:translateY(-1px);}
+.modal-send-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+
+/* Toast */
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,.28);border-radius:100px;padding:10px 22px;font-size:.76rem;font-weight:700;color:var(--green);z-index:4000;opacity:0;transition:all .35s;pointer-events:none;white-space:nowrap;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* Bottom nav */
+.bottom-nav{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:380px;background:rgba(2,0,36,0.95);backdrop-filter:blur(28px);border:1px solid rgba(0,212,255,0.14);border-radius:100px;padding:7px 12px;display:flex;justify-content:space-around;align-items:center;z-index:500;box-shadow:0 8px 32px rgba(0,0,0,.6);}
+.nav-item{width:42px;height:42px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:all .22s;text-decoration:none;color:var(--muted);font-size:1.1rem;position:relative;}
+.nav-item.active{background:rgba(0,212,255,0.11);color:var(--cyan);}
+.nav-item:hover{background:rgba(0,212,255,0.08);color:var(--cyan);}
+.nav-badge{position:absolute;top:6px;right:6px;width:7px;height:7px;background:#ef4444;border-radius:50%;border:2px solid var(--bg);}
+.nav-av{width:26px;height:26px;border-radius:50%;border:2px solid rgba(0,212,255,.28);overflow:hidden;}
+.nav-av img{width:100%;height:100%;object-fit:cover;}
+
+.fade-up{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease;}
+.fade-up.in{opacity:1;transform:translateY(0);}
+.d1{transition-delay:.05s;}.d2{transition-delay:.1s;}.d3{transition-delay:.15s;}.d4{transition-delay:.2s;}
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-thumb{background:rgba(0,212,255,0.16);border-radius:100px;}
+</style>
+</head>
+<body>
+<div class="bg-glow"></div>
+
+<div id="loadScreen">
+  <div class="load-logo">ZWAPY</div>
+  <div class="load-bar"><div class="load-fill"></div></div>
+  <div class="load-text">Loading skill exchange...</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- Connect modal -->
+<div class="modal-bg" id="connectModal">
+  <div class="modal">
+    <button class="modal-close" id="modalClose">✕</button>
+    <div class="modal-tag">🔄 Connect Request</div>
+    <h3>Send Exchange Request</h3>
+    <p class="modal-sub">Introduce yourself and explain why you want to connect for this exchange.</p>
+    <div class="modal-swap-box" id="modalSwapBox"></div>
+    <div class="modal-msg-label">Your Message</div>
+    <textarea class="modal-textarea" id="modalMsg" placeholder="Hi! I'm interested in your exchange. I can help you with... and I'd love to learn..."></textarea>
+    <button class="modal-send-btn" id="modalSendBtn">Send Request →</button>
+  </div>
+</div>
+
+<div class="layout">
+  <header class="topbar">
+    <a href="dashboard.html" class="topbar-logo">
+      <div class="logo-node">
+        <img src="assets/zwapy-logo.png" style="width:26px;height:26px;object-fit:contain;">
+      </div>
+      <span class="logo-text">ZWAPY</span>
+    </a>
+    <a href="dashboard.html" class="back-btn">← Dashboard</a>
+  </header>
+
+  <!-- PAGE HEAD -->
+  <div class="page-head fade-up d1">
+    <div class="page-label">// Peer-to-Peer Learning</div>
+    <h1 class="page-title">Skill <span>Exchange</span></h1>
+    <p class="page-sub">Offer what you know. Get what you need. No money — just skills.</p>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-strip fade-up d1">
+    <div class="stat-chip">
+      <div class="stat-chip-val" id="statTotal">0</div>
+      <div class="stat-chip-label">Active Requests</div>
+    </div>
+    <div class="stat-chip">
+      <div class="stat-chip-val" id="statMine" style="color:var(--green);">0</div>
+      <div class="stat-chip-label">My Requests</div>
+    </div>
+    <div class="stat-chip">
+      <div class="stat-chip-val" id="statConnects" style="color:var(--amber);">0</div>
+      <div class="stat-chip-label">Connections Sent</div>
+    </div>
+  </div>
+
+  <!-- POST REQUEST FORM -->
+  <div class="post-card fade-up d2">
+    <div class="post-card-title">// Post a Skill Exchange Request</div>
+    <div class="form-row">
+      <div class="field">
+        <label>I Can Offer <span style="color:var(--cyan)">*</span></label>
+        <input type="text" id="offerSkill" placeholder="e.g. UI Design, Python, Video Editing"/>
+      </div>
+      <div class="field">
+        <label>I Want to Learn <span style="color:var(--cyan)">*</span></label>
+        <input type="text" id="needSkill" placeholder="e.g. Motion Design, SQL, Photography"/>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="field">
+        <label>Skill Level</label>
+        <select id="skillLevel">
+          <option value="Beginner">Beginner</option>
+          <option value="Intermediate" selected>Intermediate</option>
+          <option value="Advanced">Advanced</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Preferred Duration</label>
+        <select id="duration">
+          <option value="1 Session">1 Session (~1hr)</option>
+          <option value="1 Week">1 Week</option>
+          <option value="2 Weeks">2 Weeks</option>
+          <option value="1 Month">1 Month</option>
+        </select>
+      </div>
+    </div>
+    <div class="field" style="margin-top:14px;">
+      <label>Description (optional)</label>
+      <textarea id="postDesc" placeholder="Tell others more about what you're looking for and what you bring to the table..."></textarea>
+    </div>
+    <button class="post-btn" id="postBtn">Post Request →</button>
+  </div>
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar fade-up d3">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input class="search-input" id="searchInput" placeholder="Search skills..."/>
+    </div>
+    <div class="filter-tabs">
+      <div class="ftab active" data-f="all">All</div>
+      <div class="ftab" data-f="mine">My Posts</div>
+      <div class="ftab" data-f="Beginner">Beginner</div>
+      <div class="ftab" data-f="Intermediate">Intermediate</div>
+      <div class="ftab" data-f="Advanced">Advanced</div>
+    </div>
+  </div>
+
+  <!-- EXCHANGE REQUESTS -->
+  <div class="sec-head fade-up d3">
+    <div class="sec-title">Exchange Requests</div>
+    <div class="sec-badge" id="reqCount">0</div>
+  </div>
+  <div class="exchange-grid fade-up d4" id="exchangeGrid">
+    <div class="empty-state"><div class="empty-icon">🔄</div><p class="empty-text">Loading exchanges...</p></div>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <a href="dashboard.html" class="nav-item">🏠</a>
+  <a href="clubs.html" class="nav-item">🛡️</a>
+  <a href="#" class="nav-item">💬<span class="nav-badge"></span></a>
+  <a href="discover.html" class="nav-item">🔍</a>
+  <a href="profile.html" class="nav-item">
+    <div class="nav-av"><img id="navAvatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=default" alt=""></div>
+  </a>
+</nav>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+import { getAuth, onAuthStateChanged, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+import {
+  getFirestore, collection, addDoc, getDocs,
+  doc, getDoc, deleteDoc, serverTimestamp,
+  query, orderBy, onSnapshot
+} from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+
+const app = initializeApp({
+  apiKey:"AIzaSyBazCIc5vdQInSwvqvohIcbPToTjnw7KJI",
+  authDomain:"zwapy-25.firebaseapp.com",
+  projectId:"zwapy-25",
+  storageBucket:"zwapy-25.firebasestorage.app",
+  messagingSenderId:"30612332450",
+  appId:"1:30612332450:web:9e23f36a69f89dbb325cfb"
+});
+const auth = getAuth(app);
+const db   = getFirestore(app);
+await setPersistence(auth, browserLocalPersistence);
+
+const $ = id => document.getElementById(id);
+
+function toast(msg, col='#10b981'){
+  const t=$('toast');t.textContent=msg;t.style.color=col;
+  t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);
+}
+function timeAgo(ts){
+  if(!ts) return 'just now';
+  const m=Math.floor((Date.now()-ts.toMillis())/60000);
+  if(m<1) return 'just now';
+  if(m<60) return `${m}m ago`;
+  const h=Math.floor(m/60);
+  if(h<24) return `${h}h ago`;
+  return `${Math.floor(h/24)}d ago`;
+}
+function levelColor(l){
+  if(l==='Advanced') return '#10b981';
+  if(l==='Intermediate') return '#f59e0b';
+  return '#818cf8';
+}
+
+let allExchanges = [];
+let currentUser  = null;
+let userData     = {};
+let activeFilter = 'all';
+let searchQ      = '';
+let connectTarget= null;
+let connectCount = 0;
+
+// ── RENDER ──
+function render(){
+  let list = allExchanges;
+
+  if(activeFilter === 'mine')
+    list = list.filter(e => e.uid === currentUser.uid);
+  else if(activeFilter !== 'all')
+    list = list.filter(e => e.level === activeFilter);
+
+  if(searchQ)
+    list = list.filter(e =>
+      (e.offer||'').toLowerCase().includes(searchQ) ||
+      (e.need||'').toLowerCase().includes(searchQ) ||
+      (e.desc||'').toLowerCase().includes(searchQ)
+    );
+
+  $('reqCount').textContent = list.length;
+  $('statTotal').textContent = allExchanges.length;
+  $('statMine').textContent  = allExchanges.filter(e=>e.uid===currentUser?.uid).length;
+
+  if(!list.length){
+    $('exchangeGrid').innerHTML=`<div class="empty-state"><div class="empty-icon">🔄</div><p class="empty-text">No exchange requests found.<br>Be the first — post yours above!</p></div>`;
+    return;
+  }
+
+  const lCol = levelColor;
+  $('exchangeGrid').innerHTML = list.map(ex => {
+    const isMe = ex.uid === currentUser?.uid;
+    const col  = lCol(ex.level);
+    const av   = ex.photoURL || `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(ex.name||ex.uid)}`;
+    return `
+    <div class="ex-card">
+      <div class="ex-card-top-bar" style="background:linear-gradient(90deg,${col},transparent)"></div>
+      <div class="ex-card-body">
+        <div class="ex-card-header">
+          <div class="ex-avatar"><img src="${av}" alt=""></div>
+          <div class="ex-user-info">
+            <div class="ex-name">${ex.name||'Student'}</div>
+            <div class="ex-uni">${ex.university||'Presidency University'}</div>
+          </div>
+          <div class="ex-time">${timeAgo(ex.createdAt)}</div>
+        </div>
+        <div class="swap-visual">
+          <div class="swap-side">
+            <div class="swap-label offering">Offering</div>
+            <div class="swap-skill">${ex.offer||'—'}</div>
+          </div>
+          <div class="swap-arrow">⇄</div>
+          <div class="swap-side">
+            <div class="swap-label needs">Needs</div>
+            <div class="swap-skill">${ex.need||'—'}</div>
+          </div>
+        </div>
+        ${ex.desc?`<div class="ex-desc">${ex.desc}</div>`:''}
+        <div class="ex-footer">
+          <div class="ex-tags">
+            <span class="ex-tag level" style="color:${col};border-color:${col}33;background:${col}11;">${ex.level||'Intermediate'}</span>
+            <span class="ex-tag duration">${ex.duration||'Flexible'}</span>
+          </div>
+          ${isMe
+            ? `<button class="connect-btn mine" onclick="deleteRequest('${ex.id}')">Delete</button>`
+            : `<button class="connect-btn" onclick="openConnect(${JSON.stringify(ex).replace(/"/g,'&quot;')})">Connect →</button>`
+          }
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── DELETE OWN REQUEST ──
+window.deleteRequest = async function(id){
+  if(!confirm('Delete your exchange request?')) return;
+  await deleteDoc(doc(db,'exchanges',id));
+  toast('🗑️ Request deleted','#94a3b8');
+};
+
+// ── OPEN CONNECT MODAL ──
+window.openConnect = function(ex){
+  connectTarget = ex;
+  $('modalSwapBox').innerHTML=`
+    <div class="modal-swap-row"><span class="msr-label">Offering</span><span class="msr-val">${ex.offer}</span></div>
+    <div class="modal-swap-row"><span class="msr-label">Needs</span><span class="msr-val">${ex.need}</span></div>
+    <div class="modal-swap-row"><span class="msr-label">Posted by</span><span class="msr-val">${ex.name||'Student'}</span></div>`;
+  $('modalMsg').value='';
+  $('connectModal').classList.add('open');
+};
+
+$('modalClose').addEventListener('click',()=>$('connectModal').classList.remove('open'));
+$('connectModal').addEventListener('click',e=>{if(e.target===$('connectModal'))$('connectModal').classList.remove('open');});
+
+$('modalSendBtn').addEventListener('click', async()=>{
+  const msg = $('modalMsg').value.trim();
+  if(!msg){toast('❌ Please write a message first','#ef4444');return;}
+  const btn=$('modalSendBtn');
+  btn.disabled=true;btn.textContent='Sending...';
+
+  await addDoc(collection(db,'connections'),{
+    fromUid: currentUser.uid,
+    fromName: userData.name||'Student',
+    fromEmail: currentUser.email,
+    toUid: connectTarget.uid,
+    toName: connectTarget.name,
+    offer: connectTarget.offer,
+    need: connectTarget.need,
+    message: msg,
+    createdAt: serverTimestamp()
+  });
+
+  connectCount++;
+  $('statConnects').textContent = connectCount;
+  $('connectModal').classList.remove('open');
+  btn.disabled=false;btn.textContent='Send Request →';
+  toast('✅ Connection request sent!');
 });
 
-          snap.forEach(doc => {
-            const user = doc.data();
-            if (user.skills && user.skills.length > 0) {
-              user.skills.forEach(skill => {
-                const card = document.createElement('div');
-                card.className = 'skill-card bg-white p-6 rounded-[2.5rem] border border-blue-50 shadow-sm flex flex-col justify-between';
-                card.innerHTML = `
-                  <div>
-                    <div class="flex justify-between items-start mb-4">
-                      <span class="px-3 py-1 bg-blue-100 text-blue-700 text-[10px] font-black uppercase rounded-lg">Offer</span>
-                      <span class="text-[10px] font-bold text-slate-400">Date</span>
-                    </div>
-                    <h3 class="text-xl font-black text-slate-800">${skill.title || 'Skill'}</h3>
-                    <p class="text-sm text-blue-600 font-bold mb-3">by ${user.name || 'User'}</p>
-                    <p class="text-slate-500 text-sm leading-relaxed mb-6 italic">"${skill.description || 'Description'}"</p>
-                  </div>
-                  <div class="flex items-center justify-between pt-4 border-t border-slate-50">
-                    <div class="flex -space-x-3">
-                      <img src="${user.photoURL || 'https://api.dicebear.com/7.x/avataaars/svg?seed=User'}" class="w-8 h-8 rounded-full border-2 border-white">
-                      <div class="w-8 h-8 rounded-full bg-slate-100 border-2 border-white flex items-center justify-center text-[10px] font-bold">+1</div>
-                    </div>
-                    <button onclick="openChat('${user.name || 'User'}')" class="bg-[#0F172A] text-white px-6 py-2.5 rounded-xl font-bold hover:bg-blue-600 transition">Connect</button>
-                  </div>
-                `;
-                skillsGrid.appendChild(card);
-              });
-            } else {
-              // If no skills, show user's name only
-              const card = document.createElement('div');
-              card.className = 'skill-card bg-white p-6 rounded-[2.5rem] border border-blue-50 shadow-sm flex flex-col justify-between';
-              card.innerHTML = `
-                <div>
-                  <div class="flex justify-between items-start mb-4">
-                    <span class="px-3 py-1 bg-blue-100 text-blue-700 text-[10px] font-black uppercase rounded-lg">User</span>
-                    <span class="text-[10px] font-bold text-slate-400">Date</span>
-                  </div>
-                  <h3 class="text-xl font-black text-slate-800">${user.name || 'User'}</h3>
-                  <p class="text-sm text-blue-600 font-bold mb-3">Skills Interested</p>
-                  <p class="text-slate-500 text-sm leading-relaxed mb-6 italic">"${user.interestedSkills || 'No interested skills listed'}"</p>
-                </div>
-                <div class="flex items-center justify-between pt-4 border-t border-slate-50">
-                  <div class="flex -space-x-3">
-                    <img src="${user.photoURL || 'https://api.dicebear.com/7.x/avataaars/svg?seed=User'}" class="w-8 h-8 rounded-full border-2 border-white">
-                    <div class="w-8 h-8 rounded-full bg-slate-100 border-2 border-white flex items-center justify-center text-[10px] font-bold">+1</div>
-                  </div>
-                  <button onclick="openChat('${user.name || 'User'}')" class="bg-[#0F172A] text-white px-6 py-2.5 rounded-xl font-bold hover:bg-blue-600 transition">Connect</button>
-                </div>
-              `;
-              skillsGrid.appendChild(card);
-            }
-          });
-        }
+// ── FILTERS ──
+document.querySelectorAll('.ftab').forEach(t=>{
+  t.addEventListener('click',()=>{
+    document.querySelectorAll('.ftab').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    activeFilter = t.dataset.f;
+    render();
+  });
+});
+$('searchInput').addEventListener('input',e=>{
+  searchQ=e.target.value.toLowerCase().trim();
+  render();
+});
 
-        // Load on page load
-        window.addEventListener('load', loadSkills);
-    </script>
+// ── AUTH ──
+onAuthStateChanged(auth, async user=>{
+  if(!user){window.location.href='login.html';return;}
+  currentUser=user;
+
+  const userSnap=await getDoc(doc(db,'users',user.uid));
+  if(userSnap.exists()){
+    userData=userSnap.data();
+    $('navAvatar').src=userData.photoURL||user.photoURL||
+      `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(userData.name||'user')}`;
+  }
+
+  // Count connections sent
+  const connSnap=await getDocs(collection(db,'connections'));
+  connectCount=0;
+  connSnap.forEach(d=>{if(d.data().fromUid===user.uid)connectCount++;});
+  $('statConnects').textContent=connectCount;
+
+  // Live feed of all exchanges
+  const q=query(collection(db,'exchanges'),orderBy('createdAt','desc'));
+  onSnapshot(q, snap=>{
+    allExchanges=[];
+    snap.forEach(d=>allExchanges.push({id:d.id,...d.data()}));
+    render();
+  });
+
+  // ── POST REQUEST ──
+  $('postBtn').addEventListener('click', async()=>{
+    const offer    = $('offerSkill').value.trim();
+    const need     = $('needSkill').value.trim();
+    const level    = $('skillLevel').value;
+    const duration = $('duration').value;
+    const desc     = $('postDesc').value.trim();
+
+    if(!offer){toast('❌ Please enter what you are offering','#ef4444');return;}
+    if(!need){toast('❌ Please enter what you need','#ef4444');return;}
+
+    const btn=$('postBtn');
+    btn.disabled=true;btn.textContent='Posting...';
+
+    await addDoc(collection(db,'exchanges'),{
+      uid: user.uid,
+      name: userData.name||user.displayName||'Student',
+      university: userData.university||'',
+      photoURL: userData.photoURL||user.photoURL||'',
+      offer, need, level, duration, desc,
+      createdAt: serverTimestamp()
+    });
+
+    $('offerSkill').value='';$('needSkill').value='';$('postDesc').value='';
+    btn.disabled=false;btn.textContent='Post Request →';
+    toast('✅ Request posted!');
+  });
+
+  // Hide loader
+  setTimeout(()=>{
+    $('loadScreen').classList.add('hide');
+    setTimeout(()=>{if($('loadScreen'))$('loadScreen').remove();},500);
+    document.querySelectorAll('.fade-up').forEach(el=>el.classList.add('in'));
+  },600);
+});
+</script>
 </body>
 </html>
-"""
-
-print(code)
-</parameter>
-</xai:function_call>
