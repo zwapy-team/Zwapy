@@ -1,221 +1,520 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ZwapyClubs | Live Portal</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        :root { --neon: #00D4FF; --bg: #010114; }
-        body {
-            background-color: var(--bg);
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            color: white;
-            margin: 0;
-            touch-action: manipulation;
-            overflow-x: hidden;
-        }
-        .bg-layer {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1;
-            display: flex; align-items: center; justify-content: center;
-            pointer-events: none;
-        }
-        @keyframes drift {
-            0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.1; }
-            50% { transform: scale(1.15) rotate(3deg); opacity: 0.25; }
-        }
-        .floating-logo { width: 100vw; max-width: 800px; animation: drift 12s ease-in-out infinite; }
-        .neo-glass {
-            background: rgba(2, 0, 36, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(0, 212, 255, 0.15);
-        }
-        .calendar-grid {
-            display: grid; grid-template-columns: repeat(7, 1fr);
-            gap: 1px; background: rgba(0, 212, 255, 0.1);
-            border-radius: 1.5rem; overflow: hidden;
-        }
-        .cell {
-            aspect-ratio: 1 / 1.1;
-            background: rgba(1, 1, 20, 0.98);
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            transition: 0.2s; position: relative; padding: 0.5rem;
-            font-size: 0.85rem;
-        }
-        .today-cell {
-            background: rgba(0, 212, 255, 0.1);
-            box-shadow: inset 0 0 15px rgba(0, 212, 255, 0.2);
-        }
-        .today-cell span { color: var(--neon); text-shadow: 0 0 10px var(--neon); }
-        .today-dot { position: absolute; top: 6px; right: 6px; width: 5px; height: 5px; background: var(--neon); border-radius: 50%; box-shadow: 0 0 8px var(--neon); }
-        .nav-arrow { font-size: 1.8rem; color: var(--neon); cursor: pointer; padding: 10px; transition: 0.2s; }
-        .nav-arrow:active { transform: scale(0.8); opacity: 0.5; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .event {
-            background: rgba(0,212,255,0.08);
-            border-left: 3px solid var(--neon);
-            padding: 0.4rem 0.6rem;
-            margin-top: 0.3rem;
-            border-radius: 0.4rem;
-            font-size: 0.8rem;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-        }
-        .modal {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.85);
-            display: none; align-items: center; justify-content: center; z-index: 50;
-        }
-        .modal-content {
-            background: var(--card);
-            border: 1px solid var(--neon);
-            border-radius: 1rem;
-            padding: 1.5rem 2rem;
-            max-width: 90%;
-            width: 32rem;
-            position: relative;
-        }
-        .close { position: absolute; top: 1rem; right: 1.5rem; font-size: 2rem; cursor: pointer; color: var(--neon); }
-        .close:hover { color: white; }
-    </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Clubs | Zwapy</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --cyan:#00D4FF;--cyan-dim:rgba(0,212,255,0.1);
+  --bg:#010114;--navy:#020024;
+  --border:rgba(0,212,255,0.1);--border-h:rgba(0,212,255,0.3);
+  --muted:#64748b;--dim:#94a3b8;
+  --green:#10b981;--amber:#f59e0b;--indigo:#818cf8;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+::selection{background:var(--cyan);color:#000;}
+body{font-family:'Sora',sans-serif;background:var(--bg);color:white;overflow-x:hidden;min-height:100vh;}
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.022) 2px,rgba(0,0,0,0.022) 4px);pointer-events:none;z-index:9999;}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9998;opacity:.28;}
+.bg-glow{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse 60% 40% at 10% 20%,rgba(0,212,255,0.04) 0%,transparent 60%),
+             radial-gradient(ellipse 40% 50% at 90% 80%,rgba(129,140,248,0.04) 0%,transparent 60%);}
+
+/* Load */
+#loadScreen{position:fixed;inset:0;background:var(--bg);z-index:10000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;transition:opacity .4s;}
+#loadScreen.hide{opacity:0;pointer-events:none;}
+.load-logo{font-size:2rem;font-weight:900;font-style:italic;color:var(--cyan);}
+.load-bar{width:140px;height:2px;background:rgba(0,212,255,0.1);border-radius:100px;overflow:hidden;}
+.load-fill{height:100%;background:var(--cyan);border-radius:100px;animation:lf 1s ease forwards;}
+@keyframes lf{from{width:0}to{width:100%}}
+.load-text{font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
+
+.layout{position:relative;z-index:10;max-width:1200px;margin:0 auto;padding:0 22px 120px;}
+
+/* Topbar */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid rgba(0,212,255,0.06);margin-bottom:28px;position:sticky;top:0;z-index:200;background:rgba(1,1,20,0.93);backdrop-filter:blur(24px);margin-left:-22px;margin-right:-22px;padding-left:22px;padding-right:22px;gap:12px;}
+.topbar-logo{display:flex;align-items:center;gap:9px;text-decoration:none;flex-shrink:0;}
+.logo-node{width:38px;height:38px;background:rgba(0,212,255,0.07);border:1px solid rgba(0,212,255,0.2);border-radius:11px;display:flex;align-items:center;justify-content:center;transition:all .3s;}
+.topbar-logo:hover .logo-node{border-color:var(--cyan);}
+.logo-text{font-size:1.25rem;font-weight:900;font-style:italic;}
+.back-btn{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:100px;padding:7px 14px;font-size:.72rem;font-weight:700;color:var(--dim);text-decoration:none;transition:all .2s;}
+.back-btn:hover{border-color:var(--border-h);color:white;}
+
+/* Page header */
+.page-head{margin-bottom:28px;}
+.page-label{font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.22em;text-transform:uppercase;color:var(--cyan);opacity:.6;margin-bottom:5px;}
+.page-title{font-size:clamp(1.8rem,5vw,3rem);font-weight:900;font-style:italic;letter-spacing:-.03em;line-height:1;}
+.page-title span{color:var(--cyan);}
+.page-sub{font-size:.82rem;color:var(--dim);margin-top:8px;}
+
+/* Stats strip */
+.stats-strip{display:flex;gap:12px;margin-bottom:28px;flex-wrap:wrap;}
+.stat-chip{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:14px;padding:14px 18px;display:flex;flex-direction:column;gap:3px;flex:1;min-width:90px;}
+.stat-chip-val{font-family:'Space Mono',monospace;font-size:1.4rem;font-weight:700;color:var(--cyan);line-height:1;}
+.stat-chip-label{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);}
+
+/* My clubs */
+.my-section{margin-bottom:28px;display:none;}
+.sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.sec-title{font-size:.9rem;font-weight:800;font-style:italic;text-transform:uppercase;}
+.sec-badge{font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.12em;background:var(--cyan-dim);border:1px solid rgba(0,212,255,.16);color:var(--cyan);border-radius:100px;padding:3px 9px;}
+.my-scroll{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px;}
+.my-scroll::-webkit-scrollbar{height:3px;}
+.my-scroll::-webkit-scrollbar-thumb{background:rgba(0,212,255,0.16);border-radius:100px;}
+.my-chip{background:rgba(0,212,255,0.06);border:1px solid rgba(0,212,255,0.18);border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:8px;cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0;}
+.my-chip:hover{border-color:var(--cyan);background:rgba(0,212,255,0.1);}
+.my-chip .ci{font-size:1rem;}
+.my-chip .cn{font-size:.76rem;font-weight:700;}
+.leave-x{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.68rem;padding:1px 5px;border-radius:5px;transition:color .2s;}
+.leave-x:hover{color:#ef4444;}
+
+/* Filter */
+.filter-bar{display:flex;gap:10px;margin-bottom:22px;flex-wrap:wrap;align-items:center;}
+.search-wrap{flex:1;min-width:180px;position:relative;}
+.si{position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:.85rem;pointer-events:none;}
+.search-input{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:11px;padding:11px 14px 11px 36px;font-size:.84rem;color:white;font-family:'Sora',sans-serif;outline:none;transition:border-color .2s;}
+.search-input::placeholder{color:var(--muted);}
+.search-input:focus{border-color:var(--cyan);}
+.cat-filters{display:flex;gap:7px;flex-wrap:wrap;}
+.cb{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:100px;padding:7px 13px;font-size:.68rem;font-weight:700;cursor:pointer;transition:all .2s;color:var(--muted);white-space:nowrap;}
+.cb.active{background:rgba(0,212,255,0.1);border-color:rgba(0,212,255,0.3);color:var(--cyan);}
+.cb:hover:not(.active){border-color:rgba(255,255,255,0.2);color:white;}
+
+/* Clubs grid */
+.clubs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;}
+.club-card{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:20px;overflow:hidden;transition:all .3s;cursor:pointer;}
+.club-card:hover{border-color:var(--border-h);transform:translateY(-3px);}
+.card-bar{height:4px;}
+.card-body{padding:20px;}
+.card-top{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px;}
+.club-av{width:48px;height:48px;border-radius:13px;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.15);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;transition:transform .3s;}
+.club-card:hover .club-av{transform:scale(1.08);}
+.club-meta{flex:1;min-width:0;}
+.club-name{font-size:.95rem;font-weight:800;font-style:italic;text-transform:uppercase;margin-bottom:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.club-head{font-size:.65rem;color:var(--muted);margin-bottom:5px;}
+.cat-pill{display:inline-block;font-family:'Space Mono',monospace;font-size:.48rem;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:100px;}
+.club-desc{font-size:.74rem;color:var(--dim);line-height:1.6;margin-bottom:14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.card-footer{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.mem-count{font-size:.66rem;color:var(--muted);display:flex;align-items:center;gap:4px;}
+.join-btn{background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.22);border-radius:9px;padding:7px 16px;font-size:.7rem;font-weight:800;color:var(--cyan);cursor:pointer;transition:all .25s;font-family:'Sora',sans-serif;text-transform:uppercase;letter-spacing:.04em;}
+.join-btn:hover{background:rgba(0,212,255,0.18);box-shadow:0 0 12px rgba(0,212,255,.2);}
+.join-btn.joined{background:rgba(16,185,129,0.08);border-color:rgba(16,185,129,0.22);color:var(--green);}
+.join-btn.joined:hover{background:rgba(239,68,68,0.08);border-color:rgba(239,68,68,.22);color:#ef4444;}
+
+/* Modal */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.82);backdrop-filter:blur(10px);z-index:3000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s;}
+.modal-bg.open{opacity:1;pointer-events:all;}
+.modal{background:rgba(2,0,36,0.98);border:1px solid rgba(0,212,255,0.18);border-radius:24px;width:100%;max-width:500px;position:relative;transform:translateY(20px) scale(.97);transition:transform .3s;overflow:hidden;max-height:88vh;overflow-y:auto;}
+.modal-bg.open .modal{transform:translateY(0) scale(1);}
+.modal-bar{height:4px;width:100%;}
+.modal-body{padding:26px;}
+.modal-close{position:absolute;top:14px;right:14px;width:30px;height:30px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.75rem;color:var(--muted);transition:all .2s;}
+.modal-close:hover{border-color:#ef4444;color:#ef4444;}
+.modal-top{display:flex;gap:14px;align-items:flex-start;margin-bottom:16px;}
+.modal-av{width:56px;height:56px;border-radius:15px;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.15);display:flex;align-items:center;justify-content:center;font-size:1.7rem;flex-shrink:0;}
+.modal-name{font-size:1.2rem;font-weight:900;font-style:italic;text-transform:uppercase;margin-bottom:3px;}
+.modal-uni{font-size:.7rem;color:var(--muted);margin-bottom:5px;}
+.modal-desc{font-size:.8rem;color:var(--dim);line-height:1.7;margin-bottom:18px;}
+.modal-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px;}
+.ms{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:11px;padding:12px;text-align:center;}
+.ms-val{font-family:'Space Mono',monospace;font-size:1.2rem;font-weight:700;color:var(--cyan);line-height:1;margin-bottom:3px;}
+.ms-label{font-size:.52rem;color:var(--muted);font-family:'Space Mono',monospace;text-transform:uppercase;letter-spacing:.1em;}
+.modal-posts-label{font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin-bottom:10px;}
+.mpost{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:12px;margin-bottom:8px;}
+.mpost:last-child{margin-bottom:0;}
+.mpost-type{font-family:'Space Mono',monospace;font-size:.48rem;letter-spacing:.1em;text-transform:uppercase;color:var(--cyan);margin-bottom:4px;}
+.mpost-title{font-size:.84rem;font-weight:700;margin-bottom:3px;}
+.mpost-meta{font-size:.66rem;color:var(--muted);}
+.modal-join-btn{width:100%;background:var(--cyan);color:#000;border:none;border-radius:11px;padding:13px;font-size:.82rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:all .25s;margin-top:14px;font-family:'Sora',sans-serif;}
+.modal-join-btn:hover{box-shadow:0 0 18px rgba(0,212,255,.4);transform:translateY(-1px);}
+.modal-join-btn.joined{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,.25);color:#ef4444;}
+
+/* CTA banner */
+.cta-banner{background:var(--cyan);border-radius:20px;padding:22px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:24px;box-shadow:0 0 30px rgba(0,212,255,.2);}
+.cta-text h3{font-size:1rem;font-weight:900;font-style:italic;color:#000;text-transform:uppercase;margin-bottom:3px;}
+.cta-text p{font-size:.7rem;color:rgba(0,0,0,.6);font-weight:600;}
+.cta-btn{background:#000;color:white;border:none;border-radius:10px;padding:10px 20px;font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;white-space:nowrap;font-family:'Sora',sans-serif;transition:all .2s;text-decoration:none;display:inline-block;}
+.cta-btn:hover{background:#111;}
+
+/* Empty */
+.empty-state{text-align:center;padding:50px 20px;color:var(--muted);}
+.empty-icon{font-size:2.5rem;margin-bottom:12px;opacity:.35;}
+.empty-text{font-size:.8rem;line-height:1.6;}
+
+/* Toast */
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,.28);border-radius:100px;padding:10px 22px;font-size:.76rem;font-weight:700;color:var(--green);z-index:4000;opacity:0;transition:all .35s;pointer-events:none;white-space:nowrap;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* Bottom nav */
+.bottom-nav{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:380px;background:rgba(2,0,36,0.95);backdrop-filter:blur(28px);border:1px solid rgba(0,212,255,0.14);border-radius:100px;padding:7px 12px;display:flex;justify-content:space-around;align-items:center;z-index:500;box-shadow:0 8px 32px rgba(0,0,0,.6);}
+.nav-item{width:42px;height:42px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:all .22s;text-decoration:none;color:var(--muted);font-size:1.1rem;position:relative;}
+.nav-item.active{background:rgba(0,212,255,0.11);color:var(--cyan);}
+.nav-item:hover{background:rgba(0,212,255,0.08);color:var(--cyan);}
+.nav-badge{position:absolute;top:6px;right:6px;width:7px;height:7px;background:#ef4444;border-radius:50%;border:2px solid var(--bg);}
+.nav-av{width:26px;height:26px;border-radius:50%;border:2px solid rgba(0,212,255,.28);overflow:hidden;}
+.nav-av img{width:100%;height:100%;object-fit:cover;}
+
+.fade-up{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease;}
+.fade-up.in{opacity:1;transform:translateY(0);}
+.d1{transition-delay:.05s;}.d2{transition-delay:.1s;}.d3{transition-delay:.15s;}.d4{transition-delay:.2s;}
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-thumb{background:rgba(0,212,255,0.16);border-radius:100px;}
+</style>
 </head>
-<body class="p-4 md:p-8 no-scrollbar">
-    <div class="bg-layer">
-        <svg class="floating-logo" viewBox="0 0 500 500" fill="none">
-            <path d="M200 150C200 122.386 222.386 100 250 100C277.614 100 300 122.386 300 150V250H350C377.614 250 400 272.386 400 300C400 327.614 377.614 350 350 350H250V300H200C172.386 300 150 277.614 150 250C150 222.386 172.386 200 200 200V150Z"
-                  stroke="var(--neon)" stroke-width="4" stroke-linecap="round" />
-            <circle cx="250" cy="250" r="230" stroke="var(--neon)" stroke-width="1" stroke-dasharray="8 16" opacity="0.3" />
-        </svg>
-    </div>
+<body>
+<div class="bg-glow"></div>
 
-    <div class="max-w-5xl mx-auto space-y-5 md:space-y-8">
-        <nav class="flex justify-between items-center neo-glass p-4 rounded-2xl">
-            <div class="flex items-center gap-3">
-                <img src="assets/zwapy-logo.png" alt="Zwapy" class="w-9 h-9 md:w-11 md:h-11 rounded-xl shadow-[0_0_20px_rgba(0,212,255,0.3)]">
-                <h1 class="text-xl md:text-2xl font-black italic uppercase tracking-tighter">Zwapy<span class="text-[#00D4FF]">Clubs</span></h1>
-            </div>
-            <button class="px-5 py-2.5 bg-black/40 border border-[#00D4FF]/20 text-[#00D4FF] rounded-xl font-black text-[9px] md:text-[10px] tracking-widest hover:bg-[#00D4FF] hover:text-black transition-all">
-                ✦ MY UNIVERSE
-            </button>
-        </nav>
+<div id="loadScreen">
+  <div class="load-logo">ZWAPY</div>
+  <div class="load-bar"><div class="load-fill"></div></div>
+  <div class="load-text">Loading clubs...</div>
+</div>
 
-        <section class="neo-glass p-5 rounded-[2.5rem]">
-            <div class="flex justify-center items-center gap-6 mb-6">
-                <span id="prevM" class="nav-arrow cursor-pointer">&lt;</span>
-                <div class="text-center">
-                    <h2 id="mName" class="text-3xl md:text-4xl font-black italic uppercase tracking-tighter leading-none"></h2>
-                    <p id="yName" class="text-[#00D4FF] text-sm md:text-base font-bold tracking-[0.4em] mt-1"></p>
-                </div>
-                <span id="nextM" class="nav-arrow cursor-pointer">&gt;</span>
-            </div>
-            <div id="gridBody" class="calendar-grid"></div>
-        </section>
+<div class="toast" id="toast"></div>
 
-        <div class="space-y-4">
-            <div class="neo-glass p-5 rounded-[2rem]">
-                <h3 class="text-[#00D4FF] font-black uppercase text-[8px] md:text-[9px] tracking-[0.5em] mb-5 opacity-50">Quick Insights</h3>
-                <div class="flex justify-between px-4 text-center">
-                    <div><p class="text-2xl md:text-3xl font-black italic leading-none" id="activeEvents">0</p><p class="text-[8px] md:text-[9px] text-slate-500 font-bold uppercase mt-1">Active</p></div>
-                    <div><p class="text-2xl md:text-3xl font-black italic text-purple-500 leading-none" id="invites">0</p><p class="text-[8px] md:text-[9px] text-slate-500 font-bold uppercase mt-1">Invites</p></div>
-                    <div><p class="text-2xl md:text-3xl font-black italic text-[#00D4FF] leading-none" id="totalUsers">0</p><p class="text-[8px] md:text-[9px] text-slate-500 font-bold uppercase mt-1">Users</p></div>
-                </div>
-            </div>
-
-            <div class="bg-[#00D4FF] p-5 rounded-[2rem] text-black flex flex-col sm:flex-row items-center justify-between gap-4 shadow-[0_15px_30px_rgba(0,212,255,0.3)]">
-                <div class="text-center sm:text-left max-w-[70%]">
-                    <h3 class="text-base md:text-lg font-black italic uppercase leading-none">Want to post ur event?</h3>
-                    <p class="text-[8px] md:text-[10px] font-bold opacity-80 uppercase mt-1">Apply in <span class="bg-black text-white px-2 py-0.5 rounded">Club Head</span> portal.</p>
-                </div>
-                <button class="w-full sm:w-auto bg-black text-white px-8 py-3 rounded-xl font-black text-[9px] md:text-[11px] tracking-widest shadow-2xl active:scale-95 transition" onclick="openAdminPortal()">
-                    TAKE ME →
-                </button>
-            </div>
+<!-- Club detail modal -->
+<div class="modal-bg" id="clubModal">
+  <div class="modal">
+    <div class="modal-bar" id="modalBar"></div>
+    <div class="modal-body">
+      <button class="modal-close" id="modalClose">✕</button>
+      <div class="modal-top">
+        <div class="modal-av" id="modalAv"></div>
+        <div>
+          <div class="modal-name" id="modalName"></div>
+          <div class="modal-uni" id="modalUni"></div>
+          <span id="modalCat"></span>
         </div>
+      </div>
+      <div class="modal-desc" id="modalDesc"></div>
+      <div class="modal-stats" id="modalStats"></div>
+      <div class="modal-posts-label">Recent Posts</div>
+      <div id="modalPosts"></div>
+      <button class="modal-join-btn" id="modalJoinBtn"></button>
     </div>
+  </div>
+</div>
 
-    <!-- Modal for Full Event Description -->
-    <div id="eventModal" class="modal fixed inset-0 bg-black/85 hidden flex items-center justify-center z-50">
-        <div class="modal-content neo-glass p-6 md:p-10 rounded-2xl max-w-lg w-[90%] relative">
-            <span class="close absolute top-3 right-5 text-3xl cursor-pointer" onclick="closeModal()">×</span>
-            <h2 id="modalTitle" class="text-xl md:text-2xl font-black mb-3"></h2>
-            <p id="modalDescription" class="text-sm md:text-base text-slate-200 mb-6"></p>
-            <div class="flex flex-wrap gap-3 mt-4">
-                <a href="#" class="bg-[var(--neon)] text-black px-6 py-2 rounded-lg font-medium hover:bg-white transition-all">Join Event</a>
-                <a href="#" class="border border-[var(--neon)] text-[var(--neon)] px-6 py-2 rounded-lg font-medium hover:bg-[var(--neon)] hover:text-black transition-all">View Club</a>
-            </div>
+<div class="layout">
+  <header class="topbar">
+    <a href="dashboard.html" class="topbar-logo">
+      <div class="logo-node">
+        <img src="assets/zwapy-logo.png" style="width:26px;height:26px;object-fit:contain;">
+      </div>
+      <span class="logo-text">ZWAPY</span>
+    </a>
+    <a href="dashboard.html" class="back-btn">← Dashboard</a>
+  </header>
+
+  <!-- PAGE HEADER -->
+  <div class="page-head fade-up d1">
+    <div class="page-label">// Campus Network</div>
+    <h1 class="page-title">Clubs &amp; <span>Communities</span></h1>
+    <p class="page-sub">Join clubs, attend events, and connect with your campus.</p>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-strip fade-up d1">
+    <div class="stat-chip">
+      <div class="stat-chip-val" id="statTotal">0</div>
+      <div class="stat-chip-label">Total Clubs</div>
+    </div>
+    <div class="stat-chip">
+      <div class="stat-chip-val" id="statJoined" style="color:var(--green);">0</div>
+      <div class="stat-chip-label">Joined</div>
+    </div>
+    <div class="stat-chip">
+      <div class="stat-chip-val" id="statPosts" style="color:var(--amber);">0</div>
+      <div class="stat-chip-label">Total Posts</div>
+    </div>
+  </div>
+
+  <!-- MY CLUBS -->
+  <div class="my-section fade-up d2" id="mySection">
+    <div class="sec-head">
+      <div class="sec-title">My Clubs</div>
+      <div class="sec-badge" id="myCount">0</div>
+    </div>
+    <div class="my-scroll" id="myScroll"></div>
+  </div>
+
+  <!-- CTA for club heads -->
+  <div class="cta-banner fade-up d2">
+    <div class="cta-text">
+      <h3>Want to post your event?</h3>
+      <p>Apply through the Club Head portal to post events and manage your club.</p>
+    </div>
+    <a href="club-dashboard.html" class="cta-btn">Club Portal →</a>
+  </div>
+
+  <!-- FILTER -->
+  <div class="filter-bar fade-up d3">
+    <div class="search-wrap">
+      <span class="si">🔍</span>
+      <input class="search-input" id="searchInput" placeholder="Search clubs..."/>
+    </div>
+    <div class="cat-filters">
+      <div class="cb active" data-cat="all">All</div>
+      <div class="cb" data-cat="Technology">Tech</div>
+      <div class="cb" data-cat="Design">Design</div>
+      <div class="cb" data-cat="Business">Business</div>
+      <div class="cb" data-cat="Arts">Arts</div>
+      <div class="cb" data-cat="Science">Science</div>
+      <div class="cb" data-cat="Sports">Sports</div>
+    </div>
+  </div>
+
+  <!-- CLUBS -->
+  <div class="sec-head fade-up d3">
+    <div class="sec-title">All Clubs</div>
+    <div class="sec-badge" id="allCount">0</div>
+  </div>
+  <div class="clubs-grid fade-up d4" id="clubsGrid">
+    <div class="empty-state"><div class="empty-icon">🛡️</div><p class="empty-text">Loading clubs...</p></div>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <a href="dashboard.html" class="nav-item">🏠</a>
+  <a href="clubs.html" class="nav-item active">🛡️</a>
+  <a href="#" class="nav-item">💬<span class="nav-badge"></span></a>
+  <a href="discover.html" class="nav-item">🔍</a>
+  <a href="profile.html" class="nav-item">
+    <div class="nav-av"><img id="navAvatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=default" alt=""></div>
+  </a>
+</nav>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+import { getAuth, onAuthStateChanged, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+import {
+  getFirestore, collection, getDocs, doc,
+  getDoc, updateDoc, arrayUnion, arrayRemove
+} from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+
+const app = initializeApp({
+  apiKey:"AIzaSyBazCIc5vdQInSwvqvohIcbPToTjnw7KJI",
+  authDomain:"zwapy-25.firebaseapp.com",
+  projectId:"zwapy-25",
+  storageBucket:"zwapy-25.firebasestorage.app",
+  messagingSenderId:"30612332450",
+  appId:"1:30612332450:web:9e23f36a69f89dbb325cfb"
+});
+const auth = getAuth(app);
+const db   = getFirestore(app);
+await setPersistence(auth, browserLocalPersistence);
+
+const $ = id => document.getElementById(id);
+
+function toast(msg, col='#10b981'){
+  const t=$('toast');t.textContent=msg;t.style.color=col;
+  t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);
+}
+function catIcon(c){return{Technology:'💻',Design:'🎨',Business:'💼',Arts:'🎭',Science:'🔬',Sports:'⚽'}[c]||'🛡️';}
+function catColor(c){return{Technology:'#00D4FF',Design:'#f59e0b',Business:'#10b981',Arts:'#f472b6',Science:'#818cf8',Sports:'#fb923c'}[c]||'#94a3b8';}
+function pilStyle(c){const col=catColor(c);return `background:${col}18;border:1px solid ${col}33;color:${col};font-family:'Space Mono',monospace;font-size:.48rem;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:100px;display:inline-block;`;}
+function fmtDate(d){if(!d)return'';return new Date(d).toLocaleDateString('en-IN',{day:'numeric',month:'short'});}
+
+let allClubs   = [];
+let joinedClubs= []; // array of club IDs
+let currentUser= null;
+let userData   = {};
+let activeCat  = 'all';
+let searchQ    = '';
+let openId     = null;
+let totalPosts = 0;
+
+// ── RENDER MY CLUBS ──
+function renderMy(){
+  const mine = allClubs.filter(c=>joinedClubs.includes(c.id));
+  $('myCount').textContent   = mine.length;
+  $('statJoined').textContent= mine.length;
+  if(!mine.length){ $('mySection').style.display='none'; return; }
+  $('mySection').style.display='block';
+  $('myScroll').innerHTML = mine.map(c=>`
+    <div class="my-chip" onclick="openModal('${c.id}')">
+      <span class="ci">${catIcon(c.category)}</span>
+      <span class="cn">${c.name}</span>
+      <button class="leave-x" onclick="event.stopPropagation();handleJoin('${c.id}',true)" title="Leave">✕</button>
+    </div>`).join('');
+}
+
+// ── RENDER ALL CLUBS ──
+function renderAll(){
+  let list = allClubs;
+  if(activeCat!=='all') list=list.filter(c=>(c.category||'Other')===activeCat);
+  if(searchQ) list=list.filter(c=>(c.name||'').toLowerCase().includes(searchQ)||(c.desc||'').toLowerCase().includes(searchQ));
+
+  $('allCount').textContent = list.length;
+  $('statTotal').textContent= allClubs.length;
+
+  if(!list.length){
+    $('clubsGrid').innerHTML=`<div class="empty-state"><div class="empty-icon">🛡️</div><p class="empty-text">No clubs found.<br>Club heads can create clubs through their portal.</p></div>`;
+    return;
+  }
+
+  $('clubsGrid').innerHTML=list.map(c=>{
+    const joined=joinedClubs.includes(c.id);
+    const col=catColor(c.category||'Other');
+    return `
+    <div class="club-card" onclick="openModal('${c.id}')">
+      <div class="card-bar" style="background:linear-gradient(90deg,${col},transparent)"></div>
+      <div class="card-body">
+        <div class="card-top">
+          <div class="club-av">${catIcon(c.category||'Other')}</div>
+          <div class="club-meta">
+            <div class="club-name">${c.name}</div>
+            <div class="club-head">by ${c.headName||'Club Head'}</div>
+            <span style="${pilStyle(c.category||'Other')}">${c.category||'Other'}</span>
+          </div>
         </div>
-    </div>
+        <div class="club-desc">${c.desc||'No description provided.'}</div>
+        <div class="card-footer">
+          <div class="mem-count">👥 ${(c.members||[]).length}</div>
+          <button class="join-btn ${joined?'joined':''}"
+            onclick="event.stopPropagation();handleJoin('${c.id}',${joined})">
+            ${joined?'✓ Joined':'+ Join'}
+          </button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
 
-    <script>
-        const mDisplay = document.getElementById('mName');
-        const yDisplay = document.getElementById('yName');
-        const gridBody = document.getElementById('gridBody');
-       
-        let curr = new Date(); // Real current date
-        function loadGrid() {
-            gridBody.innerHTML = '';
-            const mList = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-            const dList = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-           
-            mDisplay.innerText = mList[curr.getMonth()];
-            yDisplay.innerText = curr.getFullYear();
+// ── JOIN / LEAVE ── fixed: uses joinedClubs array field on user doc
+window.handleJoin = async function(clubId, isJoined){
+  if(!currentUser) return;
+  const clubRef = doc(db,'clubs',clubId);
+  const userRef = doc(db,'users',currentUser.uid);
+  try{
+    if(isJoined){
+      // Leave
+      await updateDoc(clubRef,{members: arrayRemove(currentUser.uid)});
+      await updateDoc(userRef,{
+        joinedClubs: arrayRemove(clubId),          // remove from array
+        clubs: Math.max(0,(userData.clubs||0)-1)   // decrement count
+      });
+      userData.clubs = Math.max(0,(userData.clubs||0)-1);
+      joinedClubs = joinedClubs.filter(id=>id!==clubId);
+      const c=allClubs.find(x=>x.id===clubId);
+      if(c) c.members=(c.members||[]).filter(u=>u!==currentUser.uid);
+      toast('Left club','#94a3b8');
+    } else {
+      // Join
+      await updateDoc(clubRef,{members: arrayUnion(currentUser.uid)});
+      await updateDoc(userRef,{
+        joinedClubs: arrayUnion(clubId),           // add to array
+        clubs: (userData.clubs||0)+1               // increment count
+      });
+      userData.clubs = (userData.clubs||0)+1;
+      joinedClubs.push(clubId);
+      const c=allClubs.find(x=>x.id===clubId);
+      if(c){c.members=c.members||[];c.members.push(currentUser.uid);}
+      toast('✅ Joined!');
+    }
+    renderMy(); renderAll();
+    if(openId===clubId) openModal(clubId);
+  }catch(err){ toast('❌ '+err.message,'#ef4444'); }
+};
 
-            // Headers
-            dList.forEach(day => {
-                gridBody.innerHTML += `<div class="p-2 md:p-3 text-center text-[8px] md:text-[10px] font-black text-slate-600 border-b border-white/5 bg-black/20">${day}</div>`;
-            });
+// ── OPEN MODAL ──
+window.openModal = async function(clubId){
+  openId = clubId;
+  const club = allClubs.find(c=>c.id===clubId);
+  if(!club) return;
+  const col    = catColor(club.category||'Other');
+  const joined = joinedClubs.includes(clubId);
 
-            const startIdx = new Date(curr.getFullYear(), curr.getMonth(), 1).getDay();
-            const totalDays = new Date(curr.getFullYear(), curr.getMonth() + 1, 0).getDate();
-            const prevTotal = new Date(curr.getFullYear(), curr.getMonth(), 0).getDate();
-            const realToday = new Date();
+  $('modalBar').style.background = `linear-gradient(90deg,${col},transparent)`;
+  $('modalAv').textContent  = catIcon(club.category||'Other');
+  $('modalName').textContent= club.name;
+  $('modalUni').textContent = club.university||'';
+  $('modalCat').style.cssText = pilStyle(club.category||'Other');
+  $('modalCat').textContent = club.category||'Other';
+  $('modalDesc').textContent= club.desc||'No description.';
 
-            // Previous month
-            for (let x = startIdx; x > 0; x--) {
-                gridBody.innerHTML += `<div class="cell opacity-20 text-xs">${prevTotal - x + 1}</div>`;
-            }
+  // Load posts
+  let posts=[];
+  try{
+    const ps=await getDocs(collection(db,'clubs',clubId,'posts'));
+    ps.forEach(d=>posts.push({id:d.id,...d.data()}));
+    posts.sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
+  }catch(e){}
 
-            // Current month
-            for (let i = 1; i <= totalDays; i++) {
-                const isToday = i === realToday.getDate() && curr.getMonth() === realToday.getMonth() && curr.getFullYear() === realToday.getFullYear();
-                gridBody.innerHTML += `
-                    <div class="cell ${isToday ? 'today-cell' : ''}" onclick="showEvents(${i})">
-                        ${isToday ? '<div class="today-dot"></div>' : ''}
-                        <span class="text-lg md:text-xl font-black italic">${i < 10 ? '0'+i : i}</span>
-                    </div>`;
-            }
+  $('modalStats').innerHTML=`
+    <div class="ms"><div class="ms-val">${(club.members||[]).length}</div><div class="ms-label">Members</div></div>
+    <div class="ms"><div class="ms-val" style="color:var(--amber);">${posts.length}</div><div class="ms-label">Posts</div></div>
+    <div class="ms"><div class="ms-val" style="color:${col};">${club.category||'—'}</div><div class="ms-label">Category</div></div>`;
 
-            // Next month
-            const filled = startIdx + totalDays;
-            for (let j = 1; j <= (42 - filled); j++) {
-                gridBody.innerHTML += `<div class="cell opacity-20 text-xs">${j < 10 ? '0'+j : j}</div>`;
-            }
-        }
+  $('modalPosts').innerHTML = posts.length
+    ? posts.slice(0,4).map(p=>`
+        <div class="mpost">
+          <div class="mpost-type">${p.type||'event'}</div>
+          <div class="mpost-title">${p.title||'Untitled'}</div>
+          <div class="mpost-meta">${p.date?fmtDate(p.date):''}${p.venue?' · '+p.venue:''}</div>
+        </div>`).join('')
+    : `<div style="font-size:.74rem;color:var(--muted);font-style:italic;padding:10px 0;">No posts yet from this club.</div>`;
 
-        function showEvents(date) {
-            const modal = document.getElementById('eventModal');
-            document.getElementById('modalTitle').innerText = `${date} ${document.getElementById('mName').innerText} ${document.getElementById('yName').innerText}`;
-            document.getElementById('modalDescription').innerHTML = 'No events scheduled yet.<br><br>Club heads can post & edit events in the <strong>Club Head Admin Portal</strong>.<br><br><a href="#" class="text-[var(--neon)] underline">Join Event</a> | <a href="#" class="text-[var(--neon)] underline">View Club</a>';
-            modal.style.display = 'flex';
-        }
+  const jb=$('modalJoinBtn');
+  jb.textContent = joined?'Leave Club':'+ Join This Club';
+  jb.className   = `modal-join-btn ${joined?'joined':''}`;
+  jb.onclick     = ()=>handleJoin(clubId,joined);
 
-        function closeModal() {
-            document.getElementById('eventModal').style.display = 'none';
-        }
+  $('clubModal').classList.add('open');
+};
 
-        function openAdminPortal() {
-            alert("Redirecting to Club Head Admin Portal...");
-        }
+$('modalClose').addEventListener('click',()=>{$('clubModal').classList.remove('open');openId=null;});
+$('clubModal').addEventListener('click',e=>{if(e.target===$('clubModal')){$('clubModal').classList.remove('open');openId=null;}});
 
-        document.getElementById('prevM').onclick = () => { curr.setMonth(curr.getMonth() - 1); loadGrid(); };
-        document.getElementById('nextM').onclick = () => { curr.setMonth(curr.getMonth() + 1); loadGrid(); };
+// Filters
+document.querySelectorAll('.cb').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.cb').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active'); activeCat=b.dataset.cat; renderAll();
+  });
+});
+$('searchInput').addEventListener('input',e=>{searchQ=e.target.value.toLowerCase().trim();renderAll();});
 
-        loadGrid();
-    </script>
+// ── AUTH + LOAD ──
+onAuthStateChanged(auth, async user=>{
+  if(!user){window.location.href='login.html';return;}
+  currentUser=user;
+
+  const userSnap=await getDoc(doc(db,'users',user.uid));
+  if(userSnap.exists()){
+    userData=userSnap.data();
+    $('navAvatar').src=userData.photoURL||user.photoURL||
+      `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(userData.name||'user')}`;
+    // ── FIX: read joinedClubs as array ──
+    joinedClubs = userData.joinedClubs || [];
+  }
+
+  // Load all clubs + their post counts
+  const snap=await getDocs(collection(db,'clubs'));
+  allClubs=[]; totalPosts=0;
+  for(const d of snap.docs){
+    const c={id:d.id,...d.data()};
+    try{
+      const ps=await getDocs(collection(db,'clubs',d.id,'posts'));
+      totalPosts+=ps.size;
+    }catch(e){}
+    allClubs.push(c);
+  }
+
+  $('statPosts').textContent=totalPosts;
+
+  renderMy();
+  renderAll();
+
+  setTimeout(()=>{
+    $('loadScreen').classList.add('hide');
+    setTimeout(()=>{if($('loadScreen'))$('loadScreen').remove();},500);
+    document.querySelectorAll('.fade-up').forEach(el=>el.classList.add('in'));
+  },600);
+});
+</script>
 </body>
 </html>
