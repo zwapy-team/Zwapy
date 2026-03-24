@@ -3,143 +3,137 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Sign Up | Zwapy</title>
+<title>Login | Zwapy</title>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
 <style>
-:root{--cyan:#00D4FF;--bg:#010114;--border:rgba(0,212,255,0.15);--muted:#64748b;--dim:#94a3b8;}
+:root{--cyan:#00D4FF;--bg:#010114;--border:rgba(0,212,255,0.15);--muted:#64748b;--dim:#94a3b8;--green:#10b981;}
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;}
+body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;overflow:hidden;}
 body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.02) 2px,rgba(0,0,0,0.02) 4px);pointer-events:none;z-index:0;}
-.glow{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(0,212,255,0.06) 0%,transparent 70%);z-index:0;}
+.glow{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse 70% 60% at 50% 0%,rgba(0,212,255,0.07) 0%,transparent 65%);z-index:0;}
 
-.card{position:relative;z-index:1;width:100%;max-width:440px;background:rgba(2,0,36,0.85);border:1px solid var(--border);border-radius:28px;padding:36px 32px;backdrop-filter:blur(20px);}
-.card::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:60%;height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);}
+/* Checking session overlay */
+#checkingScreen{position:fixed;inset:0;background:var(--bg);z-index:10000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;transition:opacity .4s;}
+#checkingScreen.hide{opacity:0;pointer-events:none;}
+.cs-logo{font-size:1.8rem;font-weight:900;font-style:italic;color:var(--cyan);}
+.cs-bar{width:120px;height:2px;background:rgba(0,212,255,0.1);border-radius:100px;overflow:hidden;}
+.cs-fill{height:100%;background:var(--cyan);border-radius:100px;animation:lf .9s ease forwards;}
+@keyframes lf{from{width:0}to{width:100%}}
+.cs-text{font-family:'Space Mono',monospace;font-size:.54rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
 
-.logo{display:flex;align-items:center;justify-content:center;gap:9px;margin-bottom:28px;text-decoration:none;}
-.logo span{font-size:1.4rem;font-weight:900;font-style:italic;color:white;}
+.card{position:relative;z-index:1;width:100%;max-width:420px;background:rgba(2,0,36,0.85);border:1px solid var(--border);border-radius:28px;padding:38px 34px;backdrop-filter:blur(20px);}
+.card::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:55%;height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);}
 
-.card h2{font-size:1.4rem;font-weight:900;font-style:italic;text-align:center;margin-bottom:6px;}
-.card .sub{font-size:.78rem;color:var(--dim);text-align:center;margin-bottom:24px;}
+/* Logo */
+.logo{display:flex;align-items:center;justify-content:center;gap:9px;margin-bottom:10px;text-decoration:none;}
+.logo span{font-size:1.3rem;font-weight:900;font-style:italic;}
 
-/* Role selector */
-.role-select{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:22px;}
-.role-btn{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:16px 12px;text-align:center;cursor:pointer;transition:all .25s;position:relative;}
-.role-btn:hover{border-color:rgba(0,212,255,0.3);background:rgba(0,212,255,0.04);}
-.role-btn.selected{border-color:var(--cyan);background:rgba(0,212,255,0.08);}
-.role-btn.selected::after{content:'✓';position:absolute;top:8px;right:10px;font-size:.7rem;color:var(--cyan);font-weight:800;}
-.role-btn .role-icon{font-size:1.5rem;margin-bottom:7px;}
-.role-btn .role-name{font-size:.8rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;display:block;}
-.role-btn .role-desc{font-size:.65rem;color:var(--muted);margin-top:3px;line-height:1.4;}
+/* Welcome back badge - makes it clear this is login */
+.welcome-badge{display:flex;align-items:center;justify-content:center;gap:7px;background:rgba(0,212,255,0.06);border:1px solid rgba(0,212,255,0.18);border-radius:100px;padding:7px 16px;margin:0 auto 22px;width:fit-content;}
+.wb-dot{width:6px;height:6px;background:var(--cyan);border-radius:50%;animation:tp 2s ease infinite;}
+@keyframes tp{0%,100%{box-shadow:0 0 0 0 rgba(0,212,255,.6);}50%{box-shadow:0 0 0 5px rgba(0,212,255,0);}}
+.wb-text{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--cyan);}
 
-/* Club code field — hidden by default */
-.club-code-wrap{display:none;margin-bottom:18px;}
-.club-code-wrap.show{display:block;}
-.code-notice{background:rgba(245,158,11,0.07);border:1px solid rgba(245,158,11,0.2);border-radius:11px;padding:10px 14px;font-size:.72rem;color:#f59e0b;margin-bottom:10px;line-height:1.5;}
+.card h2{font-size:1.5rem;font-weight:900;font-style:italic;text-align:center;margin-bottom:4px;letter-spacing:-.02em;}
+.card .sub{font-size:.78rem;color:var(--dim);text-align:center;margin-bottom:26px;}
 
 .field{margin-bottom:16px;}
-.field label{display:block;font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-bottom:6px;}
-.field input{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:13px 16px;font-size:.9rem;color:white;font-family:'Sora',sans-serif;transition:border-color .2s,box-shadow .2s;outline:none;}
+.field label{display:block;font-size:.66rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--dim);margin-bottom:7px;}
+.field input{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:14px 16px;font-size:.9rem;color:white;font-family:'Sora',sans-serif;outline:none;transition:border-color .2s,box-shadow .2s;}
 .field input::placeholder{color:var(--muted);}
 .field input:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(0,212,255,0.08);}
 
-.btn-primary{width:100%;background:var(--cyan);color:#000;border:none;border-radius:12px;padding:14px;font-size:.88rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:all .25s;margin-top:4px;position:relative;overflow:hidden;}
-.btn-primary:hover{box-shadow:0 0 24px rgba(0,212,255,.45);transform:translateY(-1px);}
-.btn-primary:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+.btn-login{width:100%;background:var(--cyan);color:#000;border:none;border-radius:12px;padding:15px;font-size:.9rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:all .25s;position:relative;overflow:hidden;font-family:'Sora',sans-serif;}
+.btn-login::before{content:'';position:absolute;top:-50%;left:-60%;width:40%;height:200%;background:rgba(255,255,255,.28);transform:skewX(-20deg);animation:glint 3.5s ease infinite;}
+@keyframes glint{0%,70%,100%{left:-60%;}40%{left:120%;}}
+.btn-login:hover{box-shadow:0 0 24px rgba(0,212,255,.45);transform:translateY(-1px);}
+.btn-login:disabled{opacity:.5;cursor:not-allowed;transform:none;}
 
 .divider{display:flex;align-items:center;gap:12px;margin:18px 0;}
 .divider::before,.divider::after{content:'';flex:1;height:1px;background:rgba(255,255,255,0.07);}
-.divider span{font-size:.65rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;}
+.divider span{font-size:.62rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;font-family:'Space Mono',monospace;}
 
 .btn-google{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:13px;font-size:.85rem;font-weight:700;color:white;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:10px;font-family:'Sora',sans-serif;}
 .btn-google:hover{border-color:rgba(255,255,255,0.25);background:rgba(255,255,255,0.07);}
 .btn-google img{width:18px;height:18px;}
 
-.foot{text-align:center;margin-top:20px;font-size:.75rem;color:var(--muted);}
-.foot a{color:var(--cyan);text-decoration:none;font-weight:700;}
+/* No account box - clearly different styling */
+.no-account-box{margin-top:22px;background:rgba(16,185,129,0.05);border:1px solid rgba(16,185,129,0.18);border-radius:14px;padding:16px 18px;text-align:center;}
+.no-account-box p{font-size:.78rem;color:var(--dim);margin-bottom:10px;line-height:1.5;}
+.no-account-box strong{color:white;}
+.btn-signup{display:block;width:100%;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);border-radius:10px;padding:12px;font-size:.8rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--green);text-decoration:none;transition:all .25s;font-family:'Sora',sans-serif;}
+.btn-signup:hover{background:rgba(16,185,129,0.2);box-shadow:0 0 14px rgba(16,185,129,.15);}
 
-.msg{display:none;padding:11px 14px;border-radius:10px;font-size:.76rem;font-weight:600;margin-bottom:14px;text-align:center;}
-.msg.error{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);color:#ef4444;}
-.msg.success{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.25);color:#10b981;}
+.msg{display:none;padding:11px 14px;border-radius:10px;font-size:.76rem;font-weight:600;margin-bottom:14px;text-align:center;line-height:1.5;}
+.msg.error{background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.22);color:#ef4444;}
+.msg.success{background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.22);color:var(--green);}
 </style>
 </head>
 <body>
 <div class="glow"></div>
-<div class="card">
+
+<!-- Session check overlay -->
+<div id="checkingScreen">
+  <div class="cs-logo">ZWAPY</div>
+  <div class="cs-bar"><div class="cs-fill"></div></div>
+  <div class="cs-text">Checking your session...</div>
+</div>
+
+<div class="card" id="loginCard" style="display:none;">
   <a href="index.html" class="logo">
-    <img src="assets/zwapy-logo.png" style="width:32px;height:32px;object-fit:contain;">
+    <img src="assets/zwapy-logo.png" style="width:30px;height:30px;object-fit:contain;">
     <span>ZWAPY</span>
   </a>
 
-  <h2>Join the Network</h2>
-  <p class="sub">Choose your role to get started</p>
-
-  <!-- Role selector -->
-  <div class="role-select">
-    <div class="role-btn selected" id="roleStudent" onclick="selectRole('student')">
-      <div class="role-icon">🎓</div>
-      <span class="role-name">Student</span>
-      <div class="role-desc">Exchange skills & join clubs</div>
-    </div>
-    <div class="role-btn" id="roleClub" onclick="selectRole('club_head')">
-      <div class="role-icon">🛡️</div>
-      <span class="role-name">Club Head</span>
-      <div class="role-desc">Manage your club & post events</div>
-    </div>
+  <!-- Welcome back badge makes it clear this is login not signup -->
+  <div class="welcome-badge">
+    <div class="wb-dot"></div>
+    <div class="wb-text">Welcome Back</div>
   </div>
 
-  <!-- Club head code — shown only when club_head selected -->
-  <div class="club-code-wrap" id="clubCodeWrap">
-    <div class="code-notice">⚠️ Club Head access requires an invite code from the Zwapy team. Contact us at zwapyteam@gmail.com to get yours.</div>
-    <div class="field">
-      <label>Club Head Invite Code</label>
-      <input type="password" id="clubCode" placeholder="Enter your invite code"/>
-    </div>
-  </div>
+  <h2>Log In to Zwapy</h2>
+  <p class="sub">Enter your email and password to access your account</p>
 
   <div class="msg" id="msg"></div>
 
-  <form id="signupForm">
-    <div class="field">
-      <label>Full Name</label>
-      <input type="text" id="name" placeholder="Your full name" required/>
-    </div>
-    <div class="field">
-      <label>Email Address</label>
-      <input type="email" id="email" placeholder="you@example.com" required/>
-    </div>
-    <div class="field">
-      <label>Password</label>
-      <input type="password" id="password" placeholder="Min. 6 characters" required/>
-    </div>
-    <button type="submit" class="btn-primary" id="submitBtn">Create Account →</button>
-  </form>
+  <div class="field">
+    <label>Email Address</label>
+    <input type="email" id="email" placeholder="you@example.com" autocomplete="email"/>
+  </div>
+  <div class="field">
+    <label>Password</label>
+    <input type="password" id="password" placeholder="Your password" autocomplete="current-password"/>
+  </div>
+
+  <button class="btn-login" id="loginBtn">Log In to My Account →</button>
 
   <div class="divider"><span>or</span></div>
+
   <button class="btn-google" id="googleBtn">
     <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google"/>
     Continue with Google
   </button>
 
-  <p class="foot">Already have an account? <a href="login.html">Log in</a></p>
+  <!-- Clearly separated "no account" section -->
+  <div class="no-account-box">
+    <p><strong>Don't have an account yet?</strong><br>Join Zwapy — it's free for all Presidency University students.</p>
+    <a href="signup.html" class="btn-signup">Create New Account →</a>
+  </div>
 </div>
-
-<script>
-let selectedRole = 'student';
-
-function selectRole(role){
-  selectedRole = role;
-  document.getElementById('roleStudent').classList.toggle('selected', role==='student');
-  document.getElementById('roleClub').classList.toggle('selected', role==='club_head');
-  document.getElementById('clubCodeWrap').classList.toggle('show', role==='club_head');
-}
-</script>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, updateProfile, GoogleAuthProvider, signInWithPopup, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
-import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+import {
+  getAuth, signInWithEmailAndPassword,
+  GoogleAuthProvider, signInWithPopup,
+  onAuthStateChanged,
+  setPersistence, browserLocalPersistence
+} from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+import {
+  getFirestore, doc, getDoc, setDoc, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
-const CLUB_HEAD_CODE = 'ZWAPY@CLUB#HEAD2025';
+const SUPER_ADMIN_UID = 'MsCKd4jawaahdCaAGNN1LnticUE2';
 
 const app = initializeApp({
   apiKey:"AIzaSyBazCIc5vdQInSwvqvohIcbPToTjnw7KJI",
@@ -151,75 +145,144 @@ const app = initializeApp({
 });
 const auth = getAuth(app);
 const db   = getFirestore(app);
+
+// ── FIX: set persistence FIRST before anything else ──
+// This keeps the user logged in even after closing the browser
 await setPersistence(auth, browserLocalPersistence);
 
+const $ = id => document.getElementById(id);
+
 function showMsg(text, type){
-  const m = document.getElementById('msg');
+  const m=$('msg');
   m.textContent=text; m.className='msg '+type; m.style.display='block';
 }
 
-function getRedirect(role){
-  if(role==='club_head') return 'club-extra-details.html';
-  return 'extra-details.html';
+// ── REDIRECT BASED ON ROLE ──
+function redirectByRole(role){
+  if(role==='super_admin') { window.location.href='admin-dashboard.html'; return; }
+  if(role==='club_head')   { window.location.href='club-dashboard.html';  return; }
+  window.location.href='dashboard.html';
 }
 
-async function createUserDoc(user, name, role){
-  await setDoc(doc(db,'users',user.uid),{
-    name: name||user.displayName||'Student',
-    email: user.email,
-    role,
-    university:'', skills:[],
-    coins:0, exchanges:0, clubs:0,
-    createdAt: serverTimestamp()
-  },{merge:true});
-}
+// ── AFTER LOGIN — check profile completeness ──
+async function afterLogin(user){
+  const ref  = doc(db,'users',user.uid);
+  const snap = await getDoc(ref);
 
-// Email signup
-document.getElementById('signupForm').addEventListener('submit', async e=>{
-  e.preventDefault();
-  const btn  = document.getElementById('submitBtn');
-  const name = document.getElementById('name').value.trim();
-  const email= document.getElementById('email').value.trim();
-  const pass = document.getElementById('password').value;
-
-  // Validate club head code
-  if(selectedRole==='club_head'){
-    const code = document.getElementById('clubCode').value.trim();
-    if(code !== CLUB_HEAD_CODE){
-      showMsg('❌ Invalid Club Head invite code. Contact zwapyteam@gmail.com', 'error');
-      return;
+  // Super admin by UID — always goes to admin
+  if(user.uid === SUPER_ADMIN_UID){
+    if(!snap.exists()){
+      await setDoc(ref,{
+        name:user.displayName||'Admin',
+        email:user.email,
+        role:'super_admin',
+        createdAt:serverTimestamp()
+      });
+    } else {
+      // Make sure role is set correctly
+      if(snap.data().role !== 'super_admin'){
+        await setDoc(ref,{role:'super_admin'},{merge:true});
+      }
     }
+    redirectByRole('super_admin');
+    return;
   }
 
-  btn.disabled=true; btn.textContent='Creating...';
+  // New user — no Firestore doc
+  if(!snap.exists()){
+    await setDoc(ref,{
+      name:user.displayName||'Student',
+      email:user.email,
+      role:'student',
+      university:'', skills:[],
+      coins:0, exchanges:0, clubs:0,
+      createdAt:serverTimestamp()
+    });
+    window.location.href='extra-details.html';
+    return;
+  }
+
+  const d    = snap.data();
+  const role = d.role || 'student';
+
+  // Student with incomplete profile
+  if(role==='student' && (!d.university || !d.skills || d.skills.length===0)){
+    window.location.href='extra-details.html';
+    return;
+  }
+
+  // Club head with incomplete club setup
+  if(role==='club_head' && !d.clubName){
+    window.location.href='club-extra-details.html';
+    return;
+  }
+
+  redirectByRole(role);
+}
+
+// ── CHECK SESSION ON PAGE LOAD ──
+// If already logged in → skip login page entirely
+onAuthStateChanged(auth, async user=>{
+  if(user){
+    // Already logged in — redirect immediately
+    await afterLogin(user);
+    return;
+  }
+  // Not logged in — show login form
+  $('checkingScreen').classList.add('hide');
+  setTimeout(()=>{
+    if($('checkingScreen')) $('checkingScreen').remove();
+    $('loginCard').style.display='block';
+  },500);
+});
+
+// ── EMAIL LOGIN ──
+$('loginBtn').addEventListener('click', async()=>{
+  const btn   = $('loginBtn');
+  const email = $('email').value.trim();
+  const pass  = $('password').value;
+
+  if(!email || !pass){
+    showMsg('Please enter your email and password.','error');
+    return;
+  }
+
+  btn.disabled=true; btn.textContent='Logging in...';
+
   try{
-    const cred = await createUserWithEmailAndPassword(auth, email, pass);
-    await updateProfile(cred.user,{displayName:name});
-    await createUserDoc(cred.user, name, selectedRole);
-    showMsg('✅ Account created!', 'success');
-    setTimeout(()=>window.location.href=getRedirect(selectedRole), 800);
-  }catch(err){
-    showMsg('❌ '+err.message,'error');
-    btn.disabled=false; btn.textContent='Create Account →';
+    const cred = await signInWithEmailAndPassword(auth, email, pass);
+    showMsg('✅ Welcome back! Redirecting...','success');
+    await afterLogin(cred.user);
+  } catch(err){
+    // User-friendly error messages
+    let msg = 'Something went wrong. Please try again.';
+    if(err.code==='auth/user-not-found')     msg='No account found with this email. Please sign up first.';
+    if(err.code==='auth/wrong-password')     msg='Incorrect password. Please try again.';
+    if(err.code==='auth/invalid-email')      msg='Please enter a valid email address.';
+    if(err.code==='auth/too-many-requests')  msg='Too many attempts. Please wait a moment and try again.';
+    if(err.code==='auth/invalid-credential') msg='Email or password is incorrect. Please check and try again.';
+    showMsg('❌ '+msg,'error');
+    btn.disabled=false; btn.textContent='Log In to My Account →';
   }
 });
 
-// Google signup
-document.getElementById('googleBtn').addEventListener('click', async()=>{
-  if(selectedRole==='club_head'){
-    const code = document.getElementById('clubCode').value.trim();
-    if(code !== CLUB_HEAD_CODE){
-      showMsg('❌ Invalid Club Head invite code. Contact zwapyteam@gmail.com','error');
-      return;
-    }
-  }
+// ── GOOGLE LOGIN ──
+$('googleBtn').addEventListener('click', async()=>{
   try{
     const result = await signInWithPopup(auth, new GoogleAuthProvider());
-    await createUserDoc(result.user, result.user.displayName, selectedRole);
-    showMsg('✅ Welcome '+result.user.displayName+'!','success');
-    setTimeout(()=>window.location.href=getRedirect(selectedRole), 800);
-  }catch(err){
-    showMsg('❌ '+err.message,'error');
+    showMsg('✅ Signed in! Redirecting...','success');
+    await afterLogin(result.user);
+  } catch(err){
+    if(err.code!=='auth/popup-closed-by-user'){
+      showMsg('❌ Google sign-in failed. Please try again.','error');
+    }
+  }
+});
+
+// Allow Enter key to submit
+document.addEventListener('keydown', e=>{
+  if(e.key==='Enter' && $('loginCard').style.display!=='none'){
+    $('loginBtn').click();
   }
 });
 </script>
