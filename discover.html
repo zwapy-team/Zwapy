@@ -6,30 +6,25 @@
 <title>Discover | Zwapy</title>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
 <style>
-:root{--cyan:#00D4FF;--cyan-dim:rgba(0,212,255,0.1);--bg:#010114;--navy:#020024;--border:rgba(0,212,255,0.1);--border-h:rgba(0,212,255,0.28);--muted:#64748b;--dim:#94a3b8;--green:#10b981;--amber:#f59e0b;--indigo:#818cf8;--pink:#f472b6;}
+:root{--cyan:#00D4FF;--cyan-dim:rgba(0,212,255,0.1);--bg:#010114;--border:rgba(0,212,255,0.1);--border-h:rgba(0,212,255,0.3);--muted:#64748b;--dim:#94a3b8;--green:#10b981;--amber:#f59e0b;--indigo:#818cf8;--pink:#f472b6;}
 *{margin:0;padding:0;box-sizing:border-box;}
 ::selection{background:var(--cyan);color:#000;}
 body{font-family:'Sora',sans-serif;background:var(--bg);color:white;overflow-x:hidden;min-height:100vh;}
-body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.02) 2px,rgba(0,0,0,0.02) 4px);pointer-events:none;z-index:9999;}
-body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9998;opacity:.28;}
-.bg-glow{position:fixed;inset:0;pointer-events:none;z-index:0;
-  background:radial-gradient(ellipse 50% 40% at 20% 10%,rgba(0,212,255,0.05) 0%,transparent 55%),
-             radial-gradient(ellipse 40% 40% at 80% 80%,rgba(244,114,182,0.04) 0%,transparent 55%),
-             radial-gradient(ellipse 60% 60% at 50% 50%,rgba(2,0,36,0.95) 0%,var(--bg) 100%);}
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.022) 2px,rgba(0,0,0,0.022) 4px);pointer-events:none;z-index:9999;}
+.bg-glow{position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(0,212,255,0.05) 0%,transparent 60%);}
 
-/* Load */
 #loadScreen{position:fixed;inset:0;background:var(--bg);z-index:10000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;transition:opacity .4s;}
 #loadScreen.hide{opacity:0;pointer-events:none;}
 .load-logo{font-size:2rem;font-weight:900;font-style:italic;color:var(--cyan);}
 .load-bar{width:140px;height:2px;background:rgba(0,212,255,0.1);border-radius:100px;overflow:hidden;}
-.load-fill{height:100%;background:linear-gradient(90deg,var(--cyan),var(--pink));border-radius:100px;animation:lf 1s ease forwards;}
+.load-fill{height:100%;background:var(--cyan);border-radius:100px;animation:lf 1s ease forwards;}
 @keyframes lf{from{width:0}to{width:100%}}
 .load-text{font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
 
-.layout{position:relative;z-index:10;max-width:1100px;margin:0 auto;padding:0 20px 120px;}
+.layout{position:relative;z-index:10;max-width:900px;margin:0 auto;padding:0 22px 120px;}
 
 /* Topbar */
-.topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid rgba(0,212,255,0.06);margin-bottom:24px;position:sticky;top:0;z-index:200;background:rgba(1,1,20,0.93);backdrop-filter:blur(24px);margin-left:-20px;margin-right:-20px;padding-left:20px;padding-right:20px;gap:12px;}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid rgba(0,212,255,0.06);margin-bottom:28px;position:sticky;top:0;z-index:200;background:rgba(1,1,20,0.93);backdrop-filter:blur(24px);margin-left:-22px;margin-right:-22px;padding-left:22px;padding-right:22px;gap:12px;}
 .topbar-logo{display:flex;align-items:center;gap:9px;text-decoration:none;flex-shrink:0;}
 .logo-node{width:38px;height:38px;background:rgba(0,212,255,0.07);border:1px solid rgba(0,212,255,0.2);border-radius:11px;display:flex;align-items:center;justify-content:center;}
 .logo-text{font-size:1.25rem;font-weight:900;font-style:italic;}
@@ -37,118 +32,82 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 .back-btn:hover{border-color:var(--border-h);color:white;}
 
 /* Page head */
-.page-head{margin-bottom:20px;}
-.page-label{font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.22em;text-transform:uppercase;color:var(--cyan);opacity:.6;margin-bottom:5px;}
-.page-title{font-size:clamp(1.8rem,5vw,2.8rem);font-weight:900;font-style:italic;letter-spacing:-.03em;line-height:1;}
-.page-title span{background:linear-gradient(90deg,var(--cyan),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.page-sub{font-size:.8rem;color:var(--dim);margin-top:7px;}
+.page-head{margin-bottom:24px;text-align:center;}
+.page-label{font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.22em;text-transform:uppercase;color:var(--cyan);opacity:.6;margin-bottom:8px;}
+.page-title{font-size:clamp(2rem,6vw,3.2rem);font-weight:900;font-style:italic;letter-spacing:-.03em;line-height:1;margin-bottom:8px;}
+.page-title span{color:var(--cyan);}
+.page-sub{font-size:.82rem;color:var(--dim);}
 
-/* Live pulse indicator */
-.live-bar{display:flex;align-items:center;gap:8px;margin-bottom:20px;}
-.live-dot{width:7px;height:7px;background:var(--green);border-radius:50%;animation:pulse 2s ease infinite;}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(16,185,129,.5);}50%{box-shadow:0 0 0 6px rgba(16,185,129,0);}}
-.live-text{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--green);}
-.live-count{font-family:'Space Mono',monospace;font-size:.58rem;color:var(--muted);margin-left:auto;}
+/* BIG SEARCH BAR */
+.search-section{margin-bottom:28px;}
+.big-search-wrap{position:relative;margin-bottom:14px;}
+.search-icon-big{position:absolute;left:20px;top:50%;transform:translateY(-50%);font-size:1.2rem;pointer-events:none;}
+.big-search{width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(0,212,255,0.2);border-radius:16px;padding:18px 20px 18px 52px;font-size:1rem;color:white;font-family:'Sora',sans-serif;outline:none;transition:border-color .2s,box-shadow .2s;}
+.big-search::placeholder{color:var(--muted);}
+.big-search:focus{border-color:var(--cyan);box-shadow:0 0 0 4px rgba(0,212,255,0.08),0 0 24px rgba(0,212,255,0.1);}
 
-/* Two column layout */
-.discover-grid{display:grid;grid-template-columns:1fr;gap:16px;}
-@media(min-width:860px){.discover-grid{grid-template-columns:1fr 300px;}}
+/* Filter tabs */
+.filter-tabs{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;}
+.ftab{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:100px;padding:8px 16px;font-size:.7rem;font-weight:700;cursor:pointer;transition:all .2s;color:var(--muted);white-space:nowrap;}
+.ftab.active{background:rgba(0,212,255,0.1);border-color:rgba(0,212,255,0.3);color:var(--cyan);}
+.ftab:hover:not(.active){border-color:rgba(255,255,255,0.2);color:white;}
 
-/* ── FEED ── */
-.feed-wrap{}
-.feed-filters{display:flex;gap:7px;margin-bottom:16px;overflow-x:auto;padding-bottom:3px;}
-.feed-filters::-webkit-scrollbar{height:0;}
-.ff{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:100px;padding:7px 14px;font-size:.68rem;font-weight:700;cursor:pointer;transition:all .2s;color:var(--muted);white-space:nowrap;flex-shrink:0;}
-.ff.active{background:rgba(0,212,255,0.1);border-color:rgba(0,212,255,0.3);color:var(--cyan);}
-.ff:hover:not(.active){color:white;border-color:rgba(255,255,255,0.2);}
+/* Trending skills section */
+.trending-section{margin-bottom:28px;}
+.ts-label{font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:var(--cyan);opacity:.6;margin-bottom:12px;}
+.trending-skills{display:flex;flex-wrap:wrap;gap:8px;}
+.ts-pill{background:rgba(0,212,255,0.06);border:1px solid rgba(0,212,255,0.15);border-radius:100px;padding:7px 14px;font-size:.72rem;font-weight:700;color:var(--cyan);cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:5px;}
+.ts-pill:hover{background:rgba(0,212,255,0.14);border-color:var(--cyan);}
+.ts-count{font-family:'Space Mono',monospace;font-size:.55rem;opacity:.6;}
 
-/* Feed card */
-.feed-card{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:20px;padding:20px;margin-bottom:12px;position:relative;overflow:hidden;transition:border-color .3s,transform .2s;animation:slideIn .4s ease;}
-@keyframes slideIn{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
-.feed-card:hover{border-color:var(--border-h);}
-.feed-card-accent{position:absolute;top:0;left:0;width:3px;height:100%;border-radius:0;}
+/* Results */
+.results-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.results-title{font-size:.88rem;font-weight:800;font-style:italic;text-transform:uppercase;}
+.results-count{font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.12em;background:var(--cyan-dim);border:1px solid rgba(0,212,255,.16);color:var(--cyan);border-radius:100px;padding:3px 9px;}
 
-/* Card header */
-.fc-header{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
-.fc-av{width:38px;height:38px;border-radius:50%;overflow:hidden;border:2px solid rgba(255,255,255,0.1);flex-shrink:0;}
-.fc-av img{width:100%;height:100%;object-fit:cover;}
-.fc-user{flex:1;min-width:0;}
-.fc-name{font-size:.82rem;font-weight:700;margin-bottom:1px;}
-.fc-meta{font-size:.62rem;color:var(--muted);}
-.fc-time{font-family:'Space Mono',monospace;font-size:.52rem;color:var(--muted);flex-shrink:0;}
-.fc-type-pill{font-family:'Space Mono',monospace;font-size:.48rem;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:100px;flex-shrink:0;}
+/* People results */
+.person-card{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:18px;padding:18px;margin-bottom:10px;display:flex;align-items:center;gap:14px;transition:all .3s;cursor:pointer;}
+.person-card:hover{border-color:var(--border-h);transform:translateX(4px);}
+.pc-av{width:44px;height:44px;border-radius:50%;overflow:hidden;border:2px solid rgba(0,212,255,0.2);flex-shrink:0;}
+.pc-av img{width:100%;height:100%;object-fit:cover;}
+.pc-info{flex:1;min-width:0;}
+.pc-name{font-size:.88rem;font-weight:800;margin-bottom:2px;}
+.pc-role{font-size:.64rem;color:var(--cyan);font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin-bottom:4px;}
+.pc-skills{display:flex;flex-wrap:wrap;gap:5px;}
+.pc-skill{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.07em;text-transform:uppercase;padding:2px 8px;border-radius:100px;background:rgba(0,212,255,0.06);border:1px solid rgba(0,212,255,0.14);color:var(--cyan);}
+.pc-skill.match{background:rgba(0,212,255,0.15);border-color:var(--cyan);font-weight:700;}
+.pc-coins{font-family:'Space Mono',monospace;font-size:.72rem;color:var(--muted);flex-shrink:0;}
 
-/* Skill exchange card */
-.swap-box{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:14px;display:flex;align-items:center;gap:10px;margin-bottom:12px;}
-.swap-side{flex:1;min-width:0;}
-.swap-lbl{font-family:'Space Mono',monospace;font-size:.48rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px;}
-.swap-lbl.off{color:var(--cyan);}
-.swap-lbl.wan{color:var(--green);}
-.swap-skill{font-size:.9rem;font-weight:800;font-style:italic;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.swap-arr{font-size:1.1rem;opacity:.35;flex-shrink:0;}
+/* Event results */
+.event-card{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:18px;overflow:hidden;margin-bottom:10px;transition:all .3s;cursor:pointer;}
+.event-card:hover{border-color:var(--border-h);}
+.ec-bar{height:3px;}
+.ec-body{padding:16px 18px;}
+.ec-type{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:100px;display:inline-block;margin-bottom:8px;}
+.ec-title{font-size:.9rem;font-weight:800;margin-bottom:4px;}
+.ec-club{font-size:.66rem;color:var(--muted);margin-bottom:6px;}
+.ec-meta{display:flex;gap:10px;flex-wrap:wrap;}
+.ec-meta span{font-size:.68rem;color:var(--muted);display:flex;align-items:center;gap:4px;}
 
-/* Event card */
-.event-box{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:14px;margin-bottom:12px;}
-.event-box-title{font-size:.9rem;font-weight:800;margin-bottom:4px;}
-.event-box-meta{font-size:.68rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:8px;}
-.event-box-meta span{display:flex;align-items:center;gap:4px;}
+/* Exchange results */
+.ex-card{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:18px;padding:16px 18px;margin-bottom:10px;transition:all .3s;}
+.ex-card:hover{border-color:var(--border-h);}
+.ex-swap{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.ex-side{flex:1;min-width:0;}
+.ex-lbl{font-family:'Space Mono',monospace;font-size:.48rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:3px;}
+.ex-skill{font-size:.88rem;font-weight:800;font-style:italic;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.ex-arr{font-size:1rem;opacity:.3;flex-shrink:0;}
+.ex-by{font-size:.66rem;color:var(--muted);}
 
-/* New member card */
-.member-box{display:flex;align-items:center;gap:12px;}
-.member-box .mb-av{width:44px;height:44px;border-radius:50%;overflow:hidden;border:2px solid rgba(0,212,255,0.2);}
-.member-box .mb-av img{width:100%;height:100%;object-fit:cover;}
-.member-box .mb-info{}
-.member-box .mb-name{font-size:.88rem;font-weight:800;margin-bottom:3px;}
-.member-box .mb-skills{display:flex;flex-wrap:wrap;gap:5px;}
-.member-box .mb-skill{font-family:'Space Mono',monospace;font-size:.48rem;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:100px;background:rgba(0,212,255,0.06);border:1px solid rgba(0,212,255,0.14);color:var(--cyan);}
+/* Empty */
+.empty-state{text-align:center;padding:40px 20px;color:var(--muted);}
+.empty-icon{font-size:2.5rem;margin-bottom:12px;opacity:.3;}
+.empty-text{font-size:.8rem;line-height:1.6;}
 
-/* Card actions */
-.fc-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-.fc-action-btn{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:8px;padding:7px 14px;font-size:.7rem;font-weight:700;color:var(--dim);cursor:pointer;transition:all .2s;font-family:'Sora',sans-serif;white-space:nowrap;}
-.fc-action-btn:hover{border-color:var(--cyan);color:var(--cyan);}
-.fc-action-btn.primary{background:rgba(0,212,255,0.08);border-color:rgba(0,212,255,0.22);color:var(--cyan);}
-.fc-action-btn.primary:hover{background:rgba(0,212,255,0.18);}
-
-/* ── RIGHT SIDEBAR ── */
-.sidebar-col{display:flex;flex-direction:column;gap:14px;}
-
-/* Leaderboard */
-.side-card{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:20px;padding:20px;}
-.side-card-title{font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:var(--cyan);opacity:.65;margin-bottom:14px;}
-
-.lb-item{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,0.04);}
-.lb-item:last-child{border-bottom:none;}
-.lb-rank{font-family:'Space Mono',monospace;font-size:.7rem;font-weight:700;color:var(--muted);width:18px;text-align:center;flex-shrink:0;}
-.lb-rank.top{color:var(--amber);}
-.lb-av{width:32px;height:32px;border-radius:50%;overflow:hidden;border:1px solid rgba(255,255,255,0.1);flex-shrink:0;}
-.lb-av img{width:100%;height:100%;object-fit:cover;}
-.lb-info{flex:1;min-width:0;}
-.lb-name{font-size:.78rem;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.lb-sub{font-size:.6rem;color:var(--muted);}
-.lb-coins{font-family:'Space Mono',monospace;font-size:.72rem;font-weight:700;color:var(--cyan);flex-shrink:0;}
-
-/* Trending skills */
-.trend-item{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04);}
-.trend-item:last-child{border-bottom:none;}
-.trend-skill{font-size:.78rem;font-weight:700;}
-.trend-bar-wrap{flex:1;margin:0 10px;height:3px;background:rgba(255,255,255,0.06);border-radius:100px;overflow:hidden;}
-.trend-bar{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--cyan),rgba(0,212,255,0.3));}
-.trend-count{font-family:'Space Mono',monospace;font-size:.58rem;color:var(--muted);}
-
-/* Pulse stats */
-.pulse-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.pulse-stat{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:12px;text-align:center;}
-.ps-val{font-family:'Space Mono',monospace;font-size:1.3rem;font-weight:700;line-height:1;margin-bottom:3px;}
-.ps-label{font-size:.52rem;color:var(--muted);font-family:'Space Mono',monospace;text-transform:uppercase;letter-spacing:.1em;}
-
-/* Empty feed */
-.feed-empty{text-align:center;padding:48px 20px;color:var(--muted);}
-.feed-empty-icon{font-size:2.5rem;margin-bottom:12px;opacity:.3;}
-.feed-empty p{font-size:.8rem;line-height:1.6;}
-
-/* Toast */
-.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,.28);border-radius:100px;padding:10px 22px;font-size:.76rem;font-weight:700;color:var(--green);z-index:4000;opacity:0;transition:all .35s;pointer-events:none;white-space:nowrap;}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+/* Initial state */
+.initial-state{text-align:center;padding:40px 20px;}
+.is-icon{font-size:3rem;margin-bottom:16px;opacity:.2;}
+.is-text{font-size:.84rem;color:var(--muted);line-height:1.7;}
 
 /* Bottom nav */
 .bottom-nav{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:380px;background:rgba(2,0,36,0.95);backdrop-filter:blur(28px);border:1px solid rgba(0,212,255,0.14);border-radius:100px;padding:7px 12px;display:flex;justify-content:space-around;align-items:center;z-index:500;box-shadow:0 8px 32px rgba(0,0,0,.6);}
@@ -172,10 +131,8 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <div id="loadScreen">
   <div class="load-logo">ZWAPY</div>
   <div class="load-bar"><div class="load-fill"></div></div>
-  <div class="load-text">Syncing campus feed...</div>
+  <div class="load-text">Loading discover...</div>
 </div>
-
-<div class="toast" id="toast"></div>
 
 <div class="layout">
   <header class="topbar">
@@ -190,70 +147,51 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 
   <!-- PAGE HEAD -->
   <div class="page-head fade-up d1">
-    <div class="page-label">// Campus Pulse</div>
-    <h1 class="page-title">Discover <span>Everything</span></h1>
-    <p class="page-sub">Live feed of skill exchanges, events, new members and campus activity — all in one place.</p>
+    <div class="page-label">// Search Everything</div>
+    <h1 class="page-title">🔍 <span>Discover</span></h1>
+    <p class="page-sub">Search for students, skills, events, clubs and exchanges across the entire campus network.</p>
   </div>
 
-  <!-- LIVE INDICATOR -->
-  <div class="live-bar fade-up d1">
-    <div class="live-dot"></div>
-    <div class="live-text">Live Campus Feed</div>
-    <div class="live-count" id="liveCount">Loading...</div>
+  <!-- SEARCH -->
+  <div class="search-section fade-up d2">
+    <div class="big-search-wrap">
+      <span class="search-icon-big">🔍</span>
+      <input class="big-search" id="bigSearch" placeholder="Search skills, names, events, clubs..." autocomplete="off"/>
+    </div>
+    <div class="filter-tabs">
+      <div class="ftab active" data-f="all">✦ All</div>
+      <div class="ftab" data-f="people">👤 People</div>
+      <div class="ftab" data-f="skills">🛠 Skills</div>
+      <div class="ftab" data-f="events">📅 Events</div>
+      <div class="ftab" data-f="exchanges">🔄 Exchanges</div>
+    </div>
   </div>
 
-  <div class="discover-grid">
+  <!-- TRENDING SKILLS -->
+  <div class="trending-section fade-up d3" id="trendingSection">
+    <div class="ts-label">🔥 Trending Skills on Campus</div>
+    <div class="trending-skills" id="trendingSkills"></div>
+  </div>
 
-    <!-- FEED COLUMN -->
-    <div class="feed-wrap fade-up d2">
-
-      <!-- Feed filters -->
-      <div class="feed-filters">
-        <div class="ff active" data-f="all">✦ All</div>
-        <div class="ff" data-f="exchange">🔄 Exchanges</div>
-        <div class="ff" data-f="event">📅 Events</div>
-        <div class="ff" data-f="hackathon">💻 Hackathons</div>
-        <div class="ff" data-f="member">👤 New Members</div>
-        <div class="ff" data-f="announcement">📢 Announcements</div>
-      </div>
-
-      <!-- Feed -->
-      <div id="feed">
-        <div class="feed-empty"><div class="feed-empty-icon">⚡</div><p>Loading campus feed...</p></div>
-      </div>
+  <!-- RESULTS -->
+  <div id="resultsSection" style="display:none;">
+    <div class="results-head">
+      <div class="results-title" id="resultsTitle">Results</div>
+      <div class="results-count" id="resultsCount">0</div>
     </div>
+    <div id="resultsList"></div>
+  </div>
 
-    <!-- SIDEBAR COLUMN -->
-    <div class="sidebar-col fade-up d3">
-
-      <!-- Campus pulse stats -->
-      <div class="side-card">
-        <div class="side-card-title">// Campus Pulse</div>
-        <div class="pulse-grid">
-          <div class="pulse-stat"><div class="ps-val" id="psStudents" style="color:var(--cyan);">0</div><div class="ps-label">Students</div></div>
-          <div class="pulse-stat"><div class="ps-val" id="psExchanges" style="color:var(--green);">0</div><div class="ps-label">Exchanges</div></div>
-          <div class="pulse-stat"><div class="ps-val" id="psClubs" style="color:var(--indigo);">0</div><div class="ps-label">Clubs</div></div>
-          <div class="pulse-stat"><div class="ps-val" id="psEvents" style="color:var(--amber);">0</div><div class="ps-label">Events</div></div>
-        </div>
-      </div>
-
-      <!-- Leaderboard -->
-      <div class="side-card">
-        <div class="side-card-title">// Top Exchangers 🏆</div>
-        <div id="leaderboard">
-          <div style="font-size:.74rem;color:var(--muted);font-style:italic;">Loading...</div>
-        </div>
-      </div>
-
-      <!-- Trending skills -->
-      <div class="side-card">
-        <div class="side-card-title">// Trending Skills 🔥</div>
-        <div id="trendingSkills">
-          <div style="font-size:.74rem;color:var(--muted);font-style:italic;">Loading...</div>
-        </div>
-      </div>
-
-    </div>
+  <!-- INITIAL STATE -->
+  <div class="initial-state fade-up d3" id="initialState">
+    <div class="is-icon">✨</div>
+    <p class="is-text">
+      Type anything above to search.<br><br>
+      Find <strong style="color:white;">students</strong> by name or skill.<br>
+      Find <strong style="color:white;">events</strong> and hackathons.<br>
+      Find <strong style="color:white;">skill exchanges</strong> you can join.<br>
+      Find <strong style="color:white;">clubs</strong> to be part of.
+    </p>
   </div>
 </div>
 
@@ -271,7 +209,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
 import { getAuth, onAuthStateChanged, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
-import { getFirestore, collection, getDocs, doc, getDoc, addDoc, updateDoc, arrayUnion, serverTimestamp, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+import { getFirestore, collection, getDocs, doc, getDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
 const app = initializeApp({
   apiKey:"AIzaSyBazCIc5vdQInSwvqvohIcbPToTjnw7KJI",
@@ -281,308 +219,216 @@ const app = initializeApp({
   messagingSenderId:"30612332450",
   appId:"1:30612332450:web:9e23f36a69f89dbb325cfb"
 });
-const auth = getAuth(app);
-const db   = getFirestore(app);
-await setPersistence(auth, browserLocalPersistence);
+const auth=getAuth(app);
+const db=getFirestore(app);
+await setPersistence(auth,browserLocalPersistence);
 
-const $ = id => document.getElementById(id);
+const $=id=>document.getElementById(id);
 
-function toast(msg,col='#10b981'){
-  const t=$('toast');t.textContent=msg;t.style.color=col;
-  t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);
-}
-function timeAgo(ts){
-  if(!ts)return 'just now';
-  const m=Math.floor((Date.now()-ts.toMillis())/60000);
-  if(m<1)return 'just now';
-  if(m<60)return `${m}m ago`;
-  const h=Math.floor(m/60);
-  if(h<24)return `${h}h ago`;
-  return `${Math.floor(h/24)}d ago`;
-}
 function typeColor(t){
-  if(t==='exchange')  return '#00D4FF';
-  if(t==='event')     return '#10b981';
   if(t==='hackathon') return '#f59e0b';
   if(t==='announcement') return '#818cf8';
-  if(t==='member')    return '#f472b6';
-  return '#00D4FF';
-}
-function typeEmoji(t){
-  if(t==='exchange')  return '🔄';
-  if(t==='event')     return '📅';
-  if(t==='hackathon') return '💻';
-  if(t==='announcement') return '📢';
-  if(t==='member')    return '👤';
-  return '✦';
+  return '#10b981';
 }
 
-let allFeedItems = [];
-let currentUser  = null;
-let userData     = {};
-let activeFilter = 'all';
-let myConnections= [];
+let allPeople=[], allEvents=[], allExchanges=[], allClubs=[];
+let activeFilter='all';
+let currentUser=null;
 
-// ── RENDER FEED ──
-function renderFeed(){
-  let items = allFeedItems;
-  if(activeFilter !== 'all') items = items.filter(i=>i.feedType===activeFilter);
+// ── TRENDING SKILLS ──
+function buildTrending(){
+  const map={};
+  allPeople.forEach(p=>(p.skills||[]).forEach(s=>{
+    const k=s.toLowerCase();map[k]=(map[k]||0)+1;
+  }));
+  const sorted=Object.entries(map).sort((a,b)=>b[1]-a[1]).slice(0,12);
+  $('trendingSkills').innerHTML=sorted.map(([skill,count])=>
+    `<div class="ts-pill" onclick="searchSkill('${skill}')">
+      ${skill.charAt(0).toUpperCase()+skill.slice(1)}
+      <span class="ts-count">${count}</span>
+    </div>`
+  ).join('');
+}
 
-  if(!items.length){
-    $('feed').innerHTML=`<div class="feed-empty"><div class="feed-empty-icon">⚡</div><p>Nothing here yet.<br>Be the first to post a skill exchange!</p></div>`;
+window.searchSkill=function(skill){
+  $('bigSearch').value=skill;
+  doSearch(skill);
+};
+
+// ── SEARCH ──
+function doSearch(q){
+  q=q.toLowerCase().trim();
+  if(!q){
+    $('resultsSection').style.display='none';
+    $('initialState').style.display='block';
+    $('trendingSection').style.display='block';
+    return;
+  }
+  $('initialState').style.display='none';
+  $('trendingSection').style.display='none';
+  $('resultsSection').style.display='block';
+
+  let results=[];
+
+  // People (by name OR skill match)
+  if(activeFilter==='all'||activeFilter==='people'||activeFilter==='skills'){
+    allPeople.filter(p=>p.uid!==currentUser?.uid).forEach(p=>{
+      const nameMatch=(p.name||'').toLowerCase().includes(q);
+      const skillMatch=(p.skills||[]).some(s=>s.toLowerCase().includes(q));
+      const bioMatch=(p.bio||'').toLowerCase().includes(q);
+      if(nameMatch||skillMatch||bioMatch){
+        results.push({...p,_type:'person',_skillMatch:skillMatch,_nameMatch:nameMatch});
+      }
+    });
+  }
+
+  // Events
+  if(activeFilter==='all'||activeFilter==='events'){
+    allEvents.forEach(e=>{
+      if((e.title||'').toLowerCase().includes(q)||
+         (e.desc||'').toLowerCase().includes(q)||
+         (e.clubName||'').toLowerCase().includes(q)||
+         (e.venue||'').toLowerCase().includes(q)){
+        results.push({...e,_type:'event'});
+      }
+    });
+  }
+
+  // Exchanges
+  if(activeFilter==='all'||activeFilter==='exchanges'){
+    allExchanges.forEach(e=>{
+      if((e.offer||'').toLowerCase().includes(q)||
+         (e.need||'').toLowerCase().includes(q)||
+         (e.name||'').toLowerCase().includes(q)){
+        results.push({...e,_type:'exchange'});
+      }
+    });
+  }
+
+  $('resultsTitle').textContent=`Results for "${q}"`;
+  $('resultsCount').textContent=results.length;
+
+  if(!results.length){
+    $('resultsList').innerHTML=`<div class="empty-state"><div class="empty-icon">🔍</div><p class="empty-text">No results found for "${q}".<br>Try a different skill or name.</p></div>`;
     return;
   }
 
-  $('feed').innerHTML = items.map(item=>{
-    const col  = typeColor(item.feedType);
-    const av   = item.userPhoto||`https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(item.userName||'user')}`;
-    const isMe = item.uid===currentUser?.uid;
-
-    let content = '';
-
-    // SKILL EXCHANGE
-    if(item.feedType==='exchange'){
-      content=`
-        <div class="swap-box">
-          <div class="swap-side">
-            <div class="swap-lbl off">Offering</div>
-            <div class="swap-skill">${item.offer||'—'}</div>
-          </div>
-          <div class="swap-arr">⇄</div>
-          <div class="swap-side">
-            <div class="swap-lbl wan">Needs</div>
-            <div class="swap-skill">${item.need||'—'}</div>
+  $('resultsList').innerHTML=results.map(r=>{
+    if(r._type==='person'){
+      const av=r.photoURL||`https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(r.name||r.uid)}`;
+      const skills=(r.skills||[]).slice(0,4);
+      const qLow=q.toLowerCase();
+      return `
+      <div class="person-card" onclick="window.location.href='network.html'">
+        <div class="pc-av"><img src="${av}" alt="" loading="lazy"></div>
+        <div class="pc-info">
+          <div class="pc-name">${r.name||'Student'}</div>
+          <div class="pc-role">${r.role||'Student'} · ${r.university||''}</div>
+          <div class="pc-skills">
+            ${skills.map(s=>`<span class="pc-skill ${s.toLowerCase().includes(qLow)?'match':''}">${s}</span>`).join('')}
           </div>
         </div>
-        ${item.desc?`<div style="font-size:.74rem;color:var(--dim);line-height:1.6;margin-bottom:12px;">${item.desc}</div>`:''}
-        <div class="fc-actions">
-          ${!isMe?`<button class="fc-action-btn primary" onclick="connectExchange('${item.id}','${item.uid}','${item.userName}')">Connect →</button>`:''}
-          <span style="font-size:.65rem;color:var(--muted);">${item.level||''} · ${item.duration||''}</span>
-        </div>`;
+        <div class="pc-coins">💰 ${r.coins||0}</div>
+      </div>`;
     }
-
-    // EVENT / HACKATHON / ANNOUNCEMENT
-    else if(['event','hackathon','announcement'].includes(item.feedType)){
-      content=`
-        <div class="event-box">
-          <div class="event-box-title">${item.title||'Untitled'}</div>
-          ${item.desc?`<div style="font-size:.74rem;color:var(--dim);line-height:1.6;margin:6px 0;">${item.desc}</div>`:''}
-          <div class="event-box-meta">
-            ${item.date?`<span>📅 ${item.date}${item.time?' · '+item.time:''}</span>`:''}
-            ${item.venue?`<span>📍 ${item.venue}</span>`:''}
+    if(r._type==='event'){
+      const col=typeColor(r.type);
+      return `
+      <div class="event-card" onclick="window.location.href='clubs.html'">
+        <div class="ec-bar" style="background:linear-gradient(90deg,${col},transparent)"></div>
+        <div class="ec-body">
+          <span class="ec-type" style="background:${col}18;border:1px solid ${col}33;color:${col};">${r.type||'event'}</span>
+          <div class="ec-title">${r.title||'Untitled'}</div>
+          <div class="ec-club">🛡️ ${r.clubName||'Club'}</div>
+          <div class="ec-meta">
+            ${r.date?`<span>📅 ${r.date}</span>`:''}
+            ${r.venue?`<span>📍 ${r.venue}</span>`:''}
           </div>
         </div>
-        <div class="fc-actions">
-          <button class="fc-action-btn primary" onclick="window.location.href='clubs.html'">View on Calendar →</button>
-          ${item.link?`<a href="${item.link}" target="_blank" rel="noopener" class="fc-action-btn">Register</a>`:''}
-        </div>`;
+      </div>`;
     }
-
-    // NEW MEMBER
-    else if(item.feedType==='member'){
-      const skills=(item.skills||[]).slice(0,4);
-      content=`
-        <div class="member-box">
-          <div class="mb-av"><img src="${av}" alt=""></div>
-          <div class="mb-info">
-            <div class="mb-name">${item.userName||'Student'} joined Zwapy 🎉</div>
-            <div class="mb-skills">${skills.map(s=>`<span class="mb-skill">${s}</span>`).join('')}</div>
-          </div>
+    if(r._type==='exchange'){
+      return `
+      <div class="ex-card" onclick="window.location.href='skill-exchange.html'">
+        <div class="ex-swap">
+          <div class="ex-side"><div class="ex-lbl">Offering</div><div class="ex-skill">${r.offer||'—'}</div></div>
+          <div class="ex-arr">⇄</div>
+          <div class="ex-side"><div class="ex-lbl">Needs</div><div class="ex-skill">${r.need||'—'}</div></div>
         </div>
-        ${!isMe?`<div class="fc-actions" style="margin-top:12px;">
-          <button class="fc-action-btn primary" onclick="connectMember('${item.uid}')">Connect →</button>
-        </div>`:''}`;
+        <div class="ex-by">by ${r.name||'Student'} · ${r.level||''} · ${r.duration||''}</div>
+      </div>`;
     }
-
-    return `
-    <div class="feed-card">
-      <div class="feed-card-accent" style="background:${col}"></div>
-      <div class="fc-header">
-        <div class="fc-av"><img src="${av}" alt="" loading="lazy"></div>
-        <div class="fc-user">
-          <div class="fc-name">${item.userName||'Student'}${isMe?' <span style="font-size:.55rem;color:var(--cyan);font-weight:800;background:rgba(0,212,255,0.1);padding:2px 7px;border-radius:100px;border:1px solid rgba(0,212,255,0.2);">You</span>':''}</div>
-          <div class="fc-meta">${item.userUni||'Presidency University'} · ${timeAgo(item.createdAt)}</div>
-        </div>
-        <span class="fc-type-pill" style="background:${col}18;border:1px solid ${col}33;color:${col};">${typeEmoji(item.feedType)} ${item.feedType}</span>
-      </div>
-      ${content}
-    </div>`;
+    return '';
   }).join('');
 }
 
-// ── CONNECT FROM EXCHANGE ──
-window.connectExchange = async function(exchangeId, toUid, toName){
-  if(!currentUser||currentUser.uid===toUid) return;
-  if(myConnections.includes(toUid)){toast('Already connected','#94a3b8');return;}
-  myConnections.push(toUid);
-  await updateDoc(doc(db,'users',currentUser.uid),{connections:arrayUnion(toUid)});
-  toast(`✅ Connected with ${toName}!`);
-};
-
-// ── CONNECT NEW MEMBER ──
-window.connectMember = async function(uid){
-  if(!currentUser||currentUser.uid===uid) return;
-  if(myConnections.includes(uid)){toast('Already connected','#94a3b8');return;}
-  myConnections.push(uid);
-  await updateDoc(doc(db,'users',currentUser.uid),{connections:arrayUnion(uid)});
-  toast('✅ Connected!');
-};
-
-// ── RENDER LEADERBOARD ──
-function renderLeaderboard(users){
-  const top = [...users].sort((a,b)=>(b.coins||0)-(a.coins||0)).slice(0,5);
-  if(!top.length){$('leaderboard').innerHTML=`<div style="font-size:.74rem;color:var(--muted);font-style:italic;">No data yet</div>`;return;}
-  $('leaderboard').innerHTML = top.map((u,i)=>{
-    const av=u.photoURL||`https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(u.name||u.uid)}`;
-    const medals=['🥇','🥈','🥉','4','5'];
-    return `
-    <div class="lb-item">
-      <div class="lb-rank ${i<3?'top':''}">${i<3?medals[i]:i+1}</div>
-      <div class="lb-av"><img src="${av}" alt="" loading="lazy"></div>
-      <div class="lb-info">
-        <div class="lb-name">${u.name||'Student'}${u.uid===currentUser?.uid?' (You)':''}</div>
-        <div class="lb-sub">${u.exchanges||0} exchanges</div>
-      </div>
-      <div class="lb-coins">${u.coins||0}</div>
-    </div>`;
-  }).join('');
-}
-
-// ── RENDER TRENDING SKILLS ──
-function renderTrending(users){
-  const skillMap={};
-  users.forEach(u=>(u.skills||[]).forEach(s=>{
-    const k=s.toLowerCase();
-    skillMap[k]=(skillMap[k]||0)+1;
-  }));
-  const sorted=Object.entries(skillMap).sort((a,b)=>b[1]-a[1]).slice(0,6);
-  const max=sorted[0]?.[1]||1;
-  if(!sorted.length){$('trendingSkills').innerHTML=`<div style="font-size:.74rem;color:var(--muted);font-style:italic;">No skills listed yet</div>`;return;}
-  $('trendingSkills').innerHTML=sorted.map(([skill,count])=>`
-    <div class="trend-item">
-      <div class="trend-skill">${skill.charAt(0).toUpperCase()+skill.slice(1)}</div>
-      <div class="trend-bar-wrap"><div class="trend-bar" style="width:${(count/max)*100}%"></div></div>
-      <div class="trend-count">${count}</div>
-    </div>`).join('');
-}
-
-// ── FILTERS ──
-document.querySelectorAll('.ff').forEach(f=>{
-  f.addEventListener('click',()=>{
-    document.querySelectorAll('.ff').forEach(x=>x.classList.remove('active'));
-    f.classList.add('active'); activeFilter=f.dataset.f; renderFeed();
+// Filter tabs
+document.querySelectorAll('.ftab').forEach(t=>{
+  t.addEventListener('click',()=>{
+    document.querySelectorAll('.ftab').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active'); activeFilter=t.dataset.f;
+    doSearch($('bigSearch').value);
   });
 });
 
+// Search input
+let debounce;
+$('bigSearch').addEventListener('input',e=>{
+  clearTimeout(debounce);
+  debounce=setTimeout(()=>doSearch(e.target.value),250);
+});
+
+// Enter key
+$('bigSearch').addEventListener('keydown',e=>{
+  if(e.key==='Enter') doSearch($('bigSearch').value);
+});
+
 // ── AUTH + LOAD ──
-onAuthStateChanged(auth, async user=>{
+onAuthStateChanged(auth,async user=>{
   if(!user){window.location.href='login.html';return;}
   currentUser=user;
 
   const us=await getDoc(doc(db,'users',user.uid));
   if(us.exists()){
-    userData=us.data();
-    $('navAvatar').src=userData.photoURL||user.photoURL||
-      `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(userData.name||'user')}`;
-    myConnections=userData.connections||[];
+    const ud=us.data();
+    $('navAvatar').src=ud.photoURL||user.photoURL||
+      `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(ud.name||'user')}`;
   }
 
-  // ── LOAD ALL DATA ──
-  // 1. All users
-  const usersSnap=await getDocs(collection(db,'users'));
-  const users=[];
-  usersSnap.forEach(d=>{
-    if(d.data().role!=='super_admin') users.push({uid:d.id,...d.data()});
+  // Load all people
+  const usSnap=await getDocs(collection(db,'users'));
+  allPeople=[];
+  usSnap.forEach(d=>{
+    const ud=d.data();
+    if(ud.role!=='super_admin') allPeople.push({uid:d.id,...ud});
   });
 
-  // 2. All exchanges
-  const exSnap=await getDocs(query(collection(db,'exchanges'),orderBy('createdAt','desc'),limit(30)));
-  const exchanges=[];
-  exSnap.forEach(d=>exchanges.push({id:d.id,...d.data()}));
+  // Load exchanges
+  try{
+    const es=await getDocs(query(collection(db,'exchanges'),orderBy('createdAt','desc')));
+    allExchanges=[];es.forEach(d=>allExchanges.push({id:d.id,...d.data()}));
+  }catch(e){}
 
-  // 3. All club posts
-  const clubsSnap=await getDocs(collection(db,'clubs'));
-  const posts=[];
-  let totalEvents=0;
-  for(const cd of clubsSnap.docs){
-    const club=cd.data();
-    try{
+  // Load club posts
+  allEvents=[];
+  try{
+    const cs=await getDocs(collection(db,'clubs'));
+    for(const cd of cs.docs){
+      const club=cd.data();
       const ps=await getDocs(collection(db,'clubs',cd.id,'posts'));
-      ps.forEach(pd=>{posts.push({id:pd.id,clubId:cd.id,clubName:club.name,...pd.data()});totalEvents++;});
-    }catch(e){}
-  }
+      ps.forEach(pd=>allEvents.push({id:pd.id,clubId:cd.id,clubName:club.name,...pd.data()}));
+    }
+  }catch(e){}
 
-  // ── BUILD UNIFIED FEED ──
-  allFeedItems=[];
-
-  // Add exchanges to feed
-  exchanges.forEach(ex=>{
-    const u=users.find(x=>x.uid===ex.uid)||{};
-    allFeedItems.push({
-      id:ex.id, feedType:'exchange',
-      uid:ex.uid,
-      userName:ex.name||u.name||'Student',
-      userPhoto:ex.photoURL||u.photoURL||'',
-      userUni:ex.university||u.university||'',
-      offer:ex.offer, need:ex.need,
-      desc:ex.desc, level:ex.level,
-      duration:ex.duration,
-      createdAt:ex.createdAt
-    });
-  });
-
-  // Add club posts to feed
-  posts.forEach(p=>{
-    const u=users.find(x=>x.uid===p.clubId)||{};
-    allFeedItems.push({
-      id:p.id, feedType:p.type||'event',
-      uid:p.clubId,
-      userName:p.clubName||'Club',
-      userPhoto:'',
-      userUni:p.university||'',
-      title:p.title, desc:p.desc,
-      date:p.date, time:p.time,
-      venue:p.venue, link:p.link,
-      createdAt:p.createdAt
-    });
-  });
-
-  // Add recent members (last 10 who joined)
-  const recentMembers=[...users]
-    .filter(u=>u.createdAt&&u.skills&&u.skills.length>0)
-    .sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0))
-    .slice(0,8);
-  recentMembers.forEach(u=>{
-    allFeedItems.push({
-      id:'member-'+u.uid, feedType:'member',
-      uid:u.uid,
-      userName:u.name||'Student',
-      userPhoto:u.photoURL||'',
-      userUni:u.university||'',
-      skills:u.skills||[],
-      createdAt:u.createdAt
-    });
-  });
-
-  // Sort all by time
-  allFeedItems.sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
-
-  // ── STATS ──
-  $('psStudents').textContent = users.length;
-  $('psExchanges').textContent= exchanges.length;
-  $('psClubs').textContent    = clubsSnap.size;
-  $('psEvents').textContent   = totalEvents;
-  $('liveCount').textContent  = `${allFeedItems.length} updates`;
-
-  renderFeed();
-  renderLeaderboard(users);
-  renderTrending(users);
+  buildTrending();
 
   setTimeout(()=>{
     $('loadScreen').classList.add('hide');
     setTimeout(()=>{if($('loadScreen'))$('loadScreen').remove();},500);
     document.querySelectorAll('.fade-up').forEach(el=>el.classList.add('in'));
-  },700);
+    // Auto focus search
+    $('bigSearch').focus();
+  },600);
 });
 </script>
 </body>

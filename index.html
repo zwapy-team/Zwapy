@@ -679,5 +679,31 @@ window.addEventListener('resize', () => {
   buildLines();
 });
 </script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+import { getAuth, onAuthStateChanged, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+
+const app = initializeApp({
+  apiKey:"AIzaSyBazCIc5vdQInSwvqvohIcbPToTjnw7KJI",
+  authDomain:"zwapy-25.firebaseapp.com",
+  projectId:"zwapy-25",
+  storageBucket:"zwapy-25.firebasestorage.app",
+  messagingSenderId:"30612332450",
+  appId:"1:30612332450:web:9e23f36a69f89dbb325cfb"
+});
+const auth = getAuth(app);
+const db   = getFirestore(app);
+await setPersistence(auth, browserLocalPersistence);
+
+onAuthStateChanged(auth, async user => {
+  if(!user) return; // not logged in, stay on landing page
+  const snap = await getDoc(doc(db,'users',user.uid));
+  const role  = snap.exists() ? (snap.data().role||'student') : 'student';
+  if(role==='super_admin') { window.location.href='admin-dashboard.html'; return; }
+  if(role==='club_head')   { window.location.href='club-dashboard.html';  return; }
+  window.location.href='dashboard.html';
+});
+</script>
 </body>
 </html>
