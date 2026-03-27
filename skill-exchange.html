@@ -364,7 +364,6 @@ function levelColor(l){if(l==='Advanced')return'#10b981';if(l==='Intermediate')r
 
 // Generate a Google Meet-compatible room name
 function genMeetRoom(reqId){
-  // Creates a fixed Google Meet link from the request ID
   const clean=reqId.replace(/[^a-z0-9]/gi,'').toLowerCase().substring(0,12);
   return `https://meet.google.com/lookup/zwapy-${clean}`;
 }
@@ -572,7 +571,7 @@ $('confirmSchedule').addEventListener('click',async()=>{
   btn.disabled=false;btn.textContent='Generate Meet Link →';
   toast('✅ Session scheduled! Meet link created.');
   renderRequests();
-};
+});
 
 // ── REJECT REQUEST ──
 window.rejectRequest=async function(reqId){
@@ -643,7 +642,6 @@ $('postBtn').addEventListener('click',async()=>{
   $('offerSkill').value='';$('needSkill').value='';$('postDesc').value='';
   btn.disabled=false;btn.textContent='Post Request →';
   toast('✅ Posted!');
-  // Switch to browse tab
   document.querySelectorAll('.tab-btn')[0].click();
 });
 
@@ -678,7 +676,6 @@ onAuthStateChanged(auth,async user=>{
   allExchanges=[];exSnap.forEach(d=>allExchanges.push({id:d.id,...d.data()}));
   renderExchanges();
 
-  // Check pending requests (for red dot)
   try{
     const reqSnap=await getDocs(query(collection(db,'exchange_requests'),where('toUid','==',user.uid)));
     const pending=[];reqSnap.forEach(d=>{if(d.data().status==='pending')pending.push(d.id);});
