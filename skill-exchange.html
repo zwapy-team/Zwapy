@@ -470,6 +470,8 @@ let allExchanges=[], currentUser=null, userData={};
 let activeFilter='all', searchQ='';
 let connectTarget=null, scheduleTarget=null;
 let examSession=null, examQuestions=[], examIdx=0, examScore=0, selectedAnswer=null;
+const requestsMap={};
+const sessionsMap={};
 
 // ── TAB SWITCH ──
 window.switchTab=function(tab,el){
@@ -481,6 +483,8 @@ window.switchTab=function(tab,el){
   if(tab==='sessions')renderSessions();
 };
 
+const exchangesMap={};
+
 // ── RENDER EXCHANGES ──
 function renderExchanges(){
   let list=allExchanges;
@@ -490,6 +494,8 @@ function renderExchanges(){
 
   $('statTotal').textContent=allExchanges.length;
   $('statMine').textContent=allExchanges.filter(e=>e.uid===currentUser?.uid).length;
+
+  allExchanges.forEach(e=>{ exchangesMap[e.id]=e; });
 
   if(!list.length){
     $('exGrid').innerHTML=`<div class="empty-state"><div class="ei">🔄</div><p class="et">No exchanges found.<br>Post yours above!</p></div>`;
@@ -522,7 +528,7 @@ function renderExchanges(){
           </div>
           ${isMe
             ?`<button class="connect-btn mine" onclick="deleteEx('${ex.id}')">Delete</button>`
-            :`<button class="connect-btn" onclick="openConnect(${JSON.stringify(ex).replace(/"/g,'&quot;')})">Connect →</button>`
+            :`<button class="connect-btn" onclick="openConnect('${ex.id}')">Connect →</button>`
           }
         </div>
       </div>
@@ -539,7 +545,9 @@ window.deleteEx=async function(id){
 };
 
 // ── CONNECT MODAL ──
-window.openConnect=function(ex){
+window.openConnect=function(exId){
+  const ex=exchangesMap[exId];
+  if(!ex)return;
   connectTarget=ex;
   $('cTitle').textContent=`Connect with ${ex.name||'Student'}`;
   $('cSub').textContent=`Exchange: ${ex.offer} ↔ ${ex.need} · ${ex.level||''} · ${ex.duration||''}`;
@@ -598,6 +606,9 @@ async function renderRequests(){
     return;
   }
 
+  // Store in map so we can retrieve safely without inline string escaping
+  reqs.forEach(r=>{ requestsMap[r.id]=r; });
+
   $('requestsList').innerHTML=reqs.map(r=>`
     <div class="request-card">
       <div class="rc-top">
@@ -611,7 +622,7 @@ async function renderRequests(){
       <div class="rc-msg">"${r.message}"</div>
       <div class="rc-actions">
         ${r.status==='pending'
-          ?`<button class="btn-accept" onclick="acceptReq('${r.id}','${r.fromUid}','${(r.fromName||'').replace(/'/g,'\\'')}','${r.fromEmail||''}','${r.offer}','${r.need}')">✓ Accept</button>
+          ?`<button class="btn-accept" onclick="acceptReq('${r.id}')">✓ Accept</button>
             <button class="btn-reject" onclick="rejectReq('${r.id}')">Reject</button>`
           :`<span style="font-size:.68rem;color:var(--muted);">Already ${r.status}</span>`
         }
@@ -619,9 +630,11 @@ async function renderRequests(){
     </div>`).join('');
 }
 
-window.acceptReq=function(reqId,fromUid,fromName,fromEmail,offer,need){
-  scheduleTarget={reqId,fromUid,fromName,fromEmail,offer,need};
-  $('scheduleWith').textContent=`With ${fromName} — ${offer} ↔ ${need}`;
+window.acceptReq=function(reqId){
+  const r=requestsMap[reqId];
+  if(!r)return;
+  scheduleTarget={reqId,fromUid:r.fromUid,fromName:r.fromName||'Student',fromEmail:r.fromEmail||'',offer:r.offer,need:r.need};
+  $('scheduleWith').textContent=`With ${scheduleTarget.fromName} — ${scheduleTarget.offer} ↔ ${scheduleTarget.need}`;
   $('sessDate').value='';$('sessTime').value='';$('sessDuration').value='1';
   $('scheduleModal').classList.add('open');
 };
@@ -689,12 +702,12 @@ async function renderSessions(){
     return;
   }
 
+  sessions.forEach(s=>{ sessionsMap[s.id]=s; });
+
   $('sessionsList').innerHTML=sessions.map(s=>{
     const withName=s.fromUid===currentUser.uid?s.toName:s.fromName;
     const upcoming=new Date(`${s.date}T${s.time}`)>new Date();
     const myExamDone=(s.examDone||{})[currentUser.uid];
-    // What skill am I learning in this session?
-    const myLearning=s.fromUid===currentUser.uid?s.need:s.offer;
     return `
     <div class="session-card">
       <div class="session-title">${s.offer} ↔ ${s.need}</div>
@@ -710,9 +723,9 @@ async function renderSessions(){
           :`<span style="font-size:.68rem;color:var(--muted);">Session completed</span>`
         }
         ${!upcoming&&!myExamDone
-          ?`<button class="take-exam-btn" onclick="startExam('${s.id}','${myLearning}','${withName}')">📝 Take Exam</button>`
+          ?`<button class="take-exam-btn" onclick="startExam('${s.id}')">📝 Take Exam</button>`
           :myExamDone
-            ?`<span style="font-size:.68rem;color:var(--green);display:flex;align-items:center;gap:4px;">✓ Exam done</span>`
+            ?`<span style="font-size:.68rem;color:var(--green);">✓ Exam done</span>`
             :''
         }
       </div>
@@ -783,8 +796,12 @@ function generateFallbackQuestions(skill){
   return q.slice(0,30);
 }
 
-window.startExam=async function(sessionId,skill,teacherName){
-  examSession={sessionId,skill,teacherName};
+window.startExam=async function(sessionId){
+  const s=sessionsMap[sessionId];
+  if(!s)return;
+  const myLearning=s.fromUid===currentUser.uid?s.need:s.offer;
+  const withName=s.fromUid===currentUser.uid?s.toName:s.fromName;
+  examSession={sessionId,skill:myLearning,teacherName:withName||'Student'};
   examQuestions=[];examIdx=0;examScore=0;selectedAnswer=null;
 
   $('examScreen').style.display='block';
