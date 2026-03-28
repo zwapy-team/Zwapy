@@ -4,11 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Skill Exchange | Zwapy</title>
-<link rel="preconnect" href="https://www.gstatic.com"/>
-<link rel="preconnect" href="https://firestore.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
-<!-- EmailJS for certificates -->
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 <style>
 :root{
   --cyan:#00D4FF;--cyan-dim:rgba(0,212,255,0.1);
@@ -31,1059 +27,148 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 @keyframes lf{from{width:0}to{width:100%}}
 .load-text{font-family:'Space Mono',monospace;font-size:.54rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
 
-/* ── LAYOUT ── */
-.layout{position:relative;z-index:10;max-width:1100px;margin:0 auto;padding:0 16px 110px;}
-@media(min-width:600px){.layout{padding:0 22px 110px;}}
+.layout{position:relative;z-index:10;max-width:1100px;margin:0 auto;padding:0 22px 110px;}
 
-/* ── TOPBAR ── */
-.topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid rgba(0,212,255,0.06);margin-bottom:20px;position:sticky;top:0;z-index:200;background:rgba(1,1,20,0.94);backdrop-filter:blur(24px);margin-left:-16px;margin-right:-16px;padding-left:16px;padding-right:16px;gap:10px;}
-@media(min-width:600px){.topbar{margin-left:-22px;margin-right:-22px;padding-left:22px;padding-right:22px;}}
-.topbar-logo{display:flex;align-items:center;gap:8px;text-decoration:none;flex-shrink:0;}
-.logo-node{width:34px;height:34px;background:rgba(0,212,255,0.07);border:1px solid rgba(0,212,255,0.2);border-radius:10px;display:flex;align-items:center;justify-content:center;}
-.logo-text{font-size:1.1rem;font-weight:900;font-style:italic;}
-.back-btn{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:100px;padding:6px 12px;font-size:.68rem;font-weight:700;color:var(--dim);text-decoration:none;transition:all .2s;white-space:nowrap;}
-.back-btn:hover{border-color:var(--border-h);color:white;}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid rgba(0,212,255,0.06);margin-bottom:28px;position:sticky;top:0;z-index:200;background:rgba(1,1,20,0.93);backdrop-filter:blur(24px);margin-left:-22px;margin-right:-22px;padding-left:22px;padding-right:22px;}
+.topbar-logo{display:flex;align-items:center;gap:9px;text-decoration:none;}
+.logo-node{width:38px;height:38px;background:rgba(0,212,255,0.07);border:1px solid rgba(0,212,255,0.2);border-radius:11px;display:flex;align-items:center;justify-content:center;}
+.logo-text{font-size:1.25rem;font-weight:900;font-style:italic;}
+.back-btn{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:100px;padding:7px 14px;font-size:.72rem;font-weight:700;color:var(--dim);text-decoration:none;transition:all .2s;}
+.back-btn:hover{border-color:var(--cyan);color:white;}
 
-/* ── PAGE HEAD ── */
-.page-head{margin-bottom:20px;}
-.page-label{font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.2em;text-transform:uppercase;color:var(--cyan);opacity:.6;margin-bottom:4px;}
-.page-title{font-size:clamp(1.5rem,6vw,2.8rem);font-weight:900;font-style:italic;letter-spacing:-.03em;line-height:1;}
+/* Page Head */
+.page-head{margin-bottom:28px;}
+.page-label{font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.22em;text-transform:uppercase;color:var(--cyan);opacity:.6;margin-bottom:5px;}
+.page-title{font-size:clamp(1.8rem,5vw,3rem);font-weight:900;font-style:italic;letter-spacing:-.03em;line-height:1;}
 .page-title span{color:var(--cyan);}
-.page-sub{font-size:.76rem;color:var(--dim);margin-top:6px;line-height:1.5;}
+.page-sub{font-size:.82rem;color:var(--dim);margin-top:8px;}
 
-/* ── STATS ── */
-.stats-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px;}
-.sc{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:12px;padding:12px 10px;}
-.sc-val{font-family:'Space Mono',monospace;font-size:1.2rem;font-weight:700;color:var(--cyan);line-height:1;margin-bottom:2px;}
-.sc-label{font-family:'Space Mono',monospace;font-size:.44rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);}
-
-/* ── TABS — scrollable on mobile ── */
-.tab-row{display:flex;gap:0;margin-bottom:18px;border-bottom:1px solid rgba(255,255,255,0.06);overflow-x:auto;-webkit-overflow-scrolling:touch;}
-.tab-row::-webkit-scrollbar{height:0;}
-.tab-btn{background:none;border:none;border-bottom:2px solid transparent;padding:9px 12px;font-size:.7rem;font-weight:700;color:var(--muted);cursor:pointer;transition:all .2s;font-family:'Sora',sans-serif;margin-bottom:-1px;white-space:nowrap;position:relative;flex-shrink:0;}
-@media(min-width:500px){.tab-btn{padding:9px 16px;font-size:.74rem;}}
+/* Tabs */
+.tab-row{display:flex;gap:8px;margin-bottom:24px;border-bottom:1px solid rgba(255,255,255,0.06);padding-bottom:0;overflow-x:auto;}
+.tab-btn{background:none;border:none;border-bottom:2px solid transparent;padding:10px 18px;font-size:.78rem;font-weight:700;color:var(--muted);cursor:pointer;transition:all .2s;white-space:nowrap;}
 .tab-btn.active{color:var(--cyan);border-bottom-color:var(--cyan);}
-.tab-dot{position:absolute;top:5px;right:3px;width:6px;height:6px;background:var(--red);border-radius:50%;display:none;}
-.tab-dot.show{display:block;}
 .tab-content{display:none;}
 .tab-content.active{display:block;}
 
-/* ── POST FORM ── */
-.post-card{background:linear-gradient(135deg,rgba(0,212,255,0.04),rgba(2,0,36,0.8));border:1px solid rgba(0,212,255,0.14);border-radius:20px;padding:20px;margin-bottom:18px;}
-.pc-title{font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan);opacity:.7;margin-bottom:14px;}
+/* Post Form */
+.post-card{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:20px;padding:20px;margin-bottom:18px;}
 .field{margin-bottom:12px;}
 .field label{display:block;font-size:.6rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin-bottom:5px;}
-.field input,.field select,.field textarea{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:11px 13px;font-size:.86rem;color:white;font-family:'Sora',sans-serif;outline:none;transition:border-color .2s;-webkit-appearance:none;}
-.field input::placeholder,.field textarea::placeholder{color:var(--muted);}
-.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--cyan);}
-.field select option{background:#020024;}
-.field textarea{resize:vertical;min-height:64px;line-height:1.5;}
-.field-row{display:grid;grid-template-columns:1fr;gap:11px;}
-@media(min-width:480px){.field-row{grid-template-columns:1fr 1fr;}}
-.post-btn{width:100%;background:var(--cyan);color:#000;border:none;border-radius:10px;padding:13px;font-size:.82rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;transition:all .22s;font-family:'Sora',sans-serif;margin-top:4px;}
-.post-btn:hover{box-shadow:0 0 18px rgba(0,212,255,.35);}
-.post-btn:disabled{opacity:.5;cursor:not-allowed;}
+.field input,.field select,.field textarea{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:11px 13px;font-size:.86rem;color:white;outline:none;}
+.field textarea{resize:vertical;min-height:80px;}
+.post-btn{width:100%;background:var(--cyan);color:#000;border:none;border-radius:10px;padding:13px;font-size:.82rem;font-weight:800;cursor:pointer;margin-top:8px;}
 
-/* ── FILTER BAR ── */
-.filter-bar{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;align-items:center;}
-.sw{flex:1;min-width:140px;position:relative;}
-.si{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:.8rem;pointer-events:none;}
-.search-input{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:10px 12px 10px 32px;font-size:.82rem;color:white;font-family:'Sora',sans-serif;outline:none;transition:border-color .2s;}
-.search-input::placeholder{color:var(--muted);}
-.search-input:focus{border-color:var(--cyan);}
-.ftabs{display:flex;gap:5px;flex-wrap:wrap;}
-.ftab{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:100px;padding:6px 11px;font-size:.64rem;font-weight:700;cursor:pointer;transition:all .2s;color:var(--muted);white-space:nowrap;}
-.ftab.active{background:rgba(0,212,255,0.1);border-color:rgba(0,212,255,0.3);color:var(--cyan);}
-.ftab:hover:not(.active){color:white;}
-
-/* ── EXCHANGE GRID ── */
+/* Exchange Grid */
 .ex-grid{display:grid;grid-template-columns:1fr;gap:12px;}
 @media(min-width:520px){.ex-grid{grid-template-columns:repeat(auto-fill,minmax(280px,1fr));}}
-
-/* ── EXCHANGE CARD ── */
 .ex-card{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:all .25s;}
-.ex-card:hover{border-color:var(--border-h);}
-.ex-bar{height:3px;}
+.ex-card:hover{border-color:var(--border-h);transform:translateY(-4px);}
 .ex-body{padding:16px;}
 .ex-header{display:flex;align-items:center;gap:10px;margin-bottom:11px;}
-.ex-av{width:34px;height:34px;border-radius:50%;overflow:hidden;border:2px solid rgba(0,212,255,0.18);flex-shrink:0;}
-.ex-av img{width:100%;height:100%;object-fit:cover;}
-.ex-user{flex:1;min-width:0;}
-.ex-name{font-size:.78rem;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.ex-uni{font-size:.58rem;color:var(--muted);}
-.ex-time{font-family:'Space Mono',monospace;font-size:.48rem;color:var(--muted);flex-shrink:0;}
+.ex-av{width:34px;height:34px;border-radius:50%;overflow:hidden;border:2px solid rgba(0,212,255,0.18);}
+.ex-name{font-size:.78rem;font-weight:700;}
 .swap-box{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:11px;margin-bottom:10px;}
-.swap-side{flex:1;min-width:0;}
-.swap-lbl{font-family:'Space Mono',monospace;font-size:.44rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:3px;}
-.swap-lbl.off{color:var(--cyan);}
-.swap-lbl.wan{color:var(--green);}
-.swap-skill{font-size:.84rem;font-weight:800;font-style:italic;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.swap-arr{font-size:.9rem;opacity:.28;flex-shrink:0;}
-.ex-desc{font-size:.7rem;color:var(--dim);line-height:1.5;margin-bottom:10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
-.ex-footer{display:flex;align-items:center;justify-content:space-between;gap:7px;flex-wrap:wrap;}
-.ex-tags{display:flex;gap:5px;flex-wrap:wrap;}
-.ex-tag{font-family:'Space Mono',monospace;font-size:.46rem;letter-spacing:.07em;text-transform:uppercase;padding:2px 7px;border-radius:100px;}
-.ex-tag.level{background:rgba(129,140,248,0.08);border:1px solid rgba(129,140,248,0.18);color:var(--indigo);}
-.ex-tag.dur{background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.18);color:var(--amber);}
-.connect-btn{background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.22);border-radius:8px;padding:7px 13px;font-size:.66rem;font-weight:800;color:var(--cyan);cursor:pointer;transition:all .2s;font-family:'Sora',sans-serif;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;}
-.connect-btn:hover{background:rgba(0,212,255,0.18);}
-.connect-btn.mine{background:rgba(239,68,68,0.07);border-color:rgba(239,68,68,0.2);color:var(--red);}
+.swap-skill{font-size:.84rem;font-weight:800;}
+.ex-desc{font-size:.7rem;color:var(--dim);margin-bottom:10px;}
+.connect-btn{background:var(--cyan);color:#000;border:none;border-radius:8px;padding:8px 14px;font-size:.68rem;font-weight:800;cursor:pointer;width:100%;}
 
-/* ── REQUEST CARD ── */
-.request-card{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:10px;}
-.rc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px;flex-wrap:wrap;}
-.rc-title{font-size:.84rem;font-weight:800;margin-bottom:2px;}
-.rc-from{font-size:.64rem;color:var(--muted);}
-.rc-status{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:100px;flex-shrink:0;}
-.rc-status.pending{background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);color:var(--amber);}
-.rc-status.accepted{background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);color:var(--green);}
-.rc-status.rejected{background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);color:var(--red);}
-.rc-skills{font-size:.72rem;color:var(--dim);margin-bottom:7px;}
-.rc-msg{font-size:.72rem;color:var(--dim);line-height:1.5;margin-bottom:10px;background:rgba(255,255,255,0.03);border-radius:8px;padding:8px 10px;font-style:italic;}
-.rc-actions{display:flex;gap:7px;flex-wrap:wrap;}
-.btn-accept{background:var(--green);color:#000;border:none;border-radius:8px;padding:8px 14px;font-size:.68rem;font-weight:800;text-transform:uppercase;cursor:pointer;font-family:'Sora',sans-serif;transition:all .2s;}
-.btn-accept:hover{box-shadow:0 0 10px rgba(16,185,129,.35);}
-.btn-reject{background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;padding:8px 12px;font-size:.68rem;font-weight:700;color:var(--red);cursor:pointer;font-family:'Sora',sans-serif;}
-
-/* ── SESSION CARD ── */
-.session-card{background:rgba(16,185,129,0.04);border:1px solid rgba(16,185,129,0.18);border-radius:14px;padding:16px;margin-bottom:10px;}
-.session-title{font-size:.88rem;font-weight:800;margin-bottom:3px;}
-.session-with{font-size:.68rem;color:var(--muted);margin-bottom:9px;}
-.session-meta{display:flex;flex-direction:column;gap:3px;margin-bottom:11px;}
-.smr{font-size:.7rem;color:var(--dim);display:flex;align-items:center;gap:5px;}
-.meet-btn{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#00a572,#059669);color:white;border:none;border-radius:8px;padding:9px 16px;font-size:.72rem;font-weight:800;text-transform:uppercase;cursor:pointer;font-family:'Sora',sans-serif;transition:all .22s;text-decoration:none;}
-.meet-btn:hover{box-shadow:0 0 12px rgba(16,185,129,.35);}
-.take-exam-btn{display:inline-flex;align-items:center;gap:6px;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.28);border-radius:8px;padding:9px 16px;font-size:.72rem;font-weight:800;color:var(--amber);cursor:pointer;font-family:'Sora',sans-serif;transition:all .22s;margin-left:8px;}
-.take-exam-btn:hover{background:rgba(245,158,11,0.2);}
-.session-actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
-
-/* ── MODALS ── */
-.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.86);backdrop-filter:blur(12px);z-index:3000;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;pointer-events:none;transition:opacity .25s;overflow-y:auto;}
-.modal-bg.open{opacity:1;pointer-events:all;}
-.modal{background:rgba(2,0,36,0.98);border:1px solid rgba(0,212,255,0.2);border-radius:22px;width:100%;max-width:420px;position:relative;transform:translateY(16px) scale(.97);transition:transform .25s;overflow:hidden;max-height:90vh;overflow-y:auto;margin:auto;}
-.modal-bg.open .modal{transform:translateY(0) scale(1);}
-.modal-stripe{height:3px;}
-.modal-in{padding:22px;}
-.mc{position:absolute;top:12px;right:12px;width:28px;height:28px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.7rem;color:var(--muted);transition:all .2s;z-index:1;}
-.mc:hover{border-color:var(--red);color:var(--red);}
-.modal-tag{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px;}
-.modal-title{font-size:1.05rem;font-weight:900;font-style:italic;margin-bottom:4px;}
-.modal-sub{font-size:.72rem;color:var(--dim);margin-bottom:16px;line-height:1.5;}
-
-/* schedule */
-.schedule-btn{width:100%;background:var(--green);color:#000;border:none;border-radius:10px;padding:12px;font-size:.82rem;font-weight:800;text-transform:uppercase;cursor:pointer;font-family:'Sora',sans-serif;transition:all .22s;margin-top:4px;}
-.schedule-btn:hover{box-shadow:0 0 14px rgba(16,185,129,.4);}
-.schedule-btn:disabled{opacity:.5;cursor:not-allowed;}
-
-/* connect */
-.send-req-btn{width:100%;background:var(--cyan);color:#000;border:none;border-radius:10px;padding:12px;font-size:.82rem;font-weight:800;text-transform:uppercase;cursor:pointer;font-family:'Sora',sans-serif;transition:all .22s;}
-.send-req-btn:hover{box-shadow:0 0 14px rgba(0,212,255,.35);}
-.send-req-btn:disabled{opacity:.5;cursor:not-allowed;}
-
-/* ── EXAM MODAL ── */
-.exam-modal{max-width:520px;}
-.exam-progress{display:flex;align-items:center;gap:10px;margin-bottom:18px;}
-.ep-bar-wrap{flex:1;height:4px;background:rgba(255,255,255,0.08);border-radius:100px;overflow:hidden;}
-.ep-bar{height:100%;background:linear-gradient(90deg,var(--cyan),var(--green));border-radius:100px;transition:width .3s;}
-.ep-text{font-family:'Space Mono',monospace;font-size:.58rem;color:var(--muted);white-space:nowrap;}
-.exam-q-num{font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);margin-bottom:8px;}
-.exam-question{font-size:.92rem;font-weight:700;line-height:1.5;margin-bottom:16px;}
-.exam-options{display:flex;flex-direction:column;gap:8px;margin-bottom:16px;}
-.exam-option{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:11px;padding:12px 14px;font-size:.82rem;cursor:pointer;transition:all .2s;text-align:left;color:white;font-family:'Sora',sans-serif;width:100%;}
-.exam-option:hover{border-color:var(--cyan);background:rgba(0,212,255,0.06);}
-.exam-option.selected{border-color:var(--cyan);background:rgba(0,212,255,0.1);color:var(--cyan);font-weight:700;}
-.exam-option.correct{border-color:var(--green);background:rgba(16,185,129,0.1);color:var(--green);}
-.exam-option.wrong{border-color:var(--red);background:rgba(239,68,68,0.08);color:var(--red);}
-.exam-next-btn{width:100%;background:var(--cyan);color:#000;border:none;border-radius:10px;padding:12px;font-size:.8rem;font-weight:800;text-transform:uppercase;cursor:pointer;font-family:'Sora',sans-serif;transition:all .22s;}
-.exam-next-btn:disabled{opacity:.4;cursor:not-allowed;}
-.exam-next-btn:not(:disabled):hover{box-shadow:0 0 14px rgba(0,212,255,.35);}
-
-/* ── RESULT SCREEN ── */
-.result-wrap{text-align:center;}
-.result-icon{font-size:2.8rem;margin-bottom:12px;}
-.result-score{font-family:'Space Mono',monospace;font-size:2.5rem;font-weight:700;margin-bottom:4px;}
-.result-score.pass{color:var(--green);}
-.result-score.fail{color:var(--red);}
-.result-label{font-size:.76rem;color:var(--dim);margin-bottom:16px;}
-.result-coins{background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);border-radius:12px;padding:12px 16px;margin-bottom:14px;font-size:.8rem;color:var(--amber);}
-.result-cert{background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.2);border-radius:12px;padding:12px 16px;margin-bottom:16px;font-size:.76rem;color:var(--green);line-height:1.6;}
-.result-btn{width:100%;background:var(--green);color:#000;border:none;border-radius:10px;padding:12px;font-size:.8rem;font-weight:800;text-transform:uppercase;cursor:pointer;font-family:'Sora',sans-serif;transition:all .22s;}
-.result-btn:hover{box-shadow:0 0 14px rgba(16,185,129,.35);}
-.result-btn:disabled{opacity:.5;cursor:not-allowed;}
-
-/* ── CERTIFICATE DISPLAY (canvas-based) ── */
-.cert-preview{width:100%;border-radius:12px;margin-bottom:14px;display:block;}
-
-/* ── EMPTY ── */
-.empty-state{text-align:center;padding:40px 16px;color:var(--muted);}
-.ei{font-size:2.2rem;margin-bottom:10px;opacity:.28;}
-.et{font-size:.76rem;line-height:1.6;}
-
-/* ── TOAST ── */
-.toast{position:fixed;bottom:82px;left:50%;transform:translateX(-50%) translateY(16px);border-radius:100px;padding:9px 18px;font-size:.72rem;font-weight:700;z-index:5000;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap;max-width:90vw;text-align:center;}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-.toast.s{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,.28);color:var(--green);}
-.toast.e{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,.28);color:var(--red);}
-
-/* ── BOTTOM NAV ── */
-.bottom-nav{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);width:calc(100% - 24px);max-width:360px;background:rgba(2,0,36,0.95);backdrop-filter:blur(28px);border:1px solid rgba(0,212,255,0.14);border-radius:100px;padding:5px 10px;display:flex;justify-content:space-around;align-items:center;z-index:500;box-shadow:0 8px 28px rgba(0,0,0,.6);}
-.nav-item{width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:all .2s;text-decoration:none;color:var(--muted);font-size:1rem;}
-.nav-item.active{background:rgba(0,212,255,0.11);color:var(--cyan);}
-.nav-av{width:22px;height:22px;border-radius:50%;border:2px solid rgba(0,212,255,.25);overflow:hidden;}
-.nav-av img{width:100%;height:100%;object-fit:cover;}
-
-.fade-up{opacity:0;transform:translateY(12px);transition:opacity .5s ease,transform .5s ease;}
-.fade-up.in{opacity:1;transform:translateY(0);}
-.d1{transition-delay:.04s;}.d2{transition-delay:.08s;}.d3{transition-delay:.12s;}
-::-webkit-scrollbar{width:2px;}
-::-webkit-scrollbar-thumb{background:rgba(0,212,255,0.14);border-radius:100px;}
+/* Empty State */
+.empty-state{text-align:center;padding:60px 20px;color:var(--muted);}
 </style>
 </head>
 <body>
 <div class="bg-glow"></div>
+
 <div id="loadScreen">
   <div class="load-logo">ZWAPY</div>
   <div class="load-bar"><div class="load-fill"></div></div>
   <div class="load-text">Loading skill exchange...</div>
 </div>
-<div class="toast" id="toast"></div>
-
-<!-- ── SCHEDULE SESSION MODAL ── -->
-<div class="modal-bg" id="scheduleModal">
-  <div class="modal">
-    <div class="modal-stripe" style="background:linear-gradient(90deg,var(--green),rgba(16,185,129,.3))"></div>
-    <div class="modal-in">
-      <button class="mc" id="scheduleClose">✕</button>
-      <div class="modal-tag">📅 Schedule Session</div>
-      <div class="modal-title">Set a Time to Meet</div>
-      <div class="modal-sub" id="scheduleWith"></div>
-      <div class="field"><label>Date *</label><input type="date" id="sessDate"/></div>
-      <div class="field"><label>Time *</label><input type="time" id="sessTime"/></div>
-      <div class="field"><label>Duration</label>
-        <select id="sessDuration">
-          <option value="1">1 Hour</option>
-          <option value="1.5">1.5 Hours</option>
-          <option value="2">2 Hours</option>
-        </select>
-      </div>
-      <div style="background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.12);border-radius:10px;padding:11px;margin-bottom:14px;font-size:.7rem;color:var(--dim);line-height:1.6;">
-        📹 A <strong style="color:white;">Google Meet link</strong> will be auto-generated. After your session, both students take a <strong style="color:var(--amber);">30-question exam</strong> to earn Skill Coins and a certificate.
-      </div>
-      <button class="schedule-btn" id="confirmSchedule">Confirm & Generate Meet Link →</button>
-    </div>
-  </div>
-</div>
-
-<!-- ── CONNECT REQUEST MODAL ── -->
-<div class="modal-bg" id="connectModal">
-  <div class="modal">
-    <div class="modal-stripe" style="background:linear-gradient(90deg,var(--cyan),rgba(0,212,255,.3))"></div>
-    <div class="modal-in">
-      <button class="mc" id="connectClose">✕</button>
-      <div class="modal-tag">🔄 Exchange Request</div>
-      <div class="modal-title" id="cTitle"></div>
-      <div class="modal-sub" id="cSub"></div>
-      <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:11px;padding:13px;margin-bottom:14px;" id="cSwapBox"></div>
-      <div class="field"><label>Your Message *</label>
-        <textarea id="cMsg" placeholder="Hi! I'm interested in this exchange. I can teach you... and I'd love to learn..."></textarea>
-      </div>
-      <button class="send-req-btn" id="sendReqBtn">Send Request →</button>
-    </div>
-  </div>
-</div>
-
-<!-- ── EXAM MODAL ── -->
-<div class="modal-bg" id="examModal">
-  <div class="modal exam-modal">
-    <div class="modal-stripe" style="background:linear-gradient(90deg,var(--amber),rgba(245,158,11,.3))"></div>
-    <div class="modal-in">
-      <button class="mc" id="examClose">✕</button>
-
-      <!-- Exam screen -->
-      <div id="examScreen">
-        <div class="exam-progress">
-          <div class="ep-bar-wrap"><div class="ep-bar" id="examProgressBar" style="width:0%"></div></div>
-          <div class="ep-text" id="examProgressText">1 / 30</div>
-        </div>
-        <div class="exam-q-num" id="examQNum">Question 1</div>
-        <div class="exam-question" id="examQuestion"></div>
-        <div class="exam-options" id="examOptions"></div>
-        <button class="exam-next-btn" id="examNextBtn" disabled>Next →</button>
-      </div>
-
-      <!-- Result screen -->
-      <div id="resultScreen" style="display:none;">
-        <div class="result-wrap">
-          <div class="result-icon" id="resultIcon"></div>
-          <div class="result-score" id="resultScore"></div>
-          <div class="result-label" id="resultLabel"></div>
-          <div class="result-coins" id="resultCoins"></div>
-          <div class="result-cert" id="resultCert"></div>
-          <canvas id="certCanvas" class="cert-preview" width="800" height="560" style="display:none;"></canvas>
-          <button class="result-btn" id="resultBtn">Claim Coins & Certificate →</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
 <div class="layout">
   <header class="topbar">
     <a href="dashboard.html" class="topbar-logo">
-      <div class="logo-node"><img src="assets/zwapy-logo.png" style="width:22px;height:22px;object-fit:contain;"></div>
+      <div class="logo-node">
+        <img src="assets/zwapy-logo.png" style="width:26px;height:26px;object-fit:contain;">
+      </div>
       <span class="logo-text">ZWAPY</span>
     </a>
-    <a href="dashboard.html" class="back-btn">← Back</a>
+    <a href="dashboard.html" class="back-btn">← Back to Dashboard</a>
   </header>
 
-  <div class="page-head fade-up d1">
-    <div class="page-label">// Peer-to-Peer Learning</div>
+  <div class="page-head">
+    <div class="page-label">// PEER LEARNING</div>
     <h1 class="page-title">Skill <span>Exchange</span></h1>
-    <p class="page-sub">Offer what you know · Get what you need · Earn coins & certificates</p>
+    <p class="page-sub">Offer what you know. Get what you need. Earn coins & certificates.</p>
   </div>
 
-  <div class="stats-strip fade-up d1">
-    <div class="sc"><div class="sc-val" id="statTotal">0</div><div class="sc-label">Requests</div></div>
-    <div class="sc"><div class="sc-val" id="statMine" style="color:var(--green);">0</div><div class="sc-label">My Posts</div></div>
-    <div class="sc"><div class="sc-val" id="statSessions" style="color:var(--amber);">0</div><div class="sc-label">Sessions</div></div>
-  </div>
-
-  <div class="tab-row fade-up d2">
-    <button class="tab-btn active" onclick="switchTab('browse',this)">🔄 Browse</button>
-    <button class="tab-btn" onclick="switchTab('requests',this)">📬 Requests<span class="tab-dot" id="reqDot"></span></button>
-    <button class="tab-btn" onclick="switchTab('sessions',this)">📹 Sessions</button>
-    <button class="tab-btn" onclick="switchTab('post',this)">+ Post</button>
-  </div>
-
-  <!-- BROWSE -->
-  <div class="tab-content active" id="tab-browse">
-    <div class="filter-bar fade-up d2">
-      <div class="sw"><span class="si">🔍</span><input class="search-input" id="searchInput" placeholder="Search skills..."/></div>
-      <div class="ftabs">
-        <div class="ftab active" data-f="all">All</div>
-        <div class="ftab" data-f="mine">Mine</div>
-        <div class="ftab" data-f="Beginner">Beginner</div>
-        <div class="ftab" data-f="Intermediate">Inter.</div>
-        <div class="ftab" data-f="Advanced">Advanced</div>
-      </div>
+  <!-- Post Form -->
+  <div class="post-card">
+    <div class="field">
+      <label>I Can Teach *</label>
+      <input type="text" id="offerSkill" placeholder="e.g. Python, UI Design">
     </div>
-    <div class="ex-grid fade-up d3" id="exGrid">
-      <div class="empty-state"><div class="ei">🔄</div><p class="et">Loading...</p></div>
+    <div class="field">
+      <label>I Want to Learn *</label>
+      <input type="text" id="needSkill" placeholder="e.g. Video Editing, SQL">
     </div>
+    <button class="post-btn" id="postBtn">Post Request →</button>
   </div>
 
-  <!-- REQUESTS -->
-  <div class="tab-content" id="tab-requests">
-    <div id="requestsList"><div class="empty-state"><div class="ei">📬</div><p class="et">No incoming requests yet.</p></div></div>
-  </div>
-
-  <!-- SESSIONS -->
-  <div class="tab-content" id="tab-sessions">
-    <div id="sessionsList"><div class="empty-state"><div class="ei">📹</div><p class="et">No sessions yet.<br>Accept a request to schedule one.</p></div></div>
-  </div>
-
-  <!-- POST -->
-  <div class="tab-content" id="tab-post">
-    <div class="post-card fade-up d2">
-      <div class="pc-title">// Post Your Exchange Request</div>
-      <div class="field-row">
-        <div class="field"><label>I Can Teach *</label><input type="text" id="offerSkill" placeholder="e.g. Python, UI Design"/></div>
-        <div class="field"><label>I Want to Learn *</label><input type="text" id="needSkill" placeholder="e.g. Video Editing, SQL"/></div>
-      </div>
-      <div class="field-row">
-        <div class="field"><label>My Skill Level</label>
-          <select id="skillLevel">
-            <option value="Beginner">Beginner</option>
-            <option value="Intermediate" selected>Intermediate</option>
-            <option value="Advanced">Advanced</option>
-          </select>
-        </div>
-        <div class="field"><label>Preferred Duration</label>
-          <select id="duration">
-            <option value="1 Session">1 Session (~1hr)</option>
-            <option value="1 Week">1 Week</option>
-            <option value="2 Weeks">2 Weeks</option>
-            <option value="1 Month">1 Month</option>
-          </select>
-        </div>
-      </div>
-      <div class="field"><label>Description (optional)</label>
-        <textarea id="postDesc" placeholder="Tell others what you'll teach and what you want to learn..."></textarea>
-      </div>
-      <button class="post-btn" id="postBtn">Post Request →</button>
-    </div>
+  <!-- Exchange Grid -->
+  <div class="ex-grid" id="exGrid">
+    <!-- Will be populated by JS -->
   </div>
 </div>
 
-<nav class="bottom-nav">
-  <a href="dashboard.html" class="nav-item">🏠</a>
-  <a href="clubs.html" class="nav-item">🏛️</a>
-  <a href="network.html" class="nav-item">🧑‍🤝‍🧑</a>
-  <a href="discover.html" class="nav-item">🔍</a>
-  <a href="profile.html" class="nav-item"><div class="nav-av"><img id="navAvatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=default" alt=""></div></a>
-</nav>
+<script>
+// Simple placeholder for now (you can connect Firebase later)
+let exchanges = [];
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
-import { getAuth, onAuthStateChanged, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
-import {
-  getFirestore, collection, addDoc, getDocs, doc,
-  getDoc, deleteDoc, updateDoc, serverTimestamp,
-  query, orderBy
-} from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
-
-const app = initializeApp({
-  apiKey:"AIzaSyBazCIc5vdQInSwvqvohIcbPToTjnw7KJI",
-  authDomain:"zwapy-25.firebaseapp.com",
-  projectId:"zwapy-25",
-  storageBucket:"zwapy-25.firebasestorage.app",
-  messagingSenderId:"30612332450",
-  appId:"1:30612332450:web:9e23f36a69f89dbb325cfb"
-});
-const auth=getAuth(app);
-const db=getFirestore(app);
-await setPersistence(auth,browserLocalPersistence);
-
-// EmailJS init — replace with your keys from emailjs.com (free 200/month)
-// emailjs.init('YOUR_PUBLIC_KEY');
-
-const $=id=>document.getElementById(id);
-
-function toast(msg,type='s'){
-  const t=$('toast');t.textContent=msg;t.className=`toast ${type} show`;
-  setTimeout(()=>t.className='toast',3500);
-}
-function timeAgo(ts){
-  if(!ts)return'just now';
-  const m=Math.floor((Date.now()-ts.toMillis())/60000);
-  if(m<1)return'just now';if(m<60)return m+'m ago';
-  const h=Math.floor(m/60);if(h<24)return h+'h ago';
-  return Math.floor(h/24)+'d ago';
-}
-function levelColor(l){if(l==='Advanced')return'#10b981';if(l==='Intermediate')return'#f59e0b';return'#818cf8';}
-function genMeetRoom(id){
-  const c=id.replace(/[^a-z0-9]/gi,'').toLowerCase().substring(0,10);
-  return`https://meet.google.com/new?hs=122&authuser=0`;
-}
-
-let allExchanges=[], currentUser=null, userData={};
-let activeFilter='all', searchQ='';
-let connectTarget=null, scheduleTarget=null;
-let examSession=null, examQuestions=[], examIdx=0, examScore=0, selectedAnswer=null;
-
-// ── TAB SWITCH ──
-window.switchTab=function(tab,el){
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-  document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
-  el.classList.add('active');
-  $('tab-'+tab).classList.add('active');
-  if(tab==='requests')renderRequests();
-  if(tab==='sessions')renderSessions();
-};
-
-// ── RENDER EXCHANGES ──
-function renderExchanges(){
-  let list=allExchanges;
-  if(activeFilter==='mine')list=list.filter(e=>e.uid===currentUser?.uid);
-  else if(activeFilter!=='all')list=list.filter(e=>e.level===activeFilter);
-  if(searchQ)list=list.filter(e=>(e.offer||'').toLowerCase().includes(searchQ)||(e.need||'').toLowerCase().includes(searchQ));
-
-  $('statTotal').textContent=allExchanges.length;
-  $('statMine').textContent=allExchanges.filter(e=>e.uid===currentUser?.uid).length;
-
-  if(!list.length){
-    $('exGrid').innerHTML=`<div class="empty-state"><div class="ei">🔄</div><p class="et">No exchanges found.<br>Post yours above!</p></div>`;
+function renderExchanges() {
+  const grid = document.getElementById('exGrid');
+  if (exchanges.length === 0) {
+    grid.innerHTML = `<div class="empty-state"><p>No exchanges yet. Post your first request!</p></div>`;
     return;
   }
-
-  $('exGrid').innerHTML=list.map(ex=>{
-    const isMe=ex.uid===currentUser?.uid;
-    const col=levelColor(ex.level);
-    const av=ex.photoURL||`https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(ex.name||ex.uid)}`;
-    return `
+  grid.innerHTML = exchanges.map(ex => `
     <div class="ex-card">
-      <div class="ex-bar" style="background:linear-gradient(90deg,${col},transparent)"></div>
       <div class="ex-body">
         <div class="ex-header">
-          <div class="ex-av"><img src="${av}" loading="lazy" alt=""></div>
-          <div class="ex-user"><div class="ex-name">${ex.name||'Student'}</div><div class="ex-uni">${ex.university||''}</div></div>
-          <div class="ex-time">${timeAgo(ex.createdAt)}</div>
+          <div class="ex-av"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=${ex.name}" alt=""></div>
+          <div class="ex-name">${ex.name || 'Student'}</div>
         </div>
         <div class="swap-box">
-          <div class="swap-side"><div class="swap-lbl off">Offering</div><div class="swap-skill">${ex.offer||'—'}</div></div>
-          <div class="swap-arr">⇄</div>
-          <div class="swap-side"><div class="swap-lbl wan">Needs</div><div class="swap-skill">${ex.need||'—'}</div></div>
+          <div style="flex:1"><strong>Offering:</strong> ${ex.offer}</div>
+          <div style="opacity:0.4">↔</div>
+          <div style="flex:1"><strong>Needs:</strong> ${ex.need}</div>
         </div>
-        ${ex.desc?`<div class="ex-desc">${ex.desc}</div>`:''}
-        <div class="ex-footer">
-          <div class="ex-tags">
-            <span class="ex-tag level" style="color:${col};border-color:${col}33;background:${col}11;">${ex.level||'Inter.'}</span>
-            <span class="ex-tag dur">${ex.duration||'Flexible'}</span>
-          </div>
-          ${isMe
-            ?`<button class="connect-btn mine" onclick="deleteEx('${ex.id}')">Delete</button>`
-            :`<button class="connect-btn" onclick="openConnect(${JSON.stringify(ex).replace(/"/g,'&quot;')})">Connect →</button>`
-          }
-        </div>
+        <button class="connect-btn">Connect →</button>
       </div>
-    </div>`;
-  }).join('');
+    </div>
+  `).join('');
 }
 
-window.deleteEx=async function(id){
-  if(!confirm('Delete your request?'))return;
-  await deleteDoc(doc(db,'exchanges',id));
-  allExchanges=allExchanges.filter(e=>e.id!==id);
-  renderExchanges();
-  toast('Deleted','s');
-};
-
-// ── CONNECT MODAL ──
-window.openConnect=function(ex){
-  connectTarget=ex;
-  $('cTitle').textContent=`Connect with ${ex.name||'Student'}`;
-  $('cSub').textContent=`Exchange: ${ex.offer} ↔ ${ex.need} · ${ex.level||''} · ${ex.duration||''}`;
-  $('cSwapBox').innerHTML=`
-    <div style="display:flex;align-items:center;gap:10px;">
-      <div style="flex:1;min-width:0;"><div style="font-family:'Space Mono',monospace;font-size:.46rem;letter-spacing:.1em;text-transform:uppercase;color:var(--cyan);margin-bottom:3px;">They Offer</div><div style="font-size:.86rem;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${ex.offer}</div></div>
-      <div style="opacity:.3;flex-shrink:0;">⇄</div>
-      <div style="flex:1;min-width:0;"><div style="font-family:'Space Mono',monospace;font-size:.46rem;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:3px;">They Need</div><div style="font-size:.86rem;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${ex.need}</div></div>
-    </div>`;
-  $('cMsg').value='';
-  $('connectModal').classList.add('open');
-};
-$('connectClose').addEventListener('click',()=>$('connectModal').classList.remove('open'));
-$('connectModal').addEventListener('click',e=>{if(e.target===$('connectModal'))$('connectModal').classList.remove('open');});
-
-$('sendReqBtn').addEventListener('click',async()=>{
-  const msg=$('cMsg').value.trim();
-  if(!msg){toast('Please write a message','e');return;}
-  const btn=$('sendReqBtn');btn.disabled=true;btn.textContent='Sending...';
-  await addDoc(collection(db,'exchange_requests'),{
-    fromUid:currentUser.uid,
-    fromName:userData.name||'Student',
-    fromEmail:currentUser.email||'',
-    fromPhoto:userData.photoURL||'',
-    fromUniversity:userData.university||'',
-    toUid:connectTarget.uid,
-    toName:connectTarget.name||'Student',
-    toEmail:'', // will be resolved when loaded
-    exchangeId:connectTarget.id,
-    offer:connectTarget.offer,
-    need:connectTarget.need,
-    message:msg,
-    status:'pending',
-    createdAt:serverTimestamp()
-  });
-  $('connectModal').classList.remove('open');
-  btn.disabled=false;btn.textContent='Send Request →';
-  toast('✅ Request sent!');
-});
-
-// ── RENDER REQUESTS (no compound query — avoids index error) ──
-async function renderRequests(){
-  // Load all requests then filter client-side — avoids Firestore index requirement
-  const snap=await getDocs(query(collection(db,'exchange_requests'),orderBy('createdAt','desc')));
-  const reqs=[];
-  snap.forEach(d=>{
-    const r={id:d.id,...d.data()};
-    if(r.toUid===currentUser.uid) reqs.push(r);
-  });
-
-  const pending=reqs.filter(r=>r.status==='pending');
-  $('reqDot').className=pending.length?'tab-dot show':'tab-dot';
-
-  if(!reqs.length){
-    $('requestsList').innerHTML=`<div class="empty-state"><div class="ei">📬</div><p class="et">No requests yet.<br>Post exchanges to get noticed!</p></div>`;
+// Post new request
+document.getElementById('postBtn').addEventListener('click', () => {
+  const offer = document.getElementById('offerSkill').value.trim();
+  const need = document.getElementById('needSkill').value.trim();
+  if (!offer || !need) {
+    alert('Please fill both fields');
     return;
   }
-
-  $('requestsList').innerHTML=reqs.map(r=>`
-    <div class="request-card">
-      <div class="rc-top">
-        <div>
-          <div class="rc-title">From ${r.fromName||'Student'}</div>
-          <div class="rc-from">${r.fromUniversity||''} · ${timeAgo(r.createdAt)}</div>
-        </div>
-        <span class="rc-status ${r.status}">${r.status}</span>
-      </div>
-      <div class="rc-skills"><strong style="color:white;">${r.offer}</strong> ↔ <strong style="color:white;">${r.need}</strong></div>
-      <div class="rc-msg">"${r.message}"</div>
-      <div class="rc-actions">
-        ${r.status==='pending'
-          ?`<button class="btn-accept" onclick="acceptReq('${r.id}','${r.fromUid}','${(r.fromName||'').replace(/'/g,'\\'')}','${r.fromEmail||''}','${r.offer}','${r.need}')">✓ Accept</button>
-            <button class="btn-reject" onclick="rejectReq('${r.id}')">Reject</button>`
-          :`<span style="font-size:.68rem;color:var(--muted);">Already ${r.status}</span>`
-        }
-      </div>
-    </div>`).join('');
-}
-
-window.acceptReq=function(reqId,fromUid,fromName,fromEmail,offer,need){
-  scheduleTarget={reqId,fromUid,fromName,fromEmail,offer,need};
-  $('scheduleWith').textContent=`With ${fromName} — ${offer} ↔ ${need}`;
-  $('sessDate').value='';$('sessTime').value='';$('sessDuration').value='1';
-  $('scheduleModal').classList.add('open');
-};
-$('scheduleClose').addEventListener('click',()=>$('scheduleModal').classList.remove('open'));
-
-$('confirmSchedule').addEventListener('click',async()=>{
-  const date=$('sessDate').value, time=$('sessTime').value, dur=$('sessDuration').value;
-  if(!date||!time){toast('Pick a date and time','e');return;}
-  const btn=$('confirmSchedule');
-  btn.disabled=true;btn.textContent='Creating...';
-
-  const meetLink=genMeetRoom(scheduleTarget.reqId);
-  const sessionData={
-    requestId:scheduleTarget.reqId,
-    fromUid:scheduleTarget.fromUid,
-    fromName:scheduleTarget.fromName,
-    fromEmail:scheduleTarget.fromEmail||'',
-    toUid:currentUser.uid,
-    toName:userData.name||'Student',
-    toEmail:currentUser.email||'',
-    offer:scheduleTarget.offer,
-    need:scheduleTarget.need,
-    date,time,durationHours:parseFloat(dur),
-    meetLink,
-    status:'scheduled',
-    examDone:{[scheduleTarget.fromUid]:false,[currentUser.uid]:false},
-    createdAt:serverTimestamp()
-  };
-
-  const sesRef=await addDoc(collection(db,'sessions'),sessionData);
-  await updateDoc(doc(db,'exchange_requests',scheduleTarget.reqId),{status:'accepted'});
-
-  const desc=`${date} at ${time} · ${dur}hr · Meet: ${meetLink}`;
-  await Promise.all([
-    addDoc(collection(db,'users',currentUser.uid,'activity'),{title:`📹 Session with ${scheduleTarget.fromName}`,desc,createdAt:serverTimestamp()}),
-    addDoc(collection(db,'users',scheduleTarget.fromUid,'activity'),{title:`📹 Session confirmed with ${userData.name}`,desc,createdAt:serverTimestamp()})
-  ]);
-
-  $('scheduleModal').classList.remove('open');
-  btn.disabled=false;btn.textContent='Confirm & Generate Meet Link →';
-  toast('✅ Session scheduled! Meet link ready.');
-  renderRequests();
-  // Switch to sessions tab
-  document.querySelectorAll('.tab-btn')[2].click();
-});
-
-window.rejectReq=async function(reqId){
-  await updateDoc(doc(db,'exchange_requests',reqId),{status:'rejected'});
-  toast('Request rejected');
-  renderRequests();
-};
-
-// ── RENDER SESSIONS ──
-async function renderSessions(){
-  const snap=await getDocs(query(collection(db,'sessions'),orderBy('createdAt','desc')));
-  const sessions=[];
-  snap.forEach(d=>{
-    const s={id:d.id,...d.data()};
-    if(s.fromUid===currentUser.uid||s.toUid===currentUser.uid)sessions.push(s);
+  exchanges.unshift({
+    name: 'You',
+    offer: offer,
+    need: need
   });
-  $('statSessions').textContent=sessions.length;
-
-  if(!sessions.length){
-    $('sessionsList').innerHTML=`<div class="empty-state"><div class="ei">📹</div><p class="et">No sessions yet.</p></div>`;
-    return;
-  }
-
-  $('sessionsList').innerHTML=sessions.map(s=>{
-    const withName=s.fromUid===currentUser.uid?s.toName:s.fromName;
-    const upcoming=new Date(`${s.date}T${s.time}`)>new Date();
-    const myExamDone=(s.examDone||{})[currentUser.uid];
-    // What skill am I learning in this session?
-    const myLearning=s.fromUid===currentUser.uid?s.need:s.offer;
-    return `
-    <div class="session-card">
-      <div class="session-title">${s.offer} ↔ ${s.need}</div>
-      <div class="session-with">with ${withName||'Student'}</div>
-      <div class="session-meta">
-        <div class="smr">📅 ${s.date} at ${s.time}</div>
-        <div class="smr">⏱️ ${s.durationHours}hr session</div>
-        <div class="smr">🔗 <a href="${s.meetLink}" target="_blank" rel="noopener" style="color:var(--cyan);text-decoration:none;">Open Google Meet</a></div>
-      </div>
-      <div class="session-actions">
-        ${upcoming
-          ?`<a href="${s.meetLink}" target="_blank" rel="noopener" class="meet-btn">📹 Join Meet →</a>`
-          :`<span style="font-size:.68rem;color:var(--muted);">Session completed</span>`
-        }
-        ${!upcoming&&!myExamDone
-          ?`<button class="take-exam-btn" onclick="startExam('${s.id}','${myLearning}','${withName}')">📝 Take Exam</button>`
-          :myExamDone
-            ?`<span style="font-size:.68rem;color:var(--green);display:flex;align-items:center;gap:4px;">✓ Exam done</span>`
-            :''
-        }
-      </div>
-    </div>`;
-  }).join('');
-}
-
-// ── EXAM SYSTEM ──
-// Generate 30 questions using Claude AI (Anthropic API)
-async function generateExamQuestions(skill){
-  toast('Generating your 30-question exam... please wait ⏳','s');
-  try{
-    const response=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens:3000,
-        messages:[{
-          role:'user',
-          content:`Generate exactly 30 multiple choice questions to test someone's basic knowledge of "${skill}" after a 1-hour learning session with a peer tutor. The student is a beginner who just had their first lesson.
-
-Rules:
-- Questions should test fundamental understanding, not expert knowledge
-- Each question must have exactly 4 options labeled A, B, C, D
-- One correct answer per question
-- Questions should be practical and relevant to real usage
-- Mix easy (40%), medium (40%), and slightly challenging (20%) questions
-
-Return ONLY valid JSON in this exact format, no extra text:
-{
-  "questions": [
-    {
-      "q": "Question text here?",
-      "options": ["A. option1", "B. option2", "C. option3", "D. option4"],
-      "answer": 0
-    }
-  ]
-}
-
-The "answer" field is the 0-based index of the correct option.`
-        }]
-      })
-    });
-    const data=await response.json();
-    const text=data.content[0].text;
-    const clean=text.replace(/```json|```/g,'').trim();
-    const parsed=JSON.parse(clean);
-    return parsed.questions;
-  }catch(err){
-    console.error('Exam gen error:',err);
-    // Fallback basic questions if API fails
-    return generateFallbackQuestions(skill);
-  }
-}
-
-function generateFallbackQuestions(skill){
-  const q=[];
-  const base=[
-    {q:`What is ${skill} primarily used for?`,options:['A. Entertainment only','B. Solving problems and creating value','C. Social media only','D. Gaming only'],answer:1},
-    {q:`After your session, what is the best way to continue learning ${skill}?`,options:['A. Never practice again','B. Regular practice and building projects','C. Only read books about it','D. Watch others do it'],answer:1},
-    {q:`Which approach is best when learning ${skill} as a beginner?`,options:['A. Try to master everything at once','B. Start with basics and build gradually','C. Skip the basics entirely','D. Only learn theory'],answer:1},
-    {q:`What did your skill exchange session help you understand about ${skill}?`,options:['A. Nothing new','B. Foundational concepts through peer learning','C. Only advanced topics','D. Unrelated topics'],answer:1},
-    {q:`How can you apply ${skill} in your daily student life?`,options:['A. You cannot apply it','B. Through projects, assignments and collaborations','C. Only in professional settings','D. Only in exams'],answer:1},
-  ];
-  // Repeat to make 30
-  for(let i=0;i<6;i++) q.push(...base);
-  return q.slice(0,30);
-}
-
-window.startExam=async function(sessionId,skill,teacherName){
-  examSession={sessionId,skill,teacherName};
-  examQuestions=[];examIdx=0;examScore=0;selectedAnswer=null;
-
-  $('examScreen').style.display='block';
-  $('resultScreen').style.display='none';
-  $('examModal').classList.add('open');
-
-  examQuestions=await generateExamQuestions(skill);
-  showExamQuestion();
-};
-
-$('examClose').addEventListener('click',()=>{
-  if(confirm('Exit exam? Your progress will be lost.'))$('examModal').classList.remove('open');
-});
-
-function showExamQuestion(){
-  const q=examQuestions[examIdx];
-  const pct=((examIdx)/30)*100;
-  $('examProgressBar').style.width=pct+'%';
-  $('examProgressText').textContent=`${examIdx+1} / 30`;
-  $('examQNum').textContent=`Question ${examIdx+1}`;
-  $('examQuestion').textContent=q.q;
-  selectedAnswer=null;
-  $('examNextBtn').disabled=true;
-  $('examOptions').innerHTML=q.options.map((opt,i)=>
-    `<button class="exam-option" onclick="selectAnswer(${i})">${opt}</button>`
-  ).join('');
-}
-
-window.selectAnswer=function(idx){
-  selectedAnswer=idx;
-  document.querySelectorAll('.exam-option').forEach((b,i)=>{
-    b.className='exam-option'+(i===idx?' selected':'');
-  });
-  $('examNextBtn').disabled=false;
-};
-
-$('examNextBtn').addEventListener('click',()=>{
-  const q=examQuestions[examIdx];
-  const opts=document.querySelectorAll('.exam-option');
-  opts.forEach((b,i)=>{
-    if(i===q.answer) b.className='exam-option correct';
-    else if(i===selectedAnswer&&i!==q.answer) b.className='exam-option wrong';
-  });
-  if(selectedAnswer===q.answer) examScore++;
-
-  examIdx++;
-  if(examIdx<30){
-    setTimeout(showExamQuestion,600);
-  } else {
-    setTimeout(showExamResult,600);
-  }
-});
-
-async function showExamResult(){
-  $('examScreen').style.display='none';
-  $('resultScreen').style.display='block';
-
-  const pct=Math.round((examScore/30)*100);
-  const pass=pct>=60;
-  const coinsEarned=pass?50:10;
-
-  $('resultIcon').textContent=pass?'🏆':'📚';
-  $('resultScore').textContent=`${examScore}/30`;
-  $('resultScore').className=`result-score ${pass?'pass':'fail'}`;
-  $('resultLabel').textContent=`${pct}% — ${pass?'Passed! Great understanding.':'Keep practicing! You need 60% to pass.'}`;
-  $('resultCoins').innerHTML=`💰 You earn <strong>+${coinsEarned} Skill Coins</strong>${pass?' for passing the exam!':' for completing the exam.'}`;
-  $('resultCert').innerHTML=pass
-    ?`🎓 Certificate will be sent to <strong>${currentUser.email}</strong> — Zwapy Skill Exchange Certificate for <strong>${examSession.skill}</strong>`
-    :`📖 Study more and retake to earn your certificate. Your teacher earned bonus coins for this session!`;
-
-  // Generate certificate on canvas
-  if(pass) generateCertificate(pass);
-  $('resultBtn').disabled=false;
-  $('resultBtn').textContent=pass?'Claim Coins & Send Certificate →':'Claim Coins →';
-}
-
-function generateCertificate(pass){
-  if(!pass)return;
-  const canvas=$('certCanvas');
-  canvas.style.display='block';
-  const ctx=canvas.getContext('2d');
-  const w=800,h=560;
-
-  // Background
-  ctx.fillStyle='#010114';
-  ctx.fillRect(0,0,w,h);
-
-  // Border
-  ctx.strokeStyle='rgba(0,212,255,0.4)';
-  ctx.lineWidth=2;
-  ctx.strokeRect(20,20,w-40,h-40);
-  ctx.strokeStyle='rgba(0,212,255,0.15)';
-  ctx.lineWidth=1;
-  ctx.strokeRect(28,28,w-56,h-56);
-
-  // Glow effect
-  const grd=ctx.createRadialGradient(w/2,h/2,0,w/2,h/2,350);
-  grd.addColorStop(0,'rgba(0,212,255,0.06)');
-  grd.addColorStop(1,'transparent');
-  ctx.fillStyle=grd;ctx.fillRect(0,0,w,h);
-
-  // ZWAPY logo text
-  ctx.fillStyle='#00D4FF';
-  ctx.font='bold 22px Space Mono, monospace';
-  ctx.textAlign='center';
-  ctx.fillText('ZWAPY',w/2,80);
-
-  // Title
-  ctx.fillStyle='white';
-  ctx.font='bold 32px Sora, sans-serif';
-  ctx.fillText('Certificate of Skill Exchange',w/2,140);
-
-  // Subtitle
-  ctx.fillStyle='rgba(148,163,184,0.8)';
-  ctx.font='14px Sora, sans-serif';
-  ctx.fillText('This certifies that',w/2,185);
-
-  // Student name
-  ctx.fillStyle='#00D4FF';
-  ctx.font='bold 36px Sora, sans-serif';
-  ctx.fillText(userData.name||'Student',w/2,240);
-
-  // Body text
-  ctx.fillStyle='rgba(148,163,184,0.9)';
-  ctx.font='15px Sora, sans-serif';
-  ctx.fillText('has successfully completed a peer-to-peer skill exchange session in',w/2,285);
-
-  // Skill name
-  ctx.fillStyle='white';
-  ctx.font='bold 28px Sora, sans-serif';
-  ctx.fillText(examSession.skill,w/2,330);
-
-  // Score
-  ctx.fillStyle='#10b981';
-  ctx.font='bold 16px Space Mono, monospace';
-  ctx.fillText(`Exam Score: ${examScore}/30 · ${Math.round((examScore/30)*100)}%`,w/2,375);
-
-  // Teacher
-  ctx.fillStyle='rgba(148,163,184,0.7)';
-  ctx.font='14px Sora, sans-serif';
-  ctx.fillText(`Taught by ${examSession.teacherName||'Peer Student'} · Zwapy Campus Network`,w/2,415);
-
-  // Date
-  ctx.fillStyle='rgba(100,116,139,0.8)';
-  ctx.font='13px Space Mono, monospace';
-  ctx.fillText(new Date().toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'}),w/2,455);
-
-  // Divider line
-  ctx.strokeStyle='rgba(0,212,255,0.2)';
-  ctx.lineWidth=1;
-  ctx.beginPath();ctx.moveTo(100,475);ctx.lineTo(700,475);ctx.stroke();
-
-  // Footer
-  ctx.fillStyle='rgba(100,116,139,0.6)';
-  ctx.font='11px Space Mono, monospace';
-  ctx.fillText('Issued by Zwapy · zwapy.com · Presidency University, Bangalore',w/2,500);
-}
-
-$('resultBtn').addEventListener('click',async()=>{
-  const btn=$('resultBtn');
-  btn.disabled=true;btn.textContent='Processing...';
-
-  const pct=Math.round((examScore/30)*100);
-  const pass=pct>=60;
-  const coinsEarned=pass?50:10;
-  const teacherBonus=20; // teacher always gets bonus coins
-
-  try{
-    // Add coins to student
-    const newCoins=(userData.coins||0)+coinsEarned;
-    await updateDoc(doc(db,'users',currentUser.uid),{
-      coins:newCoins,
-      exchanges:(userData.coins||0)+1
-    });
-    userData.coins=newCoins;
-
-    // Add bonus coins to teacher
-    const sess=await getDocs(collection(db,'sessions'));
-    let teacherUid='';
-    sess.forEach(d=>{if(d.id===examSession.sessionId){const s=d.data();teacherUid=s.fromUid===currentUser.uid?s.toUid:s.fromUid;}});
-    if(teacherUid){
-      const tSnap=await getDoc(doc(db,'users',teacherUid));
-      if(tSnap.exists()){
-        await updateDoc(doc(db,'users',teacherUid),{
-          coins:(tSnap.data().coins||0)+teacherBonus,
-          exchanges:(tSnap.data().exchanges||0)+1
-        });
-      }
-    }
-
-    // Mark exam as done
-    await updateDoc(doc(db,'sessions',examSession.sessionId),{
-      [`examDone.${currentUser.uid}`]:true,
-      [`examScore.${currentUser.uid}`]:examScore
-    });
-
-    // Activity log
-    await addDoc(collection(db,'users',currentUser.uid,'activity'),{
-      title:`📝 Skill exam: ${examSession.skill}`,
-      desc:`Score ${examScore}/30 (${pct}%) · +${coinsEarned} coins${pass?' · Certificate earned':''}`,
-      createdAt:serverTimestamp()
-    });
-
-    // Send certificate via EmailJS if passed
-    if(pass && typeof emailjs !== 'undefined'){
-      const certData=$('certCanvas').toDataURL('image/png');
-      try{
-        await emailjs.send('YOUR_SERVICE_ID','YOUR_TEMPLATE_ID',{
-          to_email:currentUser.email,
-          to_name:userData.name||'Student',
-          skill:examSession.skill,
-          score:`${examScore}/30`,
-          date:new Date().toLocaleDateString('en-IN'),
-          cert_image:certData
-        });
-        toast('✅ Certificate sent to your email!');
-      }catch(e){
-        toast('✅ Exam done! Certificate will be sent soon.','s');
-      }
-    }
-
-    $('examModal').classList.remove('open');
-    toast(`🎉 +${coinsEarned} coins earned! ${pass?'Certificate sent to email!':'Keep practicing!'}`);
-    renderSessions();
-
-  }catch(err){
-    toast('Error: '+err.message,'e');
-    btn.disabled=false;btn.textContent='Claim Coins →';
-  }
-});
-
-// ── POST EXCHANGE ──
-$('postBtn').addEventListener('click',async()=>{
-  const offer=$('offerSkill').value.trim();
-  const need=$('needSkill').value.trim();
-  if(!offer||!need){toast('Fill both skill fields','e');return;}
-  const btn=$('postBtn');btn.disabled=true;btn.textContent='Posting...';
-  await addDoc(collection(db,'exchanges'),{
-    uid:currentUser.uid,
-    name:userData.name||'Student',
-    university:userData.university||'',
-    photoURL:userData.photoURL||'',
-    offer,need,
-    level:$('skillLevel').value,
-    duration:$('duration').value,
-    desc:$('postDesc').value.trim(),
-    createdAt:serverTimestamp()
-  });
-  $('offerSkill').value='';$('needSkill').value='';$('postDesc').value='';
-  btn.disabled=false;btn.textContent='Post Request →';
-  toast('✅ Posted!');
-  document.querySelectorAll('.tab-btn')[0].click();
-});
-
-// ── FILTERS ──
-document.querySelectorAll('.ftab').forEach(f=>{
-  f.addEventListener('click',()=>{
-    document.querySelectorAll('.ftab').forEach(x=>x.classList.remove('active'));
-    f.classList.add('active');activeFilter=f.dataset.f;renderExchanges();
-  });
-});
-let st;
-$('searchInput').addEventListener('input',e=>{
-  clearTimeout(st);
-  st=setTimeout(()=>{searchQ=e.target.value.toLowerCase().trim();renderExchanges();},200);
-});
-
-// ── AUTH + LOAD ──
-onAuthStateChanged(auth,async user=>{
-  if(!user){window.location.href='login.html';return;}
-  currentUser=user;
-
-  const [us,exSnap]=await Promise.all([
-    getDoc(doc(db,'users',user.uid)),
-    getDocs(query(collection(db,'exchanges'),orderBy('createdAt','desc')))
-  ]);
-
-  if(us.exists()){
-    userData=us.data();
-    $('navAvatar').src=userData.photoURL||user.photoURL||`https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(userData.name||'user')}`;
-  }
-
-  allExchanges=[];exSnap.forEach(d=>allExchanges.push({id:d.id,...d.data()}));
   renderExchanges();
-
-  // Check pending requests — no compound query, just load all and filter
-  try{
-    const reqSnap=await getDocs(collection(db,'exchange_requests'));
-    let pending=0;
-    reqSnap.forEach(d=>{if(d.data().toUid===user.uid&&d.data().status==='pending')pending++;});
-    if(pending>0)$('reqDot').className='tab-dot show';
-  }catch(e){}
-
-  setTimeout(()=>{
-    $('loadScreen').classList.add('hide');
-    setTimeout(()=>{if($('loadScreen'))$('loadScreen').remove();},400);
-    document.querySelectorAll('.fade-up').forEach(el=>el.classList.add('in'));
-  },500);
+  document.getElementById('offerSkill').value = '';
+  document.getElementById('needSkill').value = '';
 });
+
+// Initial render
+renderExchanges();
 </script>
 </body>
 </html>
