@@ -1,8 +1,8 @@
-// firebase.js
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-import { getAuth, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
-import { getAnalytics, logEvent } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js";
+// firebase.js — Zwapy Analytics + Auth + DB
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+import { getAuth, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+import { getAnalytics, logEvent, setUserId, setUserProperties } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-analytics.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBazCIc5vdQInSwvqvohIcbPToTjnw7KJI",
@@ -14,28 +14,37 @@ const firebaseConfig = {
   measurementId: "G-THCGY8NH1Z"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+const app      = initializeApp(firebaseConfig);
+const auth     = getAuth(app);
 const provider = new GoogleAuthProvider();
-const db = getFirestore(app);
+const db       = getFirestore(app);
+const analytics= getAnalytics(app);
 
-// --- ANALYTICS TRACKING START ---
-const analytics = getAnalytics(app);
+// ── TRACK PAGE VIEW ──
+// Fires every time any page loads — counts as a session
+logEvent(analytics, 'page_view', {
+  page_location: window.location.href,
+  page_title: document.title
+});
 
-// 1. Automatically track every time a student opens Zwapy
-logEvent(analytics, 'page_view');
-
-// 2. Track Daily Active Users (DAU) when they are logged in
+// ── TRACK ACTIVE USER ──
+// When user is logged in, set their identity so DAU counts correctly
 onAuthStateChanged(auth, (user) => {
-  if (user) {
-    // This tells Firebase: "This specific student is active today"
-    logEvent(analytics, 'login', {
-      method: 'Google'
+  if(user){
+    // Set user ID — this is what makes Firebase count unique DAU
+    setUserId(analytics, user.uid);
+
+    // Set user properties — shows up in Firebase audience segments
+    setUserProperties(analytics, {
+      university: 'Presidency University',
+      platform: 'zwapy_web'
     });
-    console.log("Zwapy Analytics: Active User Tracked!");
+
+    // Log active session
+    logEvent(analytics, 'user_engagement', {
+      engagement_time_msec: 1000
+    });
   }
 });
 
-// Export everything so your other files (login.js, dashboard.js) still work
 export { app, auth, provider, db, analytics, logEvent };
