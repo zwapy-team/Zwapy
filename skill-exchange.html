@@ -437,11 +437,21 @@ function timeAgo(ts){
 }
 function levelColor(l){if(l==='Advanced')return'#10b981';if(l==='Intermediate')return'#f59e0b';return'#818cf8';}
 
-// ── GENERATE JITSI MEET LINK ──
-// Jitsi is free, works in browser on mobile, no app needed, unique room per session
-function genVideoLink(sessionId){
-  const roomId='ZwapySession-'+sessionId.replace(/[^a-zA-Z0-9]/g,'').substring(0,12);
-  return `https://meet.jit.si/${roomId}`;
+// ── VIDEO ROOM LINK ──
+// Generates a unique Jitsi room from session data BEFORE saving
+// Jitsi works in browser on mobile — no app download needed
+// Both users get the SAME link because it's derived from the same session data
+function genVideoLink(fromUid, toUid, date, time){
+  // Create a deterministic room name from session participants + time
+  // This means both users always get the exact same link
+  const raw = (fromUid + toUid + date + time).replace(/[^a-zA-Z0-9]/g,'');
+  let hash = 0;
+  for(let i=0;i<raw.length;i++){
+    hash = ((hash<<5)-hash)+raw.charCodeAt(i);
+    hash |= 0;
+  }
+  const room = 'Zwapy' + Math.abs(hash).toString(36).toUpperCase().padStart(8,'0');
+  return `https://meet.jit.si/${room}`;
 }
 
 let allExchanges=[], currentUser=null, userData={};
@@ -571,29 +581,31 @@ $('confirmSchedule').addEventListener('click',async()=>{
   const date=$('sessDate').value,time=$('sessTime').value,dur=$('sessDuration').value;
   if(!date||!time){toast('Pick a date and time','e');return;}
   const btn=$('confirmSchedule');btn.disabled=true;btn.textContent='Creating...';
+
+  // Generate link BEFORE saving — derived from participant UIDs + date/time
+  // Both users will always compute the same link from the same data
+  const videoLink=genVideoLink(scheduleTarget.fromUid, currentUser.uid, date, time);
+
   const sesRef=await addDoc(collection(db,'sessions'),{
     requestId:scheduleTarget.reqId,
     fromUid:scheduleTarget.fromUid,fromName:scheduleTarget.fromName,fromEmail:scheduleTarget.fromEmail||'',
     toUid:currentUser.uid,toName:userData.name||'Student',toEmail:currentUser.email||'',
     offer:scheduleTarget.offer,need:scheduleTarget.need,
     date,time,durationHours:parseFloat(dur),
+    videoLink, // ← saved in FIRST write, not second, so both users get it instantly
     status:'scheduled',
-    // Both must confirm before exam unlocks
     sessionConfirmed:{[scheduleTarget.fromUid]:false,[currentUser.uid]:false},
     examDone:{[scheduleTarget.fromUid]:false,[currentUser.uid]:false},
     createdAt:serverTimestamp()
   });
-  // Store video link using session document ID
-  const videoLink=genVideoLink(sesRef.id);
-  await updateDoc(doc(db,'sessions',sesRef.id),{videoLink});
   await updateDoc(doc(db,'exchange_requests',scheduleTarget.reqId),{status:'accepted'});
-  const desc=`${date} at ${time} · ${dur}hr`;
+  const desc=`${date} at ${time} · ${dur}hr · Video: ${videoLink}`;
   await Promise.all([
     addDoc(collection(db,'users',currentUser.uid,'activity'),{title:`📹 Session with ${scheduleTarget.fromName}`,desc,createdAt:serverTimestamp()}),
     addDoc(collection(db,'users',scheduleTarget.fromUid,'activity'),{title:`📹 Session confirmed with ${userData.name}`,desc,createdAt:serverTimestamp()})
   ]);
   $('scheduleModal').classList.remove('open');btn.disabled=false;btn.textContent='Confirm & Create Video Room →';
-  toast('✅ Session created! Video room is ready.');
+  toast('✅ Video room created! Both students can now join.');
   renderRequests();
   document.querySelectorAll('.tab-btn')[2].click();
 });
