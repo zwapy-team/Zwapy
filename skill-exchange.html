@@ -996,6 +996,34 @@ onAuthStateChanged(auth,async user=>{
     document.querySelectorAll('.fade-up').forEach(el=>el.classList.add('in'));
   },500);
 });
+// ====================== EMAILJS SETUP ======================
+
+emailjs.init("gjVpPMT3fejlwiwR_");
+
+window.sendSkillCertificate = async function(to_name, skill, score, date) {
+    try {
+        const templateParams = {
+            to_name: to_name || "Student",
+            skill: skill || "Skill",
+            score: score || "N/A",
+            date: date || new Date().toLocaleDateString('en-IN')
+        };
+
+        await emailjs.send('service_n42p919', 'template_vwhzfdr', templateParams);
+
+        console.log('✅ Certificate email sent successfully!');
+        toast('🎉 Certificate sent successfully!', 's');
+    } catch (error) {
+        console.error('❌ Email failed:', error);
+        toast('❌ Failed to send certificate email', 'e');
+    }
+};
+
+// ====================== END EMAILJS ======================
+// ==================== QUICK TEST ====================
+// Remove or comment this after testing
+sendSkillCertificate("Jayashankar", "React Development", "28/30 (93%)", "31 March 2026");
+// ===================================================
 </script>
 </body>
 </html>
