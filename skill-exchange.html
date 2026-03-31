@@ -3,10 +3,22 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-THCGY8NH1Z"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-THCGY8NH1Z');
+</script>
 <title>Skill Exchange | Zwapy</title>
 <link rel="preconnect" href="https://www.gstatic.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script>
+  // Init EmailJS before module loads
+  window.addEventListener('load', () => emailjs.init("gjVpPMT3fejlwiwR_"));
+</script>
 <style>
 :root{--cyan:#00D4FF;--cyan-dim:rgba(0,212,255,0.1);--bg:#010114;--border:rgba(0,212,255,0.1);--border-h:rgba(0,212,255,0.28);--muted:#64748b;--dim:#94a3b8;--green:#10b981;--amber:#f59e0b;--indigo:#818cf8;--red:#ef4444;}
 *{margin:0;padding:0;box-sizing:border-box;}
