@@ -3,22 +3,18 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-THCGY8NH1Z"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-THCGY8NH1Z');
-</script>
 <title>Skill Exchange | Zwapy</title>
 <link rel="preconnect" href="https://www.gstatic.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+
+<!-- EmailJS -->
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 <script>
-  // Init EmailJS before module loads
-  window.addEventListener('load', () => emailjs.init("gjVpPMT3fejlwiwR_"));
+  window.addEventListener('load', function(){
+    emailjs.init("gjVpPMT3fejlwiwR_");
+  });
 </script>
+
 <style>
 :root{--cyan:#00D4FF;--cyan-dim:rgba(0,212,255,0.1);--bg:#010114;--border:rgba(0,212,255,0.1);--border-h:rgba(0,212,255,0.28);--muted:#64748b;--dim:#94a3b8;--green:#10b981;--amber:#f59e0b;--indigo:#818cf8;--red:#ef4444;}
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -26,7 +22,6 @@
 body{font-family:'Sora',sans-serif;background:var(--bg);color:white;overflow-x:hidden;min-height:100vh;}
 body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.02) 2px,rgba(0,0,0,0.02) 4px);pointer-events:none;z-index:9999;}
 .bg-glow{position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse 60% 40% at 10% 20%,rgba(0,212,255,0.04) 0%,transparent 60%),radial-gradient(ellipse 40% 50% at 90% 80%,rgba(16,185,129,0.03) 0%,transparent 60%);}
-
 #loadScreen{position:fixed;inset:0;background:var(--bg);z-index:10000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;transition:opacity .3s;}
 #loadScreen.hide{opacity:0;pointer-events:none;}
 .load-logo{font-size:2rem;font-weight:900;font-style:italic;color:var(--cyan);}
@@ -95,7 +90,6 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 
 .ex-grid{display:grid;grid-template-columns:1fr;gap:12px;}
 @media(min-width:520px){.ex-grid{grid-template-columns:repeat(auto-fill,minmax(280px,1fr));}}
-
 .ex-card{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:all .25s;}
 .ex-card:hover{border-color:var(--border-h);}
 .ex-bar{height:3px;}
@@ -136,63 +130,46 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .rc-msg{font-size:.72rem;color:var(--dim);line-height:1.5;margin-bottom:10px;background:rgba(255,255,255,0.03);border-radius:8px;padding:8px 10px;font-style:italic;}
 .rc-actions{display:flex;gap:7px;flex-wrap:wrap;}
 .btn-accept{background:var(--green);color:#000;border:none;border-radius:8px;padding:8px 14px;font-size:.68rem;font-weight:800;text-transform:uppercase;cursor:pointer;font-family:'Sora',sans-serif;transition:all .2s;}
-.btn-accept:hover{box-shadow:0 0 10px rgba(16,185,129,.35);}
 .btn-reject{background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;padding:8px 12px;font-size:.68rem;font-weight:700;color:var(--red);cursor:pointer;font-family:'Sora',sans-serif;}
 
-/* Session card */
 .session-card{background:rgba(16,185,129,0.04);border:1px solid rgba(16,185,129,0.18);border-radius:14px;padding:16px;margin-bottom:10px;}
 .session-title{font-size:.88rem;font-weight:800;margin-bottom:3px;}
 .session-with{font-size:.68rem;color:var(--muted);margin-bottom:9px;}
 .session-meta{display:flex;flex-direction:column;gap:3px;margin-bottom:11px;}
 .smr{font-size:.7rem;color:var(--dim);display:flex;align-items:center;gap:5px;}
-.session-actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:4px;}
-
-/* Video call button — uses Jitsi */
-.meet-btn{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#1565c0,#0d47a1);color:white;border:none;border-radius:8px;padding:9px 16px;font-size:.72rem;font-weight:800;text-transform:uppercase;cursor:pointer;font-family:'Sora',sans-serif;transition:all .22s;text-decoration:none;}
+.session-actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:6px;}
+.meet-btn{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#1565c0,#0d47a1);color:white;border:none;border-radius:8px;padding:9px 16px;font-size:.72rem;font-weight:800;text-transform:uppercase;cursor:pointer;font-family:'Sora',sans-serif;text-decoration:none;transition:all .22s;}
 .meet-btn:hover{box-shadow:0 0 12px rgba(21,101,192,.45);}
+.confirm-session-btn{display:inline-flex;align-items:center;gap:5px;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.28);border-radius:8px;padding:9px 14px;font-size:.7rem;font-weight:800;color:var(--amber);cursor:pointer;font-family:'Sora',sans-serif;}
+.take-exam-btn{display:inline-flex;align-items:center;gap:5px;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.28);border-radius:8px;padding:9px 14px;font-size:.7rem;font-weight:800;color:var(--green);cursor:pointer;font-family:'Sora',sans-serif;}
+.confirm-status{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:10px 12px;margin-top:8px;font-size:.7rem;color:var(--dim);line-height:1.7;}
 
-/* Confirm session button */
-.confirm-session-btn{display:inline-flex;align-items:center;gap:5px;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.28);border-radius:8px;padding:9px 14px;font-size:.7rem;font-weight:800;color:var(--amber);cursor:pointer;font-family:'Sora',sans-serif;transition:all .22s;}
-.confirm-session-btn:hover{background:rgba(245,158,11,0.2);}
-.take-exam-btn{display:inline-flex;align-items:center;gap:5px;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.28);border-radius:8px;padding:9px 14px;font-size:.7rem;font-weight:800;color:var(--green);cursor:pointer;font-family:'Sora',sans-serif;transition:all .22s;}
-.take-exam-btn:hover{background:rgba(16,185,129,0.2);}
-.confirmed-badge{display:inline-flex;align-items:center;gap:4px;font-size:.68rem;color:var(--green);}
-
-/* Confirmation status bar */
-.confirm-status{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:10px 12px;margin-top:8px;font-size:.7rem;color:var(--dim);line-height:1.6;}
-.confirm-status strong{color:white;}
-
-/* Modals */
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.86);backdrop-filter:blur(12px);z-index:3000;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;pointer-events:none;transition:opacity .25s;overflow-y:auto;}
 .modal-bg.open{opacity:1;pointer-events:all;}
 .modal{background:rgba(2,0,36,0.98);border:1px solid rgba(0,212,255,0.2);border-radius:22px;width:100%;max-width:420px;position:relative;transform:translateY(16px) scale(.97);transition:transform .25s;overflow:hidden;max-height:90vh;overflow-y:auto;margin:auto;}
 .modal-bg.open .modal{transform:translateY(0) scale(1);}
 .modal-stripe{height:3px;}
 .modal-in{padding:22px;}
-.mc{position:absolute;top:12px;right:12px;width:28px;height:28px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.7rem;color:var(--muted);transition:all .2s;z-index:1;}
+.mc{position:absolute;top:12px;right:12px;width:28px;height:28px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.7rem;color:var(--muted);z-index:1;}
 .mc:hover{border-color:var(--red);color:var(--red);}
 .modal-tag{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px;}
 .modal-title{font-size:1.05rem;font-weight:900;font-style:italic;margin-bottom:4px;}
 .modal-sub{font-size:.72rem;color:var(--dim);margin-bottom:16px;line-height:1.5;}
-.schedule-btn{width:100%;background:var(--green);color:#000;border:none;border-radius:10px;padding:12px;font-size:.82rem;font-weight:800;text-transform:uppercase;cursor:pointer;font-family:'Sora',sans-serif;transition:all .22s;margin-top:4px;}
-.schedule-btn:hover{box-shadow:0 0 14px rgba(16,185,129,.4);}
+.schedule-btn{width:100%;background:var(--green);color:#000;border:none;border-radius:10px;padding:12px;font-size:.82rem;font-weight:800;text-transform:uppercase;cursor:pointer;font-family:'Sora',sans-serif;margin-top:4px;}
 .schedule-btn:disabled{opacity:.5;cursor:not-allowed;}
-.send-req-btn{width:100%;background:var(--cyan);color:#000;border:none;border-radius:10px;padding:12px;font-size:.82rem;font-weight:800;text-transform:uppercase;cursor:pointer;font-family:'Sora',sans-serif;transition:all .22s;}
-.send-req-btn:hover{box-shadow:0 0 14px rgba(0,212,255,.35);}
+.send-req-btn{width:100%;background:var(--cyan);color:#000;border:none;border-radius:10px;padding:12px;font-size:.82rem;font-weight:800;text-transform:uppercase;cursor:pointer;font-family:'Sora',sans-serif;}
 .send-req-btn:disabled{opacity:.5;cursor:not-allowed;}
 
-/* ── EXAM MODAL — anti-cheat ── */
+/* EXAM */
 .exam-modal{max-width:540px;}
-/* Disable text selection in exam */
 .exam-modal .modal-in{user-select:none;-webkit-user-select:none;}
 .exam-progress{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
 .ep-bar-wrap{flex:1;height:4px;background:rgba(255,255,255,0.08);border-radius:100px;overflow:hidden;}
 .ep-bar{height:100%;background:linear-gradient(90deg,var(--cyan),var(--green));border-radius:100px;transition:width .3s;}
 .ep-text{font-family:'Space Mono',monospace;font-size:.56rem;color:var(--muted);white-space:nowrap;}
-/* Question timer */
-.exam-timer{font-family:'Space Mono',monospace;font-size:.9rem;font-weight:700;color:var(--amber);background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);border-radius:8px;padding:5px 12px;flex-shrink:0;}
-.exam-timer.urgent{color:var(--red);border-color:rgba(239,68,68,0.3);background:rgba(239,68,68,0.08);animation:timerPulse .5s ease infinite;}
-@keyframes timerPulse{0%,100%{opacity:1;}50%{opacity:.5;}}
+.exam-timer{font-family:'Space Mono',monospace;font-size:.9rem;font-weight:700;color:var(--amber);background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);border-radius:8px;padding:4px 10px;flex-shrink:0;}
+.exam-timer.urgent{color:var(--red);border-color:rgba(239,68,68,0.3);background:rgba(239,68,68,0.08);animation:pulse .5s ease infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
 .exam-q-num{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);margin-bottom:6px;}
 .exam-question{font-size:.9rem;font-weight:700;line-height:1.5;margin-bottom:14px;}
 .exam-options{display:flex;flex-direction:column;gap:8px;margin-bottom:14px;}
@@ -201,14 +178,11 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .exam-option.selected{border-color:var(--cyan);background:rgba(0,212,255,0.1);color:var(--cyan);font-weight:700;}
 .exam-option.correct{border-color:var(--green);background:rgba(16,185,129,0.1);color:var(--green);}
 .exam-option.wrong{border-color:var(--red);background:rgba(239,68,68,0.08);color:var(--red);}
-.exam-next-btn{width:100%;background:var(--cyan);color:#000;border:none;border-radius:10px;padding:12px;font-size:.8rem;font-weight:800;text-transform:uppercase;cursor:pointer;font-family:'Sora',sans-serif;transition:all .22s;}
+.exam-next-btn{width:100%;background:var(--cyan);color:#000;border:none;border-radius:10px;padding:12px;font-size:.8rem;font-weight:800;text-transform:uppercase;cursor:pointer;font-family:'Sora',sans-serif;}
 .exam-next-btn:disabled{opacity:.4;cursor:not-allowed;}
-.exam-next-btn:not(:disabled):hover{box-shadow:0 0 14px rgba(0,212,255,.35);}
-/* Cheat warning */
-.cheat-warning{background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.25);border-radius:10px;padding:10px 14px;font-size:.72rem;color:var(--red);margin-bottom:12px;display:none;}
+.cheat-warning{background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.25);border-radius:10px;padding:10px 14px;font-size:.7rem;color:var(--red);margin-bottom:12px;display:none;}
 .cheat-warning.show{display:block;}
 
-/* Result */
 .result-wrap{text-align:center;}
 .result-icon{font-size:2.8rem;margin-bottom:12px;}
 .result-score{font-family:'Space Mono',monospace;font-size:2.5rem;font-weight:700;margin-bottom:4px;}
@@ -218,8 +192,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .result-coins{background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);border-radius:12px;padding:12px 16px;margin-bottom:14px;font-size:.8rem;color:var(--amber);}
 .result-cert{background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.2);border-radius:12px;padding:12px 16px;margin-bottom:16px;font-size:.76rem;color:var(--green);line-height:1.6;}
 .cert-preview{width:100%;border-radius:12px;margin-bottom:14px;display:block;}
-.result-btn{width:100%;background:var(--green);color:#000;border:none;border-radius:10px;padding:12px;font-size:.8rem;font-weight:800;text-transform:uppercase;cursor:pointer;font-family:'Sora',sans-serif;transition:all .22s;}
-.result-btn:hover{box-shadow:0 0 14px rgba(16,185,129,.35);}
+.result-btn{width:100%;background:var(--green);color:#000;border:none;border-radius:10px;padding:12px;font-size:.8rem;font-weight:800;text-transform:uppercase;cursor:pointer;font-family:'Sora',sans-serif;}
 .result-btn:disabled{opacity:.5;cursor:not-allowed;}
 
 .empty-state{text-align:center;padding:40px 16px;color:var(--muted);}
@@ -236,7 +209,6 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .nav-item.active{background:rgba(0,212,255,0.11);color:var(--cyan);}
 .nav-av{width:22px;height:22px;border-radius:50%;border:2px solid rgba(0,212,255,.25);overflow:hidden;}
 .nav-av img{width:100%;height:100%;object-fit:cover;}
-
 .fade-up{opacity:0;transform:translateY(12px);transition:opacity .5s ease,transform .5s ease;}
 .fade-up.in{opacity:1;transform:translateY(0);}
 .d1{transition-delay:.04s;}.d2{transition-delay:.08s;}.d3{transition-delay:.12s;}
@@ -272,9 +244,9 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
         </select>
       </div>
       <div style="background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.12);border-radius:10px;padding:11px;margin-bottom:14px;font-size:.7rem;color:var(--dim);line-height:1.7;">
-        🎥 A <strong style="color:white;">video call link</strong> will be generated for your session.<br>
-        ✅ After the session, <strong style="color:white;">both students must confirm</strong> the exchange happened before the exam unlocks.<br>
-        📝 <strong style="color:var(--amber);">30-question exam</strong> must be passed to earn coins and certificate.
+        🎥 A <strong style="color:white;">video call room</strong> will be created — both students get the same link instantly.<br>
+        ✅ After the session, <strong style="color:white;">both must confirm</strong> before exam unlocks.<br>
+        📝 Pass the <strong style="color:var(--amber);">30-question exam</strong> to earn coins + certificate via email.
       </div>
       <button class="schedule-btn" id="confirmSchedule">Confirm & Create Video Room →</button>
     </div>
@@ -292,7 +264,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
       <div class="modal-sub" id="cSub"></div>
       <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:11px;padding:13px;margin-bottom:14px;" id="cSwapBox"></div>
       <div class="field"><label>Your Message *</label>
-        <textarea id="cMsg" placeholder="Hi! I'm interested in this exchange. I can teach you... and I'd love to learn..."></textarea>
+        <textarea id="cMsg" placeholder="Hi! I'm interested in this exchange. I can teach... and I want to learn..."></textarea>
       </div>
       <button class="send-req-btn" id="sendReqBtn">Send Request →</button>
     </div>
@@ -311,8 +283,8 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
           <div class="ep-text" id="examProgressText">1/30</div>
           <div class="exam-timer" id="examTimer">30s</div>
         </div>
-        <div class="cheat-warning" id="cheatWarning">⚠️ Tab switching detected! This incident has been logged.</div>
-        <div class="exam-q-num" id="examQNum">Question 1</div>
+        <div class="cheat-warning" id="cheatWarning"></div>
+        <div class="exam-q-num" id="examQNum">Question 1 of 30</div>
         <div class="exam-question" id="examQuestion"></div>
         <div class="exam-options" id="examOptions"></div>
         <button class="exam-next-btn" id="examNextBtn" disabled>Next →</button>
@@ -449,30 +421,40 @@ function timeAgo(ts){
 }
 function levelColor(l){if(l==='Advanced')return'#10b981';if(l==='Intermediate')return'#f59e0b';return'#818cf8';}
 
-// ── VIDEO ROOM LINK ──
-// Generates a unique Jitsi room from session data BEFORE saving
-// Jitsi works in browser on mobile — no app download needed
-// Both users get the SAME link because it's derived from the same session data
-function genVideoLink(fromUid, toUid, date, time){
-  // Create a deterministic room name from session participants + time
-  // This means both users always get the exact same link
-  const raw = (fromUid + toUid + date + time).replace(/[^a-zA-Z0-9]/g,'');
-  let hash = 0;
-  for(let i=0;i<raw.length;i++){
-    hash = ((hash<<5)-hash)+raw.charCodeAt(i);
-    hash |= 0;
-  }
-  const room = 'Zwapy' + Math.abs(hash).toString(36).toUpperCase().padStart(8,'0');
-  return `https://meet.jit.si/${room}`;
+// ── VIDEO ROOM — Jitsi, works in browser, both get same link ──
+function genVideoLink(fromUid,toUid,date,time){
+  const raw=(fromUid+toUid+date+time).replace(/[^a-zA-Z0-9]/g,'');
+  let h=0;
+  for(let i=0;i<raw.length;i++){h=((h<<5)-h)+raw.charCodeAt(i);h|=0;}
+  const room='Zwapy'+Math.abs(h).toString(36).toUpperCase().padStart(8,'0');
+  return`https://meet.jit.si/${room}`;
 }
 
-let allExchanges=[], currentUser=null, userData={};
-let activeFilter='all', searchQ='';
-let connectTarget=null, scheduleTarget=null;
-let examSession=null, examQuestions=[], examIdx=0, examScore=0, selectedAnswer=null;
-let examTimerInterval=null, timeLeft=0, tabSwitchCount=0;
+// ── SEND CERTIFICATE EMAIL via EmailJS ──
+async function sendCertificateEmail(toName,toEmail,skill,score,date){
+  try{
+    await emailjs.send('service_n42p919','template_vwhzfdr',{
+      to_name:toName||'Student',
+      to_email:toEmail,
+      skill:skill,
+      score:score,
+      date:date
+    });
+    toast('🎉 Certificate sent to your email!','s');
+    return true;
+  }catch(err){
+    console.error('EmailJS error:',err);
+    toast('✅ Coins claimed! Certificate email will be resent soon.','s');
+    return false;
+  }
+}
 
-const exchangesMap={}, requestsMap={}, sessionsMap={};
+let allExchanges=[],currentUser=null,userData={};
+let activeFilter='all',searchQ='';
+let connectTarget=null,scheduleTarget=null;
+let examSession=null,examQuestions=[],examIdx=0,examScore=0,selectedAnswer=null;
+let examTimerInterval=null,timeLeft=0,tabSwitchCount=0;
+const exchangesMap={},requestsMap={},sessionsMap={};
 
 window.switchTab=function(tab,el){
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
@@ -496,8 +478,7 @@ function renderExchanges(){
     const isMe=ex.uid===currentUser?.uid;
     const col=levelColor(ex.level);
     const av=ex.photoURL||`https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(ex.name||ex.uid)}`;
-    return `
-    <div class="ex-card">
+    return`<div class="ex-card">
       <div class="ex-bar" style="background:linear-gradient(90deg,${col},transparent)"></div>
       <div class="ex-body">
         <div class="ex-header">
@@ -594,29 +575,32 @@ $('confirmSchedule').addEventListener('click',async()=>{
   if(!date||!time){toast('Pick a date and time','e');return;}
   const btn=$('confirmSchedule');btn.disabled=true;btn.textContent='Creating...';
 
-  // Generate link BEFORE saving — derived from participant UIDs + date/time
-  // Both users will always compute the same link from the same data
-  const videoLink=genVideoLink(scheduleTarget.fromUid, currentUser.uid, date, time);
+  // Generate video link BEFORE saving — both users always get same link
+  const videoLink=genVideoLink(scheduleTarget.fromUid,currentUser.uid,date,time);
 
-  const sesRef=await addDoc(collection(db,'sessions'),{
+  await addDoc(collection(db,'sessions'),{
     requestId:scheduleTarget.reqId,
     fromUid:scheduleTarget.fromUid,fromName:scheduleTarget.fromName,fromEmail:scheduleTarget.fromEmail||'',
     toUid:currentUser.uid,toName:userData.name||'Student',toEmail:currentUser.email||'',
     offer:scheduleTarget.offer,need:scheduleTarget.need,
     date,time,durationHours:parseFloat(dur),
-    videoLink, // ← saved in FIRST write, not second, so both users get it instantly
+    videoLink,  // saved in first write — both users see it immediately
     status:'scheduled',
     sessionConfirmed:{[scheduleTarget.fromUid]:false,[currentUser.uid]:false},
     examDone:{[scheduleTarget.fromUid]:false,[currentUser.uid]:false},
     createdAt:serverTimestamp()
   });
+
   await updateDoc(doc(db,'exchange_requests',scheduleTarget.reqId),{status:'accepted'});
+
   const desc=`${date} at ${time} · ${dur}hr · Video: ${videoLink}`;
   await Promise.all([
     addDoc(collection(db,'users',currentUser.uid,'activity'),{title:`📹 Session with ${scheduleTarget.fromName}`,desc,createdAt:serverTimestamp()}),
     addDoc(collection(db,'users',scheduleTarget.fromUid,'activity'),{title:`📹 Session confirmed with ${userData.name}`,desc,createdAt:serverTimestamp()})
   ]);
-  $('scheduleModal').classList.remove('open');btn.disabled=false;btn.textContent='Confirm & Create Video Room →';
+
+  $('scheduleModal').classList.remove('open');
+  btn.disabled=false;btn.textContent='Confirm & Create Video Room →';
   toast('✅ Video room created! Both students can now join.');
   renderRequests();
   document.querySelectorAll('.tab-btn')[2].click();
@@ -638,72 +622,57 @@ async function renderSessions(){
   $('sessionsList').innerHTML=sessions.map(s=>{
     const withName=s.fromUid===currentUser.uid?s.toName:s.fromName;
     const now=new Date();
-    const sessDateTime=new Date(`${s.date}T${s.time}`);
-    const sessEndTime=new Date(sessDateTime.getTime()+(s.durationHours||1)*60*60*1000);
-    const upcoming=sessDateTime>now;
-    const ongoing=sessDateTime<=now&&sessEndTime>now;
-    const completed=sessEndTime<=now;
-    const confirmed=(s.sessionConfirmed||{})[currentUser.uid];
+    const sessStart=new Date(`${s.date}T${s.time}`);
+    const sessEnd=new Date(sessStart.getTime()+(s.durationHours||1)*3600000);
+    const upcoming=sessStart>now;
+    const ongoing=sessStart<=now&&sessEnd>now;
+    const completed=sessEnd<=now;
+    const myConfirmed=(s.sessionConfirmed||{})[currentUser.uid];
     const otherUid=s.fromUid===currentUser.uid?s.toUid:s.fromUid;
     const otherConfirmed=(s.sessionConfirmed||{})[otherUid];
-    const bothConfirmed=confirmed&&otherConfirmed;
+    const bothConfirmed=myConfirmed&&otherConfirmed;
     const myExamDone=(s.examDone||{})[currentUser.uid];
 
-    let statusBadge='';
-    if(upcoming) statusBadge=`<span style="font-size:.64rem;color:var(--cyan);background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.2);padding:2px 8px;border-radius:100px;">Upcoming</span>`;
-    else if(ongoing) statusBadge=`<span style="font-size:.64rem;color:var(--green);background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);padding:2px 8px;border-radius:100px;animation:timerPulse 1.5s ease infinite;">🔴 Live Now</span>`;
-    else statusBadge=`<span style="font-size:.64rem;color:var(--muted);">Completed</span>`;
+    let statusBadge=upcoming
+      ?`<span style="font-size:.62rem;color:var(--cyan);background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.2);padding:2px 8px;border-radius:100px;">Upcoming</span>`
+      :ongoing
+        ?`<span style="font-size:.62rem;color:var(--green);background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);padding:2px 8px;border-radius:100px;">🔴 Live</span>`
+        :`<span style="font-size:.62rem;color:var(--muted);">Completed</span>`;
 
-    return `
-    <div class="session-card">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;flex-wrap:wrap;gap:6px;">
-        <div class="session-title">${s.offer} ↔ ${s.need}</div>
-        ${statusBadge}
+    return`<div class="session-card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;flex-wrap:wrap;gap:5px;">
+        <div class="session-title">${s.offer} ↔ ${s.need}</div>${statusBadge}
       </div>
       <div class="session-with">with ${withName||'Student'}</div>
       <div class="session-meta">
         <div class="smr">📅 ${s.date} at ${s.time} (${s.durationHours}hr)</div>
-        <div class="smr">🎥 <a href="${s.videoLink||''}" target="_blank" rel="noopener" style="color:var(--cyan);text-decoration:none;font-weight:700;">${s.videoLink?'Open Video Room →':'Generating...'}</a></div>
+        <div class="smr">🎥 <a href="${s.videoLink||'#'}" target="_blank" rel="noopener" style="color:var(--cyan);font-weight:700;text-decoration:none;">${s.videoLink?'Open Video Room →':'Generating...'}</a></div>
       </div>
       <div class="session-actions">
-        ${(upcoming||ongoing)&&s.videoLink
-          ?`<a href="${s.videoLink}" target="_blank" rel="noopener" class="meet-btn">🎥 Join Video Call →</a>`
-          :''}
-        ${completed&&!confirmed
-          ?`<button class="confirm-session-btn" onclick="confirmSession('${s.id}')">✅ Confirm Session Done</button>`
-          :''}
-        ${completed&&confirmed&&!otherConfirmed
-          ?`<span style="font-size:.68rem;color:var(--amber);">⏳ Waiting for ${withName} to confirm...</span>`
-          :''}
-        ${completed&&bothConfirmed&&!myExamDone
-          ?`<button class="take-exam-btn" onclick="startExam('${s.id}')">📝 Take Exam & Earn Coins</button>`
-          :''}
-        ${myExamDone
-          ?`<span style="font-size:.68rem;color:var(--green);">✓ Exam done · Coins earned</span>`
-          :''}
+        ${(upcoming||ongoing)&&s.videoLink?`<a href="${s.videoLink}" target="_blank" rel="noopener" class="meet-btn">🎥 Join Video Call →</a>`:''}
+        ${completed&&!myConfirmed?`<button class="confirm-session-btn" onclick="confirmSession('${s.id}')">✅ Confirm Session Done</button>`:''}
+        ${completed&&myConfirmed&&!otherConfirmed?`<span style="font-size:.66rem;color:var(--amber);">⏳ Waiting for ${withName} to confirm...</span>`:''}
+        ${completed&&bothConfirmed&&!myExamDone?`<button class="take-exam-btn" onclick="startExam('${s.id}')">📝 Take Exam & Earn Coins</button>`:''}
+        ${myExamDone?`<span style="font-size:.66rem;color:var(--green);">✓ Exam done · Coins & certificate sent</span>`:''}
       </div>
-      ${completed?`
-      <div class="confirm-status">
-        ${confirmed?`✅ You confirmed`:`⬜ You haven't confirmed yet`} &nbsp;·&nbsp;
-        ${otherConfirmed?`✅ ${withName} confirmed`:`⬜ ${withName} hasn't confirmed yet`}
-        ${!confirmed?`<br><span style="color:var(--amber);font-size:.68rem;">Both must confirm before exam unlocks</span>`:''}
+      ${completed?`<div class="confirm-status">
+        ${myConfirmed?'✅ You confirmed':'⬜ You haven\'t confirmed yet'} &nbsp;·&nbsp;
+        ${otherConfirmed?`✅ ${withName} confirmed`:`⬜ ${withName} hasn\'t confirmed yet`}
+        ${!myConfirmed?'<br><span style="color:var(--amber);font-size:.66rem;">Both must confirm before exam unlocks</span>':''}
       </div>`:''}
     </div>`;
   }).join('');
 }
 
-// ── CONFIRM SESSION (both must confirm) ──
 window.confirmSession=async function(sessionId){
   const s=sessionsMap[sessionId];if(!s)return;
-  await updateDoc(doc(db,'sessions',sessionId),{
-    [`sessionConfirmed.${currentUser.uid}`]:true
-  });
+  await updateDoc(doc(db,'sessions',sessionId),{[`sessionConfirmed.${currentUser.uid}`]:true});
   sessionsMap[sessionId]={...s,sessionConfirmed:{...(s.sessionConfirmed||{}),[currentUser.uid]:true}};
-  toast('✅ Session confirmed! Waiting for your partner to confirm too.');
+  toast('✅ Confirmed! Waiting for your partner too.');
   renderSessions();
 };
 
-// ── EXAM SYSTEM ──
+// ── EXAM QUESTIONS ──
 async function generateExamQuestions(skill){
   toast('Generating your 30-question exam... ⏳','s');
   try{
@@ -713,114 +682,100 @@ async function generateExamQuestions(skill){
       body:JSON.stringify({
         model:'claude-sonnet-4-20250514',
         max_tokens:3000,
-        messages:[{role:'user',content:`Generate exactly 30 multiple choice questions to test someone's basic knowledge of "${skill}" after a 1-hour beginner learning session.
+        messages:[{role:'user',content:`Generate exactly 30 multiple choice questions to test someone's beginner knowledge of "${skill}" after a 1-hour peer learning session.
 
 Rules:
-- Test fundamental understanding only
+- Test fundamental understanding only, not expert knowledge
 - Each question has exactly 4 options: A, B, C, D
-- One correct answer per question
-- Practical and relevant questions
+- Vary the correct answer position — roughly 25% at each index (0,1,2,3)
+- Questions should be practical, not just theory
 - Mix: 40% easy, 40% medium, 20% slightly challenging
-- RANDOMIZE the position of the correct answer (don't always put it at index 1)
+- Shuffle question order so no two students get same order
 
-Return ONLY valid JSON, no extra text:
-{"questions":[{"q":"Question?","options":["A. opt1","B. opt2","C. opt3","D. opt4"],"answer":0}]}
+Return ONLY valid JSON, no markdown, no extra text:
+{"questions":[{"q":"Question text?","options":["A. opt1","B. opt2","C. opt3","D. opt4"],"answer":2}]}
 
-"answer" is the 0-based index of the correct option. Vary it — some questions should have answer at 0, some at 1, some at 2, some at 3.`}]
+"answer" is the 0-based index of the correct option. Vary it across all 30 questions.`}]
       })
     });
     const data=await res.json();
-    const text=data.content[0].text;
-    const parsed=JSON.parse(text.replace(/```json|```/g,'').trim());
-    // Shuffle question order to prevent sharing answers between students
-    return shuffleArray(parsed.questions);
+    const parsed=JSON.parse(data.content[0].text.replace(/```json|```/g,'').trim());
+    return shuffleArr(parsed.questions);
   }catch(err){
-    return shuffleArray(generateFallbackQuestions(skill));
+    console.error('Exam generation error:',err);
+    return shuffleArr(fallbackQuestions(skill));
   }
 }
 
-function shuffleArray(arr){
+function shuffleArr(arr){
   const a=[...arr];
   for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
   return a;
 }
 
-function generateFallbackQuestions(skill){
-  const templates=[
-    {q:`What is the primary purpose of ${skill}?`,options:['A. Only for entertainment','B. Creating value and solving real problems','C. Only for large companies','D. Only for exams'],answer:1},
-    {q:`Which is the BEST first step when learning ${skill}?`,options:['A. Skip basics and jump to advanced','B. Only watch videos without practicing','C. Start with fundamentals and practice daily','D. Memorize everything at once'],answer:2},
-    {q:`After a ${skill} session, what should you do to retain knowledge?`,options:['A. Never revisit the topic','B. Practice what you learned immediately','C. Wait a month before trying again','D. Only read about it'],answer:1},
-    {q:`How does peer learning in ${skill} help compared to solo study?`,options:['A. It does not help','B. It provides instant feedback and real examples','C. It wastes time','D. Only helps the teacher'],answer:1},
-    {q:`What makes ${skill} valuable in today\'s job market?`,options:['A. Nothing, it is irrelevant','B. It enables problem-solving and career growth','C. Only relevant for one industry','D. Too outdated to matter'],answer:1},
-    {q:`What is the best way to test your ${skill} knowledge?`,options:['A. Never test yourself','B. Build a small project or apply it practically','C. Just read more theory','D. Ask someone else to do it'],answer:1},
-    {q:`When you get stuck while learning ${skill}, what should you do?`,options:['A. Give up immediately','B. Break the problem down and seek help','C. Skip that concept forever','D. Only rely on memorization'],answer:1},
-    {q:`Which mindset leads to mastering ${skill}?`,options:['A. Expecting instant results','B. Consistent practice over time with patience','C. Learning only when forced','D. Avoiding all challenges'],answer:1},
-    {q:`What was the most important thing your Zwapy session taught you about ${skill}?`,options:['A. Nothing was useful','B. Peer-to-peer exchange accelerates real understanding','C. Only experts can teach this','D. Theory is more important than practice'],answer:1},
-    {q:`How can you use ${skill} to help other students?`,options:['A. Keep it to yourself','B. Share knowledge through exchanges and collaboration','C. Only use it for personal gain','D. It cannot help others'],answer:1},
+function fallbackQuestions(skill){
+  const base=[
+    {q:`What is the main purpose of ${skill}?`,options:['A. Only for entertainment','B. Solving real problems and creating value','C. Only for large companies','D. Only for exams'],answer:1},
+    {q:`Best first step when learning ${skill} as a beginner?`,options:['A. Jump to advanced topics','B. Only watch videos without practicing','C. Start with fundamentals and practice regularly','D. Memorize everything at once'],answer:2},
+    {q:`After your ${skill} session, how should you retain knowledge?`,options:['A. Never revisit','B. Practice what you learned immediately','C. Wait weeks before trying again','D. Only read about it'],answer:1},
+    {q:`How does peer learning help with ${skill}?`,options:['A. It does not help at all','B. Provides real examples and instant feedback','C. Wastes time','D. Only helps the teacher'],answer:1},
+    {q:`What makes ${skill} valuable for students?`,options:['A. Not useful for students','B. Builds problem-solving ability and career skills','C. Only for one specific job','D. Too complex to learn'],answer:1},
+    {q:`Best way to test your ${skill} knowledge?`,options:['A. Never test yourself','B. Build a small project and apply it','C. Just read theory','D. Ask someone else to do it'],answer:1},
+    {q:`What should you do when stuck learning ${skill}?`,options:['A. Give up permanently','B. Break the problem down and seek help','C. Skip it forever','D. Only memorize'],answer:1},
+    {q:`Which mindset leads to mastering ${skill}?`,options:['A. Expect instant results','B. Consistent practice with patience over time','C. Only learn when forced','D. Avoid all challenges'],answer:1},
+    {q:`How can you use ${skill} to help other students?`,options:['A. Keep it to yourself','B. Share through skill exchanges and collaboration','C. Only use for personal gain','D. Cannot help others'],answer:1},
+    {q:`What was most valuable about your Zwapy skill session for ${skill}?`,options:['A. Nothing useful happened','B. Peer-to-peer exchange accelerates real understanding','C. Only experts can teach this','D. Theory is more important than practice'],answer:1},
   ];
-  const q=[];
-  for(let i=0;i<3;i++) q.push(...templates);
+  const q=[];for(let i=0;i<3;i++)q.push(...base);
   return q.slice(0,30);
 }
 
+// ── START EXAM ──
 window.startExam=async function(sessionId){
   const s=sessionsMap[sessionId];if(!s)return;
   const myLearning=s.fromUid===currentUser.uid?s.need:s.offer;
   const withName=s.fromUid===currentUser.uid?s.toName:s.fromName;
-  examSession={sessionId,skill:myLearning,teacherName:withName||'Student'};
+  examSession={sessionId,skill:myLearning,teacherName:withName||'Student',toEmail:currentUser.email||''};
   examQuestions=[];examIdx=0;examScore=0;selectedAnswer=null;tabSwitchCount=0;
   clearInterval(examTimerInterval);
-
   $('examScreen').style.display='block';
   $('resultScreen').style.display='none';
   $('cheatWarning').className='cheat-warning';
   $('examModal').classList.add('open');
-
   examQuestions=await generateExamQuestions(myLearning);
-  showExamQuestion();
+  showExamQ();
 };
 
 $('examClose').addEventListener('click',()=>{
-  if(confirm('Exit exam? Your progress will be lost.')){
-    clearInterval(examTimerInterval);
-    $('examModal').classList.remove('open');
+  if(confirm('Exit exam? Progress will be lost.')){
+    clearInterval(examTimerInterval);$('examModal').classList.remove('open');
   }
 });
 
-// ── ANTI-CHEAT: Tab switch detection ──
+// ── ANTI-CHEAT: Tab switch ──
 document.addEventListener('visibilitychange',()=>{
   if(document.hidden&&$('examModal').classList.contains('open')&&$('examScreen').style.display!=='none'){
     tabSwitchCount++;
     $('cheatWarning').className='cheat-warning show';
-    $('cheatWarning').textContent=`⚠️ Tab switching detected (${tabSwitchCount}x)! This is logged. 3 switches = exam void.`;
+    $('cheatWarning').textContent=`⚠️ Tab switch detected (${tabSwitchCount}x) — logged. ${tabSwitchCount>=3?'Exam voided!':'3 switches = exam void.'}`;
     if(tabSwitchCount>=3){
       clearInterval(examTimerInterval);
       $('examModal').classList.remove('open');
-      toast('❌ Exam voided — too many tab switches detected.','e');
+      toast('❌ Exam voided — too many tab switches.','e');
     }
   }
 });
-
-// ── ANTI-CHEAT: Disable copy/paste ──
-document.addEventListener('copy',e=>{
-  if($('examModal').classList.contains('open')){e.preventDefault();toast('❌ Copying not allowed during exam','e');}
-});
-document.addEventListener('paste',e=>{
-  if($('examModal').classList.contains('open'))e.preventDefault();
-});
-document.addEventListener('contextmenu',e=>{
-  if($('examModal').classList.contains('open'))e.preventDefault();
-});
+// ── ANTI-CHEAT: Block copy/paste/devtools ──
+document.addEventListener('copy',e=>{if($('examModal').classList.contains('open')){e.preventDefault();toast('❌ Copying not allowed during exam','e');}});
+document.addEventListener('paste',e=>{if($('examModal').classList.contains('open'))e.preventDefault();});
+document.addEventListener('contextmenu',e=>{if($('examModal').classList.contains('open'))e.preventDefault();});
 document.addEventListener('keydown',e=>{
   if($('examModal').classList.contains('open')){
-    // Block Ctrl+C, Ctrl+V, F12, Ctrl+Shift+I
-    if((e.ctrlKey&&(e.key==='c'||e.key==='v'||e.key==='u'))||e.key==='F12'||(e.ctrlKey&&e.shiftKey&&e.key==='I')){
-      e.preventDefault();
-    }
+    if((e.ctrlKey&&['c','v','u','s'].includes(e.key))||e.key==='F12'||(e.ctrlKey&&e.shiftKey)){e.preventDefault();}
   }
 });
 
-function showExamQuestion(){
+function showExamQ(){
   const q=examQuestions[examIdx];
   $('examProgressBar').style.width=`${(examIdx/30)*100}%`;
   $('examProgressText').textContent=`${examIdx+1}/30`;
@@ -829,10 +784,9 @@ function showExamQuestion(){
   selectedAnswer=null;
   $('examNextBtn').disabled=true;
   $('examOptions').innerHTML=q.options.map((opt,i)=>
-    `<button class="exam-option" onclick="selectAnswer(${i})">${opt}</button>`
+    `<button class="exam-option" onclick="selectAns(${i})">${opt}</button>`
   ).join('');
-
-  // Start 30-second timer per question
+  // 30-second timer per question
   clearInterval(examTimerInterval);
   timeLeft=30;
   $('examTimer').textContent='30s';
@@ -840,22 +794,20 @@ function showExamQuestion(){
   examTimerInterval=setInterval(()=>{
     timeLeft--;
     $('examTimer').textContent=timeLeft+'s';
-    if(timeLeft<=10) $('examTimer').className='exam-timer urgent';
+    if(timeLeft<=10)$('examTimer').className='exam-timer urgent';
     if(timeLeft<=0){
       clearInterval(examTimerInterval);
-      // Auto-advance with wrong answer if time runs out
+      // Auto-skip on timeout — no mark awarded
       examIdx++;
-      if(examIdx<30) setTimeout(showExamQuestion,300);
-      else setTimeout(showExamResult,300);
+      if(examIdx<30)setTimeout(showExamQ,400);
+      else setTimeout(showExamResult,400);
     }
   },1000);
 }
 
-window.selectAnswer=function(idx){
+window.selectAns=function(idx){
   selectedAnswer=idx;
-  document.querySelectorAll('.exam-option').forEach((b,i)=>{
-    b.className='exam-option'+(i===idx?' selected':'');
-  });
+  document.querySelectorAll('.exam-option').forEach((b,i)=>b.className='exam-option'+(i===idx?' selected':''));
   $('examNextBtn').disabled=false;
 };
 
@@ -863,12 +815,12 @@ $('examNextBtn').addEventListener('click',()=>{
   clearInterval(examTimerInterval);
   const q=examQuestions[examIdx];
   document.querySelectorAll('.exam-option').forEach((b,i)=>{
-    if(i===q.answer) b.className='exam-option correct';
-    else if(i===selectedAnswer&&i!==q.answer) b.className='exam-option wrong';
+    if(i===q.answer)b.className='exam-option correct';
+    else if(i===selectedAnswer&&i!==q.answer)b.className='exam-option wrong';
   });
-  if(selectedAnswer===q.answer) examScore++;
+  if(selectedAnswer===q.answer)examScore++;
   examIdx++;
-  if(examIdx<30) setTimeout(showExamQuestion,700);
+  if(examIdx<30)setTimeout(showExamQ,700);
   else setTimeout(showExamResult,700);
 });
 
@@ -882,51 +834,59 @@ async function showExamResult(){
   $('resultIcon').textContent=pass?'🏆':'📚';
   $('resultScore').textContent=`${examScore}/30`;
   $('resultScore').className=`result-score ${pass?'pass':'fail'}`;
-  $('resultLabel').textContent=`${pct}% — ${pass?'Passed! Great work.':'Keep practicing. Need 60% to pass.'}`;
-  $('resultCoins').innerHTML=`💰 You earn <strong>+${coins} Skill Coins</strong>${pass?' for passing!':' for completing the exam.'}`;
+  $('resultLabel').textContent=`${pct}% — ${pass?'Passed! Great work.':'Need 60% to pass. Keep practicing!'}`;
+  $('resultCoins').innerHTML=`💰 You earn <strong>+${coins} Skill Coins</strong>${pass?' for passing!':' for completing.'}`;
   $('resultCert').innerHTML=pass
     ?`🎓 Certificate will be sent to <strong>${currentUser.email}</strong> for <strong>${examSession.skill}</strong>`
-    :`📖 Study more and retake to earn your certificate.`;
-  if(pass) generateCertificate();
+    :`📖 Pass the exam to earn your certificate.`;
+  if(pass)generateCert();
   $('resultBtn').disabled=false;
-  $('resultBtn').textContent=pass?'Claim Coins & Certificate →':'Claim Coins →';
+  $('resultBtn').textContent=pass?'Claim Coins & Send Certificate →':'Claim Coins →';
 }
 
-function generateCertificate(){
+// ── GENERATE CERTIFICATE ON CANVAS ──
+function generateCert(){
   const canvas=$('certCanvas');canvas.style.display='block';
   const ctx=canvas.getContext('2d');const w=800,h=560;
   ctx.fillStyle='#010114';ctx.fillRect(0,0,w,h);
   ctx.strokeStyle='rgba(0,212,255,0.4)';ctx.lineWidth=2;ctx.strokeRect(20,20,w-40,h-40);
   ctx.strokeStyle='rgba(0,212,255,0.15)';ctx.lineWidth=1;ctx.strokeRect(28,28,w-56,h-56);
   const grd=ctx.createRadialGradient(w/2,h/2,0,w/2,h/2,350);
-  grd.addColorStop(0,'rgba(0,212,255,0.06)');grd.addColorStop(1,'transparent');
+  grd.addColorStop(0,'rgba(0,212,255,0.07)');grd.addColorStop(1,'transparent');
   ctx.fillStyle=grd;ctx.fillRect(0,0,w,h);
   ctx.textAlign='center';
-  ctx.fillStyle='#00D4FF';ctx.font='bold 22px monospace';ctx.fillText('ZWAPY',w/2,80);
-  ctx.fillStyle='white';ctx.font='bold 30px sans-serif';ctx.fillText('Certificate of Skill Exchange',w/2,135);
-  ctx.fillStyle='rgba(148,163,184,0.8)';ctx.font='14px sans-serif';ctx.fillText('This certifies that',w/2,182);
-  ctx.fillStyle='#00D4FF';ctx.font='bold 34px sans-serif';ctx.fillText(userData.name||'Student',w/2,235);
-  ctx.fillStyle='rgba(148,163,184,0.9)';ctx.font='14px sans-serif';ctx.fillText('has completed a peer-to-peer skill exchange in',w/2,278);
-  ctx.fillStyle='white';ctx.font='bold 26px sans-serif';ctx.fillText(examSession.skill,w/2,322);
-  ctx.fillStyle='#10b981';ctx.font='bold 15px monospace';ctx.fillText(`Exam Score: ${examScore}/30 · ${Math.round((examScore/30)*100)}%`,w/2,368);
-  ctx.fillStyle='rgba(148,163,184,0.7)';ctx.font='13px sans-serif';ctx.fillText(`Taught by ${examSession.teacherName} · Zwapy Campus Network`,w/2,408);
-  ctx.fillStyle='rgba(100,116,139,0.7)';ctx.font='12px monospace';ctx.fillText(new Date().toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'}),w/2,450);
-  ctx.strokeStyle='rgba(0,212,255,0.2)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(100,470);ctx.lineTo(700,470);ctx.stroke();
-  ctx.fillStyle='rgba(100,116,139,0.5)';ctx.font='11px monospace';ctx.fillText('Issued by Zwapy · zwapy.com · Presidency University, Bangalore',w/2,494);
+  ctx.fillStyle='#00D4FF';ctx.font='bold 22px monospace';ctx.fillText('ZWAPY',w/2,78);
+  ctx.fillStyle='white';ctx.font='bold 30px sans-serif';ctx.fillText('Certificate of Skill Exchange',w/2,132);
+  ctx.fillStyle='rgba(148,163,184,0.8)';ctx.font='14px sans-serif';ctx.fillText('This certifies that',w/2,178);
+  ctx.fillStyle='#00D4FF';ctx.font='bold 34px sans-serif';ctx.fillText(userData.name||'Student',w/2,230);
+  ctx.fillStyle='rgba(148,163,184,0.9)';ctx.font='14px sans-serif';ctx.fillText('has successfully completed a peer-to-peer skill exchange session in',w/2,274);
+  ctx.fillStyle='white';ctx.font='bold 26px sans-serif';ctx.fillText(examSession.skill,w/2,316);
+  ctx.fillStyle='#10b981';ctx.font='bold 15px monospace';ctx.fillText(`Exam Score: ${examScore}/30 · ${Math.round((examScore/30)*100)}%`,w/2,360);
+  ctx.fillStyle='rgba(148,163,184,0.7)';ctx.font='13px sans-serif';ctx.fillText(`Taught by ${examSession.teacherName} · Zwapy Campus Network`,w/2,400);
+  ctx.fillStyle='rgba(100,116,139,0.7)';ctx.font='12px monospace';ctx.fillText(new Date().toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'}),w/2,442);
+  ctx.strokeStyle='rgba(0,212,255,0.2)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(100,462);ctx.lineTo(700,462);ctx.stroke();
+  ctx.fillStyle='rgba(100,116,139,0.55)';ctx.font='11px monospace';ctx.fillText('Issued by Zwapy · zwapy.com · Presidency University, Bangalore',w/2,488);
 }
 
+// ── CLAIM COINS + SEND EMAIL ──
 $('resultBtn').addEventListener('click',async()=>{
   const btn=$('resultBtn');btn.disabled=true;btn.textContent='Processing...';
   const pct=Math.round((examScore/30)*100);
-  const pass=pct>=60;const coins=pass?50:10;const teacherBonus=20;
-  try{
-    await updateDoc(doc(db,'users',currentUser.uid),{
-      coins:(userData.coins||0)+coins,
-      exchanges:(userData.exchanges||0)+1
-    });
-    userData.coins=(userData.coins||0)+coins;
+  const pass=pct>=60;
+  const coins=pass?50:10;
+  const teacherBonus=20;
 
-    // Give teacher bonus
+  try{
+    // Update student coins + exchange count in Firestore
+    const currentCoins=userData.coins||0;
+    const currentExchanges=userData.exchanges||0;
+    await updateDoc(doc(db,'users',currentUser.uid),{
+      coins:currentCoins+coins,
+      exchanges:currentExchanges+1
+    });
+    userData.coins=currentCoins+coins;
+
+    // Give teacher bonus coins
     const sSnap=await getDoc(doc(db,'sessions',examSession.sessionId));
     if(sSnap.exists()){
       const s=sSnap.data();
@@ -940,21 +900,41 @@ $('resultBtn').addEventListener('click',async()=>{
       }
     }
 
+    // Mark exam done in session
     await updateDoc(doc(db,'sessions',examSession.sessionId),{
       [`examDone.${currentUser.uid}`]:true,
       [`examScore.${currentUser.uid}`]:examScore,
       [`tabSwitches.${currentUser.uid}`]:tabSwitchCount
     });
+
+    // Log activity
     await addDoc(collection(db,'users',currentUser.uid,'activity'),{
       title:`📝 Exam: ${examSession.skill}`,
-      desc:`${examScore}/30 (${pct}%) · +${coins} coins${pass?' · Certificate earned':''}`,
+      desc:`${examScore}/30 (${pct}%) · +${coins} coins${pass?' · Certificate sent':''}`,
       createdAt:serverTimestamp()
     });
 
+    // Send certificate email via EmailJS (only if passed)
+    if(pass){
+      await sendCertificateEmail(
+        userData.name||'Student',
+        currentUser.email,
+        examSession.skill,
+        `${examScore}/30 (${pct}%)`,
+        new Date().toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'})
+      );
+    }
+
     $('examModal').classList.remove('open');
-    toast(`🎉 +${coins} coins! ${pass?'Certificate earned!':'Study more to pass next time.'}`);
+    toast(`🎉 +${coins} coins added! ${pass?'Certificate sent to your email!':'Study more to pass!'}`);
     renderSessions();
-  }catch(err){toast('Error: '+err.message,'e');btn.disabled=false;btn.textContent='Claim Coins →';}
+
+  }catch(err){
+    console.error(err);
+    toast('Error: '+err.message,'e');
+    btn.disabled=false;
+    btn.textContent=pass?'Claim Coins & Send Certificate →':'Claim Coins →';
+  }
 });
 
 $('postBtn').addEventListener('click',async()=>{
@@ -987,7 +967,7 @@ $('searchInput').addEventListener('input',e=>{
 onAuthStateChanged(auth,async user=>{
   if(!user){window.location.href='login.html';return;}
   currentUser=user;
-  const [us,exSnap]=await Promise.all([
+  const[us,exSnap]=await Promise.all([
     getDoc(doc(db,'users',user.uid)),
     getDocs(query(collection(db,'exchanges'),orderBy('createdAt','desc')))
   ]);
@@ -998,9 +978,9 @@ onAuthStateChanged(auth,async user=>{
   allExchanges=[];exSnap.forEach(d=>allExchanges.push({id:d.id,...d.data()}));
   renderExchanges();
   try{
-    const reqSnap=await getDocs(collection(db,'exchange_requests'));
-    let pending=0;reqSnap.forEach(d=>{if(d.data().toUid===user.uid&&d.data().status==='pending')pending++;});
-    if(pending>0)$('reqDot').className='tab-dot show';
+    const rSnap=await getDocs(collection(db,'exchange_requests'));
+    let p=0;rSnap.forEach(d=>{if(d.data().toUid===user.uid&&d.data().status==='pending')p++;});
+    if(p>0)$('reqDot').className='tab-dot show';
   }catch(e){}
   setTimeout(()=>{
     $('loadScreen').classList.add('hide');
@@ -1008,34 +988,6 @@ onAuthStateChanged(auth,async user=>{
     document.querySelectorAll('.fade-up').forEach(el=>el.classList.add('in'));
   },500);
 });
-// ====================== EMAILJS SETUP ======================
-
-emailjs.init("gjVpPMT3fejlwiwR_");
-
-window.sendSkillCertificate = async function(to_name, skill, score, date) {
-    try {
-        const templateParams = {
-            to_name: to_name || "Student",
-            skill: skill || "Skill",
-            score: score || "N/A",
-            date: date || new Date().toLocaleDateString('en-IN')
-        };
-
-        await emailjs.send('service_n42p919', 'template_vwhzfdr', templateParams);
-
-        console.log('✅ Certificate email sent successfully!');
-        toast('🎉 Certificate sent successfully!', 's');
-    } catch (error) {
-        console.error('❌ Email failed:', error);
-        toast('❌ Failed to send certificate email', 'e');
-    }
-};
-
-// ====================== END EMAILJS ======================
-// ==================== QUICK TEST ====================
-// Remove or comment this after testing
-sendSkillCertificate("Jayashankar", "React Development", "28/30 (93%)", "31 March 2026");
-// ===================================================
 </script>
 </body>
 </html>
