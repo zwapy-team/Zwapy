@@ -3,75 +3,70 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-THCGY8NH1Z"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-THCGY8NH1Z');
-</script>
 <title>Complete Your Profile | Zwapy</title>
-<link rel="preconnect" href="https://www.gstatic.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script>window.addEventListener('load',()=>emailjs.init("gjVpPMT3fejlwiwR_"));</script>
 <style>
 :root{--cyan:#00D4FF;--bg:#010114;--border:rgba(0,212,255,0.12);--muted:#64748b;--dim:#94a3b8;--green:#10b981;--amber:#f59e0b;--red:#ef4444;}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:100vh;overflow-x:hidden;}
 .bg-glow{position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse 60% 40% at 20% 10%,rgba(0,212,255,0.05) 0%,transparent 60%),radial-gradient(ellipse 40% 40% at 80% 80%,rgba(16,185,129,0.03) 0%,transparent 60%);}
 .layout{position:relative;z-index:10;max-width:520px;margin:0 auto;padding:40px 20px 60px;}
-
 .logo-wrap{text-align:center;margin-bottom:32px;}
 .logo-text{font-size:1.8rem;font-weight:900;font-style:italic;color:var(--cyan);}
 .logo-sub{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-top:4px;}
 
+/* Version banner — shown when updating profile for new features */
+.version-banner{background:rgba(245,158,11,0.07);border:1px solid rgba(245,158,11,0.22);border-radius:14px;padding:14px 18px;margin-bottom:22px;font-size:.78rem;color:var(--dim);line-height:1.6;display:none;}
+.version-banner.show{display:block;}
+.version-banner strong{color:var(--amber);}
+
 .card{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:24px;padding:28px;margin-bottom:16px;}
 .card-title{font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan);opacity:.7;margin-bottom:18px;}
-
 .field{margin-bottom:14px;}
 .field label{display:block;font-size:.6rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin-bottom:5px;}
 .field input,.field select,.field textarea{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px 14px;font-size:.86rem;color:white;font-family:'Sora',sans-serif;outline:none;transition:border-color .2s;-webkit-appearance:none;}
 .field input::placeholder,.field textarea::placeholder{color:var(--muted);}
 .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--cyan);}
+.field input:disabled{opacity:.5;cursor:not-allowed;background:rgba(255,255,255,0.02);}
 .field select option{background:#020024;}
 .field textarea{resize:vertical;min-height:72px;line-height:1.5;}
 .field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 @media(max-width:480px){.field-row{grid-template-columns:1fr;}}
 
-/* University email section */
+/* University email */
 .uni-email-box{background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.16);border-radius:12px;padding:14px;margin-bottom:14px;}
 .uni-email-label{font-size:.68rem;font-weight:700;color:var(--cyan);margin-bottom:6px;display:flex;align-items:center;gap:6px;}
-.uni-email-label span{font-family:'Space Mono',monospace;font-size:.48rem;letter-spacing:.1em;text-transform:uppercase;background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.2);padding:2px 7px;border-radius:100px;}
+.req-badge{font-family:'Space Mono',monospace;font-size:.48rem;letter-spacing:.1em;text-transform:uppercase;background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.2);padding:2px 7px;border-radius:100px;color:var(--cyan);}
 .uni-email-hint{font-size:.66rem;color:var(--muted);line-height:1.5;margin-bottom:10px;}
 .uni-email-hint strong{color:white;}
 .verify-row{display:flex;gap:8px;}
 .verify-row input{flex:1;}
-.send-otp-btn{background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.25);border-radius:10px;padding:12px 14px;font-size:.7rem;font-weight:800;color:var(--cyan);cursor:pointer;font-family:'Sora',sans-serif;white-space:nowrap;transition:all .2s;flex-shrink:0;}
-.send-otp-btn:hover{background:rgba(0,212,255,0.2);}
+.send-otp-btn{background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.25);border-radius:10px;padding:12px 14px;font-size:.7rem;font-weight:800;color:var(--cyan);cursor:pointer;font-family:'Sora',sans-serif;white-space:nowrap;flex-shrink:0;}
 .send-otp-btn:disabled{opacity:.5;cursor:not-allowed;}
 .otp-row{display:flex;gap:8px;margin-top:10px;}
 .otp-row input{flex:1;letter-spacing:.2em;text-align:center;font-family:'Space Mono',monospace;font-size:1.1rem;}
 .verify-otp-btn{background:var(--green);color:#000;border:none;border-radius:10px;padding:12px 14px;font-size:.7rem;font-weight:800;cursor:pointer;font-family:'Sora',sans-serif;flex-shrink:0;}
 .verified-badge{display:flex;align-items:center;gap:6px;font-size:.72rem;color:var(--green);font-weight:700;margin-top:8px;}
 
-/* Skills tags */
-.skills-wrap{display:flex;flex-wrap:wrap;gap:7px;margin-top:7px;}
-.skill-tag{display:flex;align-items:center;gap:5px;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.22);border-radius:100px;padding:5px 12px;font-size:.72rem;font-weight:700;color:var(--cyan);}
-.skill-tag button{background:none;border:none;color:rgba(0,212,255,0.5);cursor:pointer;font-size:.8rem;line-height:1;padding:0;}
-.skill-tag button:hover{color:var(--red);}
+/* Skills */
 .skill-input-row{display:flex;gap:8px;margin-bottom:8px;}
 .skill-input-row input{flex:1;}
 .add-skill-btn{background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.22);border-radius:10px;padding:11px 14px;font-size:.7rem;font-weight:800;color:var(--cyan);cursor:pointer;font-family:'Sora',sans-serif;white-space:nowrap;}
+.skills-wrap{display:flex;flex-wrap:wrap;gap:7px;margin-top:7px;}
+.skill-tag{display:flex;align-items:center;gap:5px;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.22);border-radius:100px;padding:5px 12px;font-size:.72rem;font-weight:700;color:var(--cyan);}
+.skill-tag button{background:none;border:none;color:rgba(0,212,255,0.5);cursor:pointer;font-size:.8rem;line-height:1;padding:0;}
 
 .note-box{background:rgba(245,158,11,0.05);border:1px solid rgba(245,158,11,0.15);border-radius:11px;padding:12px 14px;font-size:.7rem;color:var(--dim);line-height:1.6;margin-bottom:16px;}
 .note-box strong{color:var(--amber);}
 
+.progress-bar{height:3px;background:rgba(0,212,255,0.08);border-radius:100px;margin-bottom:28px;overflow:hidden;}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--cyan),var(--green));border-radius:100px;transition:width .4s ease;}
+
 .submit-btn{width:100%;background:linear-gradient(135deg,var(--cyan),#0099bb);color:#000;border:none;border-radius:12px;padding:15px;font-size:.88rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;font-family:'Sora',sans-serif;transition:all .22s;margin-top:8px;}
 .submit-btn:hover{box-shadow:0 0 24px rgba(0,212,255,.35);}
 .submit-btn:disabled{opacity:.5;cursor:not-allowed;}
-
-.progress-bar{height:3px;background:rgba(0,212,255,0.08);border-radius:100px;margin-bottom:28px;overflow:hidden;}
-.progress-fill{height:100%;background:linear-gradient(90deg,var(--cyan),var(--green));border-radius:100px;transition:width .4s ease;}
 
 .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(10px);border-radius:100px;padding:9px 18px;font-size:.72rem;font-weight:700;z-index:5000;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap;max-width:90vw;text-align:center;}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
@@ -88,13 +83,18 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:1
 <div class="layout">
   <div class="logo-wrap">
     <div class="logo-text">ZWAPY</div>
-    <div class="logo-sub">Complete your profile</div>
+    <div class="logo-sub" id="pageSubtitle">Complete your profile</div>
+  </div>
+
+  <!-- Shown when re-filling for a new feature update -->
+  <div class="version-banner" id="versionBanner">
+    🚀 <strong>Zwapy just added new features!</strong> Please fill in the new details below to unlock them. Your existing coins, exchanges, and history are all safe — nothing was deleted.
   </div>
 
   <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:10%"></div></div>
 
-  <!-- BASIC INFO -->
-  <div class="card">
+  <!-- PERSONAL INFO -->
+  <div class="card" id="personalCard">
     <div class="card-title">// Personal Info</div>
     <div class="field">
       <label>Full Name *</label>
@@ -112,14 +112,14 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:1
     </div>
   </div>
 
-  <!-- UNIVERSITY EMAIL — Security -->
+  <!-- UNIVERSITY EMAIL VERIFICATION -->
   <div class="card">
     <div class="card-title">// University Email Verification</div>
     <div class="uni-email-box">
-      <div class="uni-email-label">🎓 Student Email Verification <span>Required</span></div>
+      <div class="uni-email-label">🎓 Student Email <span class="req-badge">Security</span></div>
       <div class="uni-email-hint">
-        Enter your <strong>official university email</strong> (e.g. <strong>yourname@presidency.edu.in</strong>).<br>
-        This verifies you are a real student. We will send a 6-digit OTP to confirm.
+        Enter your <strong>official university email</strong> (e.g. yourname@presidency.edu.in).<br>
+        This verifies you are a real student. We send a 6-digit OTP to confirm.
       </div>
       <div class="verify-row">
         <input type="email" id="uniEmail" placeholder="yourname@presidency.edu.in"/>
@@ -127,20 +127,20 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:1
       </div>
       <div id="otpSection" style="display:none;">
         <div class="otp-row">
-          <input type="text" id="otpInput" maxlength="6" placeholder="Enter 6-digit OTP"/>
+          <input type="text" id="otpInput" maxlength="6" placeholder="6-digit OTP"/>
           <button class="verify-otp-btn" onclick="verifyOTP()">Verify</button>
         </div>
       </div>
       <div class="verified-badge" id="verifiedBadge" style="display:none;">✅ University email verified</div>
     </div>
     <div class="field">
-      <label>Personal Email (shown on profile)</label>
-      <input type="email" id="personalEmail" readonly placeholder="Auto-filled from your account"/>
+      <label>Personal Email</label>
+      <input type="email" id="personalEmail" disabled/>
     </div>
   </div>
 
   <!-- UNIVERSITY INFO -->
-  <div class="card">
+  <div class="card" id="uniCard">
     <div class="card-title">// Academic Details</div>
     <div class="field">
       <label>University *</label>
@@ -168,7 +168,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:1
   <!-- SKILLS -->
   <div class="card">
     <div class="card-title">// Your Skills</div>
-    <p style="font-size:.72rem;color:var(--dim);margin-bottom:12px;line-height:1.5;">Add skills you can teach and skills you want to learn. These appear on your profile and power the skill exchange matching.</p>
+    <p style="font-size:.72rem;color:var(--dim);margin-bottom:12px;line-height:1.5;">Add skills you can teach others, and skills you want to learn. These power the skill exchange matching.</p>
     <div class="skill-input-row">
       <input type="text" id="skillInput" placeholder="e.g. Python, UI Design, Video Editing..." onkeydown="if(event.key==='Enter'){event.preventDefault();addSkill();}"/>
       <button class="add-skill-btn" onclick="addSkill()">+ Add</button>
@@ -185,9 +185,9 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:1
     </div>
   </div>
 
-  <!-- PROFILE PHOTO NOTE -->
+  <!-- PHOTO NOTE -->
   <div class="note-box">
-    <strong>📸 Profile Photo</strong> — Profile photo upload is available in the <strong>app version</strong>. For now your avatar is auto-generated. You can update your photo after app launch from your profile settings.
+    <strong>📸 Profile Photo</strong> — Photo upload is in the <strong>app version</strong>. Your avatar is auto-generated for now. Update it after app launch from profile settings.
   </div>
 
   <button class="submit-btn" id="submitBtn" onclick="submitProfile()">Complete Profile & Enter Zwapy →</button>
@@ -196,7 +196,17 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:1
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
 import { getAuth, onAuthStateChanged, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+import {
+  getFirestore, doc, setDoc, getDoc, updateDoc,
+  serverTimestamp, collection, addDoc, getDocs, query, where
+} from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+
+// ── PROFILE VERSION ──
+// Bump this number whenever you add new required fields to extra-details.
+// Everyone whose saved version is lower will be redirected here automatically on next login.
+// Current features: v1 = basic info, uni email, skills
+// When you add new section (e.g. internship preferences): change to 2
+const CURRENT_PROFILE_VERSION = 1;
 
 const app=initializeApp({apiKey:"AIzaSyBazCIc5vdQInSwvqvohIcbPToTjnw7KJI",authDomain:"zwapy-25.firebaseapp.com",projectId:"zwapy-25",storageBucket:"zwapy-25.firebasestorage.app",messagingSenderId:"30612332450",appId:"1:30612332450:web:9e23f36a69f89dbb325cfb"});
 const auth=getAuth(app);const db=getFirestore(app);
@@ -207,6 +217,8 @@ let currentUser=null;
 let skills=[];
 let emailVerified=false;
 let otpCode='';
+let existingUserData={}; // store existing data so we don't overwrite coins/exchanges
+let isUpdateMode=false; // true when re-filling for version update
 
 function toast(msg,type='s'){const t=$('toast');t.textContent=msg;t.className=`toast ${type} show`;setTimeout(()=>t.className='toast',3500);}
 
@@ -219,8 +231,7 @@ document.querySelectorAll('input,select,textarea').forEach(el=>el.addEventListen
 
 // Skills
 window.addSkill=function(){
-  const v=$('skillInput').value.trim();
-  if(!v)return;
+  const v=$('skillInput').value.trim();if(!v)return;
   if(skills.includes(v)){toast('Already added','e');return;}
   skills.push(v);$('skillInput').value='';renderSkills();
 };
@@ -229,30 +240,23 @@ function renderSkills(){
 }
 window.removeSkill=function(s){skills=skills.filter(x=>x!==s);renderSkills();};
 
-// OTP via EmailJS
+// OTP
 window.sendOTP=async function(){
   const email=$('uniEmail').value.trim();
-  if(!email){toast('Enter your university email first','e');return;}
-  if(!email.includes('@')||!email.includes('.')){toast('Invalid email format','e');return;}
-
+  if(!email||!email.includes('@')){toast('Enter a valid university email','e');return;}
   const btn=$('sendOtpBtn');btn.disabled=true;btn.textContent='Sending...';
   otpCode=Math.floor(100000+Math.random()*900000).toString();
-
   try{
-    // Send OTP via EmailJS
     await emailjs.send('service_n42p919','template_vwhzfdr',{
-      to_email:email,
-      to_name:'Student',
-      skill:'Email Verification',
+      to_email:email,to_name:'Student',
+      skill:'Email Verification OTP',
       score:otpCode,
-      date:`Your OTP is: ${otpCode} — expires in 10 minutes.`
+      date:`Your OTP is: ${otpCode} — valid for 10 minutes. Do not share this.`
     });
     $('otpSection').style.display='block';
     btn.textContent='Resend OTP';btn.disabled=false;
     toast('OTP sent to your university email!');
   }catch(e){
-    // If EmailJS template doesn't support this, still show OTP field
-    // For testing — store OTP in sessionStorage
     sessionStorage.setItem('zwapyOTP',otpCode);
     $('otpSection').style.display='block';
     btn.textContent='Resend OTP';btn.disabled=false;
@@ -270,9 +274,7 @@ window.verifyOTP=function(){
     $('sendOtpBtn').style.display='none';
     $('uniEmail').readOnly=true;
     toast('✅ University email verified!');
-  } else {
-    toast('Wrong OTP. Try again.','e');
-  }
+  }else{toast('Wrong OTP. Try again.','e');}
 };
 
 window.submitProfile=async function(){
@@ -297,44 +299,147 @@ window.submitProfile=async function(){
   const btn=$('submitBtn');btn.disabled=true;btn.textContent='Saving...';
 
   try{
-    await setDoc(doc(db,'users',currentUser.uid),{
+    // Build profile data — preserve existing coins, exchanges, referrals, etc.
+    const profileData={
       name,dob,phone,
       email:currentUser.email,
       universityEmail:uniEmail,
       universityEmailVerified:emailVerified,
-      university,course,yearOfPassout:parseInt(year),
+      university,course,
+      yearOfPassout:parseInt(year),
       linkedin:$('linkedin').value.trim(),
       skills,
       bio:$('bio').value.trim(),
-      role:'student',
-      coins:20, // 20 welcome coins
-      coinDebt:0,
-      exchanges:0,
-      photoURL:'',
-      createdAt:serverTimestamp()
-    },{merge:true});
+      role:existingUserData.role||'Student',
+      photoURL:existingUserData.photoURL||'',
+      // Preserve existing coins and stats — never overwrite them
+      coins:existingUserData.coins !== undefined ? existingUserData.coins : 20,
+      coinDebt:existingUserData.coinDebt||0,
+      exchanges:existingUserData.exchanges||0,
+      referrals:existingUserData.referrals||0,
+      referralCode:existingUserData.referralCode||(currentUser.uid.substring(0,8).toUpperCase()),
+      // Set profile version to current — so they don't get redirected again
+      profileVersion:CURRENT_PROFILE_VERSION,
+      updatedAt:serverTimestamp()
+    };
+
+    // Only set createdAt if this is a brand new profile
+    if(!existingUserData.createdAt){
+      profileData.createdAt=serverTimestamp();
+    }
+
+    await setDoc(doc(db,'users',currentUser.uid),profileData,{merge:true});
+
+    // ── REFERRAL PROCESSING ──
+    // Only process referral if this is a NEW user (no referredBy yet)
+    // and they signed up via a referral link
+    const storedRef=sessionStorage.getItem('zwapyRef');
+    const alreadyReferred=existingUserData.referredBy;
+
+    if(storedRef && !alreadyReferred) {
+      try{
+        // Find referrer by their referralCode
+        const refQ=await getDocs(query(collection(db,'users'),where('referralCode','==',storedRef)));
+        if(!refQ.empty){
+          const referrerDoc=refQ.docs[0];
+          const referrerId=referrerDoc.id;
+          const referrerData=referrerDoc.data();
+
+          // Must be a different person
+          if(referrerId!==currentUser.uid){
+            // Inviter gets +2 coins
+            await updateDoc(doc(db,'users',referrerId),{
+              coins:(referrerData.coins||0)+2,
+              referrals:(referrerData.referrals||0)+1
+            });
+            // New user gets +1 coin on top of their 20 welcome coins
+            await updateDoc(doc(db,'users',currentUser.uid),{
+              coins:profileData.coins+1,
+              referredBy:referrerId
+            });
+            // Log for referrer
+            await addDoc(collection(db,'users',referrerId,'activity'),{
+              title:`🎉 ${name} joined using your invite!`,
+              desc:'+2 Skill Coins added to your account',
+              createdAt:serverTimestamp()
+            });
+            // Log for new user
+            await addDoc(collection(db,'users',currentUser.uid,'activity'),{
+              title:'🎁 Welcome bonus from referral!',
+              desc:'+1 Skill Coin from invite',
+              createdAt:serverTimestamp()
+            });
+          }
+        }
+      }catch(refErr){console.log('Referral error:',refErr);}
+      sessionStorage.removeItem('zwapyRef');
+    }
 
     toast('✅ Profile saved! Welcome to Zwapy!');
     setTimeout(()=>window.location.href='dashboard.html',1200);
+
   }catch(err){
     toast('Error: '+err.message,'e');
     btn.disabled=false;btn.textContent='Complete Profile & Enter Zwapy →';
   }
 };
 
+// ── AUTH ──
+// Save referral code from URL before auth check
+const refCode=new URLSearchParams(window.location.search).get('ref');
+if(refCode)sessionStorage.setItem('zwapyRef',refCode);
+
 onAuthStateChanged(auth,async user=>{
   if(!user){window.location.href='login.html';return;}
   currentUser=user;
-  // Check if already completed
-  const snap=await getDoc(doc(db,'users',user.uid));
-  if(snap.exists()&&snap.data().name){
-    window.location.href='dashboard.html';return;
-  }
+
   $('personalEmail').value=user.email||'';
+
+  const snap=await getDoc(doc(db,'users',user.uid));
+  if(snap.exists()){
+    existingUserData=snap.data();
+    const savedVersion=existingUserData.profileVersion||0;
+
+    // If profile is already at current version — go to dashboard
+    if(savedVersion>=CURRENT_PROFILE_VERSION && existingUserData.name){
+      window.location.href='dashboard.html';
+      return;
+    }
+
+    // Profile exists but version is outdated — pre-fill existing values
+    isUpdateMode=true;
+    $('versionBanner').classList.add('show');
+    $('pageSubtitle').textContent='Update your profile — new features added';
+    document.querySelector('.logo-sub').textContent='Update your profile';
+
+    // Pre-fill all existing values so user doesn't have to retype everything
+    if(existingUserData.name)$('fullName').value=existingUserData.name;
+    if(existingUserData.dob)$('dob').value=existingUserData.dob;
+    if(existingUserData.phone)$('phone').value=existingUserData.phone;
+    if(existingUserData.university)$('university').value=existingUserData.university;
+    if(existingUserData.course)$('course').value=existingUserData.course;
+    if(existingUserData.yearOfPassout)$('yearOfPassout').value=existingUserData.yearOfPassout;
+    if(existingUserData.linkedin)$('linkedin').value=existingUserData.linkedin;
+    if(existingUserData.bio)$('bio').value=existingUserData.bio;
+    if(existingUserData.universityEmail){
+      $('uniEmail').value=existingUserData.universityEmail;
+      if(existingUserData.universityEmailVerified){
+        emailVerified=true;
+        $('uniEmail').readOnly=true;
+        $('sendOtpBtn').style.display='none';
+        $('verifiedBadge').style.display='flex';
+      }
+    }
+    if(existingUserData.skills&&existingUserData.skills.length){
+      skills=[...existingUserData.skills];
+      renderSkills();
+    }
+
+    // Change button text for update mode
+    $('submitBtn').textContent='Update Profile & Continue →';
+  }
+  // New user — fresh form, default state
 });
 </script>
-<!-- EmailJS for OTP -->
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-<script>window.addEventListener('load',()=>emailjs.init("gjVpPMT3fejlwiwR_"));</script>
 </body>
 </html>

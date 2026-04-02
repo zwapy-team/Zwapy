@@ -34,19 +34,15 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .card{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:22px;padding:28px;margin-bottom:16px;position:relative;overflow:hidden;transition:border-color .3s;}
 .card:hover{border-color:rgba(0,212,255,0.15);}
 .card-title{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--cyan);opacity:.7;margin-bottom:18px;}
-
-/* Identity */
 .avatar-section{display:flex;align-items:center;gap:22px;flex-wrap:wrap;}
 .avatar-wrap{position:relative;flex-shrink:0;}
 .avatar-img{width:90px;height:90px;border-radius:50%;border:3px solid rgba(0,212,255,0.25);object-fit:cover;display:block;}
-.avatar-app-note{position:absolute;bottom:0;right:-4px;background:rgba(0,212,255,0.12);border:1px solid rgba(0,212,255,0.28);border-radius:100px;padding:2px 7px;font-family:'Space Mono',monospace;font-size:.42rem;color:var(--cyan);white-space:nowrap;letter-spacing:.06em;}
+.avatar-app-note{position:absolute;bottom:0;right:-4px;background:rgba(0,212,255,0.12);border:1px solid rgba(0,212,255,0.28);border-radius:100px;padding:2px 7px;font-family:'Space Mono',monospace;font-size:.42rem;color:var(--cyan);white-space:nowrap;}
 .avatar-info h3{font-size:1.1rem;font-weight:800;font-style:italic;margin-bottom:3px;}
 .avatar-info p{font-size:.75rem;color:var(--muted);line-height:1.5;}
 .tag{display:inline-block;font-family:'Space Mono',monospace;font-size:.6rem;border-radius:100px;padding:3px 10px;margin-top:5px;}
 .tag-cyan{background:rgba(0,212,255,0.07);border:1px solid rgba(0,212,255,0.15);color:var(--cyan);}
 .tag-green{background:rgba(16,185,129,0.07);border:1px solid rgba(16,185,129,0.15);color:var(--green);margin-left:5px;}
-
-/* Stats */
 .stats-mini{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
 .stat-mini{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:16px;padding:16px 14px;text-align:center;}
 .sm-val{font-family:'Space Mono',monospace;font-size:1.5rem;font-weight:700;line-height:1;margin-bottom:3px;}
@@ -54,15 +50,11 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .sm-val.g{color:var(--green);}
 .sm-val.i{color:var(--indigo);}
 .sm-label{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);}
-
-/* Read-only info rows */
 .info-row{display:flex;align-items:flex-start;justify-content:space-between;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.05);gap:16px;}
 .info-row:last-child{border-bottom:none;padding-bottom:0;}
 .ir-label{font-family:'Space Mono',monospace;font-size:.54rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);flex-shrink:0;margin-top:2px;}
 .ir-val{font-size:.82rem;font-weight:600;color:white;text-align:right;}
 .ir-note{font-size:.6rem;color:var(--muted);text-align:right;margin-top:2px;}
-
-/* Edit fields */
 .field{margin-bottom:18px;}
 .field label{display:block;font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-bottom:7px;}
 .field input,.field select,.field textarea{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:13px 16px;font-size:.9rem;color:white;font-family:'Sora',sans-serif;outline:none;transition:border-color .2s;-webkit-appearance:none;}
@@ -70,8 +62,6 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--cyan);}
 .field select option{background:#020024;}
 .field textarea{resize:vertical;min-height:80px;line-height:1.6;}
-
-/* Skills */
 .skills-wrap{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:10px 12px;min-height:52px;display:flex;flex-wrap:wrap;gap:7px;align-items:center;cursor:text;transition:border-color .2s;}
 .skills-wrap:focus-within{border-color:var(--cyan);}
 .skill-chip{display:flex;align-items:center;gap:5px;background:rgba(0,212,255,0.09);border:1px solid rgba(0,212,255,0.2);border-radius:100px;padding:4px 11px;font-size:.68rem;font-weight:700;color:var(--cyan);white-space:nowrap;}
@@ -79,8 +69,6 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .skill-chip button:hover{opacity:1;}
 .skill-input{background:none;border:none;outline:none;color:white;font-family:'Sora',sans-serif;font-size:.85rem;min-width:120px;flex:1;}
 .skill-input::placeholder{color:var(--muted);}
-
-/* Referral */
 .ref-card{background:linear-gradient(135deg,rgba(245,158,11,0.06),rgba(2,0,36,0.9));border:1px solid rgba(245,158,11,0.2);border-radius:22px;padding:26px 28px;margin-bottom:16px;}
 .ref-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px;}
 .ref-title{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);opacity:.8;}
@@ -95,24 +83,23 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .ref-stat-box{flex:1;min-width:100px;background:rgba(245,158,11,0.05);border:1px solid rgba(245,158,11,0.14);border-radius:12px;padding:12px 14px;text-align:center;}
 .rsb-val{font-family:'Space Mono',monospace;font-size:1.3rem;font-weight:700;color:var(--amber);line-height:1;margin-bottom:3px;}
 .rsb-label{font-size:.58rem;color:var(--muted);}
-
 .save-btn{width:100%;background:var(--cyan);color:#000;border:none;border-radius:13px;padding:15px;font-size:.88rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:all .25s;margin-top:4px;position:relative;overflow:hidden;}
 .save-btn:hover{box-shadow:0 0 24px rgba(0,212,255,.4);}
 .save-btn:disabled{opacity:.5;cursor:not-allowed;}
 
-.danger-card{background:rgba(239,68,68,0.04);border:1px solid rgba(239,68,68,0.12);border-radius:22px;padding:24px 28px;margin-bottom:16px;}
-.danger-title{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--red);opacity:.7;margin-bottom:14px;}
-.danger-row{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
-.danger-text h4{font-size:.88rem;font-weight:700;margin-bottom:3px;}
-.danger-text p{font-size:.74rem;color:var(--muted);}
-.logout-btn{display:flex;align-items:center;gap:8px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:10px;padding:10px 18px;font-size:.75rem;font-weight:800;text-transform:uppercase;color:var(--red);cursor:pointer;font-family:'Sora',sans-serif;}
-.logout-btn:hover{background:rgba(239,68,68,0.16);}
+/* Sign out — normal, not scary */
+.signout-card{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.07);border-radius:22px;padding:24px 28px;margin-bottom:16px;}
+.signout-title{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);opacity:.7;margin-bottom:14px;}
+.signout-row{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.signout-text h4{font-size:.88rem;font-weight:700;margin-bottom:3px;}
+.signout-text p{font-size:.74rem;color:var(--muted);}
+.signout-btn{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:10px 18px;font-size:.75rem;font-weight:800;text-transform:uppercase;color:var(--dim);cursor:pointer;transition:all .25s;font-family:'Sora',sans-serif;}
+.signout-btn:hover{background:rgba(255,255,255,0.08);color:white;border-color:rgba(255,255,255,0.2);}
 
 .toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);border-radius:100px;padding:10px 22px;font-size:.78rem;font-weight:700;z-index:3000;opacity:0;transition:all .35s;pointer-events:none;white-space:nowrap;max-width:90vw;text-align:center;}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 .toast.s{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,.28);color:var(--green);}
 .toast.e{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,.28);color:var(--red);}
-
 .bottom-nav{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:380px;background:rgba(2,0,36,0.95);backdrop-filter:blur(28px);border:1px solid rgba(0,212,255,0.14);border-radius:100px;padding:7px 12px;display:flex;justify-content:space-around;align-items:center;z-index:500;box-shadow:0 8px 32px rgba(0,0,0,.6);}
 .nav-item{width:42px;height:42px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:all .22s;text-decoration:none;color:var(--muted);font-size:1.1rem;}
 .nav-item.active{background:rgba(0,212,255,0.11);color:var(--cyan);}
@@ -144,7 +131,6 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
     <h1 class="page-title">Profile</h1>
   </div>
 
-  <!-- IDENTITY — display only, no edit button on name/email -->
   <div class="card fade-up d1">
     <div class="card-title">// Identity</div>
     <div class="avatar-section">
@@ -161,27 +147,24 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
     </div>
   </div>
 
-  <!-- STATS -->
   <div class="stats-mini fade-up d2">
     <div class="stat-mini"><div class="sm-val c" id="statCoins">—</div><div class="sm-label">Skill Coins</div></div>
     <div class="stat-mini"><div class="sm-val g" id="statExchanges">0</div><div class="sm-label">Exchanges</div></div>
     <div class="stat-mini"><div class="sm-val i" id="statRank">#—</div><div class="sm-label">Rank</div></div>
   </div>
 
-  <!-- READ-ONLY account info -->
   <div class="card fade-up d2">
-    <div class="card-title">// Account Info <span style="font-size:.5rem;font-weight:400;text-transform:none;letter-spacing:0;color:var(--muted);">— to change name/university contact zwapyteam@gmail.com</span></div>
+    <div class="card-title">// Account Info <span style="font-size:.5rem;font-weight:400;text-transform:none;letter-spacing:0;color:var(--muted);">— to change, email zwapyteam@gmail.com</span></div>
     <div class="info-row"><div class="ir-label">Name</div><div><div class="ir-val" id="roName">—</div></div></div>
     <div class="info-row"><div class="ir-label">University</div><div><div class="ir-val" id="roUni">—</div></div></div>
     <div class="info-row"><div class="ir-label">Course</div><div><div class="ir-val" id="roCourse">—</div></div></div>
-    <div class="info-row"><div class="ir-label">Email</div><div><div class="ir-val" id="roEmail">—</div><div class="ir-note">Linked to login · cannot change</div></div></div>
+    <div class="info-row"><div class="ir-label">Email</div><div><div class="ir-val" id="roEmail">—</div><div class="ir-note">Linked to login</div></div></div>
     <div class="info-row"><div class="ir-label">Uni Email</div><div><div class="ir-val" id="roUniEmail">—</div><div class="ir-note" id="roUniStatus"></div></div></div>
+    <div class="info-row"><div class="ir-label">Profile Ver.</div><div><div class="ir-val" id="roVersion">—</div><div class="ir-note">Auto-updates when Zwapy adds new features</div></div></div>
   </div>
 
-  <!-- EDITABLE: role, bio, skills, linkedin only -->
   <div class="card fade-up d3">
     <div class="card-title">// Edit Profile</div>
-
     <div class="field">
       <label>Role / Title</label>
       <select id="fieldRole">
@@ -195,37 +178,33 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
         <option value="Entrepreneur">Entrepreneur</option>
       </select>
     </div>
-
     <div class="field">
       <label>LinkedIn (optional)</label>
       <input type="url" id="fieldLinkedin" placeholder="https://linkedin.com/in/yourprofile"/>
     </div>
-
     <div class="field">
       <label>Bio</label>
       <textarea id="fieldBio" placeholder="Tell others what you're building, learning, or interested in..."></textarea>
     </div>
-
     <div class="field">
       <label>Skills <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:.62rem;color:var(--muted);">(Enter or comma to add)</span></label>
       <div class="skills-wrap" id="skillsWrap">
         <input class="skill-input" id="skillInput" placeholder="Add a skill..."/>
       </div>
     </div>
-
     <button class="save-btn" id="saveBtn">Save Changes</button>
   </div>
 
-  <!-- REFERRAL SYSTEM -->
+  <!-- REFERRAL -->
   <div class="ref-card fade-up d4">
     <div class="ref-head">
       <div class="ref-title">// Invite & Earn</div>
-      <div class="ref-badge">💰 +2 Coins per invite</div>
+      <div class="ref-badge">💰 You get +2 · Friend gets +1</div>
     </div>
-    <p class="ref-desc">Share your invite link. When a friend signs up on Zwapy using your link, <strong>you get +2 Skill Coins</strong> and <strong>they get +2 Skill Coins</strong> as a welcome bonus. Both win.</p>
+    <p class="ref-desc">Share your invite link. When someone new joins Zwapy using your link, <strong>you earn +2 Skill Coins</strong> and <strong>they get +1 coin</strong> as a welcome bonus. Only works for brand new accounts.</p>
     <div class="ref-link-box">
       <span class="ref-link-text" id="refLink">Generating...</span>
-      <button class="copy-btn" id="copyRefBtn">📋 Copy Link</button>
+      <button class="copy-btn" id="copyRefBtn">📋 Copy</button>
     </div>
     <div class="ref-stats">
       <div class="ref-stat-box"><div class="rsb-val" id="refCount">0</div><div class="rsb-label">Friends Invited</div></div>
@@ -233,12 +212,15 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
     </div>
   </div>
 
-  <!-- DANGER -->
-  <div class="danger-card fade-up d5">
-    <div class="danger-title">// Account</div>
-    <div class="danger-row">
-      <div class="danger-text"><h4>Sign Out</h4><p>You'll be redirected to the login page.</p></div>
-      <button class="logout-btn" id="logoutBtn">🚪 &nbsp;Sign Out</button>
+  <!-- SIGN OUT — normal, no drama, data is kept -->
+  <div class="signout-card fade-up d5">
+    <div class="signout-title">// Session</div>
+    <div class="signout-row">
+      <div class="signout-text">
+        <h4>Sign Out</h4>
+        <p>Your data and coins are saved. Sign back in anytime with the same Google account.</p>
+      </div>
+      <button class="signout-btn" id="logoutBtn">🚪 &nbsp;Sign Out</button>
     </div>
   </div>
 </div>
@@ -253,8 +235,8 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
-import { getAuth, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
-import { getFirestore, doc, getDoc, updateDoc, getDocs, collection, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+import { getFirestore, doc, getDoc, updateDoc, getDocs, collection } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
 const app=initializeApp({apiKey:"AIzaSyBazCIc5vdQInSwvqvohIcbPToTjnw7KJI",authDomain:"zwapy-25.firebaseapp.com",projectId:"zwapy-25",storageBucket:"zwapy-25.firebasestorage.app",messagingSenderId:"30612332450",appId:"1:30612332450:web:9e23f36a69f89dbb325cfb"});
 const auth=getAuth(app);const db=getFirestore(app);
@@ -273,10 +255,7 @@ function renderSkills(){
     $('skillsWrap').insertBefore(chip,$('skillInput'));
   });
 }
-function addSkill(val){
-  const s=val.trim().replace(/,$/,'').trim();if(!s||skills.includes(s))return;
-  skills.push(s);renderSkills();$('skillInput').value='';
-}
+function addSkill(val){const s=val.trim().replace(/,$/,'').trim();if(!s||skills.includes(s))return;skills.push(s);renderSkills();$('skillInput').value='';}
 $('skillInput').addEventListener('keydown',e=>{
   if(e.key==='Enter'){e.preventDefault();addSkill($('skillInput').value);}
   if(e.key===','){e.preventDefault();addSkill($('skillInput').value);}
@@ -301,13 +280,11 @@ onAuthStateChanged(auth,async user=>{
   const exchanges=ud.exchanges||0;
   const userSkills=ud.skills||[];
   const photoURL=ud.photoURL||user.photoURL||`https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(name)}`;
-
-  // Generate referral code if not exists
   const referralCode=ud.referralCode||(user.uid.substring(0,8).toUpperCase());
-  if(!ud.referralCode){
-    try{await updateDoc(doc(db,'users',user.uid),{referralCode});}catch(e){}
-  }
   const referrals=ud.referrals||0;
+  const profileVersion=ud.profileVersion||1;
+
+  if(!ud.referralCode){try{await updateDoc(doc(db,'users',user.uid),{referralCode});}catch(e){}}
 
   // Identity
   $('displayName').textContent=name;
@@ -323,6 +300,7 @@ onAuthStateChanged(auth,async user=>{
   $('roEmail').textContent=user.email;
   $('roUniEmail').textContent=ud.universityEmail||'Not verified';
   $('roUniStatus').textContent=ud.universityEmailVerified?'✅ Verified':'⬜ Not verified';
+  $('roVersion').textContent=`v${profileVersion}`;
 
   // Stats
   $('statCoins').textContent=fmt(coins);
@@ -341,10 +319,9 @@ onAuthStateChanged(auth,async user=>{
   $('refLink').textContent=refLink;
   $('refCount').textContent=referrals;
   $('refCoins').textContent=`+${referrals*2}`;
-
   $('copyRefBtn').addEventListener('click',()=>{
-    const copy=()=>{try{navigator.clipboard.writeText(refLink);toast('✅ Invite link copied!');}catch(e){const ta=document.createElement('textarea');ta.value=refLink;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);toast('✅ Link copied!');}};
-    copy();
+    try{navigator.clipboard.writeText(refLink);toast('✅ Invite link copied!');}
+    catch(e){const ta=document.createElement('textarea');ta.value=refLink;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);toast('✅ Link copied!');}
   });
 
   // SAVE — only role, linkedin, bio, skills
@@ -364,7 +341,11 @@ onAuthStateChanged(auth,async user=>{
     btn.disabled=false;btn.textContent='Save Changes';
   });
 
-  $('logoutBtn').addEventListener('click',async()=>{await signOut(auth);window.location.href='login.html';});
+  // SIGN OUT — normal, no data delete, all history kept
+  $('logoutBtn').addEventListener('click',async()=>{
+    await signOut(auth);
+    window.location.href='login.html';
+  });
 
   setTimeout(()=>{
     $('loadScreen').classList.add('hide');
