@@ -184,6 +184,27 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
           <label>Registration / Info Link <span style="font-weight:400;text-transform:none;font-size:.58rem;color:var(--muted)">(optional)</span></label>
           <input type="url" id="postLink" placeholder="https://forms.google.com/..."/>
         </div>
+        <!-- PRICING SECTION — only for paid events/hackathons -->
+        <div style="background:rgba(16,185,129,0.04);border:1px solid rgba(16,185,129,0.16);border-radius:12px;padding:14px;margin-bottom:14px;">
+          <div style="font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.16em;text-transform:uppercase;color:var(--green);opacity:.8;margin-bottom:12px;">// Pricing & Payment (leave blank for free events)</div>
+          <div class="field-row">
+            <div class="field">
+              <label>Ticket Price (₹)</label>
+              <input type="number" id="postPrice" placeholder="0 = Free" min="0"/>
+            </div>
+            <div class="field">
+              <label>Total Seats</label>
+              <input type="number" id="postSeats" placeholder="Leave blank = unlimited" min="1"/>
+            </div>
+          </div>
+          <div class="field">
+            <label>Your UPI ID * <span style="font-weight:400;text-transform:none;font-size:.58rem;color:var(--muted)">(students pay directly to you)</span></label>
+            <input type="text" id="postUpiId" placeholder="yourname@upi or yourname@paytm"/>
+          </div>
+          <div style="font-size:.68rem;color:var(--muted);line-height:1.6;margin-top:4px;">
+            💡 Students pay <strong style="color:white;">directly to your UPI</strong>. Zwapy automatically tracks a <strong style="color:var(--green);">5% platform fee</strong> which is settled with you monthly. Students can use Skill Coins for up to 50% discount.
+          </div>
+        </div>
         <button class="btn-indigo" id="postBtn">Publish Post →</button>
       </div>
 
@@ -315,12 +336,19 @@ onAuthStateChanged(auth, async user=>{
       venue:$('postVenue').value.trim(),
       posterUrl:$('postPoster').value.trim(),
       link:$('postLink').value.trim(),
+      price:parseFloat($('postPrice').value)||0,
+      totalSeats:parseInt($('postSeats').value)||0,
+      upiId:$('postUpiId').value.trim(),
+      soldCount:0,
+      organizer:ud.clubName||ud.name||'',
+      organizerUid:user.uid,
       clubName:ud.clubName||'',
       university:ud.university||'',
       createdAt:serverTimestamp()
     });
     $('postTitle').value='';$('postDesc').value='';$('postDate').value='';
     $('postTime').value='';$('postVenue').value='';$('postPoster').value='';$('postLink').value='';
+    $('postPrice').value='';$('postSeats').value='';$('postUpiId').value='';
     btn.disabled=false;btn.textContent='Publish Post →';
     toast('✅ Post published!');
   });

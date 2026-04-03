@@ -252,6 +252,16 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
         <div class="field"><label>Registration Link</label><input type="url" id="evLink" placeholder="https://..."/></div>
       </div>
       <div class="field"><label>Poster Image URL (optional)</label><input type="url" id="evPoster" placeholder="https://... paste image link"/></div>
+      <!-- Pricing for admin events -->
+      <div style="background:rgba(16,185,129,0.04);border:1px solid rgba(16,185,129,0.16);border-radius:11px;padding:13px;margin-bottom:14px;">
+        <div style="font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.16em;text-transform:uppercase;color:#10b981;opacity:.8;margin-bottom:10px;">// Pricing (leave blank for free)</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
+          <div class="field"><label>Ticket Price (₹)</label><input type="number" id="evPrice" placeholder="0 = Free" min="0"/></div>
+          <div class="field"><label>Total Seats</label><input type="number" id="evSeats" placeholder="Unlimited" min="1"/></div>
+        </div>
+        <div class="field"><label>Zwapy UPI ID <span style="font-weight:400;text-transform:none;font-size:.58rem;color:var(--muted)">(students pay Zwapy for official events)</span></label><input type="text" id="evUpiId" placeholder="zwapyteam@upi"/></div>
+        <div style="font-size:.67rem;color:var(--muted);line-height:1.5;">Students pay your UPI directly. 5% platform fee tracked automatically per ticket sold.</div>
+      </div>
       <button class="btn-red" id="postEvBtn">Post Event to Campus →</button>
     </div>
 
@@ -415,11 +425,18 @@ $('postEvBtn').addEventListener('click', async()=>{
   await addDoc(collection(db,'zwapy_events'),{
     title,desc,type,date,time,venue,
     link:link||'',posterUrl:poster||'',
+    price:parseFloat($('evPrice').value)||0,
+    totalSeats:parseInt($('evSeats').value)||0,
+    upiId:$('evUpiId').value.trim()||'zwapyteam@upi',
+    soldCount:0,
+    organizer:'Zwapy Team',
+    organizerUid:'zwapy_official',
     postedBy:'Zwapy Team',
     createdAt:serverTimestamp()
   });
   $('evTitle').value='';$('evDesc').value='';$('evDate').value='';
   $('evTime').value='';$('evVenue').value='';$('evLink').value='';$('evPoster').value='';
+  $('evPrice').value='';$('evSeats').value='';$('evUpiId').value='';
   btn.disabled=false;btn.textContent='Post Event to Campus →';
   toast('✅ Event posted!');
   loadOfficialEvents();
