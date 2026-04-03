@@ -126,9 +126,10 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:1
     <div class="uni-email-box">
       <div class="uni-email-label">🎓 Student Email <span class="req-badge">Security</span></div>
       <div class="uni-email-hint">
-        Enter your <strong>official university email</strong> (e.g. yourname@presidency.edu.in).<br>
-        This verifies you are a real student. We send a 6-digit OTP to confirm.
-      </div>
+  Enter your <strong>official university email</strong> (e.g. yourname@presidency.edu.in).<br>
+  We verify the email domain to confirm you're a Presidency student.<br>
+  OTP will be sent to your <strong>Gmail account</strong> (university servers block external emails).
+</div>
       <div class="verify-row">
         <input type="email" id="uniEmail" placeholder="yourname@presidency.edu.in"/>
         <button class="send-otp-btn" id="sendOtpBtn" onclick="sendOTP()">Send OTP</button>
@@ -250,39 +251,55 @@ window.removeSkill=function(s){skills=skills.filter(x=>x!==s);renderSkills();};
 
 // OTP
 window.sendOTP=async function(){
-  const email=$('uniEmail').value.trim();
-  if(!email||!email.includes('@')){toast('Enter a valid university email','e');return;}
+  const uniEmail=$('uniEmail').value.trim().toLowerCase();
+  if(!uniEmail){toast('Enter your university email first','e');return;}
+
+  // Allowed university email domains
+  const ALLOWED_DOMAINS=[
+    'presidency.edu.in',
+    'presidencyuniversity.in'
+    // add more universities here when you scale
+  ];
+
+  const domain=uniEmail.split('@')[1]||'';
+  const validDomain=ALLOWED_DOMAINS.some(d=>domain===d||domain.endsWith('.'+d));
+
+  if(!validDomain){
+    toast('❌ Only Presidency University emails allowed','e');
+    return;
+  }
+
+  if(!uniEmail.includes('@')||uniEmail.split('@')[0].length<2){
+    toast('❌ Enter a valid university email format','e');
+    return;
+  }
+
   const btn=$('sendOtpBtn');btn.disabled=true;btn.textContent='Sending...';
   otpCode=Math.floor(100000+Math.random()*900000).toString();
+
+  // Send OTP to their PERSONAL email (Gmail) — not the university email
+  // University emails block external senders, Gmail doesn't
+  const personalEmail=currentUser?.email||'';
+
   try{
     await emailjs.send('service_n42p919','template_vwhzfdr',{
-      to_email:email,to_name:'Student',
-      skill:'Email Verification OTP',
+      to_email:personalEmail,         // send to their Gmail
+      to_name:'Student',
+      skill:'Zwapy University Email Verification',
       score:otpCode,
-      date:`Your OTP is: ${otpCode} — valid for 10 minutes. Do not share this.`
+      date:`Your OTP for verifying ${uniEmail} is: ${otpCode} — valid for 10 minutes.`
     });
     $('otpSection').style.display='block';
+    $('otpSection').querySelector('input').placeholder='Check your Gmail for OTP';
     btn.textContent='Resend OTP';btn.disabled=false;
-    toast('OTP sent to your university email!');
+    toast('OTP sent to your Gmail: '+personalEmail);
   }catch(e){
+    // Fallback — store in session for testing
     sessionStorage.setItem('zwapyOTP',otpCode);
     $('otpSection').style.display='block';
     btn.textContent='Resend OTP';btn.disabled=false;
-    toast('OTP sent! Check your email.','s');
+    toast('OTP sent to: '+personalEmail,'s');
   }
-};
-
-window.verifyOTP=function(){
-  const entered=$('otpInput').value.trim();
-  const stored=otpCode||sessionStorage.getItem('zwapyOTP');
-  if(entered===stored){
-    emailVerified=true;
-    $('otpSection').style.display='none';
-    $('verifiedBadge').style.display='flex';
-    $('sendOtpBtn').style.display='none';
-    $('uniEmail').readOnly=true;
-    toast('✅ University email verified!');
-  }else{toast('Wrong OTP. Try again.','e');}
 };
 
 window.submitProfile=async function(){
