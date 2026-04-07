@@ -3,14 +3,6 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-THCGY8NH1Z"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-THCGY8NH1Z');
-</script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-THCGY8NH1Z"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-THCGY8NH1Z');</script>
 <title>Complete Your Profile | Zwapy</title>
@@ -21,26 +13,18 @@
 body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:100vh;overflow-x:hidden;}
 .bg-glow{position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse 60% 40% at 20% 10%,rgba(0,212,255,0.05) 0%,transparent 60%),radial-gradient(ellipse 40% 40% at 80% 80%,rgba(16,185,129,0.03) 0%,transparent 60%);}
 .layout{position:relative;z-index:10;max-width:520px;margin:0 auto;padding:40px 20px 60px;}
-
-.logo-wrap{text-align:center;margin-bottom:24px;}
+.logo-wrap{text-align:center;margin-bottom:22px;}
 .logo-text{font-size:1.8rem;font-weight:900;font-style:italic;color:var(--cyan);}
 .logo-sub{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-top:4px;}
-
-/* Login link */
-.login-link-box{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:12px 16px;text-align:center;margin-bottom:18px;font-size:.76rem;color:var(--dim);}
+.login-link-box{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:12px 16px;text-align:center;margin-bottom:16px;font-size:.76rem;color:var(--dim);}
 .login-link-box a{color:var(--cyan);font-weight:700;text-decoration:none;}
-
-/* Version banner */
-.version-banner{background:rgba(245,158,11,0.07);border:1px solid rgba(245,158,11,0.22);border-radius:13px;padding:14px 18px;margin-bottom:18px;font-size:.76rem;color:var(--dim);line-height:1.6;display:none;}
+.version-banner{background:rgba(245,158,11,0.07);border:1px solid rgba(245,158,11,0.22);border-radius:13px;padding:14px 18px;margin-bottom:16px;font-size:.76rem;color:var(--dim);line-height:1.6;display:none;}
 .version-banner.show{display:block;}
 .version-banner strong{color:var(--amber);}
-
-.progress-bar{height:3px;background:rgba(0,212,255,0.08);border-radius:100px;margin-bottom:24px;overflow:hidden;}
+.progress-bar{height:3px;background:rgba(0,212,255,0.08);border-radius:100px;margin-bottom:22px;overflow:hidden;}
 .progress-fill{height:100%;background:linear-gradient(90deg,var(--cyan),var(--green));border-radius:100px;transition:width .4s ease;}
-
 .card{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:22px;padding:24px;margin-bottom:13px;}
 .card-title{font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan);opacity:.7;margin-bottom:16px;}
-
 .field{margin-bottom:13px;}
 .field:last-child{margin-bottom:0;}
 .field label{display:block;font-size:.6rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin-bottom:5px;}
@@ -54,17 +38,16 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:1
 @media(max-width:480px){.field-row{grid-template-columns:1fr;}}
 .field-hint{font-size:.6rem;color:var(--muted);margin-top:4px;line-height:1.5;}
 
-/* University email validation — no OTP, just domain check */
+/* University email — domain check only, no OTP */
 .uni-box{background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.16);border-radius:12px;padding:14px;margin-bottom:13px;}
 .uni-box-label{font-size:.68rem;font-weight:700;color:var(--cyan);margin-bottom:6px;display:flex;align-items:center;gap:7px;}
 .sec-badge{font-family:'Space Mono',monospace;font-size:.46rem;letter-spacing:.1em;text-transform:uppercase;background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.2);padding:2px 7px;border-radius:100px;color:var(--cyan);}
 .uni-hint{font-size:.65rem;color:var(--muted);line-height:1.55;margin-bottom:10px;}
 .uni-hint strong{color:white;}
-.uni-input-wrap{position:relative;}
 .uni-input-wrap input{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px 14px;font-size:.86rem;color:white;font-family:'Sora',sans-serif;outline:none;transition:border-color .2s;-webkit-appearance:none;}
 .uni-input-wrap input::placeholder{color:var(--muted);}
-.uni-input-wrap input.valid{border-color:var(--green);}
-.uni-input-wrap input.invalid{border-color:var(--red);}
+.uni-input-wrap input.valid{border-color:var(--green)!important;}
+.uni-input-wrap input.invalid{border-color:var(--red)!important;}
 .uni-status{font-size:.66rem;margin-top:6px;display:none;align-items:center;gap:5px;}
 .uni-status.show{display:flex;}
 .uni-status.ok{color:var(--green);}
@@ -77,15 +60,11 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:1
 .skills-wrap{display:flex;flex-wrap:wrap;gap:7px;margin-top:6px;min-height:10px;}
 .skill-tag{display:flex;align-items:center;gap:5px;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.22);border-radius:100px;padding:5px 12px;font-size:.72rem;font-weight:700;color:var(--cyan);}
 .skill-tag button{background:none;border:none;color:rgba(0,212,255,0.5);cursor:pointer;font-size:.8rem;line-height:1;padding:0;}
-.skill-tag button:hover{color:var(--red);}
-
 .note-box{background:rgba(245,158,11,0.05);border:1px solid rgba(245,158,11,0.14);border-radius:11px;padding:12px 14px;font-size:.7rem;color:var(--dim);line-height:1.6;margin-bottom:13px;}
 .note-box strong{color:var(--amber);}
-
 .submit-btn{width:100%;background:linear-gradient(135deg,var(--cyan),#0099bb);color:#000;border:none;border-radius:12px;padding:15px;font-size:.88rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;font-family:'Sora',sans-serif;transition:all .22s;margin-top:4px;}
 .submit-btn:hover{box-shadow:0 0 24px rgba(0,212,255,.35);}
 .submit-btn:disabled{opacity:.5;cursor:not-allowed;}
-
 .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(10px);border-radius:100px;padding:9px 18px;font-size:.72rem;font-weight:700;z-index:5000;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap;max-width:90vw;text-align:center;}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 .toast.s{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,.28);color:var(--green);}
@@ -104,15 +83,13 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:1
     <div class="logo-sub" id="pageSubtitle">Complete your profile</div>
   </div>
 
-  <!-- Already have account — go to login -->
   <div class="login-link-box">
     Already have a Zwapy account? <a href="login.html">Go to Login →</a>
   </div>
 
-  <!-- Version update banner -->
   <div class="version-banner" id="versionBanner">
     🚀 <strong>Zwapy added new features!</strong><br>
-    Your coins, exchanges and history are all safe. Just update the fields below to unlock everything.
+    Your coins and history are all safe. Just update the fields below.
   </div>
 
   <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:5%"></div></div>
@@ -137,14 +114,14 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:1
     </div>
   </div>
 
-  <!-- UNIVERSITY EMAIL — domain check only, no OTP -->
+  <!-- UNIVERSITY EMAIL — domain check only, no OTP needed -->
   <div class="card">
     <div class="card-title">// University Email</div>
     <div class="uni-box">
       <div class="uni-box-label">🎓 Student Email Verification <span class="sec-badge">Auto Check</span></div>
       <div class="uni-hint">
         Enter your <strong>official Presidency University email</strong> (e.g. yourname@presidency.edu.in).<br>
-        We automatically verify the email domain — <strong>no OTP needed</strong>.
+        We check the email domain automatically — <strong>no OTP needed</strong>.
       </div>
       <div class="uni-input-wrap">
         <input type="email" id="uniEmail" placeholder="yourname@presidency.edu.in"
@@ -159,7 +136,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:1
     </div>
   </div>
 
-  <!-- UNIVERSITY INFO -->
+  <!-- ACADEMIC DETAILS -->
   <div class="card">
     <div class="card-title">// Academic Details</div>
     <div class="field">
@@ -174,11 +151,10 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:1
         <label>Course *</label>
         <select id="course">
           <option value="">Select Course</option>
-          <!-- Engineering -->
           <optgroup label="── Engineering ──">
             <option value="B.Tech Computer Science Engineering">B.Tech CSE</option>
             <option value="B.Tech CSE (IoT)">B.Tech CSE (IoT)</option>
-            <option value="B.Tech CSE (AI & ML)">B.Tech CSE (AI & ML)</option>
+            <option value="B.Tech CSE (AI & ML)">B.Tech CSE (AI &amp; ML)</option>
             <option value="B.Tech CSE (Data Science)">B.Tech CSE (Data Science)</option>
             <option value="B.Tech CSE (Cyber Security)">B.Tech CSE (Cyber Security)</option>
             <option value="B.Tech CSE (Cloud Computing)">B.Tech CSE (Cloud)</option>
@@ -190,7 +166,6 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:1
             <option value="M.Tech CSE">M.Tech CSE</option>
             <option value="M.Tech VLSI">M.Tech VLSI</option>
           </optgroup>
-          <!-- Management -->
           <optgroup label="── Management ──">
             <option value="BBA">BBA</option>
             <option value="BBA (Finance)">BBA Finance</option>
@@ -202,7 +177,6 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:1
             <option value="MBA (HR)">MBA HR</option>
             <option value="MBA (Operations)">MBA Operations</option>
           </optgroup>
-          <!-- Commerce & Arts -->
           <optgroup label="── Commerce & Arts ──">
             <option value="B.Com">B.Com</option>
             <option value="B.Com (Honours)">B.Com Honours</option>
@@ -215,20 +189,17 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:1
             <option value="BA Psychology">BA Psychology</option>
             <option value="BA Journalism & Mass Communication">BA Journalism</option>
           </optgroup>
-          <!-- Law -->
           <optgroup label="── Law ──">
             <option value="BA LLB">BA LLB</option>
             <option value="BBA LLB">BBA LLB</option>
             <option value="B.Com LLB">B.Com LLB</option>
             <option value="LLM">LLM</option>
           </optgroup>
-          <!-- Design & Architecture -->
           <optgroup label="── Design & Architecture ──">
             <option value="B.Arch">B.Arch</option>
             <option value="B.Des">B.Des</option>
             <option value="M.Des">M.Des</option>
           </optgroup>
-          <!-- Science -->
           <optgroup label="── Science ──">
             <option value="B.Sc Physics">B.Sc Physics</option>
             <option value="B.Sc Chemistry">B.Sc Chemistry</option>
@@ -236,7 +207,6 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:1
             <option value="B.Sc Biotechnology">B.Sc Biotechnology</option>
             <option value="M.Sc Computer Science">M.Sc Computer Science</option>
           </optgroup>
-          <!-- PhD -->
           <optgroup label="── Research ──">
             <option value="PhD Computer Science">PhD CSE</option>
             <option value="PhD Management">PhD Management</option>
@@ -269,7 +239,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:1
   <!-- SKILLS -->
   <div class="card">
     <div class="card-title">// Your Skills</div>
-    <p style="font-size:.72rem;color:var(--dim);margin-bottom:12px;line-height:1.5;">Add skills you can teach and skills you want to learn. These power skill exchange matching.</p>
+    <p style="font-size:.72rem;color:var(--dim);margin-bottom:12px;line-height:1.5;">Add skills you can teach and skills you want to learn.</p>
     <div class="skill-input-row">
       <input type="text" id="skillInput" autocomplete="off"
              placeholder="e.g. Python, Figma, Video Editing..."
@@ -300,18 +270,11 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebas
 import { getAuth, onAuthStateChanged, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
 import {
   getFirestore, doc, setDoc, getDoc, updateDoc,
-  serverTimestamp, collection, addDoc, getDocs, query, where
+  serverTimestamp, collection, addDoc, getDocs, query, where, increment
 } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
-// ── PROFILE VERSION — change 1→2 in login.html AND here when adding new fields ──
 const CURRENT_PROFILE_VERSION = 1;
-
-// ── ALLOWED UNIVERSITY DOMAINS ──
-const ALLOWED_DOMAINS = [
-  'presidency.edu.in',
-  'presidencyuniversity.in',
-  'presidency.ac.in'
-];
+const ALLOWED_DOMAINS = ['presidency.edu.in','presidencyuniversity.in','presidency.ac.in'];
 
 const app=initializeApp({
   apiKey:"AIzaSyBazCIc5vdQInSwvqvohIcbPToTjnw7KJI",
@@ -326,70 +289,43 @@ const db=getFirestore(app);
 await setPersistence(auth,browserLocalPersistence);
 
 const $=id=>document.getElementById(id);
-let currentUser=null;
-let skills=[];
-let uniEmailValid=false;
-let existingData={};
-let isUpdateMode=false;
+let currentUser=null,skills=[],uniEmailValid=false,existingData={},isUpdateMode=false;
 
 function toast(msg,type='s'){
   const t=$('toast');t.textContent=msg;t.className=`toast ${type} show`;
   setTimeout(()=>t.className='toast',3500);
 }
-
-// Progress bar
 function updateProgress(){
-  const vals=[
-    $('fullName').value,$('dob').value,$('phone').value,
-    $('uniEmail').value,$('university').value,
-    $('course').value,$('yearOfPassout').value
-  ];
-  const pct=Math.round((vals.filter(v=>(v||'').trim()).length/vals.length)*100);
-  $('progressFill').style.width=pct+'%';
+  const vals=[$('fullName').value,$('dob').value,$('phone').value,$('uniEmail').value,$('university').value,$('course').value,$('yearOfPassout').value];
+  $('progressFill').style.width=Math.round((vals.filter(v=>(v||'').trim()).length/vals.length)*100)+'%';
 }
 document.querySelectorAll('input,select,textarea').forEach(el=>{
   el.addEventListener('input',updateProgress);
   el.addEventListener('change',updateProgress);
 });
 
-// ── UNIVERSITY EMAIL — domain check only, no OTP ──
+// University email domain check — no OTP
 window.checkUniEmail=function(){
   const val=($('uniEmail').value||'').trim().toLowerCase();
-  const status=$('uniStatus');
-  const inp=$('uniEmail');
-
-  if(!val){
-    inp.className='';status.className='uni-status';uniEmailValid=false;return;
-  }
+  const status=$('uniStatus'),inp=$('uniEmail');
+  if(!val){inp.className='';status.className='uni-status';uniEmailValid=false;return;}
   if(!val.includes('@')){
-    inp.className='invalid';
-    status.className='uni-status err show';
-    status.textContent='❌ Enter a valid email format';
-    uniEmailValid=false;return;
+    inp.className='invalid';status.className='uni-status err show';
+    status.textContent='❌ Enter a valid email format';uniEmailValid=false;return;
   }
-
   const domain=val.split('@')[1]||'';
-  const localPart=val.split('@')[0]||'';
-
-  if(localPart.length<2){
-    inp.className='invalid';
-    status.className='uni-status err show';
-    status.textContent='❌ Email username too short';
-    uniEmailValid=false;return;
+  const local=val.split('@')[0]||'';
+  if(local.length<2){
+    inp.className='invalid';status.className='uni-status err show';
+    status.textContent='❌ Email username too short';uniEmailValid=false;return;
   }
-
-  const isValid=ALLOWED_DOMAINS.some(d=>domain===d||domain.endsWith('.'+d));
-
-  if(isValid){
-    inp.className='valid';
-    status.className='uni-status ok show';
-    status.textContent='✅ Valid Presidency University email';
-    uniEmailValid=true;
-  } else {
-    inp.className='invalid';
-    status.className='uni-status err show';
-    status.textContent='❌ Must be a @presidency.edu.in email address';
-    uniEmailValid=false;
+  const valid=ALLOWED_DOMAINS.some(d=>domain===d||domain.endsWith('.'+d));
+  if(valid){
+    inp.className='valid';status.className='uni-status ok show';
+    status.textContent='✅ Valid Presidency University email';uniEmailValid=true;
+  }else{
+    inp.className='invalid';status.className='uni-status err show';
+    status.textContent='❌ Must be a @presidency.edu.in email address';uniEmailValid=false;
   }
 };
 
@@ -401,18 +337,14 @@ window.addSkill=function(){
   skills.push(v);$('skillInput').value='';renderSkills();
 };
 function renderSkills(){
-  $('skillsWrap').innerHTML=skills.map(s=>
-    `<div class="skill-tag">${s}<button onclick="removeSkill(this)" data-skill="${s.replace(/"/g,'&quot;')}">×</button></div>`
-  ).join('');
-  // Attach events properly — no inline string issues
-  $('skillsWrap').querySelectorAll('button').forEach(btn=>{
-    btn.addEventListener('click',()=>{
-      const s=btn.dataset.skill;
-      skills=skills.filter(x=>x!==s);renderSkills();
-    });
+  $('skillsWrap').innerHTML='';
+  skills.forEach(s=>{
+    const div=document.createElement('div');div.className='skill-tag';
+    div.innerHTML=`${s}<button>×</button>`;
+    div.querySelector('button').onclick=()=>{skills=skills.filter(x=>x!==s);renderSkills();};
+    $('skillsWrap').appendChild(div);
   });
 }
-window.removeSkill=function(){};// handled above
 
 // ── SUBMIT PROFILE ──
 window.submitProfile=async function(){
@@ -426,17 +358,19 @@ window.submitProfile=async function(){
   const course=$('course').value;
   const year=$('yearOfPassout').value;
 
-  if(!name){toast('Enter your full name','e');return;}
-  if(!dob){toast('Enter your date of birth','e');return;}
+  if(!name)           {toast('Enter your full name','e');return;}
+  if(!dob)            {toast('Enter your date of birth','e');return;}
   if(!phone||phone.replace(/\D/g,'').length<10){toast('Enter a valid 10-digit phone number','e');return;}
-  if(!uniEmail){toast('Enter your university email','e');return;}
-  if(!uniEmailValid){toast('Enter a valid @presidency.edu.in email','e');return;}
-  if(!university){toast('Select your university','e');return;}
-  if(!course){toast('Select your course','e');return;}
-  if(!year){toast('Select your year of passout','e');return;}
+  if(!uniEmail)       {toast('Enter your university email','e');return;}
+  if(!uniEmailValid)  {toast('Enter a valid @presidency.edu.in email','e');return;}
+  if(!university)     {toast('Select your university','e');return;}
+  if(!course)         {toast('Select your course','e');return;}
+  if(!year)           {toast('Select your year of passout','e');return;}
 
   const btn=$('submitBtn');btn.disabled=true;
   btn.textContent=isUpdateMode?'Updating...':'Saving...';
+
+  const isNewUser=!existingData.name; // true if this is the very first profile save
 
   try{
     const profileData={
@@ -451,14 +385,18 @@ window.submitProfile=async function(){
       bio:($('bio').value||'').trim(),
       role:existingData.role||'student',
       photoURL:existingData.photoURL||'',
-      // PRESERVE existing coins and stats — never overwrite
-      coins:existingData.coins!==undefined?existingData.coins:20,
-      coinDebt:existingData.coinDebt||0,
-      exchanges:existingData.exchanges||0,
-      referrals:existingData.referrals||0,
-      referralCode:existingData.referralCode||(currentUser.uid.substring(0,8).toUpperCase()),
-      profileVersion:CURRENT_PROFILE_VERSION,
-      updatedAt:serverTimestamp()
+      // ── COINS: 0 by default — no free coins just for signing up ──
+      // Coins are ONLY earned through:
+      //   - Referral: inviter +2, new user +1
+      //   - Skill exchanges: based on level
+      //   - Completing exams in skill exchange
+      coins: existingData.coins !== undefined ? existingData.coins : 0,
+      coinDebt:       existingData.coinDebt   || 0,
+      exchanges:      existingData.exchanges  || 0,
+      referrals:      existingData.referrals  || 0,
+      referralCode:   existingData.referralCode || currentUser.uid.substring(0,8).toUpperCase(),
+      profileVersion: CURRENT_PROFILE_VERSION,
+      updatedAt:      serverTimestamp()
     };
 
     if(!existingData.createdAt){
@@ -467,22 +405,55 @@ window.submitProfile=async function(){
 
     await setDoc(doc(db,'users',currentUser.uid),profileData,{merge:true});
 
-    // Referral — only for brand new users
+    // ── UPDATE STATS — only when a real profile is completed ──
+    // This is the ONLY place stats are incremented
+    // Not in login.html (which would count incomplete accounts)
+    if(isNewUser){
+      try{
+        // Try to increment existing stats doc
+        await updateDoc(doc(db,'stats','platform'),{
+          totalUsers:increment(1),
+          updatedAt:serverTimestamp()
+        });
+      }catch(e){
+        // Stats doc doesn't exist yet — create it with 1 user
+        try{
+          await setDoc(doc(db,'stats','platform'),{
+            totalUsers:1,
+            totalExchanges:0,
+            totalCerts:0,
+            updatedAt:serverTimestamp()
+          });
+        }catch(e2){}
+      }
+    }
+
+    // ── REFERRAL — only for brand new users, never for updates ──
     const storedRef=sessionStorage.getItem('zwapyRef');
-    if(storedRef&&!existingData.referredBy&&!isUpdateMode){
+    if(storedRef && isNewUser && !existingData.referredBy){
       try{
         const refQ=await getDocs(query(collection(db,'users'),where('referralCode','==',storedRef)));
         if(!refQ.empty){
           const referrerDoc=refQ.docs[0];
           if(referrerDoc.id!==currentUser.uid){
+            // Inviter gets +2 coins
             await updateDoc(doc(db,'users',referrerDoc.id),{
               coins:(referrerDoc.data().coins||0)+2,
               referrals:(referrerDoc.data().referrals||0)+1
             });
-            await updateDoc(doc(db,'users',currentUser.uid),{coins:profileData.coins+1,referredBy:referrerDoc.id});
+            // New user gets +1 coin
+            await updateDoc(doc(db,'users',currentUser.uid),{
+              coins:1,
+              referredBy:referrerDoc.id
+            });
+            await addDoc(collection(db,'users',referrerDoc.id,'activity'),{
+              title:`🎉 ${name} joined using your invite!`,
+              desc:'+2 Skill Coins added to your account',
+              createdAt:serverTimestamp()
+            });
           }
         }
-      }catch(e){}
+      }catch(refErr){console.log('Referral error:',refErr);}
       sessionStorage.removeItem('zwapyRef');
     }
 
@@ -497,11 +468,11 @@ window.submitProfile=async function(){
   }
 };
 
-// ── REFERRAL FROM URL ──
+// Referral from URL
 const refCode=new URLSearchParams(window.location.search).get('ref');
 if(refCode)sessionStorage.setItem('zwapyRef',refCode);
 
-// ── AUTH ──
+// Auth
 onAuthStateChanged(auth,async user=>{
   if(!user){window.location.href='signup.html';return;}
   currentUser=user;
@@ -512,34 +483,36 @@ onAuthStateChanged(auth,async user=>{
     existingData=snap.data();
     const savedVersion=existingData.profileVersion||0;
 
-    // Already complete and up to date — go to dashboard
-    if(savedVersion>=CURRENT_PROFILE_VERSION&&existingData.name){
+    // Already complete and up to date
+    if(savedVersion>=CURRENT_PROFILE_VERSION && existingData.name){
       window.location.href='dashboard.html';return;
     }
 
-    // Returning for update — show banner, pre-fill everything
-    isUpdateMode=true;
-    $('versionBanner').classList.add('show');
-    $('pageSubtitle').textContent='Update your profile';
-    $('submitBtn').textContent='Update Profile →';
+    // Returning for version update
+    isUpdateMode=!!existingData.name;
+    if(existingData.name){
+      $('versionBanner').classList.add('show');
+      $('pageSubtitle').textContent='Update your profile';
+      $('submitBtn').textContent='Update Profile →';
+    }
 
-    if(existingData.name)            $('fullName').value=existingData.name;
-    if(existingData.dob)             $('dob').value=existingData.dob;
-    if(existingData.phone)           $('phone').value=existingData.phone;
-    if(existingData.university)      $('university').value=existingData.university;
-    if(existingData.course)          $('course').value=existingData.course;
-    if(existingData.yearOfPassout)   $('yearOfPassout').value=existingData.yearOfPassout;
-    if(existingData.linkedin)        $('linkedin').value=existingData.linkedin||'';
-    if(existingData.bio)             $('bio').value=existingData.bio||'';
+    // Pre-fill existing data
+    if(existingData.name)           $('fullName').value=existingData.name;
+    if(existingData.dob)            $('dob').value=existingData.dob;
+    if(existingData.phone)          $('phone').value=existingData.phone;
+    if(existingData.university)     $('university').value=existingData.university;
+    if(existingData.course)         $('course').value=existingData.course;
+    if(existingData.yearOfPassout)  $('yearOfPassout').value=existingData.yearOfPassout;
+    if(existingData.linkedin)       $('linkedin').value=existingData.linkedin||'';
+    if(existingData.bio)            $('bio').value=existingData.bio||'';
     if(existingData.universityEmail){
       $('uniEmail').value=existingData.universityEmail;
-      checkUniEmail(); // re-validate the existing email
+      checkUniEmail();
     }
     if(existingData.skills&&existingData.skills.length){
       skills=[...existingData.skills];renderSkills();
     }
   }
-
   updateProgress();
 });
 </script>

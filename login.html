@@ -3,14 +3,6 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-THCGY8NH1Z"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-THCGY8NH1Z');
-</script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-THCGY8NH1Z"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-THCGY8NH1Z');</script>
 <title>Login | Zwapy</title>
@@ -46,7 +38,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .card .sub{font-size:.76rem;color:var(--dim);text-align:center;margin-bottom:20px;line-height:1.5;}
 .stats-teaser{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px;}
 .st-item{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:10px 8px;text-align:center;}
-.st-val{font-family:'Space Mono',monospace;font-size:.92rem;font-weight:700;color:var(--cyan);margin-bottom:2px;letter-spacing:.02em;}
+.st-val{font-family:'Space Mono',monospace;font-size:.92rem;font-weight:700;color:var(--cyan);margin-bottom:2px;}
 .st-label{font-family:'Space Mono',monospace;font-size:.44rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
 .st-val.shimmer{background:linear-gradient(90deg,rgba(255,255,255,0.04) 25%,rgba(255,255,255,0.1) 50%,rgba(255,255,255,0.04) 75%);background-size:200% 100%;animation:shim 1.2s infinite;border-radius:4px;color:transparent;user-select:none;}
 @keyframes shim{0%{background-position:200% 0}100%{background-position:-200% 0}}
@@ -94,7 +86,6 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
   <h2>Log In to Zwapy</h2>
   <p class="sub">Presidency University's campus skill exchange network</p>
 
-  <!-- LIVE STATS — reads from stats/platform document (publicly readable) -->
   <div class="stats-teaser">
     <div class="st-item"><div class="st-val shimmer" id="liveUsers">000</div><div class="st-label">Students</div></div>
     <div class="st-item"><div class="st-val shimmer" id="liveExchanges">000</div><div class="st-label">Exchanges</div></div>
@@ -130,8 +121,8 @@ import {
   onAuthStateChanged, setPersistence, browserLocalPersistence
 } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
 import {
-  getFirestore, doc, getDoc, setDoc, updateDoc,
-  getDocs, collection, serverTimestamp, increment
+  getFirestore, doc, getDoc, setDoc,
+  getDocs, collection, serverTimestamp
 } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
 const CURRENT_PROFILE_VERSION = 1;
@@ -148,14 +139,11 @@ const app=initializeApp({
 const auth=getAuth(app);
 const db=getFirestore(app);
 await setPersistence(auth,browserLocalPersistence);
-
 const $=id=>document.getElementById(id);
 
-function showMsg(text,type){
-  const m=$('msg');m.textContent=text;m.className='msg '+type;m.style.display='block';
-}
+function showMsg(t,type){const m=$('msg');m.textContent=t;m.className='msg '+type;m.style.display='block';}
 
-// ── PARTICLES ──
+// Particles
 (function(){
   const c=$('nodes');
   for(let i=0;i<12;i++){
@@ -166,7 +154,7 @@ function showMsg(text,type){
   }
 })();
 
-// ── COUNT UP ANIMATION ──
+// Count-up animation
 function animateCount(id,target){
   const el=$(id);
   el.classList.remove('shimmer');
@@ -181,105 +169,83 @@ function animateCount(id,target){
 }
 
 // ── LOAD STATS ──
-// Reads from /stats/platform — a single public document
-// This works even before login because Firestore rules allow reading it
+// Reads stats/platform — a single public document
+// ONLY updated from extra-details.html when a user actually completes their profile
+// This prevents counting incomplete/test signups
 async function loadStats(){
   try{
     const snap=await getDoc(doc(db,'stats','platform'));
     if(snap.exists()){
       const d=snap.data();
-      animateCount('liveUsers', d.totalUsers||0);
-      animateCount('liveExchanges', d.totalExchanges||0);
-      animateCount('liveCerts', d.totalCerts||0);
+      animateCount('liveUsers',  d.totalUsers    || 0);
+      animateCount('liveExchanges', d.totalExchanges || 0);
+      animateCount('liveCerts',  d.totalCerts    || 0);
     } else {
-      // Stats doc doesn't exist yet — compute it now and create it
-      await computeAndSaveStats();
+      // First time — stats doc doesn't exist
+      // Will be created when first user completes their profile in extra-details
+      animateCount('liveUsers',0);
+      animateCount('liveExchanges',0);
+      animateCount('liveCerts',0);
     }
   }catch(err){
-    // Firestore rules blocking — show zeros
-    console.log('Stats read failed:', err.code, err.message);
-    [$('liveUsers'),$('liveExchanges'),$('liveCerts')].forEach(el=>{
-      el.classList.remove('shimmer');el.textContent='—';
-    });
-  }
-}
-
-// Compute stats from scratch and save to stats/platform
-// Called only once when doc doesn't exist
-async function computeAndSaveStats(){
-  try{
-    let totalUsers=0,totalExchanges=0,totalCerts=0;
-
-    const usersSnap=await getDocs(collection(db,'users'));
-    usersSnap.forEach(d=>{
-      if(d.id===SUPER_ADMIN_UID)return;
-      if(d.data().name)totalUsers++;
-      totalExchanges+=parseInt(d.data().exchanges||0);
-    });
-
-    try{
-      const sessSnap=await getDocs(collection(db,'sessions'));
-      sessSnap.forEach(d=>{
-        Object.values(d.data().examDone||{}).forEach(v=>{if(v===true)totalCerts++;});
-      });
-    }catch(e){}
-
-    // Save to stats/platform so future loads are fast and public
-    await setDoc(doc(db,'stats','platform'),{
-      totalUsers,totalExchanges,totalCerts,
-      updatedAt:serverTimestamp()
-    });
-
-    animateCount('liveUsers',totalUsers);
-    animateCount('liveExchanges',totalExchanges);
-    animateCount('liveCerts',totalCerts);
-  }catch(e){
-    console.log('Compute stats failed:',e.message);
+    console.log('Stats load error:',err.code);
     [$('liveUsers'),$('liveExchanges'),$('liveCerts')].forEach(el=>{
       el.classList.remove('shimmer');el.textContent='0';
     });
   }
 }
 
-// ── REDIRECT ──
+// Redirect
 function redirectByRole(role){
   if(role==='super_admin'){window.location.href='admin-dashboard.html';return;}
   if(role==='club_head'){window.location.href='club-dashboard.html';return;}
   window.location.href='dashboard.html';
 }
 
-// ── AFTER LOGIN — version check + role redirect ──
+// ── AFTER LOGIN ──
+// NOTE: does NOT set coins, does NOT increment stats
+// Stats are updated ONLY in extra-details.html when profile is saved
+// Coins are set ONLY in extra-details.html — 0 by default
 async function afterLogin(user){
   const ref=doc(db,'users',user.uid);
   const snap=await getDoc(ref);
 
+  // Super admin
   if(user.uid===SUPER_ADMIN_UID){
     if(!snap.exists())await setDoc(ref,{name:'Admin',email:user.email,role:'super_admin',createdAt:serverTimestamp()});
     else if(snap.data().role!=='super_admin')await setDoc(ref,{role:'super_admin'},{merge:true});
     redirectByRole('super_admin');return;
   }
 
+  // Brand new user — create a MINIMAL placeholder doc
+  // NO coins set here — coins are set in extra-details.html
+  // NO stats increment here — stats updated in extra-details.html after profile is complete
   if(!snap.exists()){
     await setDoc(ref,{
-      name:user.displayName||'Student',email:user.email,
-      role:'student',university:'',skills:[],
-      coins:20,exchanges:0,clubs:0,profileVersion:0,
+      email:user.email,
+      role:'student',
+      profileVersion:0,
       createdAt:serverTimestamp()
+      // name, coins, skills etc. are ALL set in extra-details.html
     });
-    // Bump user count in stats
-    try{await updateDoc(doc(db,'stats','platform'),{totalUsers:increment(1),updatedAt:serverTimestamp()});}catch(e){}
     window.location.href='extra-details.html';return;
   }
 
-  const d=snap.data(),role=d.role||'student';
+  const d=snap.data();
+  const role=d.role||'student';
+
+  // Club head
   if(role==='club_head'&&!d.clubName){window.location.href='club-extra-details.html';return;}
   if(role==='club_head'){redirectByRole('club_head');return;}
+
+  // Student — incomplete or outdated profile
   if(!d.name){window.location.href='extra-details.html';return;}
   if((d.profileVersion||0)<CURRENT_PROFILE_VERSION){window.location.href='extra-details.html';return;}
+
   redirectByRole(role);
 }
 
-// ── ON PAGE LOAD ──
+// Session check
 onAuthStateChanged(auth,async user=>{
   if(user){await afterLogin(user);return;}
   $('checkingScreen').classList.add('hide');
@@ -290,7 +256,7 @@ onAuthStateChanged(auth,async user=>{
   },400);
 });
 
-// ── EMAIL LOGIN ──
+// Email login
 $('loginBtn').addEventListener('click',async()=>{
   const btn=$('loginBtn');
   const email=($('email').value||'').trim();
@@ -302,17 +268,19 @@ $('loginBtn').addEventListener('click',async()=>{
     showMsg('✅ Welcome back!','success');
     await afterLogin(cred.user);
   }catch(err){
-    const msgs={'auth/user-not-found':'No account found. Please sign up first.',
+    const msgs={
+      'auth/user-not-found':'No account found. Please sign up first.',
       'auth/wrong-password':'Incorrect password. Please try again.',
       'auth/invalid-email':'Please enter a valid email address.',
       'auth/too-many-requests':'Too many attempts. Please wait a moment.',
-      'auth/invalid-credential':'Email or password is incorrect.'};
+      'auth/invalid-credential':'Email or password is incorrect.'
+    };
     showMsg('❌ '+(msgs[err.code]||'Something went wrong.'),'error');
     btn.disabled=false;btn.textContent='Log In to My Account →';
   }
 });
 
-// ── GOOGLE LOGIN ──
+// Google login
 $('googleBtn').addEventListener('click',async()=>{
   try{
     const r=await signInWithPopup(auth,new GoogleAuthProvider());
