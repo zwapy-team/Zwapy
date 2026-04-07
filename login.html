@@ -3,20 +3,12 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-THCGY8NH1Z"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-THCGY8NH1Z');
-</script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-THCGY8NH1Z"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-THCGY8NH1Z');</script>
 <title>Login | Zwapy</title>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
 <style>
-:root{--cyan:#00D4FF;--bg:#010114;--border:rgba(0,212,255,0.15);--muted:#64748b;--dim:#94a3b8;--green:#10b981;--amber:#f59e0b;--red:#ef4444;}
+:root{--cyan:#00D4FF;--bg:#010114;--border:rgba(0,212,255,0.15);--muted:#64748b;--dim:#94a3b8;--green:#10b981;--red:#ef4444;}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;overflow:hidden;}
 body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.02) 2px,rgba(0,0,0,0.02) 4px);pointer-events:none;z-index:0;}
@@ -25,7 +17,6 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .nodes{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
 .node{position:absolute;border-radius:50%;animation:float linear infinite;}
 @keyframes float{0%{transform:translateY(100vh) scale(0);opacity:0;}10%{opacity:1;}90%{opacity:.3;}100%{transform:translateY(-10vh) scale(1);opacity:0;}}
-
 #checkingScreen{position:fixed;inset:0;background:var(--bg);z-index:10000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;transition:opacity .4s;}
 #checkingScreen.hide{opacity:0;pointer-events:none;}
 .cs-logo{font-size:1.8rem;font-weight:900;font-style:italic;color:var(--cyan);}
@@ -33,69 +24,53 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .cs-fill{height:100%;background:var(--cyan);border-radius:100px;animation:lf .9s ease forwards;}
 @keyframes lf{from{width:0}to{width:100%}}
 .cs-text{font-family:'Space Mono',monospace;font-size:.54rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
-
 .card{position:relative;z-index:1;width:100%;max-width:420px;background:rgba(2,0,36,0.88);border:1px solid var(--border);border-radius:28px;padding:36px 32px;backdrop-filter:blur(24px);box-shadow:0 32px 64px rgba(0,0,0,.5);}
 .card::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:55%;height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);}
 .card::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:30%;height:1px;background:linear-gradient(90deg,transparent,rgba(16,185,129,0.4),transparent);}
-
 .logo{display:flex;align-items:center;justify-content:center;gap:9px;margin-bottom:10px;text-decoration:none;}
 .logo-icon{width:34px;height:34px;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.2);border-radius:10px;display:flex;align-items:center;justify-content:center;}
 .logo span{font-size:1.3rem;font-weight:900;font-style:italic;}
-
 .welcome-badge{display:flex;align-items:center;justify-content:center;gap:7px;background:rgba(0,212,255,0.06);border:1px solid rgba(0,212,255,0.18);border-radius:100px;padding:7px 16px;margin:0 auto 20px;width:fit-content;}
 .wb-dot{width:6px;height:6px;background:var(--cyan);border-radius:50%;animation:pulse 2s ease infinite;}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(0,212,255,.6);}50%{box-shadow:0 0 0 5px rgba(0,212,255,0);}}
 .wb-text{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--cyan);}
-
 .card h2{font-size:1.5rem;font-weight:900;font-style:italic;text-align:center;margin-bottom:4px;letter-spacing:-.02em;}
 .card .sub{font-size:.76rem;color:var(--dim);text-align:center;margin-bottom:20px;line-height:1.5;}
-
-/* Stats teaser — real data from Firestore */
 .stats-teaser{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px;}
-.st-item{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:10px 8px;text-align:center;transition:border-color .3s;}
-.st-item:hover{border-color:rgba(0,212,255,0.15);}
-.st-val{font-family:'Space Mono',monospace;font-size:.88rem;font-weight:700;color:var(--cyan);margin-bottom:2px;min-height:1.2em;}
+.st-item{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:10px 8px;text-align:center;}
+.st-val{font-family:'Space Mono',monospace;font-size:.92rem;font-weight:700;color:var(--cyan);margin-bottom:2px;letter-spacing:.02em;}
 .st-label{font-family:'Space Mono',monospace;font-size:.44rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
-/* Loading shimmer for stats */
-.st-val.loading{background:linear-gradient(90deg,rgba(255,255,255,0.04) 25%,rgba(255,255,255,0.08) 50%,rgba(255,255,255,0.04) 75%);background-size:200% 100%;animation:shimmer 1.2s infinite;border-radius:4px;color:transparent;}
-@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
-
+.st-val.shimmer{background:linear-gradient(90deg,rgba(255,255,255,0.04) 25%,rgba(255,255,255,0.1) 50%,rgba(255,255,255,0.04) 75%);background-size:200% 100%;animation:shim 1.2s infinite;border-radius:4px;color:transparent;user-select:none;}
+@keyframes shim{0%{background-position:200% 0}100%{background-position:-200% 0}}
 .field{margin-bottom:15px;}
 .field label{display:block;font-size:.66rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--dim);margin-bottom:7px;}
 .field input{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:14px 16px;font-size:.9rem;color:white;font-family:'Sora',sans-serif;outline:none;transition:border-color .2s,box-shadow .2s;}
 .field input::placeholder{color:var(--muted);}
 .field input:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(0,212,255,0.08);}
-
 .btn-login{width:100%;background:var(--cyan);color:#000;border:none;border-radius:12px;padding:15px;font-size:.9rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:all .25s;position:relative;overflow:hidden;font-family:'Sora',sans-serif;}
 .btn-login::before{content:'';position:absolute;top:-50%;left:-60%;width:40%;height:200%;background:rgba(255,255,255,.28);transform:skewX(-20deg);animation:glint 3.5s ease infinite;}
 @keyframes glint{0%,70%,100%{left:-60%;}40%{left:120%;}}
 .btn-login:hover{box-shadow:0 0 24px rgba(0,212,255,.45);transform:translateY(-1px);}
 .btn-login:disabled{opacity:.5;cursor:not-allowed;transform:none;}
-
 .divider{display:flex;align-items:center;gap:12px;margin:16px 0;}
 .divider::before,.divider::after{content:'';flex:1;height:1px;background:rgba(255,255,255,0.07);}
 .divider span{font-size:.62rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;font-family:'Space Mono',monospace;}
-
 .btn-google{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:13px;font-size:.85rem;font-weight:700;color:white;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:10px;font-family:'Sora',sans-serif;}
 .btn-google:hover{border-color:rgba(255,255,255,0.25);background:rgba(255,255,255,0.07);}
 .btn-google img{width:18px;height:18px;}
-
-.no-account-box{margin-top:20px;background:rgba(16,185,129,0.05);border:1px solid rgba(16,185,129,0.18);border-radius:14px;padding:15px 18px;text-align:center;}
+.no-account-box{margin-top:18px;background:rgba(16,185,129,0.05);border:1px solid rgba(16,185,129,0.18);border-radius:14px;padding:14px 18px;text-align:center;}
 .no-account-box p{font-size:.76rem;color:var(--dim);margin-bottom:10px;line-height:1.5;}
 .no-account-box strong{color:white;}
-.btn-signup{display:block;width:100%;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);border-radius:10px;padding:12px;font-size:.8rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--green);text-decoration:none;transition:all .25s;font-family:'Sora',sans-serif;}
+.btn-signup{display:block;width:100%;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);border-radius:10px;padding:11px;font-size:.8rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--green);text-decoration:none;transition:all .25s;font-family:'Sora',sans-serif;}
 .btn-signup:hover{background:rgba(16,185,129,0.2);}
-
 .msg{display:none;padding:11px 14px;border-radius:10px;font-size:.76rem;font-weight:600;margin-bottom:14px;text-align:center;line-height:1.5;}
 .msg.error{background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.22);color:var(--red);}
 .msg.success{background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.22);color:var(--green);}
 </style>
 </head>
 <body>
-<div class="glow"></div>
-<div class="glow2"></div>
+<div class="glow"></div><div class="glow2"></div>
 <div class="nodes" id="nodes"></div>
-
 <div id="checkingScreen">
   <div class="cs-logo">ZWAPY</div>
   <div class="cs-bar"><div class="cs-fill"></div></div>
@@ -104,38 +79,21 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 
 <div class="card" id="loginCard" style="display:none;">
   <a href="index.html" class="logo">
-    <div class="logo-icon">
-      <img src="assets/zwapy-logo.png" style="width:22px;height:22px;object-fit:contain;" onerror="this.style.display='none'">
-    </div>
+    <div class="logo-icon"><img src="assets/zwapy-logo.png" style="width:22px;height:22px;object-fit:contain;" onerror="this.style.display='none'"></div>
     <span>ZWAPY</span>
   </a>
-
-  <div class="welcome-badge">
-    <div class="wb-dot"></div>
-    <div class="wb-text">Welcome Back</div>
-  </div>
-
+  <div class="welcome-badge"><div class="wb-dot"></div><div class="wb-text">Welcome Back</div></div>
   <h2>Log In to Zwapy</h2>
   <p class="sub">Presidency University's campus skill exchange network</p>
 
-  <!-- LIVE PLATFORM STATS — real Firestore data -->
+  <!-- LIVE STATS — reads from stats/platform document (publicly readable) -->
   <div class="stats-teaser">
-    <div class="st-item">
-      <div class="st-val loading" id="liveUsers">&nbsp;</div>
-      <div class="st-label">Students</div>
-    </div>
-    <div class="st-item">
-      <div class="st-val loading" id="liveExchanges">&nbsp;</div>
-      <div class="st-label">Exchanges</div>
-    </div>
-    <div class="st-item">
-      <div class="st-val loading" id="liveCerts">&nbsp;</div>
-      <div class="st-label">Certs Issued</div>
-    </div>
+    <div class="st-item"><div class="st-val shimmer" id="liveUsers">000</div><div class="st-label">Students</div></div>
+    <div class="st-item"><div class="st-val shimmer" id="liveExchanges">000</div><div class="st-label">Exchanges</div></div>
+    <div class="st-item"><div class="st-val shimmer" id="liveCerts">000</div><div class="st-label">Certs Issued</div></div>
   </div>
 
   <div class="msg" id="msg"></div>
-
   <div class="field">
     <label>Email Address</label>
     <input type="email" id="email" placeholder="you@example.com" autocomplete="email"/>
@@ -144,16 +102,12 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
     <label>Password</label>
     <input type="password" id="password" placeholder="Your password" autocomplete="current-password"/>
   </div>
-
   <button class="btn-login" id="loginBtn">Log In to My Account →</button>
-
   <div class="divider"><span>or</span></div>
-
   <button class="btn-google" id="googleBtn">
     <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google"/>
     Continue with Google
   </button>
-
   <div class="no-account-box">
     <p><strong>Don't have a Zwapy account yet?</strong><br>Free for all Presidency University students.</p>
     <a href="signup.html" class="btn-signup">Create New Account →</a>
@@ -168,8 +122,8 @@ import {
   onAuthStateChanged, setPersistence, browserLocalPersistence
 } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
 import {
-  getFirestore, doc, getDoc, setDoc,
-  getDocs, collection, serverTimestamp, query, where
+  getFirestore, doc, getDoc, setDoc, updateDoc,
+  getDocs, collection, serverTimestamp, increment
 } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
 const CURRENT_PROFILE_VERSION = 1;
@@ -193,162 +147,139 @@ function showMsg(text,type){
   const m=$('msg');m.textContent=text;m.className='msg '+type;m.style.display='block';
 }
 
-// ── FLOATING PARTICLES ──
-function spawnNodes(){
+// ── PARTICLES ──
+(function(){
   const c=$('nodes');
   for(let i=0;i<12;i++){
     const n=document.createElement('div');n.className='node';
-    const size=Math.random()*3+1;
-    n.style.cssText=`width:${size}px;height:${size}px;left:${Math.random()*100}%;background:rgba(0,212,255,${(Math.random()*.15+.04).toFixed(2)});animation-duration:${Math.random()*20+15}s;animation-delay:-${Math.random()*10}s;`;
+    const s=Math.random()*3+1;
+    n.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;background:rgba(0,212,255,${(Math.random()*.15+.04).toFixed(2)});animation-duration:${Math.random()*20+15}s;animation-delay:-${Math.random()*10}s;`;
     c.appendChild(n);
   }
-}
-spawnNodes();
+})();
 
-// ── LOAD LIVE STATS FROM FIRESTORE ──
-// Shows real numbers — students signed up, exchanges done, certs earned
+// ── COUNT UP ANIMATION ──
+function animateCount(id,target){
+  const el=$(id);
+  el.classList.remove('shimmer');
+  if(!target||target===0){el.textContent='0';return;}
+  const steps=40,dur=1200;
+  let step=0;
+  const iv=setInterval(()=>{
+    step++;
+    el.textContent=Math.min(Math.round((target/steps)*step),target);
+    if(step>=steps){clearInterval(iv);el.textContent=target;}
+  },dur/steps);
+}
+
+// ── LOAD STATS ──
+// Reads from /stats/platform — a single public document
+// This works even before login because Firestore rules allow reading it
 async function loadStats(){
   try{
-    // 1. Count all users (each doc in /users = one student)
-    const usersSnap = await getDocs(collection(db,'users'));
-    let totalUsers = 0;
-    let totalExchanges = 0;
-
-    usersSnap.forEach(d=>{
-      const data = d.data();
-      // Skip the super admin account from the count
-      if(d.id === SUPER_ADMIN_UID) return;
-      // Only count users who completed their profile (have a name)
-      if(data.name) totalUsers++;
-      // exchanges field — how many completed skill exchanges this user did
-      totalExchanges += (parseInt(data.exchanges) || 0);
-    });
-
-    // 2. Count certificates — a cert is issued when examDone is true for a user in a session
-    // Check sessions collection — examDone is an object like {uid1: true, uid2: false}
-    let totalCerts = 0;
-    try{
-      const sessionsSnap = await getDocs(collection(db,'sessions'));
-      sessionsSnap.forEach(d=>{
-        const data = d.data();
-        const examDone = data.examDone || {};
-        // Each key in examDone that is true = one certificate issued
-        Object.values(examDone).forEach(val=>{
-          if(val === true) totalCerts++;
-        });
-      });
-    }catch(sessErr){
-      // Sessions collection might be empty or not exist yet — that's fine
-      console.log('Sessions not found yet:', sessErr.message);
-      totalCerts = 0;
+    const snap=await getDoc(doc(db,'stats','platform'));
+    if(snap.exists()){
+      const d=snap.data();
+      animateCount('liveUsers', d.totalUsers||0);
+      animateCount('liveExchanges', d.totalExchanges||0);
+      animateCount('liveCerts', d.totalCerts||0);
+    } else {
+      // Stats doc doesn't exist yet — compute it now and create it
+      await computeAndSaveStats();
     }
-
-    // Animate the numbers counting up
-    animateCount('liveUsers', totalUsers);
-    animateCount('liveExchanges', totalExchanges);
-    animateCount('liveCerts', totalCerts);
-
   }catch(err){
-    console.log('Stats error:', err.message);
-    // Show 0 instead of blank if Firestore fails
-    $('liveUsers').textContent = '0';
-    $('liveExchanges').textContent = '0';
-    $('liveCerts').textContent = '0';
-    $('liveUsers').classList.remove('loading');
-    $('liveExchanges').classList.remove('loading');
-    $('liveCerts').classList.remove('loading');
+    // Firestore rules blocking — show zeros
+    console.log('Stats read failed:', err.code, err.message);
+    [$('liveUsers'),$('liveExchanges'),$('liveCerts')].forEach(el=>{
+      el.classList.remove('shimmer');el.textContent='—';
+    });
   }
 }
 
-// Count-up animation for stats
-function animateCount(id, target){
-  const el=$(id);
-  el.classList.remove('loading');
-  if(target === 0){el.textContent='0';return;}
-  const duration = 1000; // 1 second
-  const steps = 30;
-  const increment = target/steps;
-  let current = 0;
-  let step = 0;
-  const timer = setInterval(()=>{
-    step++;
-    current = Math.min(Math.round(increment * step), target);
-    el.textContent = current;
-    if(step >= steps){ clearInterval(timer); el.textContent = target; }
-  }, duration/steps);
+// Compute stats from scratch and save to stats/platform
+// Called only once when doc doesn't exist
+async function computeAndSaveStats(){
+  try{
+    let totalUsers=0,totalExchanges=0,totalCerts=0;
+
+    const usersSnap=await getDocs(collection(db,'users'));
+    usersSnap.forEach(d=>{
+      if(d.id===SUPER_ADMIN_UID)return;
+      if(d.data().name)totalUsers++;
+      totalExchanges+=parseInt(d.data().exchanges||0);
+    });
+
+    try{
+      const sessSnap=await getDocs(collection(db,'sessions'));
+      sessSnap.forEach(d=>{
+        Object.values(d.data().examDone||{}).forEach(v=>{if(v===true)totalCerts++;});
+      });
+    }catch(e){}
+
+    // Save to stats/platform so future loads are fast and public
+    await setDoc(doc(db,'stats','platform'),{
+      totalUsers,totalExchanges,totalCerts,
+      updatedAt:serverTimestamp()
+    });
+
+    animateCount('liveUsers',totalUsers);
+    animateCount('liveExchanges',totalExchanges);
+    animateCount('liveCerts',totalCerts);
+  }catch(e){
+    console.log('Compute stats failed:',e.message);
+    [$('liveUsers'),$('liveExchanges'),$('liveCerts')].forEach(el=>{
+      el.classList.remove('shimmer');el.textContent='0';
+    });
+  }
 }
 
-// ── REDIRECT BY ROLE ──
+// ── REDIRECT ──
 function redirectByRole(role){
   if(role==='super_admin'){window.location.href='admin-dashboard.html';return;}
   if(role==='club_head'){window.location.href='club-dashboard.html';return;}
   window.location.href='dashboard.html';
 }
 
-// ── MAIN LOGIN LOGIC WITH VERSION CHECK ──
+// ── AFTER LOGIN — version check + role redirect ──
 async function afterLogin(user){
-  const ref = doc(db,'users',user.uid);
-  const snap = await getDoc(ref);
+  const ref=doc(db,'users',user.uid);
+  const snap=await getDoc(ref);
 
-  // Super admin — always admin dashboard
-  if(user.uid === SUPER_ADMIN_UID){
-    if(!snap.exists()){
-      await setDoc(ref,{name:user.displayName||'Admin',email:user.email,role:'super_admin',createdAt:serverTimestamp()});
-    }else if(snap.data().role!=='super_admin'){
-      await setDoc(ref,{role:'super_admin'},{merge:true});
-    }
+  if(user.uid===SUPER_ADMIN_UID){
+    if(!snap.exists())await setDoc(ref,{name:'Admin',email:user.email,role:'super_admin',createdAt:serverTimestamp()});
+    else if(snap.data().role!=='super_admin')await setDoc(ref,{role:'super_admin'},{merge:true});
     redirectByRole('super_admin');return;
   }
 
-  // Brand new user
   if(!snap.exists()){
     await setDoc(ref,{
-      name:user.displayName||'Student',
-      email:user.email,role:'student',
-      university:'',skills:[],
-      coins:20,exchanges:0,clubs:0,
-      profileVersion:0,
+      name:user.displayName||'Student',email:user.email,
+      role:'student',university:'',skills:[],
+      coins:20,exchanges:0,clubs:0,profileVersion:0,
       createdAt:serverTimestamp()
     });
+    // Bump user count in stats
+    try{await updateDoc(doc(db,'stats','platform'),{totalUsers:increment(1),updatedAt:serverTimestamp()});}catch(e){}
     window.location.href='extra-details.html';return;
   }
 
-  const d = snap.data();
-  const role = d.role||'student';
-
-  // Club head incomplete
-  if(role==='club_head'&&!d.clubName){
-    window.location.href='club-extra-details.html';return;
-  }
+  const d=snap.data(),role=d.role||'student';
+  if(role==='club_head'&&!d.clubName){window.location.href='club-extra-details.html';return;}
   if(role==='club_head'){redirectByRole('club_head');return;}
-
-  // Student — no name = incomplete
   if(!d.name){window.location.href='extra-details.html';return;}
-
-  // Version check — outdated profile → fill new fields
-  const savedVersion = d.profileVersion||0;
-  if(savedVersion < CURRENT_PROFILE_VERSION){
-    window.location.href='extra-details.html';return;
-  }
-
-  // All good
+  if((d.profileVersion||0)<CURRENT_PROFILE_VERSION){window.location.href='extra-details.html';return;}
   redirectByRole(role);
 }
 
-// ── CHECK SESSION ON LOAD ──
-onAuthStateChanged(auth, async user=>{
-  if(user){
-    await afterLogin(user);
-    return;
-  }
-  // Not logged in — show form
+// ── ON PAGE LOAD ──
+onAuthStateChanged(auth,async user=>{
+  if(user){await afterLogin(user);return;}
   $('checkingScreen').classList.add('hide');
   setTimeout(()=>{
     if($('checkingScreen'))$('checkingScreen').remove();
     $('loginCard').style.display='block';
-    // Load stats AFTER card is visible
     loadStats();
-  },500);
+  },400);
 });
 
 // ── EMAIL LOGIN ──
@@ -360,16 +291,15 @@ $('loginBtn').addEventListener('click',async()=>{
   btn.disabled=true;btn.textContent='Logging in...';
   try{
     const cred=await signInWithEmailAndPassword(auth,email,pass);
-    showMsg('✅ Welcome back! Redirecting...','success');
+    showMsg('✅ Welcome back!','success');
     await afterLogin(cred.user);
   }catch(err){
-    let msg='Something went wrong. Please try again.';
-    if(err.code==='auth/user-not-found')     msg='No account found. Please sign up first.';
-    if(err.code==='auth/wrong-password')     msg='Incorrect password. Please try again.';
-    if(err.code==='auth/invalid-email')      msg='Please enter a valid email address.';
-    if(err.code==='auth/too-many-requests')  msg='Too many attempts. Please wait a moment.';
-    if(err.code==='auth/invalid-credential') msg='Email or password is incorrect.';
-    showMsg('❌ '+msg,'error');
+    const msgs={'auth/user-not-found':'No account found. Please sign up first.',
+      'auth/wrong-password':'Incorrect password. Please try again.',
+      'auth/invalid-email':'Please enter a valid email address.',
+      'auth/too-many-requests':'Too many attempts. Please wait a moment.',
+      'auth/invalid-credential':'Email or password is incorrect.'};
+    showMsg('❌ '+(msgs[err.code]||'Something went wrong.'),'error');
     btn.disabled=false;btn.textContent='Log In to My Account →';
   }
 });
@@ -377,17 +307,14 @@ $('loginBtn').addEventListener('click',async()=>{
 // ── GOOGLE LOGIN ──
 $('googleBtn').addEventListener('click',async()=>{
   try{
-    const result=await signInWithPopup(auth,new GoogleAuthProvider());
+    const r=await signInWithPopup(auth,new GoogleAuthProvider());
     showMsg('✅ Signed in! Redirecting...','success');
-    await afterLogin(result.user);
+    await afterLogin(r.user);
   }catch(err){
-    if(err.code!=='auth/popup-closed-by-user'){
-      showMsg('❌ Google sign-in failed. Please try again.','error');
-    }
+    if(err.code!=='auth/popup-closed-by-user')showMsg('❌ Google sign-in failed.','error');
   }
 });
 
-// Enter key
 document.addEventListener('keydown',e=>{
   if(e.key==='Enter'&&$('loginCard')&&$('loginCard').style.display!=='none')$('loginBtn').click();
 });
