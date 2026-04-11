@@ -3,14 +3,6 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-THCGY8NH1Z"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-THCGY8NH1Z');
-</script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-THCGY8NH1Z"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-THCGY8NH1Z');</script>
 <title>Complete Your Profile | Zwapy</title>
@@ -46,7 +38,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:1
 @media(max-width:480px){.field-row{grid-template-columns:1fr;}}
 .field-hint{font-size:.6rem;color:var(--muted);margin-top:4px;line-height:1.5;}
 
-/* University email — domain check only, no OTP */
+/* University email validation */
 .uni-box{background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.16);border-radius:12px;padding:14px;margin-bottom:13px;}
 .uni-box-label{font-size:.68rem;font-weight:700;color:var(--cyan);margin-bottom:6px;display:flex;align-items:center;gap:7px;}
 .sec-badge{font-family:'Space Mono',monospace;font-size:.46rem;letter-spacing:.1em;text-transform:uppercase;background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.2);padding:2px 7px;border-radius:100px;color:var(--cyan);}
@@ -122,14 +114,14 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:1
     </div>
   </div>
 
-  <!-- UNIVERSITY EMAIL — domain check only, no OTP needed -->
+  <!-- UNIVERSITY EMAIL -->
   <div class="card">
     <div class="card-title">// University Email</div>
     <div class="uni-box">
       <div class="uni-box-label">🎓 Student Email Verification <span class="sec-badge">Auto Check</span></div>
       <div class="uni-hint">
         Enter your <strong>official Presidency University email</strong> (e.g. yourname@presidency.edu.in).<br>
-        We check the email domain automatically — <strong>no OTP needed</strong>.
+        We verify the email domain automatically — no OTP needed.
       </div>
       <div class="uni-input-wrap">
         <input type="email" id="uniEmail" placeholder="yourname@presidency.edu.in"
@@ -282,7 +274,21 @@ import {
 } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
 const CURRENT_PROFILE_VERSION = 1;
-const ALLOWED_DOMAINS = ['presidency.edu.in','presidencyuniversity.in','presidency.ac.in'];
+
+// ── ALLOWED UNIVERSITY EMAIL DOMAINS ──
+const ALLOWED_DOMAINS = [
+  'presidency.edu.in',
+  'presidencyuniversity.in',
+  'presidency.ac.in'
+];
+
+// ── BLOCKED FAKE PATTERNS ──
+// These are random/fake looking local parts we reject
+const BLOCKED_PATTERNS = [
+  /^[a-z]{1,3}$/,                    // too short like "abc"
+  /(.)\1{3,}/,                        // repeating chars like "aaaa"
+  /^(test|fake|dummy|random|xyz|abc|qwerty|asdf|temp)/i, // obvious fake prefixes
+];
 
 const app=initializeApp({
   apiKey:"AIzaSyBazCIc5vdQInSwvqvohIcbPToTjnw7KJI",
@@ -297,45 +303,21 @@ const db=getFirestore(app);
 await setPersistence(auth,browserLocalPersistence);
 
 const $=id=>document.getElementById(id);
-let currentUser=null,skills=[],uniEmailValid=false,existingData={},isUpdateMode=false;
+let currentUser=null,skills=[],uniEmailValid=false,existingData={},isNewUser=false;
 
 function toast(msg,type='s'){
   const t=$('toast');t.textContent=msg;t.className=`toast ${type} show`;
   setTimeout(()=>t.className='toast',3500);
 }
 function updateProgress(){
-  const vals=[$('fullName').value,$('dob').value,$('phone').value,$('uniEmail').value,$('university').value,$('course').value,$('yearOfPassout').value];
+  const vals=[$('fullName').value,$('dob').value,$('phone').value,
+    $('uniEmail').value,$('university').value,$('course').value,$('yearOfPassout').value];
   $('progressFill').style.width=Math.round((vals.filter(v=>(v||'').trim()).length/vals.length)*100)+'%';
 }
 document.querySelectorAll('input,select,textarea').forEach(el=>{
   el.addEventListener('input',updateProgress);
   el.addEventListener('change',updateProgress);
 });
-
-// University email domain check — no OTP
-window.checkUniEmail=function(){
-  const val=($('uniEmail').value||'').trim().toLowerCase();
-  const status=$('uniStatus'),inp=$('uniEmail');
-  if(!val){inp.className='';status.className='uni-status';uniEmailValid=false;return;}
-  if(!val.includes('@')){
-    inp.className='invalid';status.className='uni-status err show';
-    status.textContent='❌ Enter a valid email format';uniEmailValid=false;return;
-  }
-  const domain=val.split('@')[1]||'';
-  const local=val.split('@')[0]||'';
-  if(local.length<2){
-    inp.className='invalid';status.className='uni-status err show';
-    status.textContent='❌ Email username too short';uniEmailValid=false;return;
-  }
-  const valid=ALLOWED_DOMAINS.some(d=>domain===d||domain.endsWith('.'+d));
-  if(valid){
-    inp.className='valid';status.className='uni-status ok show';
-    status.textContent='✅ Valid Presidency University email';uniEmailValid=true;
-  }else{
-    inp.className='invalid';status.className='uni-status err show';
-    status.textContent='❌ Must be a @presidency.edu.in email address';uniEmailValid=false;
-  }
-};
 
 // Skills
 window.addSkill=function(){
@@ -354,6 +336,69 @@ function renderSkills(){
   });
 }
 
+// ── UNIVERSITY EMAIL VALIDATION ──
+// Checks domain AND that the local part looks like a real student email
+window.checkUniEmail=function(){
+  const val=($('uniEmail').value||'').trim().toLowerCase();
+  const status=$('uniStatus'),inp=$('uniEmail');
+
+  if(!val){inp.className='';status.className='uni-status';uniEmailValid=false;return;}
+
+  if(!val.includes('@')){
+    inp.className='invalid';status.className='uni-status err show';
+    status.textContent='❌ Enter a valid email format';uniEmailValid=false;return;
+  }
+
+  const parts=val.split('@');
+  const local=parts[0]||'';
+  const domain=parts[1]||'';
+
+  // Domain check
+  const validDomain=ALLOWED_DOMAINS.some(d=>domain===d||domain.endsWith('.'+d));
+  if(!validDomain){
+    inp.className='invalid';status.className='uni-status err show';
+    status.textContent='❌ Must be a @presidency.edu.in email';uniEmailValid=false;return;
+  }
+
+  // Local part length check — real student emails are at least 4 chars
+  if(local.length<4){
+    inp.className='invalid';status.className='uni-status err show';
+    status.textContent='❌ Email username too short';uniEmailValid=false;return;
+  }
+
+  // Block obvious fake/random patterns
+  const isFake=BLOCKED_PATTERNS.some(p=>p.test(local));
+  if(isFake){
+    inp.className='invalid';status.className='uni-status err show';
+    status.textContent='❌ Enter your real university email address';uniEmailValid=false;return;
+  }
+
+  // Check name makes sense — real student emails usually have letters/dots/numbers
+  // Reject if more than 50% of chars are numbers (not typical for student email)
+  const digitCount=(local.match(/\d/g)||[]).length;
+  if(digitCount>local.length*0.7){
+    inp.className='invalid';status.className='uni-status err show';
+    status.textContent='❌ Enter your real university email address';uniEmailValid=false;return;
+  }
+
+  // All checks passed
+  inp.className='valid';status.className='uni-status ok show';
+  status.textContent='✅ Valid Presidency University email';uniEmailValid=true;
+};
+
+// ── NAME VALIDATION ──
+// Reject obviously fake names
+function isValidName(name){
+  if(name.length < 3) return false;
+  // Must contain at least 2 letters in a row (not just symbols/numbers)
+  if(!/[a-zA-Z]{2,}/.test(name)) return false;
+  // Reject names like "alien on mars", "test user", "fake name"
+  const fakePhrases=['alien','mars','test','fake','dummy','random','abc','xyz','qwerty'];
+  const lower=name.toLowerCase();
+  if(fakePhrases.some(f=>lower.includes(f))) return false;
+  return true;
+}
+
 // ── SUBMIT PROFILE ──
 window.submitProfile=async function(){
   if(!currentUser){toast('Not logged in','e');return;}
@@ -366,19 +411,17 @@ window.submitProfile=async function(){
   const course=$('course').value;
   const year=$('yearOfPassout').value;
 
-  if(!name)           {toast('Enter your full name','e');return;}
-  if(!dob)            {toast('Enter your date of birth','e');return;}
+  if(!name)                           {toast('Enter your full name','e');return;}
+  if(!isValidName(name))              {toast('Enter your real full name','e');return;}
+  if(!dob)                            {toast('Enter your date of birth','e');return;}
   if(!phone||phone.replace(/\D/g,'').length<10){toast('Enter a valid 10-digit phone number','e');return;}
-  if(!uniEmail)       {toast('Enter your university email','e');return;}
-  if(!uniEmailValid)  {toast('Enter a valid @presidency.edu.in email','e');return;}
-  if(!university)     {toast('Select your university','e');return;}
-  if(!course)         {toast('Select your course','e');return;}
-  if(!year)           {toast('Select your year of passout','e');return;}
+  if(!uniEmail)                       {toast('Enter your university email','e');return;}
+  if(!uniEmailValid)                  {toast('Enter a valid @presidency.edu.in email','e');return;}
+  if(!university)                     {toast('Select your university','e');return;}
+  if(!course)                         {toast('Select your course','e');return;}
+  if(!year)                           {toast('Select your year of passout','e');return;}
 
-  const btn=$('submitBtn');btn.disabled=true;
-  btn.textContent=isUpdateMode?'Updating...':'Saving...';
-
-  const isNewUser=!existingData.name; // true if this is the very first profile save
+  const btn=$('submitBtn');btn.disabled=true;btn.textContent='Saving...';
 
   try{
     const profileData={
@@ -393,50 +436,29 @@ window.submitProfile=async function(){
       bio:($('bio').value||'').trim(),
       role:existingData.role||'student',
       photoURL:existingData.photoURL||'',
-      // ── COINS: 0 by default — no free coins just for signing up ──
-      // Coins are ONLY earned through:
-      //   - Referral: inviter +2, new user +1
-      //   - Skill exchanges: based on level
-      //   - Completing exams in skill exchange
-      coins: existingData.coins !== undefined ? existingData.coins : 0,
-      coinDebt:       existingData.coinDebt   || 0,
-      exchanges:      existingData.exchanges  || 0,
-      referrals:      existingData.referrals  || 0,
-      referralCode:   existingData.referralCode || currentUser.uid.substring(0,8).toUpperCase(),
-      profileVersion: CURRENT_PROFILE_VERSION,
-      updatedAt:      serverTimestamp()
+      // Coins start at 0 — earned only through exchanges/referrals
+      coins:       existingData.coins !== undefined ? existingData.coins : 0,
+      coinDebt:    existingData.coinDebt    || 0,
+      exchanges:   existingData.exchanges   || 0,
+      referrals:   existingData.referrals   || 0,
+      referralCode:existingData.referralCode || currentUser.uid.substring(0,8).toUpperCase(),
+      profileVersion:CURRENT_PROFILE_VERSION,
+      updatedAt:serverTimestamp()
     };
-
-    if(!existingData.createdAt){
-      profileData.createdAt=serverTimestamp();
-    }
+    if(!existingData.createdAt) profileData.createdAt=serverTimestamp();
 
     await setDoc(doc(db,'users',currentUser.uid),profileData,{merge:true});
 
-    // ── UPDATE STATS — only when a real profile is completed ──
-    // This is the ONLY place stats are incremented
-    // Not in login.html (which would count incomplete accounts)
+    // ── UPDATE STATS — only for brand new users completing profile ──
     if(isNewUser){
       try{
-        // Try to increment existing stats doc
-        await updateDoc(doc(db,'stats','platform'),{
-          totalUsers:increment(1),
-          updatedAt:serverTimestamp()
-        });
+        await updateDoc(doc(db,'stats','platform'),{totalUsers:increment(1),updatedAt:serverTimestamp()});
       }catch(e){
-        // Stats doc doesn't exist yet — create it with 1 user
-        try{
-          await setDoc(doc(db,'stats','platform'),{
-            totalUsers:1,
-            totalExchanges:0,
-            totalCerts:0,
-            updatedAt:serverTimestamp()
-          });
-        }catch(e2){}
+        try{await setDoc(doc(db,'stats','platform'),{totalUsers:1,totalExchanges:0,totalCerts:0,updatedAt:serverTimestamp()});}catch(e2){}
       }
     }
 
-    // ── REFERRAL — only for brand new users, never for updates ──
+    // ── REFERRAL — only for brand new users ──
     const storedRef=sessionStorage.getItem('zwapyRef');
     if(storedRef && isNewUser && !existingData.referredBy){
       try{
@@ -444,35 +466,38 @@ window.submitProfile=async function(){
         if(!refQ.empty){
           const referrerDoc=refQ.docs[0];
           if(referrerDoc.id!==currentUser.uid){
-            // Inviter gets +2 coins
             await updateDoc(doc(db,'users',referrerDoc.id),{
               coins:(referrerDoc.data().coins||0)+2,
               referrals:(referrerDoc.data().referrals||0)+1
             });
-            // New user gets +1 coin
-            await updateDoc(doc(db,'users',currentUser.uid),{
-              coins:1,
-              referredBy:referrerDoc.id
-            });
+            await updateDoc(doc(db,'users',currentUser.uid),{coins:1,referredBy:referrerDoc.id});
             await addDoc(collection(db,'users',referrerDoc.id,'activity'),{
               title:`🎉 ${name} joined using your invite!`,
-              desc:'+2 Skill Coins added to your account',
+              desc:'+2 Skill Coins added',
               createdAt:serverTimestamp()
             });
           }
         }
-      }catch(refErr){console.log('Referral error:',refErr);}
+      }catch(refErr){console.log('Referral:',refErr);}
       sessionStorage.removeItem('zwapyRef');
     }
 
-toast(isUpdateMode?'✅ Profile updated!':'✅ Welcome to Zwapy!');
-setTimeout(()=>window.location.href='thankyou.html',1000);
+    // ── REDIRECT ──
+    // New user → thank you page (shows WhatsApp, Instagram, ambassador pitch)
+    // Returning user updating profile → dashboard directly
+    if(isNewUser){
+      toast('✅ Welcome to Zwapy!');
+      setTimeout(()=>window.location.href='thankyou.html',1000);
+    } else {
+      toast('✅ Profile updated!');
+      setTimeout(()=>window.location.href='dashboard.html',1000);
+    }
 
   }catch(err){
     console.error(err);
     toast('Error: '+err.message,'e');
     btn.disabled=false;
-    btn.textContent=isUpdateMode?'Update Profile →':'Complete Profile & Enter Zwapy →';
+    btn.textContent='Complete Profile & Enter Zwapy →';
   }
 };
 
@@ -480,7 +505,7 @@ setTimeout(()=>window.location.href='thankyou.html',1000);
 const refCode=new URLSearchParams(window.location.search).get('ref');
 if(refCode)sessionStorage.setItem('zwapyRef',refCode);
 
-// Auth
+// ── AUTH ──
 onAuthStateChanged(auth,async user=>{
   if(!user){window.location.href='signup.html';return;}
   currentUser=user;
@@ -491,36 +516,39 @@ onAuthStateChanged(auth,async user=>{
     existingData=snap.data();
     const savedVersion=existingData.profileVersion||0;
 
-    // Already complete and up to date
+    // Already complete + up to date → skip to dashboard
     if(savedVersion>=CURRENT_PROFILE_VERSION && existingData.name){
       window.location.href='dashboard.html';return;
     }
 
-    // Returning for version update
-    isUpdateMode=!!existingData.name;
-    if(existingData.name){
+    // Has a name = returning user updating profile (not new)
+    // No name = new user filling for first time
+    isNewUser=!existingData.name;
+
+    if(!isNewUser){
+      // Returning user — show update banner + pre-fill
       $('versionBanner').classList.add('show');
       $('pageSubtitle').textContent='Update your profile';
       $('submitBtn').textContent='Update Profile →';
+      if(existingData.name)           $('fullName').value=existingData.name;
+      if(existingData.dob)            $('dob').value=existingData.dob;
+      if(existingData.phone)          $('phone').value=existingData.phone;
+      if(existingData.university)     $('university').value=existingData.university;
+      if(existingData.course)         $('course').value=existingData.course;
+      if(existingData.yearOfPassout)  $('yearOfPassout').value=existingData.yearOfPassout;
+      if(existingData.linkedin)       $('linkedin').value=existingData.linkedin||'';
+      if(existingData.bio)            $('bio').value=existingData.bio||'';
+      if(existingData.universityEmail){$('uniEmail').value=existingData.universityEmail;checkUniEmail();}
+      if(existingData.skills&&existingData.skills.length){skills=[...existingData.skills];renderSkills();}
+    } else {
+      // New user — fresh form
+      isNewUser=true;
     }
-
-    // Pre-fill existing data
-    if(existingData.name)           $('fullName').value=existingData.name;
-    if(existingData.dob)            $('dob').value=existingData.dob;
-    if(existingData.phone)          $('phone').value=existingData.phone;
-    if(existingData.university)     $('university').value=existingData.university;
-    if(existingData.course)         $('course').value=existingData.course;
-    if(existingData.yearOfPassout)  $('yearOfPassout').value=existingData.yearOfPassout;
-    if(existingData.linkedin)       $('linkedin').value=existingData.linkedin||'';
-    if(existingData.bio)            $('bio').value=existingData.bio||'';
-    if(existingData.universityEmail){
-      $('uniEmail').value=existingData.universityEmail;
-      checkUniEmail();
-    }
-    if(existingData.skills&&existingData.skills.length){
-      skills=[...existingData.skills];renderSkills();
-    }
+  } else {
+    // No Firestore doc at all — definitely new user
+    isNewUser=true;
   }
+
   updateProgress();
 });
 </script>
