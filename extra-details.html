@@ -465,14 +465,8 @@ window.submitProfile=async function(){
       sessionStorage.removeItem('zwapyRef');
     }
 
-    toast(isUpdateMode?'✅ Profile updated!':'✅ Welcome to Zwapy!');
-setTimeout(()=>{
-  if(isUpdateMode){
-    window.location.href='dashboard.html';
-  } else {
-    window.location.href='thankyou.html';
-  }
-},1000);
+toast(isUpdateMode?'✅ Profile updated!':'✅ Welcome to Zwapy!');
+setTimeout(()=>window.location.href='thankyou.html',1000);
 
   }catch(err){
     console.error(err);
