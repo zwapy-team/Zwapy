@@ -347,51 +347,71 @@ function renderSkills(){
 // ── UNIVERSITY EMAIL VALIDATION ──
 // Checks domain AND that the local part looks like a real student email
 window.checkUniEmail=function(){
-  const val=($('uniEmail').value||'').trim().toLowerCase();
+  const raw=($('uniEmail').value||'').trim();
+  const val=raw.toUpperCase(); // normalize to uppercase for checking
   const status=$('uniStatus'),inp=$('uniEmail');
 
-  if(!val){inp.className='';status.className='uni-status';uniEmailValid=false;return;}
+  if(!raw){inp.className='';status.className='uni-status';uniEmailValid=false;return;}
 
-  if(!val.includes('@')){
+  // Must contain @
+  if(!raw.includes('@')){
     inp.className='invalid';status.className='uni-status err show';
     status.textContent='❌ Enter a valid email format';uniEmailValid=false;return;
   }
 
-  const parts=val.split('@');
-  const local=parts[0]||'';
-  const domain=parts[1]||'';
+  const domain=(raw.split('@')[1]||'').toLowerCase();
+  const local=raw.split('@')[0].toUpperCase();
 
-  // Domain check
-  const validDomain=ALLOWED_DOMAINS.some(d=>domain===d||domain.endsWith('.'+d));
-  if(!validDomain){
-    inp.className='invalid';status.className='uni-status err show';
-    status.textContent='❌ Must be a @presidency.edu.in email';uniEmailValid=false;return;
+  // ── PRESIDENCYUNIVERSITY.IN — STRICT PATTERN ──
+  // Format: NAME.YEARDIGITCOURSECODEROLLNUM
+  // Example: JAYASHANKAR.20241CIT0056
+  // NAME = one or more uppercase name parts separated by dots
+  // 2024 = 4-digit year (2020-2030)
+  // 1    = single digit
+  // CIT  = course code (2-5 uppercase letters)
+  // 0056 = roll number (3-6 digits)
+  if(domain==='presidencyuniversity.in'){
+    const strictPattern=/^[A-Z]+(\.[A-Z]+)*\.20(2[0-9]|3[0-2])[0-9][A-Z]{2,6}[0-9]{3,6}$/;
+    if(!strictPattern.test(local)){
+      inp.className='invalid';status.className='uni-status err show';
+      status.innerHTML='❌ Format must be: <strong>YOURNAME.20241CIT0056@presidencyuniversity.in</strong>';
+      uniEmailValid=false;return;
+    }
+    // Valid!
+    inp.className='valid';status.className='uni-status ok show';
+    status.textContent='✅ Valid Presidency University email — verified student';
+    uniEmailValid=true;return;
   }
 
-  // Local part length check — real student emails are at least 4 chars
-  if(local.length<4){
-    inp.className='invalid';status.className='uni-status err show';
-    status.textContent='❌ Email username too short';uniEmailValid=false;return;
+  // ── PRESIDENCY.EDU.IN — MODERATELY STRICT ──
+  // Allow name.rollnumber format, reject obvious garbage
+  if(domain==='presidency.edu.in'||domain==='presidency.ac.in'){
+    if(local.length<6){
+      inp.className='invalid';status.className='uni-status err show';
+      status.textContent='❌ Email username too short to be a student email';
+      uniEmailValid=false;return;
+    }
+    // Must start with at least one letter (not just numbers)
+    if(!/^[A-Z]/.test(local)){
+      inp.className='invalid';status.className='uni-status err show';
+      status.textContent='❌ Enter your real university email address';
+      uniEmailValid=false;return;
+    }
+    // Reject random gibberish — must contain a dot or digit (like roll number)
+    if(!(/[\.\d]/.test(local))){
+      inp.className='invalid';status.className='uni-status err show';
+      status.textContent='❌ Does not match university email format';
+      uniEmailValid=false;return;
+    }
+    inp.className='valid';status.className='uni-status ok show';
+    status.textContent='✅ Valid Presidency University email';
+    uniEmailValid=true;return;
   }
 
-  // Block obvious fake/random patterns
-  const isFake=BLOCKED_PATTERNS.some(p=>p.test(local));
-  if(isFake){
-    inp.className='invalid';status.className='uni-status err show';
-    status.textContent='❌ Enter your real university email address';uniEmailValid=false;return;
-  }
-
-  // Check name makes sense — real student emails usually have letters/dots/numbers
-  // Reject if more than 50% of chars are numbers (not typical for student email)
-  const digitCount=(local.match(/\d/g)||[]).length;
-  if(digitCount>local.length*0.7){
-    inp.className='invalid';status.className='uni-status err show';
-    status.textContent='❌ Enter your real university email address';uniEmailValid=false;return;
-  }
-
-  // All checks passed
-  inp.className='valid';status.className='uni-status ok show';
-  status.textContent='✅ Valid Presidency University email';uniEmailValid=true;
+  // Any other domain — reject
+  inp.className='invalid';status.className='uni-status err show';
+  status.textContent='❌ Must be a @presidencyuniversity.in or @presidency.edu.in email';
+  uniEmailValid=false;
 };
 
 // ── NAME VALIDATION ──
