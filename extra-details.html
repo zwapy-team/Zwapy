@@ -486,29 +486,59 @@ window.submitProfile=async function(){
       }
     }
 
-    // ── REFERRAL — only for brand new users ──
-    const storedRef=sessionStorage.getItem('zwapyRef');
-    if(storedRef && isNewUser && !existingData.referredBy){
-      try{
-        const refQ=await getDocs(query(collection(db,'users'),where('referralCode','==',storedRef)));
-        if(!refQ.empty){
-          const referrerDoc=refQ.docs[0];
-          if(referrerDoc.id!==currentUser.uid){
-            await updateDoc(doc(db,'users',referrerDoc.id),{
-              coins:(referrerDoc.data().coins||0)+2,
-              referrals:(referrerDoc.data().referrals||0)+1
-            });
-            await updateDoc(doc(db,'users',currentUser.uid),{coins:1,referredBy:referrerDoc.id});
-            await addDoc(collection(db,'users',referrerDoc.id,'activity'),{
-              title:`🎉 ${name} joined using your invite!`,
-              desc:'+2 Skill Coins added',
-              createdAt:serverTimestamp()
-            });
-          }
-        }
-      }catch(refErr){console.log('Referral:',refErr);}
-      sessionStorage.removeItem('zwapyRef');
+    // ── REFERRAL PROCESSING ──
+const storedRef = sessionStorage.getItem('zwapyRef');
+// Fire referral if:
+// 1. There is a stored ref code
+// 2. This user has never been referred before (no referredBy field)
+// 3. The profile has never been saved before (first time)
+const neverReferred = !existingData.referredBy;
+const firstTimeSave = !existingData.name; // name is only set after first save
+
+if(storedRef && neverReferred && firstTimeSave){
+  try{
+    const refQ = await getDocs(query(
+      collection(db,'users'),
+      where('referralCode','==',storedRef)
+    ));
+    if(!refQ.empty){
+      const referrerDoc = refQ.docs[0];
+      const referrerId = referrerDoc.id;
+      const referrerData = referrerDoc.data();
+
+      // Must not be referring yourself
+      if(referrerId !== currentUser.uid){
+        // Give inviter +2 coins
+        await updateDoc(doc(db,'users',referrerId),{
+          coins: (referrerData.coins||0) + 2,
+          referrals: (referrerData.referrals||0) + 1
+        });
+        // Give new user +1 coin
+        await updateDoc(doc(db,'users',currentUser.uid),{
+          coins: (profileData.coins||0) + 1,
+          referredBy: referrerId
+        });
+        // Activity log for inviter
+        await addDoc(collection(db,'users',referrerId,'activity'),{
+          title: `🎉 ${name} joined using your invite!`,
+          desc: `+2 Skill Coins added to your account`,
+          createdAt: serverTimestamp()
+        });
+        // Activity log for new user
+        await addDoc(collection(db,'users',currentUser.uid,'activity'),{
+          title: `🎁 Referral bonus!`,
+          desc: `+1 Skill Coin for joining via invite`,
+          createdAt: serverTimestamp()
+        });
+        console.log('✅ Referral coins given');
+      }
     }
+  }catch(refErr){
+    console.log('Referral error:', refErr);
+    // Fail silently — don't block the signup
+  }
+  sessionStorage.removeItem('zwapyRef');
+}
 
     // ── REDIRECT ──
     // New user → thank you page (shows WhatsApp, Instagram, ambassador pitch)
