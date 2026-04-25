@@ -856,6 +856,8 @@ if(refCode) sessionStorage.setItem('zwapyRef',refCode);
 
 // Auth
 onAuthStateChanged(auth,async user=>{
+  const urlParams = new URLSearchParams(window.location.search);
+  const isUpdateFlow = urlParams.has('otp') || urlParams.has('update');
   if(!user){window.location.href='signup.html';return;}
   currentUser=user;
   $('personalEmailInput').value=user.email||'';
@@ -865,10 +867,7 @@ onAuthStateChanged(auth,async user=>{
   if(snap.exists()){
     existingData=snap.data();
     const savedVersion=existingData.profileVersion||0;
-    if(savedVersion>=CURRENT_PROFILE_VERSION&&existingData.name){
-      window.location.href='dashboard.html';return;
-    }
-    isNewUser=!existingData.name;
+if(savedVersion>=CURRENT_PROFILE_VERSION && existingData.name && !isUpdateFlow){    isNewUser=!existingData.name;
     if(!isNewUser){
       $('versionBanner').classList.add('show');
       $('pageSubtitle').textContent='Update your profile';
