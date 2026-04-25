@@ -588,83 +588,93 @@ function maybeShowFeedback(){
 }
 
 // ── AUTH + LOAD ──
-onAuthStateChanged(auth,async user=>{
-  if(!user){window.location.href='login.html';return;}
-  currentUser=user;
+onAuthStateChanged(auth, async user => {
+  if (!user) {
+    window.location.href = 'login.html';
+    return;
+  }
+  
+  currentUser = user;
   setGreeting();
 
-  const[userSnap,allSnap]=await Promise.all([
-    getDoc(doc(db,'users',user.uid)),
-    getDocs(collection(db,'users'))
-  ]);
+  try {
+    // 1. Get the user document first
+    const userSnap = await getDoc(doc(db, 'users', user.uid));
 
-  if(!userSnap.exists()||!userSnap.data().name){
-    window.location.href='extra-details.html';return;
+    // 2. CHECK: If profile doesn't exist OR Name is missing
+    if (!userSnap.exists() || !userSnap.data().name) {
+      console.log("Redirecting: No profile found.");
+      window.location.href = 'extra-details.html';
+      return;
+    }
+
+    userData = userSnap.data();
+    
+    // 3. CHECK: Profile Version (Crucial for your new update)
+    const savedVersion = userData.profileVersion || 0;
+    if (savedVersion < CURRENT_PROFILE_VERSION) {
+      console.log("Redirecting: Version mismatch.");
+      window.location.href = 'extra-details.html';
+      return;
+    }
+
+    // --- IF WE REACH HERE, THE PROFILE IS GOOD. START LOADING DASHBOARD ---
+
+    const allSnap = await getDocs(collection(db, 'users'));
+    
+    const name = userData.name || user.displayName || 'Student';
+    const coins = userData.coins || 0;
+    const exchanges = userData.exchanges || 0;
+    const photoURL = userData.photoURL || `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(name)}`;
+    const uniEmail = userData.universityEmail || '';
+    const presidencyStudent = isPresidency(uniEmail);
+    referralCode = userData.referralCode || user.uid.substring(0, 8).toUpperCase();
+
+    // UI Updates
+    $('greetingName').textContent = name.split(' ')[0] + '!';
+    $('greetingSub').textContent = `${userData.university || 'Zwapy'} · ${userData.course || 'Student'}`;
+    $('avatarBig').src = photoURL;
+    $('navAvatar').src = photoURL;
+    $('coinsDisplay').textContent = fmt(coins);
+
+    // Stats
+    $('statCoins').textContent = fmt(coins);
+    $('statExchanges').textContent = fmt(exchanges);
+    
+    let rank = 1;
+    allSnap.forEach(d => {
+      if (d.id !== user.uid && (d.data().coins || 0) > coins) rank++;
+    });
+    $('statRank').textContent = `#${rank}`;
+
+    if (userData.examScores?.overall) {
+      $('statCertCard').style.display = 'block';
+      $('statCerts').textContent = userData.examScores.overall + '%';
+    }
+
+    if (!presidencyStudent) {
+      $('uniNotice').classList.add('show');
+    }
+
+    buildFeaturesGrid(presidencyStudent);
+    buildSkillScores(userData);
+
+    // Activity
+    await loadActivity(user.uid);
+    maybeShowFeedback();
+
+    // Hide load screen
+    setTimeout(() => {
+      $('loadScreen').classList.add('hide');
+      setTimeout(() => $('loadScreen').remove(), 400);
+      document.querySelectorAll('.fade-up').forEach(el => el.classList.add('in'));
+    }, 600);
+
+  } catch (error) {
+    console.error("Dashboard Load Error:", error);
+    // If there is a major error, it's safer to send them to extra-details
+    // window.location.href = 'extra-details.html'; 
   }
-
-  userData=userSnap.data();
-  const savedVersion=userData.profileVersion||0;
-  if(savedVersion<CURRENT_PROFILE_VERSION){
-    window.location.href='extra-details.html';return;
-  }
-
-  const name=userData.name||user.displayName||'Student';
-  const coins=userData.coins||0;
-  const exchanges=userData.exchanges||0;
-  const photoURL=userData.photoURL||`https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(name)}`;
-  const uniEmail=userData.universityEmail||'';
-  const presidencyStudent=isPresidency(uniEmail);
-  referralCode=userData.referralCode||user.uid.substring(0,8).toUpperCase();
-
-  // Greeting
-  $('greetingName').textContent=name.split(' ')[0]+'!';
-  $('greetingSub').textContent=`${userData.university||'Zwapy'} · ${userData.course||'Student'}`;
-  $('avatarBig').src=photoURL;
-  $('navAvatar').src=photoURL;
-  $('coinsDisplay').textContent=fmt(coins);
-
-  // Stats
-  $('statCoins').textContent=fmt(coins);
-  $('statExchanges').textContent=fmt(exchanges);
-  let rank=1;
-  allSnap.forEach(d=>{if(d.id!==user.uid&&(d.data().coins||0)>coins)rank++;});
-  $('statRank').textContent=`#${rank}`;
-  if(userData.examScores?.overall){
-    $('statCertCard').style.display='block';
-    $('statCerts').textContent=userData.examScores.overall+'%';
-  }
-
-  // University access notice for non-Presidency
-  if(!presidencyStudent){
-    $('uniNotice').classList.add('show');
-  }
-
-  // Features grid — controls what's accessible
-  buildFeaturesGrid(presidencyStudent);
-
-  // Skill scores
-  buildSkillScores(userData);
-
-  // Referral
-  $('copyRefBtn').addEventListener('click',()=>{
-    const link=`https://zwapy.com/signup.html?ref=${referralCode}`;
-    try{navigator.clipboard.writeText(link);}
-    catch(e){const ta=document.createElement('textarea');ta.value=link;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);}
-    toast('✅ Invite link copied!');
-  });
-
-  // Activity
-  await loadActivity(user.uid);
-
-  // Feedback popup
-  maybeShowFeedback();
-
-  // Hide load screen
-  setTimeout(()=>{
-    $('loadScreen').classList.add('hide');
-    setTimeout(()=>$('loadScreen').remove(),400);
-    document.querySelectorAll('.fade-up').forEach(el=>el.classList.add('in'));
-  },600);
 });
 </script>
 </body>
