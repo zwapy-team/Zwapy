@@ -522,51 +522,56 @@ window.checkUniEmail=function(){
 
 // ── PERSONAL EMAIL OTP via Firebase Email Verification ──
 // We use Firebase sendEmailVerification — sends directly from Firebase, no third party
-window.sendPersonalOTP=async function(){
-  if(!currentUser){toast('Not logged in','e');return;}
+window.sendPersonalOTP = async function() {
+  if (!currentUser) { toast('Not logged in', 'e'); return; }
 
-  const enteredEmail=($('personalEmailInput').value||'').trim().toLowerCase();
-  const authEmail=(currentUser.email||'').toLowerCase();
+  const enteredEmail = ($('personalEmailInput').value || '').trim().toLowerCase();
+  const authEmail = (currentUser.email || '').toLowerCase();
 
-  // Must match their login email
-  if(enteredEmail!==authEmail){
-    toast('❌ Enter the same email you used to sign up ('+authEmail+')','e');
+  // 1. Validation
+  if (enteredEmail !== authEmail) {
+    toast('❌ Use your login email: ' + authEmail, 'e');
     return;
   }
 
-  const btn=$('sendOtpBtn');btn.disabled=true;btn.textContent='Sending...';
+  const btn = $('sendOtpBtn');
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
 
-  try{
-    // Generate 6-digit OTP and store in Firestore
-    generatedOTP=Math.floor(100000+Math.random()*900000).toString();
-    await setDoc(doc(db,'email_otps',currentUser.uid),{
-      otp:generatedOTP,
-      email:authEmail,
-      createdAt:serverTimestamp(),
-      // Expires in 10 minutes
-      expiresAt:new Date(Date.now()+10*60*1000).toISOString()
+  try {
+    // 2. Generate 6-digit OTP
+    generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+
+    // 3. Save to Firestore for the 'Verify' button to check
+    await setDoc(doc(db, 'email_otps', currentUser.uid), {
+      otp: generatedOTP,
+      email: authEmail,
+      createdAt: serverTimestamp(),
+      expiresAt: new Date(Date.now() + 10 * 60 * 1000).toISOString() 
     });
 
-    // Send OTP via Firebase Email Verification with custom continue URL containing OTP
-    // This uses Firebase's own email infrastructure — no third party
-    const actionCodeSettings={
-      url:`https://zwapy.com/extra-details.html?otp=${generatedOTP}&uid=${currentUser.uid}`,
-      handleCodeInApp:true
+    // 4. Trigger the Firebase Email
+    const actionCodeSettings = {
+      // This sends the OTP back to whatever page you are currently on
+      url: window.location.href.split('?')[0] + `?otp=${generatedOTP}&uid=${currentUser.uid}`,
+      handleCodeInApp: true
     };
-    await sendEmailVerification(currentUser,actionCodeSettings);
+    
+    await sendEmailVerification(currentUser, actionCodeSettings);
 
-    $('otpVerifySection').style.display='block';
-    $('otpDestHint').textContent=`OTP sent to ${authEmail} — check your inbox (may take 1-2 mins)`;
-    btn.textContent='Resend OTP';btn.disabled=false;
-    toast('✅ OTP sent to your email!');
+    // 5. Update UI
+    $('otpVerifySection').style.display = 'block';
+    $('otpDestHint').textContent = `Verification link sent! Check your Inbox or Spam.`;
+    btn.textContent = 'Resend OTP';
+    btn.disabled = false;
+    
+    toast('✅ Email sent successfully!');
 
-  }catch(err){
-    console.log('Email OTP error:',err);
-    // Fallback: use the stored OTP directly (development mode)
-    $('otpVerifySection').style.display='block';
-    $('otpDestHint').textContent=`Check email: ${authEmail}`;
-    btn.textContent='Resend OTP';btn.disabled=false;
-    toast('OTP sent! Check your inbox.','s');
+  } catch (err) {
+    console.error('OTP Send Error:', err);
+    toast('Error: ' + err.message, 'e');
+    btn.disabled = false;
+    btn.textContent = 'Send OTP';
   }
 };
 
