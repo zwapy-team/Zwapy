@@ -1,408 +1,327 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Google Analytics -->
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-THCGY8NH1Z"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-THCGY8NH1Z');
-</script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-THCGY8NH1Z');</script>
 <title>Dashboard | Zwapy</title>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
 <style>
 :root{
-  --cyan:#00D4FF;--cyan-dim:rgba(0,212,255,0.12);
-  --navy:#020024;--bg:#010114;
-  --border:rgba(0,212,255,0.1);--border-h:rgba(0,212,255,0.35);
+  --cyan:#00D4FF;--bg:#010114;--navy:#020024;
+  --border:rgba(0,212,255,0.1);--border-h:rgba(0,212,255,0.3);
   --muted:#64748b;--dim:#94a3b8;
+  --green:#10b981;--amber:#f59e0b;--red:#ef4444;--indigo:#818cf8;
+  --gold:#FFB800;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 ::selection{background:var(--cyan);color:#000;}
-html{scroll-behavior:smooth;}
-body{font-family:'Sora',sans-serif;background:var(--bg);color:white;overflow-x:hidden;min-height:100vh;}
-
-body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.022) 2px,rgba(0,0,0,0.022) 4px);pointer-events:none;z-index:9999;}
-body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9998;opacity:.32;}
-
+body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.018) 2px,rgba(0,0,0,0.018) 4px);pointer-events:none;z-index:9999;}
 .bg-glow{position:fixed;inset:0;pointer-events:none;z-index:0;
-  background:
-    radial-gradient(ellipse 60% 40% at 10% 20%,rgba(0,212,255,0.04) 0%,transparent 60%),
-    radial-gradient(ellipse 40% 50% at 90% 80%,rgba(99,102,241,0.04) 0%,transparent 60%),
-    radial-gradient(ellipse 50% 60% at 50% 50%,rgba(2,0,36,0.9) 0%,var(--bg) 100%);}
+  background:radial-gradient(ellipse 60% 40% at 15% 15%,rgba(0,212,255,0.05) 0%,transparent 60%),
+             radial-gradient(ellipse 40% 40% at 85% 80%,rgba(129,140,248,0.04) 0%,transparent 55%);}
 
 /* ── LOAD SCREEN ── */
-#loadScreen{position:fixed;inset:0;background:var(--bg);z-index:10000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;transition:opacity .4s ease;}
+#loadScreen{position:fixed;inset:0;background:var(--bg);z-index:10000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;transition:opacity .4s;}
 #loadScreen.hide{opacity:0;pointer-events:none;}
-.load-logo{font-size:2rem;font-weight:900;font-style:italic;color:var(--cyan);letter-spacing:-.02em;}
-.load-bar{width:140px;height:2px;background:rgba(0,212,255,0.12);border-radius:100px;overflow:hidden;}
-.load-bar-fill{height:100%;background:var(--cyan);border-radius:100px;animation:loadFill 1s ease forwards;}
-@keyframes loadFill{from{width:0%;}to{width:100%;}}
-.load-text{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
+.ls-logo{font-size:2rem;font-weight:900;font-style:italic;color:var(--cyan);}
+.ls-bar{width:140px;height:2px;background:rgba(0,212,255,0.1);border-radius:100px;overflow:hidden;}
+.ls-fill{height:100%;background:linear-gradient(90deg,var(--cyan),var(--green));border-radius:100px;animation:lf .9s ease forwards;}
+@keyframes lf{from{width:0}to{width:100%}}
+.ls-text{font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);}
 
-/* ── LAYOUT ── */
-.layout{position:relative;z-index:10;max-width:1400px;margin:0 auto;padding:0 22px 120px;}
+.layout{position:relative;z-index:10;max-width:900px;margin:0 auto;padding:0 16px 110px;}
+@media(min-width:600px){.layout{padding:0 22px 110px;}}
 
 /* ── TOPBAR ── */
-.topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid rgba(0,212,255,0.06);margin-bottom:30px;position:sticky;top:0;z-index:200;background:rgba(1,1,20,0.93);backdrop-filter:blur(24px);margin-left:-22px;margin-right:-22px;padding-left:22px;padding-right:22px;gap:12px;}
-.topbar-logo{display:flex;align-items:center;gap:9px;cursor:pointer;text-decoration:none;flex-shrink:0;}
-.logo-node{width:38px;height:38px;background:rgba(0,212,255,0.07);border:1px solid rgba(0,212,255,0.2);border-radius:11px;display:flex;align-items:center;justify-content:center;transition:all .3s;}
-.topbar-logo:hover .logo-node{border-color:var(--cyan);box-shadow:0 0 16px rgba(0,212,255,0.22);}
-.logo-text{font-size:1.25rem;font-weight:900;font-style:italic;letter-spacing:-.02em;}
-.topbar-right{display:flex;align-items:center;gap:8px;min-width:0;}
-.user-chip{display:none;flex-direction:column;align-items:flex-end;min-width:0;}
-@media(min-width:560px){.user-chip{display:flex;}}
-.user-chip .role{font-size:.52rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);white-space:nowrap;}
-.user-chip .uname{font-size:.8rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:140px;}
-.avatar-ring{width:36px;height:36px;border-radius:50%;border:2px solid rgba(0,212,255,0.25);overflow:hidden;flex-shrink:0;transition:border-color .3s;}
-.avatar-ring:hover{border-color:var(--cyan);}
-.avatar-ring img{width:100%;height:100%;object-fit:cover;}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid rgba(0,212,255,0.06);margin-bottom:24px;position:sticky;top:0;z-index:200;background:rgba(1,1,20,0.94);backdrop-filter:blur(24px);margin-left:-16px;margin-right:-16px;padding-left:16px;padding-right:16px;gap:10px;flex-wrap:wrap;}
+@media(min-width:600px){.topbar{margin-left:-22px;margin-right:-22px;padding-left:22px;padding-right:22px;}}
+.topbar-logo{display:flex;align-items:center;gap:8px;text-decoration:none;flex-shrink:0;}
+.logo-node{width:34px;height:34px;background:rgba(0,212,255,0.07);border:1px solid rgba(0,212,255,0.2);border-radius:10px;display:flex;align-items:center;justify-content:center;}
+.logo-text{font-size:1.15rem;font-weight:900;font-style:italic;}
+.topbar-right{display:flex;align-items:center;gap:8px;}
+.coins-pill{display:flex;align-items:center;gap:5px;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);border-radius:100px;padding:5px 11px;font-family:'Space Mono',monospace;font-size:.66rem;font-weight:700;color:var(--amber);}
+.notif-btn{width:34px;height:34px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.9rem;cursor:pointer;position:relative;}
+.notif-dot{position:absolute;top:6px;right:6px;width:7px;height:7px;background:var(--red);border-radius:50%;border:2px solid var(--bg);display:none;}
+.notif-dot.show{display:block;}
 
-/* ── LOGOUT ── */
-.logout-container{position:relative;display:flex;align-items:center;background:rgba(255,255,255,0.05);padding:5px 11px;border-radius:50px;border:1px solid rgba(0,212,255,0.2);cursor:pointer;transition:all .3s;user-select:none;flex-shrink:0;}
-.logout-container:hover{background:rgba(239,68,68,0.1);border-color:#ef4444;}
-.anim-box{position:relative;width:34px;height:24px;}
-.doorway{position:absolute;right:0;width:17px;height:17px;border:2px solid var(--cyan);border-radius:4px;}
-.man{position:absolute;left:0;bottom:1px;font-size:17px;transition:all .5s cubic-bezier(.4,0,.2,1);}
-.logout-container:hover .man{transform:translateX(17px);}
-.logout-container.executing .man{opacity:0;transform:translateX(26px) scale(0.8);}
-.logout-container.executing .doorway{background:#ef4444;border-color:#ef4444;}
-.falling-man{position:fixed;top:10px;right:10px;font-size:20px;display:none;z-index:9000;}
-.animate-fall{display:block;animation:fallAndSpin 1s forwards cubic-bezier(.7,.1,1,1);}
-.logout-label{font-size:.6rem;font-weight:800;letter-spacing:.07em;margin-right:4px;text-transform:uppercase;display:none;}
-@media(min-width:420px){.logout-label{display:block;}}
-@keyframes fallAndSpin{0%{transform:translateY(0) rotate(0deg);opacity:1;}100%{transform:translateY(600px) rotate(720deg);opacity:0;}}
+/* ── HERO ── */
+.hero{margin-bottom:24px;}
+.hero-top{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:18px;}
+.greeting-wrap{}
+.greeting-time{font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);opacity:.6;margin-bottom:4px;}
+.greeting-name{font-size:clamp(1.5rem,5vw,2.2rem);font-weight:900;font-style:italic;letter-spacing:-.02em;line-height:1.1;}
+.greeting-sub{font-size:.76rem;color:var(--dim);margin-top:4px;line-height:1.5;}
+.avatar-big{width:52px;height:52px;border-radius:50%;border:2px solid rgba(0,212,255,0.25);object-fit:cover;flex-shrink:0;}
 
-/* ── GREETING ── */
-.greeting-strip{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:28px;gap:14px;flex-wrap:wrap;}
-.greeting-label{font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:var(--cyan);opacity:.6;margin-bottom:5px;}
-.greeting-title{font-size:clamp(1.5rem,5vw,2.8rem);font-weight:900;font-style:italic;letter-spacing:-.03em;line-height:1;}
-.greeting-title span{color:var(--cyan);}
-.greeting-sub{font-size:.8rem;color:var(--dim);margin-top:7px;line-height:1.6;max-width:360px;}
-.status-pill{display:flex;align-items:center;gap:6px;background:rgba(16,185,129,0.07);border:1px solid rgba(16,185,129,0.18);border-radius:100px;padding:6px 13px;font-size:.65rem;font-weight:700;letter-spacing:.07em;color:#10b981;text-transform:uppercase;flex-shrink:0;}
-.status-dot{width:6px;height:6px;background:#10b981;border-radius:50%;animation:pg 2s ease infinite;}
-@keyframes pg{0%,100%{box-shadow:0 0 0 0 rgba(16,185,129,.5);}50%{box-shadow:0 0 0 5px rgba(16,185,129,0);}}
+/* ── STATS ROW ── */
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:22px;}
+@media(min-width:500px){.stats-row{grid-template-columns:repeat(4,1fr);}}
+.stat-card{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:16px;padding:14px;text-align:center;transition:border-color .25s;}
+.stat-card:hover{border-color:rgba(0,212,255,0.2);}
+.sc-val{font-family:'Space Mono',monospace;font-size:1.4rem;font-weight:700;line-height:1;margin-bottom:3px;}
+.sc-val.c{color:var(--cyan);}
+.sc-val.g{color:var(--green);}
+.sc-val.i{color:var(--indigo);}
+.sc-val.a{color:var(--amber);}
+.sc-label{font-family:'Space Mono',monospace;font-size:.46rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
 
-/* ── SKILLS ── */
-.skills-row{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:28px;min-height:1px;}
-.skill-tag{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.09em;text-transform:uppercase;padding:4px 11px;border-radius:100px;background:rgba(0,212,255,0.06);border:1px solid rgba(0,212,255,0.16);color:var(--cyan);}
+/* ── SECTION TITLE ── */
+.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.section-title{font-family:'Space Mono',monospace;font-size:.54rem;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan);opacity:.7;}
+.section-see-all{font-size:.66rem;font-weight:700;color:var(--dim);text-decoration:none;transition:color .2s;}
+.section-see-all:hover{color:var(--cyan);}
 
-/* ── STAT CARDS ── */
-.stats-row{display:grid;grid-template-columns:repeat(2,1fr);gap:11px;margin-bottom:22px;}
-@media(min-width:580px){.stats-row{grid-template-columns:repeat(4,1fr);}}
-.stat-card{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:17px;padding:18px 16px;position:relative;overflow:hidden;transition:border-color .3s,transform .3s;cursor:default;}
-.stat-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(0,212,255,0.07) 0%,transparent 60%);opacity:0;transition:opacity .3s;pointer-events:none;}
-.stat-card:hover{border-color:var(--border-h);transform:translateY(-3px);}
-.stat-card:hover::before{opacity:1;}
-.stat-label{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.17em;text-transform:uppercase;color:var(--muted);margin-bottom:7px;}
-.stat-value{font-family:'Space Mono',monospace;font-size:1.65rem;font-weight:700;line-height:1;margin-bottom:3px;}
-.sv-c{color:var(--cyan);text-shadow:0 0 16px rgba(0,212,255,.28);}
-.sv-g{color:#10b981;text-shadow:0 0 16px rgba(16,185,129,.28);}
-.sv-a{color:#f59e0b;text-shadow:0 0 16px rgba(245,158,11,.28);}
-.sv-i{color:#818cf8;text-shadow:0 0 16px rgba(129,140,248,.28);}
-.stat-delta{font-size:.62rem;color:var(--muted);}
-.stat-delta.up{color:#10b981;}
-.stat-icon{position:absolute;top:14px;right:14px;font-size:1.1rem;opacity:.18;transition:opacity .3s;}
-.stat-card:hover .stat-icon{opacity:.45;}
+/* ── FEATURE CARDS GRID ── */
+.features-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:24px;}
+@media(min-width:560px){.features-grid{grid-template-columns:repeat(3,1fr);}}
+.feat-card{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:18px;padding:18px 16px;cursor:pointer;transition:all .25s;text-decoration:none;display:block;position:relative;overflow:hidden;}
+.feat-card:hover{border-color:var(--border-h);transform:translateY(-2px);}
+.feat-card::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity .3s;}
+.feat-card:hover::before{opacity:1;}
+.feat-card.exchange::before{background:linear-gradient(135deg,rgba(0,212,255,0.04),transparent);}
+.feat-card.events::before{background:linear-gradient(135deg,rgba(244,114,182,0.04),transparent);}
+.feat-card.clubs::before{background:linear-gradient(135deg,rgba(129,140,248,0.04),transparent);}
+.feat-card.network::before{background:linear-gradient(135deg,rgba(16,185,129,0.04),transparent);}
+.feat-card.discover::before{background:linear-gradient(135deg,rgba(245,158,11,0.04),transparent);}
+.feat-card.locked{opacity:.5;cursor:not-allowed;}
+.feat-card.locked:hover{transform:none;border-color:var(--border);}
+.feat-icon{font-size:1.6rem;margin-bottom:8px;display:block;}
+.feat-label{font-family:'Space Mono',monospace;font-size:.46rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:3px;}
+.feat-name{font-size:.84rem;font-weight:800;margin-bottom:3px;}
+.feat-desc{font-size:.64rem;color:var(--muted);line-height:1.4;}
+.feat-badge{position:absolute;top:10px;right:10px;font-family:'Space Mono',monospace;font-size:.42rem;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:100px;font-weight:700;}
+.badge-live{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.25);color:var(--green);}
+.badge-soon{background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.22);color:var(--amber);}
+.badge-locked{background:rgba(100,116,139,0.1);border:1px solid rgba(100,116,139,0.2);color:var(--muted);}
+.badge-new{background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.25);color:var(--cyan);}
 
-/* ── MAIN GRID ── */
-.main-grid{display:grid;grid-template-columns:1fr;gap:16px;}
-@media(min-width:900px){.main-grid{grid-template-columns:1fr 310px;}}
+/* ── UNIVERSITY ACCESS NOTICE ── */
+.uni-notice{background:rgba(129,140,248,0.06);border:1px solid rgba(129,140,248,0.18);border-radius:14px;padding:14px 16px;margin-bottom:16px;font-size:.74rem;color:var(--dim);line-height:1.6;display:none;}
+.uni-notice.show{display:block;}
+.uni-notice strong{color:var(--indigo);}
+.uni-notice a{color:var(--cyan);font-weight:700;text-decoration:none;}
 
-/* ── HERO CARD ── */
-.hero-card{background:linear-gradient(135deg,rgba(0,212,255,0.06) 0%,rgba(2,0,36,0.8) 50%,rgba(99,102,241,0.05) 100%);border:1px solid rgba(0,212,255,0.14);border-radius:24px;padding:34px 30px;position:relative;overflow:hidden;margin-bottom:16px;}
-.hero-card::before{content:'';position:absolute;top:-50px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(0,212,255,0.09) 0%,transparent 70%);pointer-events:none;}
-.hero-card::after{content:'ZWAPY';position:absolute;bottom:-16px;right:-8px;font-size:5.5rem;font-weight:900;font-style:italic;color:rgba(0,212,255,0.028);letter-spacing:-.05em;pointer-events:none;line-height:1;}
-.hero-tag{display:inline-flex;align-items:center;gap:6px;font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.17em;text-transform:uppercase;color:var(--cyan);background:rgba(0,212,255,0.06);border:1px solid rgba(0,212,255,0.16);border-radius:100px;padding:4px 10px;margin-bottom:16px;}
-.hero-tag-dot{width:5px;height:5px;background:var(--cyan);border-radius:50%;animation:tp 2s ease infinite;}
-@keyframes tp{0%,100%{box-shadow:0 0 0 0 rgba(0,212,255,.6);}50%{box-shadow:0 0 0 5px rgba(0,212,255,0);}}
-.hero-headline{font-size:clamp(1.4rem,4vw,2.5rem);font-weight:900;font-style:italic;letter-spacing:-.03em;line-height:.95;margin-bottom:10px;}
-.hero-headline span{color:var(--cyan);}
-.hero-sub{font-size:.82rem;color:var(--dim);line-height:1.65;margin-bottom:22px;max-width:380px;}
-.hero-btn{display:inline-flex;align-items:center;gap:8px;background:var(--cyan);color:#000;padding:12px 26px;border-radius:12px;font-weight:800;font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;border:none;cursor:pointer;transition:transform .2s,box-shadow .3s;box-shadow:0 0 20px rgba(0,212,255,.38);position:relative;overflow:hidden;}
-.hero-btn::before{content:'';position:absolute;top:-50%;left:-60%;width:40%;height:200%;background:rgba(255,255,255,.3);transform:skewX(-20deg);animation:glint 3.5s ease infinite;}
-@keyframes glint{0%,70%,100%{left:-60%;}40%{left:120%;}}
-.hero-btn:hover{transform:translateY(-2px);box-shadow:0 0 36px rgba(0,212,255,.55);}
-.btn-arrow{transition:transform .2s;}
-.hero-btn:hover .btn-arrow{transform:translateX(4px);}
+/* ── SKILL SCORE CARD ── */
+.skill-score-card{background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.14);border-radius:18px;padding:18px;margin-bottom:16px;}
+.ssc-title{font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);opacity:.7;margin-bottom:12px;}
+.skills-score-list{display:flex;flex-direction:column;gap:8px;}
+.skill-score-row{display:flex;align-items:center;gap:10px;}
+.ssr-name{font-size:.78rem;font-weight:700;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.ssr-level{font-family:'Space Mono',monospace;font-size:.48rem;letter-spacing:.08em;text-transform:uppercase;border-radius:100px;padding:2px 7px;flex-shrink:0;}
+.level-beginner{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,.25);color:var(--green);}
+.level-intermediate{background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,.25);color:var(--amber);}
+.level-advanced{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,.25);color:var(--red);}
+.ssr-bar-wrap{width:80px;height:4px;background:rgba(255,255,255,0.07);border-radius:100px;overflow:hidden;flex-shrink:0;}
+.ssr-bar{height:100%;border-radius:100px;transition:width 1s ease;}
+.ssr-pct{font-family:'Space Mono',monospace;font-size:.58rem;color:var(--dim);flex-shrink:0;width:30px;text-align:right;}
+.take-exam-btn{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.2);border-radius:10px;padding:10px;font-size:.72rem;font-weight:800;color:var(--cyan);cursor:pointer;font-family:'Sora',sans-serif;text-decoration:none;margin-top:12px;transition:all .2s;}
+.take-exam-btn:hover{background:rgba(0,212,255,0.14);}
 
-/* ── FEATURE CARDS ── */
-.feature-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:11px;}
-.feature-card{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:18px;padding:20px 16px;position:relative;overflow:hidden;transition:all .3s;text-decoration:none;color:white;display:flex;flex-direction:column;gap:10px;}
-.feature-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--ac,var(--cyan)),transparent);transform:scaleX(0);transition:transform .4s ease;}
-.feature-card:hover::after{transform:scaleX(1);}
-.feature-card:hover{border-color:var(--border-h);transform:translateY(-3px);background:rgba(0,212,255,0.03);}
-.fc-icon{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:1.15rem;transition:transform .3s;flex-shrink:0;}
-.feature-card:hover .fc-icon{transform:scale(1.1);}
-.fc-title{font-size:.85rem;font-weight:800;font-style:italic;text-transform:uppercase;}
-.fc-desc{font-size:.72rem;color:var(--muted);line-height:1.55;flex:1;}
-.fc-link{font-size:.66rem;font-weight:800;letter-spacing:.05em;display:flex;align-items:center;gap:4px;transition:gap .2s;}
-.feature-card:hover .fc-link{gap:7px;}
+/* ── ACTIVITY FEED ── */
+.activity-list{display:flex;flex-direction:column;gap:8px;margin-bottom:24px;}
+.activity-item{background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:13px 15px;display:flex;gap:12px;align-items:flex-start;}
+.ai-dot{width:8px;height:8px;border-radius:50%;background:var(--cyan);flex-shrink:0;margin-top:4px;}
+.ai-content{}
+.ai-title{font-size:.78rem;font-weight:700;margin-bottom:2px;}
+.ai-time{font-size:.62rem;color:var(--muted);}
+.empty-activity{text-align:center;padding:28px 16px;color:var(--muted);}
+.ea-icon{font-size:1.8rem;margin-bottom:8px;opacity:.3;}
+.ea-text{font-size:.72rem;line-height:1.5;}
 
-/* ── RIGHT COL ── */
-.right-col{display:flex;flex-direction:column;gap:16px;}
+/* ── REFERRAL STRIP ── */
+.referral-strip{background:linear-gradient(135deg,rgba(16,185,129,0.06),rgba(1,1,20,0.9));border:1px solid rgba(16,185,129,0.18);border-radius:16px;padding:16px 18px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+.rs-left{}
+.rs-label{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.14em;text-transform:uppercase;color:var(--green);margin-bottom:3px;}
+.rs-title{font-size:.84rem;font-weight:800;}
+.rs-sub{font-size:.66rem;color:var(--dim);margin-top:2px;}
+.rs-btn{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.28);border-radius:10px;padding:9px 16px;font-size:.7rem;font-weight:800;color:var(--green);cursor:pointer;font-family:'Sora',sans-serif;white-space:nowrap;transition:all .2s;flex-shrink:0;}
+.rs-btn:hover{background:rgba(16,185,129,0.2);}
 
-/* Credits */
-.credits-card{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:20px;padding:24px;position:relative;overflow:hidden;}
-.credits-card::before{content:'';position:absolute;bottom:-36px;right:-36px;width:140px;height:140px;background:radial-gradient(circle,rgba(0,212,255,0.07) 0%,transparent 70%);pointer-events:none;}
-.cc-label{font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.19em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
-.cc-title{font-size:.88rem;font-weight:800;font-style:italic;text-transform:uppercase;margin-bottom:16px;}
-.cc-value{font-family:'Space Mono',monospace;font-size:2.6rem;font-weight:700;color:var(--cyan);line-height:1;text-shadow:0 0 26px rgba(0,212,255,.38);margin-bottom:3px;}
-.cc-sub{font-size:.65rem;color:var(--muted);margin-bottom:18px;}
-.cc-bar{height:4px;background:rgba(255,255,255,0.05);border-radius:100px;margin-bottom:18px;overflow:hidden;}
-.cc-bar-fill{height:100%;background:linear-gradient(90deg,var(--cyan),rgba(0,212,255,0.35));border-radius:100px;width:0%;transition:width 1.2s cubic-bezier(.4,0,.2,1);box-shadow:0 0 7px rgba(0,212,255,.45);}
-.cc-btn{width:100%;background:rgba(16,185,129,0.07);border:1px solid rgba(16,185,129,0.2);border-radius:11px;padding:11px;font-weight:800;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:#10b981;cursor:pointer;transition:all .3s;display:flex;align-items:center;justify-content:center;gap:6px;position:relative;overflow:hidden;}
-.cc-btn:hover{background:rgba(16,185,129,0.16);box-shadow:0 0 16px rgba(16,185,129,.14);transform:translateY(-1px);}
+/* ── CREAGENIX COMING SOON ── */
+.crx-card{background:linear-gradient(135deg,rgba(255,184,0,0.06),rgba(1,1,20,0.95));border:1px solid rgba(255,184,0,0.2);border-radius:18px;padding:18px;margin-bottom:16px;cursor:pointer;transition:all .25s;text-decoration:none;display:block;}
+.crx-card:hover{border-color:rgba(255,184,0,0.38);transform:translateY(-1px);}
+.crx-top{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.crx-icon{font-size:1.4rem;}
+.crx-label-wrap{}
+.crx-label{font-family:'Space Mono',monospace;font-size:.48rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);opacity:.8;margin-bottom:2px;}
+.crx-name{font-size:.9rem;font-weight:800;}
+.crx-badge{margin-left:auto;background:rgba(255,184,0,0.1);border:1px solid rgba(255,184,0,0.25);border-radius:100px;padding:3px 10px;font-family:'Space Mono',monospace;font-size:.46rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);font-weight:700;}
+.crx-desc{font-size:.7rem;color:var(--dim);line-height:1.5;}
+.crx-skills{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px;}
+.crx-skill-tag{background:rgba(255,184,0,0.07);border:1px solid rgba(255,184,0,0.18);border-radius:100px;padding:3px 9px;font-size:.62rem;font-weight:700;color:var(--gold);}
 
-/* Activity */
-.activity-card{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:20px;padding:22px;flex:1;}
-.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
-.section-title{font-size:.85rem;font-weight:800;font-style:italic;text-transform:uppercase;letter-spacing:.02em;}
-.section-badge{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.12em;background:var(--cyan-dim);border:1px solid rgba(0,212,255,.16);color:var(--cyan);border-radius:100px;padding:3px 8px;text-transform:uppercase;}
-.activity-item{display:flex;align-items:flex-start;gap:11px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,0.04);}
-.activity-item:last-child{border-bottom:none;}
-.ai-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:5px;}
-.ai-dot.cyan{background:var(--cyan);box-shadow:0 0 6px rgba(0,212,255,.55);}
-.ai-dot.green{background:#10b981;box-shadow:0 0 6px rgba(16,185,129,.55);}
-.ai-dot.amber{background:#f59e0b;box-shadow:0 0 6px rgba(245,158,11,.55);}
-.ai-dot.indigo{background:#818cf8;box-shadow:0 0 6px rgba(129,140,248,.55);}
-.ai-text{font-size:.74rem;line-height:1.5;flex:1;color:var(--dim);}
-.ai-text strong{color:white;font-weight:700;}
-.ai-time{font-family:'Space Mono',monospace;font-size:.52rem;color:var(--muted);flex-shrink:0;margin-top:2px;}
-.feed-empty{font-size:.75rem;color:var(--muted);text-align:center;padding:18px 0;font-style:italic;}
+/* ── FEEDBACK POPUP ── */
+.feedback-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(10px);z-index:2000;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;pointer-events:none;transition:opacity .3s;}
+.feedback-overlay.open{opacity:1;pointer-events:all;}
+.feedback-modal{background:rgba(2,0,36,0.98);border:1px solid rgba(0,212,255,0.2);border-radius:22px;width:100%;max-width:420px;overflow:hidden;}
+.fm-stripe{height:3px;background:linear-gradient(90deg,var(--cyan),var(--green));}
+.fm-body{padding:24px;}
+.fm-close{float:right;background:none;border:none;color:var(--muted);cursor:pointer;font-size:.9rem;padding:0;line-height:1;}
+.fm-close:hover{color:white;}
+.fm-title{font-size:1.1rem;font-weight:900;font-style:italic;margin-bottom:4px;}
+.fm-sub{font-size:.72rem;color:var(--dim);margin-bottom:18px;line-height:1.5;}
+.fm-field{margin-bottom:12px;}
+.fm-field label{display:block;font-size:.58rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin-bottom:5px;}
+.fm-field textarea{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:11px 13px;font-size:.82rem;color:white;font-family:'Sora',sans-serif;outline:none;resize:vertical;min-height:80px;transition:border-color .2s;line-height:1.5;}
+.fm-field textarea:focus{border-color:var(--cyan);}
+.fm-rating{display:flex;gap:8px;margin-bottom:14px;}
+.fm-star{font-size:1.6rem;cursor:pointer;transition:transform .15s;filter:grayscale(1);}
+.fm-star.active{filter:none;transform:scale(1.15);}
+.fm-submit{width:100%;background:var(--cyan);color:#000;border:none;border-radius:10px;padding:12px;font-size:.82rem;font-weight:800;text-transform:uppercase;cursor:pointer;font-family:'Sora',sans-serif;}
+.fm-skip{width:100%;background:none;border:none;color:var(--muted);font-size:.68rem;cursor:pointer;margin-top:8px;padding:6px;font-family:'Sora',sans-serif;}
+.fm-skip:hover{color:var(--dim);}
 
-/* ── SIDEBAR ── FIXED: display flex column so footer stays at bottom */
-.sidebar{
-  position:fixed;inset-y:0;left:0;width:260px;
-  background:rgba(2,0,36,0.98);
-  backdrop-filter:blur(30px);
-  border-right:1px solid rgba(0,212,255,0.09);
-  z-index:600;padding:22px 16px;
-  transform:translateX(-100%);
-  transition:transform .32s cubic-bezier(.4,0,.2,1);
-  /* FIX: flex column pushes footer down */
-  display:flex;flex-direction:column;
-  overflow-y:auto;
-}
-.sidebar.open{transform:translateX(0);}
-.sidebar-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:26px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,0.05);flex-shrink:0;}
-.sidebar-logo{display:flex;align-items:center;gap:8px;}
-.sidebar-logo span{font-size:1.15rem;font-weight:900;font-style:italic;}
-.sidebar-close{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;color:var(--muted);font-size:.8rem;flex-shrink:0;}
-.sidebar-close:hover{background:rgba(239,68,68,0.1);border-color:#ef4444;color:#ef4444;}
-.sidebar-sec{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);padding:0 9px;margin-bottom:7px;flex-shrink:0;}
-.sidebar-nav{display:flex;flex-direction:column;gap:2px;flex-shrink:0;}
-.sidebar-nav a{display:flex;align-items:center;gap:10px;padding:11px 13px;border-radius:11px;text-decoration:none;color:var(--muted);font-size:.8rem;font-weight:600;transition:all .2s;}
-.sidebar-nav a.active{background:rgba(0,212,255,0.08);border-left:3px solid var(--cyan);color:white;padding-left:10px;}
-.sidebar-nav a:hover:not(.active){background:rgba(255,255,255,0.04);color:white;}
-/* FIX: margin-top auto pushes this to the bottom */
-.sidebar-foot{margin-top:auto;padding-top:20px;background:rgba(0,212,255,0.05);border:1px solid rgba(0,212,255,0.12);border-radius:13px;padding:15px;flex-shrink:0;}
-.sf-label{font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:3px;}
-.sf-val{font-family:'Space Mono',monospace;font-size:1.4rem;font-weight:700;color:var(--cyan);}
-.sf-name{font-size:.7rem;color:var(--dim);margin-top:3px;}
-
-/* Overlay */
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);z-index:550;opacity:0;pointer-events:none;transition:opacity .3s;}
-.overlay.active{opacity:1;pointer-events:all;}
+/* ── TOAST ── */
+.toast{position:fixed;bottom:82px;left:50%;transform:translateX(-50%) translateY(14px);border-radius:100px;padding:9px 18px;font-size:.72rem;font-weight:700;z-index:5000;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap;max-width:90vw;text-align:center;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.toast.s{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,.28);color:var(--green);}
+.toast.e{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,.28);color:var(--red);}
 
 /* ── BOTTOM NAV ── */
-.bottom-nav{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:380px;background:rgba(2,0,36,0.95);backdrop-filter:blur(28px);border:1px solid rgba(0,212,255,0.14);border-radius:100px;padding:7px 12px;display:flex;justify-content:space-around;align-items:center;z-index:500;box-shadow:0 8px 32px rgba(0,0,0,.6);}
-.nav-item{width:42px;height:42px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:all .22s;text-decoration:none;color:var(--muted);font-size:1.1rem;position:relative;}
+.bottom-nav{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);width:calc(100% - 24px);max-width:360px;background:rgba(2,0,36,0.96);backdrop-filter:blur(28px);border:1px solid rgba(0,212,255,0.14);border-radius:100px;padding:5px 10px;display:flex;justify-content:space-around;align-items:center;z-index:500;box-shadow:0 8px 28px rgba(0,0,0,.6);}
+.nav-item{width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:all .2s;text-decoration:none;color:var(--muted);font-size:1rem;}
 .nav-item.active{background:rgba(0,212,255,0.11);color:var(--cyan);}
-.nav-item:hover{background:rgba(0,212,255,0.08);color:var(--cyan);}
-.nav-badge{position:absolute;top:6px;right:6px;width:7px;height:7px;background:#ef4444;border-radius:50%;border:2px solid var(--bg);}
-.nav-av{width:26px;height:26px;border-radius:50%;border:2px solid rgba(0,212,255,.28);overflow:hidden;}
+.nav-item:hover{background:rgba(0,212,255,0.07);color:var(--cyan);}
+.nav-av{width:24px;height:24px;border-radius:50%;border:2px solid rgba(0,212,255,.25);overflow:hidden;}
 .nav-av img{width:100%;height:100%;object-fit:cover;}
 
-.fade-up{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease;}
+.fade-up{opacity:0;transform:translateY(14px);transition:opacity .55s ease,transform .55s ease;}
 .fade-up.in{opacity:1;transform:translateY(0);}
-.d1{transition-delay:.05s;}.d2{transition-delay:.1s;}.d3{transition-delay:.15s;}.d4{transition-delay:.2s;}.d5{transition-delay:.25s;}
-
-@keyframes ripple{0%{transform:scale(0);opacity:.5;}100%{transform:scale(4);opacity:0;}}
-.ripple{position:absolute;border-radius:50%;background:rgba(16,185,129,0.28);animation:ripple .6s ease forwards;pointer-events:none;}
-
+.d1{transition-delay:.05s;}.d2{transition-delay:.1s;}.d3{transition-delay:.15s;}
+.d4{transition-delay:.2s;}.d5{transition-delay:.25s;}.d6{transition-delay:.3s;}
 ::-webkit-scrollbar{width:3px;}
-::-webkit-scrollbar-thumb{background:rgba(0,212,255,0.16);border-radius:100px;}
-
-/* ── EXCHANGE MODAL ── */
-.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(8px);z-index:2000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s ease;}
-.modal-backdrop.open{opacity:1;pointer-events:all;}
-.modal{background:rgba(2,0,36,0.97);border:1px solid rgba(0,212,255,0.2);border-radius:24px;padding:32px 28px;width:100%;max-width:420px;position:relative;transform:translateY(24px) scale(0.97);transition:transform .3s ease;overflow:hidden;}
-.modal-backdrop.open .modal{transform:translateY(0) scale(1);}
-.modal::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:60%;height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);}
-.modal-tag{font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan);background:rgba(0,212,255,0.07);border:1px solid rgba(0,212,255,0.16);border-radius:100px;padding:4px 10px;display:inline-block;margin-bottom:16px;}
-.modal h3{font-size:1.25rem;font-weight:900;font-style:italic;margin-bottom:6px;}
-.modal p{font-size:.78rem;color:var(--dim);line-height:1.6;margin-bottom:22px;}
-.modal-field{margin-bottom:16px;}
-.modal-field label{display:block;font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-bottom:7px;}
-.modal-field input,.modal-field select{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:11px;padding:12px 14px;font-size:.88rem;color:white;font-family:'Sora',sans-serif;outline:none;transition:border-color .2s,box-shadow .2s;}
-.modal-field input::placeholder{color:var(--muted);}
-.modal-field input:focus,.modal-field select:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(0,212,255,0.08);}
-.modal-field select option{background:#020024;}
-.modal-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.modal-actions{display:flex;gap:10px;margin-top:22px;}
-.modal-cancel{flex:1;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:11px;padding:12px;font-size:.78rem;font-weight:700;color:var(--dim);cursor:pointer;transition:all .2s;font-family:'Sora',sans-serif;}
-.modal-cancel:hover{border-color:rgba(255,255,255,0.2);color:white;}
-.modal-confirm{flex:2;background:var(--cyan);border:none;border-radius:11px;padding:12px;font-size:.78rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#000;cursor:pointer;transition:all .25s;font-family:'Sora',sans-serif;position:relative;overflow:hidden;}
-.modal-confirm:hover{box-shadow:0 0 20px rgba(0,212,255,.4);transform:translateY(-1px);}
-.modal-confirm:disabled{opacity:.5;cursor:not-allowed;transform:none;}
-
-.coin-flash{position:fixed;top:80px;left:50%;transform:translateX(-50%) translateY(-20px);background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);border-radius:100px;padding:10px 22px;font-size:.8rem;font-weight:700;color:#10b981;z-index:3000;opacity:0;transition:all .4s ease;pointer-events:none;white-space:nowrap;}
-.coin-flash.show{opacity:1;transform:translateX(-50%) translateY(0);}
+::-webkit-scrollbar-thumb{background:rgba(0,212,255,0.14);border-radius:100px;}
 </style>
 </head>
 <body>
 <div class="bg-glow"></div>
+<div id="loadScreen"><div class="ls-logo">ZWAPY</div><div class="ls-bar"><div class="ls-fill"></div></div><div class="ls-text">Loading your dashboard...</div></div>
+<div class="toast" id="toast"></div>
 
-<div id="loadScreen">
-  <div class="load-logo">ZWAPY</div>
-  <div class="load-bar"><div class="load-bar-fill"></div></div>
-  <div class="load-text">Connecting to network...</div>
+<!-- FEEDBACK POPUP -->
+<div class="feedback-overlay" id="feedbackOverlay">
+  <div class="feedback-modal">
+    <div class="fm-stripe"></div>
+    <div class="fm-body">
+      <button class="fm-close" onclick="closeFeedback()">✕</button>
+      <div class="fm-title">Quick Feedback 💬</div>
+      <p class="fm-sub">Help us build Zwapy better. Takes 30 seconds — completely anonymous.</p>
+      <div class="fm-rating" id="fmRating">
+        <span class="fm-star" onclick="setRating(1)">⭐</span>
+        <span class="fm-star" onclick="setRating(2)">⭐</span>
+        <span class="fm-star" onclick="setRating(3)">⭐</span>
+        <span class="fm-star" onclick="setRating(4)">⭐</span>
+        <span class="fm-star" onclick="setRating(5)">⭐</span>
+      </div>
+      <div class="fm-field">
+        <label>What do you like most?</label>
+        <textarea id="fmLike" placeholder="e.g. The skill exchange idea is great..."></textarea>
+      </div>
+      <div class="fm-field">
+        <label>What should we improve?</label>
+        <textarea id="fmImprove" placeholder="e.g. Make it easier to find people..."></textarea>
+      </div>
+      <button class="fm-submit" onclick="submitFeedback()">Send Feedback →</button>
+      <button class="fm-skip" onclick="closeFeedback()">Skip for now</button>
+    </div>
+  </div>
 </div>
 
-<!-- SIDEBAR -->
-<aside class="sidebar" id="sidebar">
-  <div class="sidebar-header">
-    <div class="sidebar-logo">
-      <img src="assets/zwapy-logo.png" style="width:32px;height:32px;object-fit:contain;">
-      <span>ZWAPY</span>
-    </div>
-    <button class="sidebar-close" id="sidebarClose">✕</button>
-  </div>
-  <p class="sidebar-sec">Navigation</p>
-  <nav class="sidebar-nav">
-    <a href="dashboard.html" class="active">🏠 &nbsp;Dashboard</a>
-    <a href="profile.html">👤 &nbsp;Profile</a>
-    <a href="#">🔍 &nbsp;Discover</a>
-  </nav>
-  <!-- pushed to bottom by margin-top:auto -->
-  <div class="sidebar-foot">
-    <div class="sf-label">Skill Coins</div>
-    <div class="sf-val" id="sidebarCredits">—</div>
-    <div class="sf-name" id="sidebarName">Loading...</div>
-  </div>
-</aside>
-<div class="overlay" id="overlay"></div>
-
-<span id="dropMan" class="falling-man">🏃‍➡️</span>
-
 <div class="layout">
+  <!-- TOPBAR -->
   <header class="topbar">
-    <a href="#" class="topbar-logo" id="logoBtn">
-      <div class="logo-node">
-        <img src="assets/zwapy-logo.png" style="width:26px;height:26px;object-fit:contain;">
-      </div>
+    <a href="dashboard.html" class="topbar-logo">
+      <div class="logo-node"><img src="assets/zwapy-logo.png" style="width:22px;height:22px;object-fit:contain;" onerror="this.style.display='none'"></div>
       <span class="logo-text">ZWAPY</span>
     </a>
     <div class="topbar-right">
-      <div class="user-chip">
-        <span class="role" id="topRole">Student</span>
-        <span class="uname" id="topName">—</span>
-      </div>
-      <div class="avatar-ring">
-        <img id="topAvatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=default" alt="Avatar">
-      </div>
-      <div class="logout-container" id="logoutBtn">
-        <span class="logout-label">Logout</span>
-        <div class="anim-box">
-          <span class="man">🏃‍➡️</span>
-          <div class="doorway"></div>
-        </div>
-      </div>
+      <div class="coins-pill">💰 <span id="coinsDisplay">0</span></div>
+      <div class="notif-btn" onclick="toast('No new notifications','s')">🔔<div class="notif-dot" id="notifDot"></div></div>
     </div>
   </header>
 
-  <div class="greeting-strip fade-up d1">
-    <div>
-      <div class="greeting-label">// Welcome back</div>
-      <h1 class="greeting-title">
-        <span id="greetTime">Good morning</span>,<br>
-        <span id="greetName">—</span>
-      </h1>
-      <p class="greeting-sub" id="greetUni">Your campus network is live.</p>
+  <!-- HERO -->
+  <div class="hero fade-up d1">
+    <div class="hero-top">
+      <div class="greeting-wrap">
+        <div class="greeting-time" id="greetingTime">Good morning</div>
+        <div class="greeting-name" id="greetingName">Loading...</div>
+        <div class="greeting-sub" id="greetingSub">Welcome back to Zwapy</div>
+      </div>
+      <img id="avatarBig" src="https://api.dicebear.com/7.x/avataaars/svg?seed=default" class="avatar-big" alt="Avatar"/>
     </div>
-    <div class="status-pill"><span class="status-dot"></span>Network Active</div>
   </div>
 
-  <div class="skills-row fade-up d2" id="skillsRow"></div>
-
+  <!-- STATS -->
   <div class="stats-row fade-up d2">
-    <div class="stat-card">
-      <div class="stat-icon">💰</div>
-      <div class="stat-label">Skill Coins</div>
-      <div class="stat-value sv-c" id="statCoins">—</div>
-      <div class="stat-delta up">Your balance</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-icon">🔄</div>
-      <div class="stat-label">Exchanges</div>
-      <div class="stat-value sv-g" id="statExchanges">0</div>
-      <div class="stat-delta">Lifetime total</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-icon">🛡️</div>
-      <div class="stat-label">Clubs</div>
-      <div class="stat-value sv-a" id="statClubs">0</div>
-      <div class="stat-delta">Active memberships</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-icon">🌐</div>
-      <div class="stat-label">Network Rank</div>
-      <div class="stat-value sv-i" id="statRank">#—</div>
-      <div class="stat-delta up" id="statRankLabel">By coins</div>
-    </div>
+    <div class="stat-card"><div class="sc-val c" id="statCoins">0</div><div class="sc-label">Skill Coins</div></div>
+    <div class="stat-card"><div class="sc-val g" id="statExchanges">0</div><div class="sc-label">Exchanges</div></div>
+    <div class="stat-card"><div class="sc-val i" id="statRank">#-</div><div class="sc-label">Rank</div></div>
+    <div class="stat-card" style="display:none;" id="statCertCard"><div class="sc-val a" id="statCerts">0</div><div class="sc-label">Certs</div></div>
   </div>
 
-  <div class="main-grid">
-    <div>
-      <div class="hero-card fade-up d3">
-        <div class="hero-tag"><span class="hero-tag-dot"></span>Phase 1 — Live at Presidency</div>
-        <h2 class="hero-headline">Your Skills are<br><span>Currency.</span></h2>
-        <p class="hero-sub">Stop searching for inspiration, start trading it. You're inside the network that changes everything for students.</p>
-        <a href="skill-exchange.html" class="hero-btn">Start Swapping <span class="btn-arrow">→</span></a>
-      </div>
+  <!-- UNIVERSITY ACCESS NOTICE — shown for non-Presidency users -->
+  <div class="uni-notice" id="uniNotice">
+    <strong>🏛️ Your University Access</strong><br>
+    Skill Exchange is open to <strong>all universities</strong>. Clubs and Events are currently only available for <strong>Presidency University, Bangalore</strong>. Your university will be added to Zwapy soon — <a href="#">join the waitlist</a> to be notified.
+  </div>
 
-      <div class="feature-grid fade-up d4">
-        <a href="skill-exchange.html" class="feature-card" style="--ac:#00D4FF;">
-          <div class="fc-icon" style="background:rgba(0,212,255,0.08);">🔄</div>
-          <div><div class="fc-title">Skill Exchange</div><div class="fc-desc">Trade your craft for what you need.</div></div>
-          <div class="fc-link" style="color:var(--cyan);">Enter Portal →</div>
-        </a>
-        <a href="clubs.html" class="feature-card" style="--ac:#6366f1;">
-          <div class="fc-icon" style="background:rgba(99,102,241,0.1);">👥</div>
-          <div><div class="fc-title">Creative Clubs</div><div class="fc-desc">High-signal circles. No noise.</div></div>
-          <div class="fc-link" style="color:#818cf8;">Find Tribe →</div>
-        </a>
-        <a href="event.html" class="feature-card" style="--ac:#10b981;">
-          <div class="fc-icon" style="background:rgba(16,185,129,0.1);">🎪</div>
-          <div><div class="fc-title">Live Events</div><div class="fc-desc">Workshops, hackathons — yours.</div></div>
-          <div class="fc-link" style="color:#10b981;">Check Schedule →</div>
-        </a>
+  <!-- SKILL SCORES (shown if exam taken) -->
+  <div class="skill-score-card fade-up d2" id="skillScoreCard" style="display:none;">
+    <div class="ssc-title">// Your Skill Scores (Verified)</div>
+    <div class="skills-score-list" id="skillScoreList"></div>
+    <a href="exam.html" class="take-exam-btn" id="retakeExamBtn" style="display:none;">🔄 Retake Exam to Improve Score</a>
+  </div>
+
+  <!-- FEATURES GRID -->
+  <div class="section-head fade-up d3">
+    <div class="section-title">// Features</div>
+  </div>
+  <div class="features-grid fade-up d3" id="featuresGrid">
+    <!-- Rendered by JS based on university access -->
+  </div>
+
+  <!-- CREAGENIX COMING SOON -->
+  <a href="creagenix.html" class="crx-card fade-up d4">
+    <div class="crx-top">
+      <div class="crx-icon">🎬</div>
+      <div class="crx-label-wrap">
+        <div class="crx-label">Coming Soon · Partnership</div>
+        <div class="crx-name">Creagenix × Zwapy</div>
       </div>
+      <div class="crx-badge">Coming Soon</div>
     </div>
+    <div class="crx-desc">Professional video editing, photo editing and content creation — taught by Creagenix creators inside Zwapy. Earn certificates. Build your brand.</div>
+    <div class="crx-skills">
+      <span class="crx-skill-tag">🎬 Video Editing</span>
+      <span class="crx-skill-tag">📸 Photo Editing</span>
+      <span class="crx-skill-tag">🎨 Graphic Design</span>
+      <span class="crx-skill-tag">🚀 Personal Brand</span>
+    </div>
+  </a>
 
-    <div class="right-col fade-up d5">
-      <div class="credits-card">
-        <div class="cc-label">// Your economy</div>
-        <div class="cc-title">Skill Coins</div>
-        <div class="cc-value" id="creditsDisplay">—</div>
-        <div class="cc-sub" id="creditsSub">Loading your balance...</div>
-        <div class="cc-bar"><div class="cc-bar-fill" id="creditBar"></div></div>
-        <button class="cc-btn" id="exchangeBtn">⚡ &nbsp;Skill Exchange (+coins)</button>
-      </div>
+  <!-- REFERRAL STRIP -->
+  <div class="referral-strip fade-up d4">
+    <div class="rs-left">
+      <div class="rs-label">// Invite & Earn</div>
+      <div class="rs-title">Invite friends, earn coins 💰</div>
+      <div class="rs-sub">You get +2 coins for every friend who joins</div>
+    </div>
+    <button class="rs-btn" id="copyRefBtn">📋 Copy Link</button>
+  </div>
 
-      <div class="activity-card">
-        <div class="section-head">
-          <div class="section-title">Activity Feed</div>
-          <div class="section-badge">Live</div>
-        </div>
-        <div id="activityFeed">
-          <div class="feed-empty">Loading activity...</div>
-        </div>
-      </div>
+  <!-- RECENT ACTIVITY -->
+  <div class="section-head fade-up d5">
+    <div class="section-title">// Recent Activity</div>
+    <a href="profile.html" class="section-see-all">See all →</a>
+  </div>
+  <div class="activity-list fade-up d5" id="activityList">
+    <div class="empty-activity">
+      <div class="ea-icon">⚡</div>
+      <p class="ea-text">No activity yet. Do your first skill exchange to get started.</p>
     </div>
   </div>
 </div>
@@ -410,78 +329,28 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <!-- BOTTOM NAV -->
 <nav class="bottom-nav">
   <a href="dashboard.html" class="nav-item active">🏠</a>
-  <a href="clubs.html" class="nav-item">🏛️</a>
-  <a href="network.html" class="nav-item">🧑‍🤝‍🧑</a>
+  <a href="clubs.html" class="nav-item" id="navClubs">🛡️</a>
+  <a href="network.html" class="nav-item">💬</a>
   <a href="discover.html" class="nav-item">🔍</a>
   <a href="profile.html" class="nav-item">
-    <div class="nav-av"><img id="navAvatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=default" alt=""></div>
+    <div class="nav-av"><img id="navAvatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=default" alt=""/></div>
   </a>
 </nav>
 
-<!-- EXCHANGE MODAL -->
-<div class="modal-backdrop" id="exchangeModal">
-  <div class="modal">
-    <div class="modal-tag">⚡ Skill Exchange</div>
-    <h3>Start an Exchange</h3>
-    <p>Fill in your exchange details to earn Skill Coins.</p>
-    <div class="modal-row">
-      <div class="modal-field">
-        <label>You're Offering</label>
-        <input type="text" id="offerSkill" placeholder="e.g. UI Design"/>
-      </div>
-      <div class="modal-field">
-        <label>You Need</label>
-        <input type="text" id="needSkill" placeholder="e.g. Python"/>
-      </div>
-    </div>
-    <div class="modal-field">
-      <label>Exchange Type</label>
-      <select id="exchangeType">
-        <option value="Skill Swap">Skill Swap — teach each other</option>
-        <option value="Project Collab">Project Collab — build together</option>
-        <option value="Mentorship">Mentorship — learn from senior</option>
-        <option value="Resource Share">Resource Share — notes / tools</option>
-      </select>
-    </div>
-    <div class="modal-field">
-      <label>Duration</label>
-      <select id="exchangeDuration">
-        <option value="1 session">1 Session (~1hr)</option>
-        <option value="1 week">1 Week</option>
-        <option value="2 weeks">2 Weeks</option>
-        <option value="1 month">1 Month</option>
-      </select>
-    </div>
-    <div class="modal-field">
-      <label>Skill Level</label>
-      <select id="skillLevel">
-        <option value="5">Beginner (+5 coins)</option>
-        <option value="7">Intermediate (+7 coins)</option>
-        <option value="10">Advanced (+10 coins)</option>
-      </select>
-    </div>
-    <div class="modal-actions">
-      <button class="modal-cancel" id="modalCancel">Cancel</button>
-      <button class="modal-confirm" id="modalConfirm">Confirm Exchange</button>
-    </div>
-  </div>
-</div>
-
-<div class="coin-flash" id="coinFlash"></div>
-
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
 import {
-  getAuth, onAuthStateChanged, signOut,
-  setPersistence, browserLocalPersistence
-} from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
-import {
-  getFirestore, doc, getDoc, setDoc, updateDoc,
-  collection, query, orderBy, limit, onSnapshot,
-  addDoc, serverTimestamp, getDocs
+  getFirestore, doc, getDoc, getDocs, collection,
+  addDoc, serverTimestamp, orderBy, limit, query
 } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
-const app = initializeApp({
+const CURRENT_PROFILE_VERSION = 2;
+const PRESIDENCY_DOMAINS = ['presidencyuniversity.in','presidency.edu.in','presidency.ac.in'];
+// Show feedback popup after this many minutes on dashboard
+const FEEDBACK_DELAY_MINS = 3;
+
+const app=initializeApp({
   apiKey:"AIzaSyBazCIc5vdQInSwvqvohIcbPToTjnw7KJI",
   authDomain:"zwapy-25.firebaseapp.com",
   projectId:"zwapy-25",
@@ -489,220 +358,303 @@ const app = initializeApp({
   messagingSenderId:"30612332450",
   appId:"1:30612332450:web:9e23f36a69f89dbb325cfb"
 });
-const auth = getAuth(app);
-const db   = getFirestore(app);
+const auth=getAuth(app);
+const db=getFirestore(app);
+const $=id=>document.getElementById(id);
 
-// ── FIX: keep user logged in across sessions ──
-await setPersistence(auth, browserLocalPersistence);
+let currentUser=null;
+let userData={};
+let feedbackRating=0;
+let referralCode='';
 
-const $ = id => document.getElementById(id);
-const fmt = n => Number(n||0).toLocaleString();
+function toast(msg,type='s'){
+  const t=$('toast');t.textContent=msg;t.className=`toast ${type} show`;
+  setTimeout(()=>t.className='toast',3000);
+}
+function fmt(n){return Number(n||0).toLocaleString();}
 
-function timeAgo(ts){
-  if(!ts) return 'just now';
-  const m = Math.floor((Date.now()-ts.toMillis())/60000);
-  if(m<1) return 'just now';
-  if(m<60) return `${m}m ago`;
-  const h = Math.floor(m/60);
-  if(h<24) return `${h}h ago`;
-  return `${Math.floor(h/24)}d ago`;
+// Greeting based on time
+function setGreeting(){
+  const h=new Date().getHours();
+  const greet=h<12?'Good morning':h<17?'Good afternoon':'Good evening';
+  $('greetingTime').textContent=greet+',';
 }
 
-const hr = new Date().getHours();
-$('greetTime').textContent = hr<12?'Good morning':hr<17?'Good afternoon':'Good evening';
+// ── IS PRESIDENCY STUDENT ──
+function isPresidency(uniEmail){
+  if(!uniEmail) return false;
+  const domain=(uniEmail.split('@')[1]||'').toLowerCase();
+  return PRESIDENCY_DOMAINS.some(d=>domain===d||domain.endsWith('.'+d));
+}
 
-document.querySelectorAll('.stat-card').forEach(c=>{
-  c.addEventListener('mousemove',e=>{
-    const r=c.getBoundingClientRect();
-    c.style.setProperty('--mx',((e.clientX-r.left)/r.width*100)+'%');
-    c.style.setProperty('--my',((e.clientY-r.top)/r.height*100)+'%');
-  });
-});
+// ── BUILD FEATURES GRID ──
+function buildFeaturesGrid(isPresidencyStudent){
+  // Skill Exchange = open to ALL universities
+  // Clubs & Events = Presidency only for now
+  const features=[
+    {
+      id:'exchange',
+      href:'skill-exchange.html',
+      icon:'🔄',
+      label:'All Universities',
+      name:'Skill Exchange',
+      desc:'Exchange skills with students from any university',
+      badge:'Live',
+      badgeClass:'badge-live',
+      locked:false,
+      cls:'exchange'
+    },
+    {
+      id:'network',
+      href:'network.html',
+      icon:'🧑‍🤝‍🧑',
+      label:'All Universities',
+      name:'Network',
+      desc:'Connect with students across campuses',
+      badge:'Live',
+      badgeClass:'badge-live',
+      locked:false,
+      cls:'network'
+    },
+    {
+      id:'discover',
+      href:'discover.html',
+      icon:'🔍',
+      label:'All Universities',
+      name:'Discover',
+      desc:'Find students, skills and opportunities',
+      badge:'Live',
+      badgeClass:'badge-live',
+      locked:false,
+      cls:'discover'
+    },
+    {
+      id:'events',
+      href:isPresidencyStudent?'events.html':'#',
+      icon:'🎪',
+      label:isPresidencyStudent?'Presidency':'Coming to your uni',
+      name:'Events',
+      desc:isPresidencyStudent?'Campus events, hackathons, workshops':'Available once your university joins Zwapy',
+      badge:isPresidencyStudent?'Live':'Locked',
+      badgeClass:isPresidencyStudent?'badge-live':'badge-locked',
+      locked:!isPresidencyStudent,
+      cls:'events'
+    },
+    {
+      id:'clubs',
+      href:isPresidencyStudent?'clubs.html':'#',
+      icon:'🛡️',
+      label:isPresidencyStudent?'Presidency':'Coming to your uni',
+      name:'Clubs',
+      desc:isPresidencyStudent?'Campus clubs, activities, news':'Available once your university joins Zwapy',
+      badge:isPresidencyStudent?'Live':'Locked',
+      badgeClass:isPresidencyStudent?'badge-live':'badge-locked',
+      locked:!isPresidencyStudent,
+      cls:'clubs'
+    },
+    {
+      id:'profile',
+      href:'profile.html',
+      icon:'👤',
+      label:'Your Profile',
+      name:'Profile',
+      desc:'Edit skills, bio, referrals and settings',
+      badge:'',
+      badgeClass:'',
+      locked:false,
+      cls:''
+    }
+  ];
 
-// Sidebar
-function openSB(){ $('sidebar').classList.add('open'); $('overlay').classList.add('active'); }
-function closeSB(){ $('sidebar').classList.remove('open'); $('overlay').classList.remove('active'); }
-$('logoBtn').addEventListener('click',e=>{e.preventDefault();openSB();});
-$('sidebarClose').addEventListener('click',closeSB);
-$('overlay').addEventListener('click',closeSB);
+  $('featuresGrid').innerHTML=features.map(f=>`
+    <a href="${f.href}" class="feat-card ${f.cls} ${f.locked?'locked':''}"
+       ${f.locked?'onclick="return lockedClick(event)"':''}>
+      ${f.badge?`<span class="feat-badge ${f.badgeClass}">${f.badge}</span>`:''}
+      <span class="feat-icon">${f.icon}</span>
+      <div class="feat-label">${f.label}</div>
+      <div class="feat-name">${f.name}</div>
+      <div class="feat-desc">${f.desc}</div>
+    </a>
+  `).join('');
 
-// Logout
-$('logoutBtn').addEventListener('click',()=>{
-  $('logoutBtn').classList.add('executing');
-  setTimeout(()=>$('dropMan').classList.add('animate-fall'),300);
-  setTimeout(()=>signOut(auth).then(()=>window.location.href='index.html'),1200);
-});
-
-// Auth
-onAuthStateChanged(auth, async user=>{
-  // ── FIX: no account → signup, not dashboard ──
-  if(!user){
-    window.location.href='login.html';
-    return;
+  // Hide clubs nav item if not Presidency
+  if(!isPresidencyStudent && $('navClubs')){
+    $('navClubs').style.opacity='0.4';
+    $('navClubs').setAttribute('href','#');
+    $('navClubs').onclick=(e)=>{e.preventDefault();toast('Clubs available once your university joins Zwapy','e');};
   }
+}
 
-  const userRef = doc(db,'users',user.uid);
-  const snap    = await getDoc(userRef);
+window.lockedClick=function(e){
+  e.preventDefault();
+  toast('This feature is not available for your university yet','e');
+};
 
-  // ── FIX: if no Firestore doc → redirect to signup flow ──
-  if(!snap.exists()){
-    await setDoc(userRef,{
-      name: user.displayName||'Student',
-      email: user.email,
-      university:'',skills:[],
-      coins:0,exchanges:0,clubs:0,
+// ── SKILL SCORES ──
+function buildSkillScores(ud){
+  const skills=ud.skillsKnown||[];
+  const examScores=ud.examScores||{};
+  if(!skills.length)return;
+
+  $('skillScoreCard').style.display='block';
+  const list=$('skillScoreList');
+  const breakdown=examScores.skillBreakdown||[];
+
+  list.innerHTML=skills.map(sk=>{
+    const scoreData=breakdown.find(b=>b.skill===sk.name);
+    const pct=scoreData?scoreData.pct:(ud.examTaken?0:null);
+    const barColor=pct===null?'rgba(255,255,255,0.1)':pct>=70?'#10b981':pct>=40?'#f59e0b':'#ef4444';
+    return`<div class="skill-score-row">
+      <span class="ssr-name">${sk.name}</span>
+      <span class="ssr-level level-${sk.level}">${sk.level}</span>
+      ${pct!==null?`
+        <div class="ssr-bar-wrap"><div class="ssr-bar" style="width:${pct}%;background:${barColor};"></div></div>
+        <span class="ssr-pct">${pct}%</span>
+      `:``}
+      ${pct===null&&sk.certUrl?`<span style="font-size:.58rem;color:var(--green);">📎 Cert</span>`:''}
+    </div>`;
+  }).join('');
+
+  // Show retake button if exam was taken
+  if(ud.examTaken){
+    $('retakeExamBtn').style.display='flex';
+  }
+}
+
+// ── ACTIVITY ──
+async function loadActivity(uid){
+  try{
+    const snap=await getDocs(query(
+      collection(db,'users',uid,'activity'),
+      orderBy('createdAt','desc'),limit(5)
+    ));
+    if(snap.empty)return;
+    const items=[];
+    snap.forEach(d=>items.push(d.data()));
+    $('activityList').innerHTML=items.map(item=>`
+      <div class="activity-item">
+        <div class="ai-dot"></div>
+        <div class="ai-content">
+          <div class="ai-title">${item.title||'Activity'}</div>
+          <div class="ai-time">${item.desc||''}</div>
+        </div>
+      </div>
+    `).join('');
+  }catch(e){}
+}
+
+// ── FEEDBACK POPUP ──
+window.setRating=function(n){
+  feedbackRating=n;
+  document.querySelectorAll('.fm-star').forEach((s,i)=>s.classList.toggle('active',i<n));
+};
+window.closeFeedback=function(){
+  $('feedbackOverlay').classList.remove('open');
+  localStorage.setItem('zwapyFeedbackShown',Date.now().toString());
+};
+window.submitFeedback=async function(){
+  if(!feedbackRating){toast('Please give a star rating first','e');return;}
+  try{
+    await addDoc(collection(db,'feedback'),{
+      rating:feedbackRating,
+      like:($('fmLike').value||'').trim(),
+      improve:($('fmImprove').value||'').trim(),
+      userId:currentUser?.uid||'',
+      university:userData.university||'',
       createdAt:serverTimestamp()
     });
-    window.location.href='extra-details.html';
-    return;
+    closeFeedback();
+    toast('✅ Thanks for your feedback!');
+  }catch(e){toast('Saved — thanks!');closeFeedback();}
+};
+
+function maybeShowFeedback(){
+  const lastShown=localStorage.getItem('zwapyFeedbackShown');
+  if(lastShown){
+    const daysSince=(Date.now()-parseInt(lastShown))/(1000*60*60*24);
+    if(daysSince<7)return; // Don't show more than once a week
+  }
+  setTimeout(()=>{
+    $('feedbackOverlay').classList.add('open');
+  },FEEDBACK_DELAY_MINS*60*1000);
+}
+
+// ── AUTH + LOAD ──
+onAuthStateChanged(auth,async user=>{
+  if(!user){window.location.href='login.html';return;}
+  currentUser=user;
+  setGreeting();
+
+  const[userSnap,allSnap]=await Promise.all([
+    getDoc(doc(db,'users',user.uid)),
+    getDocs(collection(db,'users'))
+  ]);
+
+  if(!userSnap.exists()||!userSnap.data().name){
+    window.location.href='extra-details.html';return;
   }
 
-  const ud = snap.data();
-
-  // if profile incomplete → send to extra details
-  if(!ud.university || !ud.skills || ud.skills.length===0){
-    window.location.href='extra-details.html';
-    return;
+  userData=userSnap.data();
+  const savedVersion=userData.profileVersion||0;
+  if(savedVersion<CURRENT_PROFILE_VERSION){
+    window.location.href='extra-details.html';return;
   }
 
-  const name     = ud.name || user.displayName || 'Student';
-  const uni      = ud.university || '';
-  const skills   = ud.skills || [];
-  const clubs    = ud.clubs || 0;
-  const avatarUrl= ud.photoURL || user.photoURL ||
-    `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(name)}`;
+  const name=userData.name||user.displayName||'Student';
+  const coins=userData.coins||0;
+  const exchanges=userData.exchanges||0;
+  const photoURL=userData.photoURL||`https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(name)}`;
+  const uniEmail=userData.universityEmail||'';
+  const presidencyStudent=isPresidency(uniEmail);
+  referralCode=userData.referralCode||user.uid.substring(0,8).toUpperCase();
 
-  // Populate UI — single source of truth
-  $('greetName').textContent      = name.split(' ')[0];
-  $('greetUni').textContent       = `${uni} · Your network is live.`;
-  $('topName').textContent        = name;
-  $('topRole').textContent        = ud.role || 'Student';
-  $('topAvatar').src              = avatarUrl;
-  $('navAvatar').src              = avatarUrl;
-  $('sidebarName').textContent    = name;
-  $('statClubs').textContent      = fmt(clubs);
+  // Greeting
+  $('greetingName').textContent=name.split(' ')[0]+'!';
+  $('greetingSub').textContent=`${userData.university||'Zwapy'} · ${userData.course||'Student'}`;
+  $('avatarBig').src=photoURL;
+  $('navAvatar').src=photoURL;
+  $('coinsDisplay').textContent=fmt(coins);
 
-  // Skills tags
-  $('skillsRow').innerHTML = skills.length
-    ? skills.map(s=>`<span class="skill-tag">${s}</span>`).join('')
-    : '';
-
-  // ── FIX: single refreshUI function — no double display ──
-  function refreshUI(coins, exchanges){
-    const c = coins || 0;
-    const e = exchanges || 0;
-    $('statCoins').textContent      = fmt(c);
-    $('statExchanges').textContent  = fmt(e);
-    $('creditsDisplay').textContent = fmt(c);
-    $('sidebarCredits').textContent = fmt(c);
-    $('creditBar').style.width      = Math.min((c/500)*100,100)+'%';
-    $('creditsSub').textContent     = c>=500
-      ? 'Max tier reached 🔥'
-      : `${500-c} coins to next tier`;
-  }
-
-  // Load fresh from Firestore every time
-  const freshSnap = await getDoc(userRef);
-  refreshUI(freshSnap.data().coins, freshSnap.data().exchanges);
-
-  // Rank
-  const allSnap = await getDocs(collection(db,'users'));
+  // Stats
+  $('statCoins').textContent=fmt(coins);
+  $('statExchanges').textContent=fmt(exchanges);
   let rank=1;
-  allSnap.forEach(d=>{
-    if(d.id!==user.uid&&(d.data().coins||0)>(freshSnap.data().coins||0)) rank++;
-  });
-  $('statRank').textContent      = `#${rank}`;
-  $('statRankLabel').textContent = rank===1?'🔥 Top of network':'By coins';
+  allSnap.forEach(d=>{if(d.id!==user.uid&&(d.data().coins||0)>coins)rank++;});
+  $('statRank').textContent=`#${rank}`;
+  if(userData.examScores?.overall){
+    $('statCertCard').style.display='block';
+    $('statCerts').textContent=userData.examScores.overall+'%';
+  }
 
-  // Live activity feed
-  const feedQ = query(
-    collection(db,'users',user.uid,'activity'),
-    orderBy('createdAt','desc'), limit(8)
-  );
-  const COLORS = ['cyan','green','amber','indigo'];
-  onSnapshot(feedQ, snap=>{
-    const feed = $('activityFeed');
-    if(snap.empty){
-      feed.innerHTML='<div class="feed-empty">No activity yet — make your first exchange!</div>';
-      return;
-    }
-    feed.innerHTML='';
-    snap.forEach((d,i)=>{
-      const a=d.data();
-      const div=document.createElement('div');
-      div.className='activity-item';
-      div.style.cssText='opacity:0;transform:translateX(-8px);transition:all .3s ease;';
-      div.innerHTML=`
-        <div class="ai-dot ${COLORS[i%COLORS.length]}"></div>
-        <div class="ai-text"><strong>${a.title||'Activity'}</strong> <span>${a.desc||''}</span></div>
-        <div class="ai-time">${timeAgo(a.createdAt)}</div>`;
-      feed.appendChild(div);
-      requestAnimationFrame(()=>requestAnimationFrame(()=>{
-        div.style.opacity='1';div.style.transform='translateX(0)';
-      }));
-    });
+  // University access notice for non-Presidency
+  if(!presidencyStudent){
+    $('uniNotice').classList.add('show');
+  }
+
+  // Features grid — controls what's accessible
+  buildFeaturesGrid(presidencyStudent);
+
+  // Skill scores
+  buildSkillScores(userData);
+
+  // Referral
+  $('copyRefBtn').addEventListener('click',()=>{
+    const link=`https://zwapy.com/signup.html?ref=${referralCode}`;
+    try{navigator.clipboard.writeText(link);}
+    catch(e){const ta=document.createElement('textarea');ta.value=link;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);}
+    toast('✅ Invite link copied!');
   });
 
-  // Exchange modal
-  const modal = $('exchangeModal');
-  const flash = $('coinFlash');
+  // Activity
+  await loadActivity(user.uid);
 
-  $('exchangeBtn').addEventListener('click',()=>{
-    $('offerSkill').value='';$('needSkill').value='';
-    modal.classList.add('open');
-  });
-  $('modalCancel').addEventListener('click',()=>modal.classList.remove('open'));
-  modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('open');});
+  // Feedback popup
+  maybeShowFeedback();
 
-  $('modalConfirm').addEventListener('click', async()=>{
-    const offer    = $('offerSkill').value.trim();
-    const need     = $('needSkill').value.trim();
-    const type     = $('exchangeType').value;
-    const duration = $('exchangeDuration').value;
-    const level    = parseInt($('skillLevel').value);
-
-    if(!offer||!need){
-      $('offerSkill').style.borderColor = !offer?'#ef4444':'';
-      $('needSkill').style.borderColor  = !need?'#ef4444':'';
-      return;
-    }
-    $('offerSkill').style.borderColor='';
-    $('needSkill').style.borderColor='';
-
-    const btn=$('modalConfirm');
-    btn.disabled=true;btn.textContent='Processing...';
-
-    // Always read fresh from Firestore to avoid stale values
-    const latest       = await getDoc(userRef);
-    const latestCoins  = latest.data().coins || 0;
-    const latestEx     = latest.data().exchanges || 0;
-    const isFirst      = latestEx === 0;
-    const reward       = isFirst ? 50 : level;
-    const newCoins     = latestCoins + reward;
-    const newExchanges = latestEx + 1;
-
-    await updateDoc(userRef,{coins:newCoins, exchanges:newExchanges});
-    await addDoc(collection(db,'users',user.uid,'activity'),{
-      title:`${type}: ${offer} ↔ ${need}`,
-      desc:`— ${duration} · +${reward} coins earned`,
-      createdAt:serverTimestamp()
-    });
-
-    refreshUI(newCoins, newExchanges);
-    modal.classList.remove('open');
-    btn.disabled=false;btn.textContent='Confirm Exchange';
-
-    flash.textContent = isFirst
-      ? `🎉 First Exchange! +50 Coins — ${offer} ↔ ${need}`
-      : `✅ +${reward} Coins — ${offer} ↔ ${need}`;
-    flash.classList.add('show');
-    setTimeout(()=>flash.classList.remove('show'),3000);
-  });
-
-  // Hide loader
+  // Hide load screen
   setTimeout(()=>{
     $('loadScreen').classList.add('hide');
-    setTimeout(()=>{ if($('loadScreen')) $('loadScreen').remove(); },500);
+    setTimeout(()=>$('loadScreen').remove(),400);
     document.querySelectorAll('.fade-up').forEach(el=>el.classList.add('in'));
   },600);
 });
