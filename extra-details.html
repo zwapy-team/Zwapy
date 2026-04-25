@@ -895,20 +895,21 @@ if(savedVersion>=CURRENT_PROFILE_VERSION && existingData.name && !isUpdateFlow){
         const idx=interestMap[startupInterest];
         if(idx!==undefined) cards[idx].classList.add('selected');
       }
-      if(existingData.personalEmailVerified){
-        emailOtpVerified=true;
-        $('emailVerifiedBadge').classList.add('show');
-        $('sendOtpBtn').style.display='none';
-        $('personalEmailInput').disabled=true;
-      }
+      if (existingData.personalEmailVerified) {
+          emailOtpVerified = true;
+          $('emailVerifiedBadge').classList.add('show');
+          $('sendOtpBtn').style.display = 'none';
+          $('personalEmailInput').disabled = true;
+        }
+      } // Closes if(!isNewUser)
     } else {
-      isNewUser=true;
-    }
+      isNewUser = true;
+    } // Closes if(snap.exists())
   } else {
-    isNewUser=true;
+    isNewUser = true;
   }
   updateProgress();
-});
+}); // THIS IS THE LINE CAUSING THE ERROR - Make sure it has the });
 </script>
 </body>
 </html>
