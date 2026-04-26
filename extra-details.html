@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script type="text/javascript">
+   (function(){
+      // I put your Public Key here for you
+      emailjs.init("gjVpPMT3fejlwiwR_"); 
+   })();
+</script>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <!-- Google Analytics -->
@@ -522,6 +529,7 @@ window.checkUniEmail=function(){
 
 // ── PERSONAL EMAIL OTP via Firebase Email Verification ──
 // We use Firebase sendEmailVerification — sends directly from Firebase, no third party
+// ── PERSONAL EMAIL OTP ──
 window.sendPersonalOTP = async function() {
   if (!currentUser) { toast('Not logged in', 'e'); return; }
 
@@ -535,43 +543,30 @@ window.sendPersonalOTP = async function() {
 
   const btn = $('sendOtpBtn');
   btn.disabled = true;
-  btn.textContent = 'Sending Code...';
+  btn.textContent = 'Sending...';
 
   try {
-    // 1. Generate the 6-digit code
+    // 1. Generate 6-digit code
     generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
 
-    // 2. Save for internal verification
+    // 2. Save to Firestore so we can verify it
     await setDoc(doc(db, 'email_otps', currentUser.uid), {
       otp: generatedOTP,
       email: authEmail,
       createdAt: serverTimestamp()
     });
 
-    // 3. Trigger the actual Email with the CODE visible
-    // This uses the 'Trigger Email' extension format
-    await addDoc(collection(db, 'mail'), {
-      to: authEmail,
-      message: {
-        subject: `Your Zwapy Verification Code: ${generatedOTP}`,
-        html: `
-          <div style="font-family: sans-serif; padding: 20px; background: #0f172a; color: #fff; border-radius: 10px;">
-            <h2 style="color: #22d3ee;">Verify your Email</h2>
-            <p>Use the code below to verify your personal email on Zwapy:</p>
-            <div style="font-size: 32px; font-weight: bold; letter-spacing: 5px; color: #22d3ee; padding: 10px; border: 1px dashed #22d3ee; display: inline-block;">
-              ${generatedOTP}
-            </div>
-            <p style="font-size: 12px; color: #94a3b8; margin-top: 20px;">This code expires in 10 minutes.</p>
-          </div>
-        `
-      }
+    // 3. Send via EmailJS using your Template ID
+    await emailjs.send("service_gmail", "template_k49il5e", {
+      to_email: authEmail,
+      otp_code: generatedOTP
     });
 
     $('otpVerifySection').style.display = 'block';
-    $('otpDestHint').textContent = `6-digit code sent to ${authEmail}`;
+    $('otpDestHint').textContent = `Code sent to ${authEmail}`;
     btn.textContent = 'Resend Code';
     btn.disabled = false;
-    toast('✅ Code sent to your inbox!');
+    toast('✅ Check your inbox!');
 
   } catch (err) {
     console.error('OTP Send Error:', err);
@@ -580,6 +575,34 @@ window.sendPersonalOTP = async function() {
   }
 };
 
+// ── VERIFY OTP ──
+window.verifyPersonalOTP = async function() {
+  const enteredOtp = $('otpInputField').value.trim();
+  
+  if (enteredOtp.length !== 6) {
+    toast('Enter the 6-digit code', 'e');
+    return;
+  }
+
+  try {
+    const otpDoc = await getDoc(doc(db, 'email_otps', currentUser.uid));
+    
+    if (otpDoc.exists() && otpDoc.data().otp === enteredOtp) {
+      emailOtpVerified = true;
+      $('otpVerifySection').style.display = 'none';
+      $('emailVerifiedBadge').classList.add('show');
+      $('sendOtpBtn').style.display = 'none';
+      $('personalEmailInput').disabled = true;
+      toast('✅ Email Verified!');
+      updateProgress();
+    } else {
+      toast('❌ Invalid Code', 'e');
+    }
+  } catch (err) {
+    console.error('Verify Error:', err);
+    toast('Verification failed', 'e');
+  }
+};
 // ── VERIFY OTP ──
 window.verifyPersonalOTP=async function(){
   const entered=($('otpInputField').value||'').trim();
