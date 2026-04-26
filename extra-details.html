@@ -575,34 +575,31 @@ window.sendPersonalOTP = async function() {
   }
 };
 // ── VERIFY OTP ──
-window.verifyPersonalOTP=async function(){
-  const entered=($('otpInputField').value||'').trim();
-  if(!entered||entered.length!==6){toast('Enter the 6-digit OTP','e');return;}
-  if(!currentUser){toast('Not logged in','e');return;}
+window.verifyPersonalOTP = async function() {
+  const enteredOtp = $('otpInputField').value.trim();
+  
+  // 1. Check if the box is empty
+  if (enteredOtp.length !== 6) {
+    toast('Enter the 6-digit code', 'e');
+    return;
+  }
 
-  try{
-    // Verify against Firestore
-    const otpDoc=await getDoc(doc(db,'email_otps',currentUser.uid));
-    if(!otpDoc.exists()){toast('OTP expired. Send again.','e');return;}
-    const data=otpDoc.data();
-    const expired=new Date(data.expiresAt)<new Date();
-    if(expired){toast('OTP expired. Send again.','e');return;}
-    if(entered===data.otp){
-      emailOtpVerified=true;
-      $('otpVerifySection').style.display='none';
-      $('emailVerifiedBadge').classList.add('show');
-      $('sendOtpBtn').style.display='none';
-      $('personalEmailInput').disabled=true;
-      // Clean up OTP doc
-      try{await setDoc(doc(db,'email_otps',currentUser.uid),{verified:true,verifiedAt:serverTimestamp()});}catch(e){}
-      toast('✅ Email verified!');
-    } else {
-      toast('❌ Wrong OTP. Try again.','e');
-      $('otpInputField').style.borderColor='var(--red)';
-      setTimeout(()=>$('otpInputField').style.borderColor='',2000);
-    }
-  }catch(err){
-    toast('Verification error. Try again.','e');
+  // 2. Compare it to the code we just sent
+  // We check 'generatedOTP' which was set in the send function
+  if (enteredOtp === generatedOTP) {
+    // ✅ SUCCESS!
+    emailOtpVerified = true;
+    $('otpVerifySection').style.display = 'none';
+    $('emailVerifiedBadge').style.display = 'flex'; // Shows the green checkmark
+    $('sendOtpBtn').style.display = 'none';
+    $('personalEmailInput').disabled = true;
+    
+    toast('✅ Email Verified Successfully!');
+    if(typeof updateProgress === 'function') updateProgress();
+  } else {
+    // ❌ WRONG CODE
+    console.log("Expected:", generatedOTP, "Entered:", enteredOtp);
+    toast('❌ Invalid Code. Please check your email again.', 'e');
   }
 };
 
