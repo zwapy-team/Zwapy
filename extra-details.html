@@ -533,13 +533,13 @@ window.checkUniEmail=function(){
 window.sendPersonalOTP = async function() {
   const btn = document.getElementById('sendOtpBtn');
   
-  // 1. Get the email from the input box or the user profile
-  const emailInput = document.getElementById('personalEmailInput').value.trim();
-  const userEmail = currentUser ? currentUser.email : '';
-  const finalEmail = emailInput || userEmail;
+  // 1. DIRECT GRAB: Look exactly at the input field on your screen
+  const emailField = document.getElementById('personalEmailInput');
+  const finalEmail = emailField.value.trim();
 
-  if (!finalEmail) {
-    alert("Please enter your email address first!");
+  // 2. Safety Check: If the box is empty, tell the user
+  if (!finalEmail || !finalEmail.includes('@')) {
+    alert("Please type your email address in the box first!");
     return;
   }
 
@@ -547,22 +547,29 @@ window.sendPersonalOTP = async function() {
   btn.disabled = true;
 
   try {
+    // Generate the 6-digit code
     generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
     
-    // 2. Send via EmailJS
-    // We use 'finalEmail' to make sure the address is NOT empty
+    // 3. SEND TO EMAILJS
+    // Change "service_gmail" below if your Service ID is different!
     await emailjs.send("service_n42p919", "template_k49il5e", {
       to_email: finalEmail,
       otp_code: generatedOTP
     });
 
-    alert("IT WORKED! Check your inbox: " + finalEmail);
+    // 4. THE SUCCESS MESSAGE YOU WANTED
     document.getElementById('otpVerifySection').style.display = 'block';
+    document.getElementById('otpDestHint').innerText = "✅ OTP sent to " + finalEmail;
     btn.innerText = "RESEND CODE";
     btn.disabled = false;
+    
+    // Optional: a small success toast
+    if(typeof toast === 'function') toast('✅ OTP Sent!');
 
   } catch (err) {
-    alert("FAILED! Reason: " + JSON.stringify(err));
+    // If it still fails, we need to know why one last time
+    console.error(err);
+    alert("Connection Error: " + err.text);
     btn.innerText = "SEND OTP";
     btn.disabled = false;
   }
