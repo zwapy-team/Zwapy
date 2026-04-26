@@ -528,7 +528,6 @@ window.sendPersonalOTP = async function() {
   const enteredEmail = ($('personalEmailInput').value || '').trim().toLowerCase();
   const authEmail = (currentUser.email || '').toLowerCase();
 
-  // 1. Validation
   if (enteredEmail !== authEmail) {
     toast('❌ Use your login email: ' + authEmail, 'e');
     return;
@@ -536,42 +535,48 @@ window.sendPersonalOTP = async function() {
 
   const btn = $('sendOtpBtn');
   btn.disabled = true;
-  btn.textContent = 'Sending...';
+  btn.textContent = 'Sending Code...';
 
   try {
-    // 2. Generate 6-digit OTP
+    // 1. Generate the 6-digit code
     generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
 
-    // 3. Save to Firestore for the 'Verify' button to check
+    // 2. Save for internal verification
     await setDoc(doc(db, 'email_otps', currentUser.uid), {
       otp: generatedOTP,
       email: authEmail,
-      createdAt: serverTimestamp(),
-      expiresAt: new Date(Date.now() + 10 * 60 * 1000).toISOString() 
+      createdAt: serverTimestamp()
     });
 
-    // 4. Trigger the Firebase Email
-    const actionCodeSettings = {
-      // This sends the OTP back to whatever page you are currently on
-      url: window.location.href.split('?')[0] + `?otp=${generatedOTP}&uid=${currentUser.uid}`,
-      handleCodeInApp: true
-    };
-    
-    await sendEmailVerification(currentUser, actionCodeSettings);
+    // 3. Trigger the actual Email with the CODE visible
+    // This uses the 'Trigger Email' extension format
+    await addDoc(collection(db, 'mail'), {
+      to: authEmail,
+      message: {
+        subject: `Your Zwapy Verification Code: ${generatedOTP}`,
+        html: `
+          <div style="font-family: sans-serif; padding: 20px; background: #0f172a; color: #fff; border-radius: 10px;">
+            <h2 style="color: #22d3ee;">Verify your Email</h2>
+            <p>Use the code below to verify your personal email on Zwapy:</p>
+            <div style="font-size: 32px; font-weight: bold; letter-spacing: 5px; color: #22d3ee; padding: 10px; border: 1px dashed #22d3ee; display: inline-block;">
+              ${generatedOTP}
+            </div>
+            <p style="font-size: 12px; color: #94a3b8; margin-top: 20px;">This code expires in 10 minutes.</p>
+          </div>
+        `
+      }
+    });
 
-    // 5. Update UI
     $('otpVerifySection').style.display = 'block';
-    $('otpDestHint').textContent = `Verification link sent! Check your Inbox or Spam.`;
-    btn.textContent = 'Resend OTP';
+    $('otpDestHint').textContent = `6-digit code sent to ${authEmail}`;
+    btn.textContent = 'Resend Code';
     btn.disabled = false;
-    
-    toast('✅ Email sent successfully!');
+    toast('✅ Code sent to your inbox!');
 
   } catch (err) {
     console.error('OTP Send Error:', err);
     toast('Error: ' + err.message, 'e');
     btn.disabled = false;
-    btn.textContent = 'Send OTP';
   }
 };
 
