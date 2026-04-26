@@ -43,19 +43,14 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .sb-logo-text{font-size:1.15rem;font-weight:900;font-style:italic;}
 .sb-close{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);font-size:.8rem;transition:all .2s;}
 .sb-close:hover{background:rgba(239,68,68,0.1);border-color:var(--red);color:var(--red);}
-/* User info in sidebar */
 .sb-user{display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid rgba(255,255,255,0.05);}
 .sb-avatar{width:44px;height:44px;border-radius:50%;border:2px solid rgba(0,212,255,0.25);object-fit:cover;flex-shrink:0;}
-.sb-user-info{}
 .sb-user-name{font-size:.86rem;font-weight:800;margin-bottom:2px;}
 .sb-user-role{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);opacity:.7;}
-/* Coins in sidebar */
 .sb-coins{display:flex;align-items:center;gap:10px;padding:12px 20px;border-bottom:1px solid rgba(255,255,255,0.05);background:rgba(245,158,11,0.04);}
 .sb-coins-icon{font-size:1.2rem;}
-.sb-coins-info{}
 .sb-coins-val{font-family:'Space Mono',monospace;font-size:1.1rem;font-weight:700;color:var(--amber);line-height:1;}
 .sb-coins-label{font-size:.58rem;color:var(--muted);margin-top:1px;}
-/* Nav links */
 .sb-nav{flex:1;padding:12px 10px;overflow-y:auto;}
 .sb-sec-label{font-family:'Space Mono',monospace;font-size:.46rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);padding:8px 10px 5px;opacity:.7;}
 .sb-link{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:12px;text-decoration:none;color:var(--muted);font-size:.82rem;font-weight:600;transition:all .2s;margin-bottom:2px;cursor:pointer;border:none;background:none;width:100%;text-align:left;font-family:'Sora',sans-serif;}
@@ -63,11 +58,9 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .sb-link.active{background:rgba(0,212,255,0.08);color:var(--cyan);border-left:3px solid var(--cyan);padding-left:9px;}
 .sb-link.locked-link{opacity:.5;cursor:not-allowed;}
 .sb-link-icon{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;}
-.sb-link-info{}
 .sb-link-name{font-weight:700;font-size:.8rem;}
 .sb-link-sub{font-size:.6rem;color:var(--muted);margin-top:1px;}
 .sb-divider{height:1px;background:rgba(255,255,255,0.05);margin:8px 10px;}
-/* Sign out at bottom */
 .sb-foot{padding:14px 10px;border-top:1px solid rgba(255,255,255,0.05);}
 .sb-signout{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:12px;color:var(--red);font-size:.82rem;font-weight:700;cursor:pointer;transition:all .2s;border:none;background:none;width:100%;font-family:'Sora',sans-serif;}
 .sb-signout:hover{background:rgba(239,68,68,0.08);}
@@ -81,32 +74,88 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .topbar{display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid rgba(0,212,255,0.06);margin-bottom:28px;position:sticky;top:0;z-index:200;background:rgba(1,1,20,0.95);backdrop-filter:blur(24px);margin-left:-16px;margin-right:-16px;padding-left:16px;padding-right:16px;gap:10px;}
 @media(min-width:700px){.topbar{margin-left:-28px;margin-right:-28px;padding-left:28px;padding-right:28px;}}
 
-/* Logo — clickable to open sidebar */
+/* Logo → opens sidebar */
 .topbar-logo{display:flex;align-items:center;gap:8px;text-decoration:none;flex-shrink:0;cursor:pointer;transition:opacity .2s;}
 .topbar-logo:hover{opacity:.8;}
 .logo-node{width:32px;height:32px;background:rgba(0,212,255,0.07);border:1px solid rgba(0,212,255,0.2);border-radius:9px;display:flex;align-items:center;justify-content:center;}
 .logo-text{font-size:1.15rem;font-weight:900;font-style:italic;}
-
-/* Topbar right — only avatar + logout */
 .topbar-right{display:flex;align-items:center;gap:8px;}
 .tb-avatar{width:32px;height:32px;border-radius:50%;border:2px solid rgba(0,212,255,0.22);object-fit:cover;cursor:pointer;}
 
-/* Logout button */
-.tb-logout{display:flex;align-items:center;gap:5px;background:rgba(239,68,68,0.07);border:1px solid rgba(239,68,68,0.2);border-radius:100px;padding:5px 12px;font-size:.64rem;font-weight:700;color:var(--red);cursor:pointer;font-family:'Sora',sans-serif;transition:all .2s;}
-.tb-logout:hover{background:rgba(239,68,68,0.14);}
-.tb-logout-icon{font-size:.82rem;}
+/* ── LOGOUT BUTTON with running-man animation ── */
+.tb-logout{
+  display:flex;align-items:center;
+  background:rgba(239,68,68,0.07);
+  border:1px solid rgba(239,68,68,0.2);
+  border-radius:100px;
+  padding:5px 11px 5px 8px;
+  cursor:pointer;font-family:'Sora',sans-serif;
+  transition:background .2s,border-color .2s;
+  overflow:hidden;
+  position:relative;
+  min-width:82px;
+  height:34px;
+}
+.tb-logout:hover:not(:disabled){background:rgba(239,68,68,0.13);border-color:rgba(239,68,68,0.35);}
+.tb-logout:disabled{cursor:not-allowed;}
 
-/* HERO GREETING */
+/* inner scene */
+.lo-scene{display:flex;align-items:center;gap:3px;width:100%;justify-content:center;}
+.lo-man{font-size:.9rem;display:inline-block;}
+.lo-door{font-size:.9rem;display:inline-block;}
+.lo-text{font-size:.64rem;font-weight:700;color:var(--red);white-space:nowrap;}
+
+/* running state */
+.tb-logout.running .lo-text{
+  animation:fadeText .2s ease forwards;
+}
+.tb-logout.running .lo-man{
+  animation:manRun .65s ease-in forwards;
+}
+.tb-logout.running .lo-door{
+  animation:doorSlam .25s ease-in forwards;
+  animation-delay:.6s;
+}
+
+@keyframes fadeText{
+  to{opacity:0;width:0;overflow:hidden;margin:0;padding:0;}
+}
+@keyframes manRun{
+  0%  {transform:translateX(0) scale(1);}
+  60% {transform:translateX(20px) scale(1);}
+  85% {transform:translateX(26px) scale(.7);opacity:.6;}
+  100%{transform:translateX(28px) scale(.3);opacity:0;}
+}
+@keyframes doorSlam{
+  0%  {transform:scaleX(1);}
+  40% {transform:scaleX(1.25);}
+  100%{transform:scaleX(1);filter:brightness(.3);}
+}
+
+/* ── HERO — bigger greeting, no avatar ── */
 .hero-section{margin-bottom:28px;}
-.hero-inner{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;}
-.greeting-block{}
-.greeting-time{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan);opacity:.6;margin-bottom:5px;}
-.greeting-name{font-size:clamp(1.8rem,6vw,2.8rem);font-weight:900;font-style:italic;letter-spacing:-.03em;line-height:1;margin-bottom:6px;}
+/* greeting time label — bigger and more visible */
+.greeting-time{
+  font-family:'Space Mono',monospace;
+  font-size:.72rem;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--cyan);
+  opacity:.8;
+  margin-bottom:7px;
+}
+/* main name line — bigger */
+.greeting-name{
+  font-size:clamp(2.4rem,8vw,3.6rem);
+  font-weight:900;
+  font-style:italic;
+  letter-spacing:-.03em;
+  line-height:1;
+  margin-bottom:10px;
+}
 .greeting-name span{color:var(--cyan);}
-.greeting-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:5px;}
+.greeting-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:6px;}
 .gm-badge{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:100px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:var(--dim);}
-.hero-avatar-wrap{flex-shrink:0;}
-.hero-avatar{width:68px;height:68px;border-radius:50%;border:3px solid rgba(0,212,255,0.22);object-fit:cover;}
 
 /* STATS ROW */
 .stats-row{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:28px;}
@@ -148,7 +197,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .section-link{font-size:.66rem;font-weight:700;color:var(--dim);text-decoration:none;transition:color .2s;}
 .section-link:hover{color:var(--cyan);}
 
-/* FEATURE GRID — 3 cards only */
+/* FEATURE GRID — 3 cards */
 .feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:24px;}
 @media(min-width:560px){.feature-grid{grid-template-columns:repeat(3,1fr);}}
 .feat-card{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:18px;padding:18px 15px;cursor:pointer;transition:all .25s;text-decoration:none;display:block;position:relative;overflow:hidden;}
@@ -157,11 +206,16 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .feat-card.locked-card:hover{transform:none;box-shadow:none;border-color:var(--border);}
 .feat-icon{font-size:1.7rem;margin-bottom:9px;display:block;}
 .feat-uni-label{font-family:'Space Mono',monospace;font-size:.44rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:3px;}
-.feat-name{font-size:.85rem;font-weight:800;margin-bottom:3px;}
+/* ── name: not bright white, blends better ── */
+.feat-name{font-size:.85rem;font-weight:800;margin-bottom:3px;color:rgba(255,255,255,0.72);}
 .feat-desc{font-size:.63rem;color:var(--muted);line-height:1.45;}
+/* locked cards even dimmer text */
+.feat-card.locked-card .feat-name{color:rgba(255,255,255,0.28);}
+.feat-card.locked-card .feat-desc{color:rgba(100,116,139,0.45);}
 .feat-badge{position:absolute;top:10px;right:10px;font-family:'Space Mono',monospace;font-size:.4rem;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:100px;font-weight:700;}
 .b-live{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.25);color:var(--green);}
-.b-locked{background:rgba(100,116,139,0.1);border:1px solid rgba(100,116,139,0.2);color:var(--muted);}
+/* ── locked badge: nearly invisible, blends with dark bg ── */
+.b-locked{background:rgba(15,15,30,0.7);border:1px solid rgba(255,255,255,0.05);color:rgba(100,116,139,0.4);}
 .b-new{background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.2);color:var(--cyan);}
 
 /* CREAGENIX */
@@ -169,7 +223,6 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .crx-card:hover{border-color:rgba(255,184,0,0.4);transform:translateY(-2px);}
 .crx-top{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
 .crx-icon{font-size:1.4rem;}
-.crx-titles{}
 .crx-suplabel{font-family:'Space Mono',monospace;font-size:.46rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);opacity:.8;margin-bottom:2px;}
 .crx-name{font-size:.9rem;font-weight:800;}
 .crx-comingsoon{margin-left:auto;background:rgba(255,184,0,0.1);border:1px solid rgba(255,184,0,0.25);border-radius:100px;padding:3px 10px;font-family:'Space Mono',monospace;font-size:.44rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);font-weight:700;flex-shrink:0;}
@@ -179,7 +232,6 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 
 /* REFERRAL */
 .ref-strip{background:linear-gradient(135deg,rgba(16,185,129,0.06),rgba(1,1,20,0.95));border:1px solid rgba(16,185,129,0.18);border-radius:16px;padding:16px 18px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
-.ref-left{}
 .ref-label{font-family:'Space Mono',monospace;font-size:.48rem;letter-spacing:.14em;text-transform:uppercase;color:var(--green);margin-bottom:3px;}
 .ref-title{font-size:.84rem;font-weight:800;margin-bottom:2px;}
 .ref-sub{font-size:.64rem;color:var(--dim);}
@@ -193,7 +245,6 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .ae-txt{font-size:.72rem;line-height:1.5;}
 .activity-item{background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:13px;padding:12px 14px;display:flex;gap:11px;align-items:flex-start;margin-bottom:8px;}
 .act-dot{width:7px;height:7px;border-radius:50%;background:var(--cyan);flex-shrink:0;margin-top:4px;}
-.act-body{}
 .act-title{font-size:.76rem;font-weight:700;margin-bottom:2px;}
 .act-sub{font-size:.6rem;color:var(--muted);}
 
@@ -254,7 +305,6 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
     </div>
     <button class="sb-close" onclick="closeSidebar()">✕</button>
   </div>
-  <!-- User info -->
   <div class="sb-user">
     <img id="sbAvatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=default" class="sb-avatar" alt=""/>
     <div class="sb-user-info">
@@ -262,7 +312,6 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
       <div class="sb-user-role" id="sbRole">Student</div>
     </div>
   </div>
-  <!-- Coins -->
   <div class="sb-coins">
     <div class="sb-coins-icon">💰</div>
     <div class="sb-coins-info">
@@ -270,7 +319,6 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
       <div class="sb-coins-label">Skill Coins</div>
     </div>
   </div>
-  <!-- Navigation -->
   <nav class="sb-nav">
     <div class="sb-sec-label">Navigation</div>
     <a href="dashboard.html" class="sb-link active" onclick="closeSidebar()">
@@ -348,36 +396,32 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 <div class="layout">
   <!-- TOPBAR -->
   <header class="topbar">
-    <!-- Logo click = open sidebar -->
+    <!-- Logo click = open sidebar (no hamburger) -->
     <div class="topbar-logo" onclick="openSidebar()">
       <div class="logo-node"><img src="assets/zwapy-logo.png" style="width:20px;height:20px;object-fit:contain;" onerror="this.style.display='none'"/></div>
       <span class="logo-text">ZWAPY</span>
     </div>
 
-    <!-- Right side: avatar + logout -->
+    <!-- Right: avatar + animated logout -->
     <div class="topbar-right">
       <img id="topAvatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=default" class="tb-avatar" alt="" onclick="window.location.href='profile.html'"/>
-      <button class="tb-logout" id="topLogoutBtn">
-        <span class="tb-logout-icon">🏃‍➡️</span>
-        Logout
+      <button class="tb-logout" id="topLogoutBtn" onclick="animateLogout()">
+        <span class="lo-scene">
+          <span class="lo-man">🏃‍➡️</span>
+          <span class="lo-door">🚪</span>
+          <span class="lo-text">Logout</span>
+        </span>
       </button>
     </div>
   </header>
 
-  <!-- HERO -->
+  <!-- HERO — bigger greeting, avatar removed -->
   <div class="hero-section fade-up d1">
-    <div class="hero-inner">
-      <div class="greeting-block">
-        <div class="greeting-time" id="greetingTime">Good morning,</div>
-        <div class="greeting-name">Hey, <span id="greetingName">—</span> 👋</div>
-        <div class="greeting-meta">
-          <span class="gm-badge" id="gmUni">—</span>
-          <span class="gm-badge" id="gmCourse">—</span>
-        </div>
-      </div>
-      <div class="hero-avatar-wrap">
-        <img id="avatarBig" src="https://api.dicebear.com/7.x/avataaars/svg?seed=default" class="hero-avatar" alt=""/>
-      </div>
+    <div class="greeting-time" id="greetingTime">Good morning,</div>
+    <div class="greeting-name">Hey, <span id="greetingName">—</span> 👋</div>
+    <div class="greeting-meta">
+      <span class="gm-badge" id="gmUni">—</span>
+      <span class="gm-badge" id="gmCourse">—</span>
     </div>
   </div>
 
@@ -402,7 +446,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
     <a href="exam.html" class="exam-cta" id="examCta" style="display:none;">🔄 Retake Exam to Improve Score</a>
   </div>
 
-  <!-- FEATURES — only Skill Exchange, Events, Clubs -->
+  <!-- FEATURES -->
   <div class="section-hd fade-up d3">
     <div class="section-label">// Features</div>
   </div>
@@ -489,7 +533,6 @@ function toast(msg,type='s'){
 window.toast=toast;
 function fmt(n){return Number(n||0).toLocaleString();}
 
-// Sidebar
 window.openSidebar=function(){
   $('sidebar').classList.add('open');
   $('sbOverlay').classList.add('show');
@@ -499,20 +542,29 @@ window.closeSidebar=function(){
   $('sbOverlay').classList.remove('show');
 };
 
-// Greeting
 function setGreeting(){
   const h=new Date().getHours();
   $('greetingTime').textContent=h<12?'Good morning,':h<17?'Good afternoon,':'Good evening,';
 }
 
-// Is Presidency
 function isPresidency(email){
   if(!email)return false;
   const d=(email.split('@')[1]||'').toLowerCase();
   return PRESIDENCY_DOMAINS.some(x=>d===x||d.endsWith('.'+x));
 }
 
-// Build feature grid — only 3 cards: Skill Exchange, Events, Clubs
+// Animated logout — man runs into door then signs out
+window.animateLogout=function(){
+  const btn=$('topLogoutBtn');
+  if(btn.classList.contains('running'))return;
+  btn.classList.add('running');
+  btn.disabled=true;
+  setTimeout(async()=>{
+    try{await signOut(auth);}catch(e){}
+    window.location.href='login.html';
+  },1100);
+};
+
 function buildGrid(presidencyStudent){
   const features=[
     {href:'skill-exchange.html',icon:'🔄',label:'All Universities',name:'Skill Exchange',desc:'Trade skills with students from any university',badge:'Live',bc:'b-live',locked:false},
@@ -530,7 +582,6 @@ function buildGrid(presidencyStudent){
     </a>
   `).join('');
 
-  // Lock clubs nav if not presidency
   if(!presidencyStudent){
     $('navClubs').href='#';
     $('navClubs').onclick=e=>{e.preventDefault();toast('Clubs available once your university joins Zwapy','e');};
@@ -543,7 +594,6 @@ function buildGrid(presidencyStudent){
   }
 }
 
-// Build skill scores
 function buildSkillScores(ud){
   const skills=ud.skillsKnown||[];
   if(!skills.length)return;
@@ -563,7 +613,6 @@ function buildSkillScores(ud){
   if(ud.examTaken)$('examCta').style.display='flex';
 }
 
-// Load activity
 async function loadActivity(uid){
   try{
     const snap=await getDocs(query(collection(db,'users',uid,'activity'),orderBy('createdAt','desc'),limit(5)));
@@ -581,7 +630,6 @@ async function loadActivity(uid){
   }catch(e){}
 }
 
-// Feedback
 window.showFeedback=function(){closeSidebar();setTimeout(()=>$('fbOverlay').classList.add('open'),200);};
 window.closeFeedback=function(){
   $('fbOverlay').classList.remove('open');
@@ -611,7 +659,6 @@ function maybeShowFeedback(){
   setTimeout(()=>$('fbOverlay').classList.add('open'),3*60*1000);
 }
 
-// Auth
 onAuthStateChanged(auth,async user=>{
   if(!user){window.location.href='login.html';return;}
   currentUser=user;
@@ -631,50 +678,38 @@ onAuthStateChanged(auth,async user=>{
   const presidency=isPresidency(uniEmail);
   referralCode=userData.referralCode||user.uid.substring(0,8).toUpperCase();
 
-  // Set all UI
   $('greetingName').textContent=name.split(' ')[0];
   $('gmUni').textContent=userData.university||'Zwapy';
   $('gmCourse').textContent=userData.course||'Student';
-  [$('avatarBig'),$('topAvatar'),$('navAvatar'),$('sbAvatar')].forEach(el=>{if(el)el.src=photo;});
+  // no avatarBig anymore
+  [$('topAvatar'),$('navAvatar'),$('sbAvatar')].forEach(el=>{if(el)el.src=photo;});
   $('sbName').textContent=name;
   $('sbRole').textContent=userData.role||'Student';
   $('sbCoins').textContent=fmt(coins);
   $('statCoins').textContent=fmt(coins);
   $('statExchanges').textContent=fmt(exchanges);
 
-  // Rank
   let rank=1;allSnap.forEach(d=>{if(d.id!==user.uid&&(d.data().coins||0)>coins)rank++;});
   $('statRank').textContent=`#${rank}`;
 
-  // Exam score stat
   if(userData.examScores?.overall){
     $('statScoreCard').style.display='block';
     $('statScore').textContent=userData.examScores.overall+'%';
   }
 
-  // University notice
   if(!presidency)$('uniNotice').classList.add('show');
 
-  // Build everything
   buildGrid(presidency);
   buildSkillScores(userData);
   await loadActivity(user.uid);
   maybeShowFeedback();
 
-  // Referral
   $('refBtn').addEventListener('click',()=>{
     const link=`https://zwapy.com/signup.html?ref=${referralCode}`;
     try{navigator.clipboard.writeText(link);}catch(e){const ta=document.createElement('textarea');ta.value=link;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);}
     toast('✅ Invite link copied!');
   });
 
-  // Top logout button
-  $('topLogoutBtn').addEventListener('click',async()=>{
-    await signOut(auth);
-    window.location.href='login.html';
-  });
-
-  // Sign out in sidebar
   $('signOutBtn').addEventListener('click',async()=>{
     await signOut(auth);
     window.location.href='login.html';
