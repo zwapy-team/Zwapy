@@ -38,7 +38,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .sidebar{position:fixed;top:0;left:0;bottom:0;width:280px;background:rgba(2,0,36,0.99);border-right:1px solid rgba(0,212,255,0.12);z-index:900;transform:translateX(-100%);transition:transform .32s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;padding:0;}
 .sidebar.open{transform:translateX(0);}
 .sb-head{display:flex;align-items:center;justify-content:space-between;padding:20px 20px 16px;border-bottom:1px solid rgba(255,255,255,0.05);}
-.sb-logo{display:flex;align-items:center;gap:9px;}
+.sb-logo{display:flex;align-items:center;gap:9px;cursor:pointer;}
 .sb-logo-icon{width:34px;height:34px;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.2);border-radius:9px;display:flex;align-items:center;justify-content:center;}
 .sb-logo-text{font-size:1.15rem;font-weight:900;font-style:italic;}
 .sb-close{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);font-size:.8rem;transition:all .2s;}
@@ -80,19 +80,21 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 /* TOPBAR */
 .topbar{display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid rgba(0,212,255,0.06);margin-bottom:28px;position:sticky;top:0;z-index:200;background:rgba(1,1,20,0.95);backdrop-filter:blur(24px);margin-left:-16px;margin-right:-16px;padding-left:16px;padding-right:16px;gap:10px;}
 @media(min-width:700px){.topbar{margin-left:-28px;margin-right:-28px;padding-left:28px;padding-right:28px;}}
-/* Hamburger button */
-.menu-btn{display:flex;flex-direction:column;gap:5px;cursor:pointer;padding:8px;border-radius:9px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);transition:all .2s;flex-shrink:0;}
-.menu-btn:hover{border-color:rgba(0,212,255,0.25);background:rgba(0,212,255,0.05);}
-.menu-btn span{display:block;width:18px;height:2px;background:white;border-radius:100px;transition:all .3s;}
-.menu-btn.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px);}
-.menu-btn.open span:nth-child(2){opacity:0;}
-.menu-btn.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px);}
-.topbar-logo{display:flex;align-items:center;gap:8px;text-decoration:none;flex-shrink:0;}
+
+/* Logo — clickable to open sidebar */
+.topbar-logo{display:flex;align-items:center;gap:8px;text-decoration:none;flex-shrink:0;cursor:pointer;transition:opacity .2s;}
+.topbar-logo:hover{opacity:.8;}
 .logo-node{width:32px;height:32px;background:rgba(0,212,255,0.07);border:1px solid rgba(0,212,255,0.2);border-radius:9px;display:flex;align-items:center;justify-content:center;}
 .logo-text{font-size:1.15rem;font-weight:900;font-style:italic;}
+
+/* Topbar right — only avatar + logout */
 .topbar-right{display:flex;align-items:center;gap:8px;}
-.coins-pill{display:flex;align-items:center;gap:5px;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);border-radius:100px;padding:5px 11px;font-family:'Space Mono',monospace;font-size:.64rem;font-weight:700;color:var(--amber);}
 .tb-avatar{width:32px;height:32px;border-radius:50%;border:2px solid rgba(0,212,255,0.22);object-fit:cover;cursor:pointer;}
+
+/* Logout button */
+.tb-logout{display:flex;align-items:center;gap:5px;background:rgba(239,68,68,0.07);border:1px solid rgba(239,68,68,0.2);border-radius:100px;padding:5px 12px;font-size:.64rem;font-weight:700;color:var(--red);cursor:pointer;font-family:'Sora',sans-serif;transition:all .2s;}
+.tb-logout:hover{background:rgba(239,68,68,0.14);}
+.tb-logout-icon{font-size:.82rem;}
 
 /* HERO GREETING */
 .hero-section{margin-bottom:28px;}
@@ -146,10 +148,9 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .section-link{font-size:.66rem;font-weight:700;color:var(--dim);text-decoration:none;transition:color .2s;}
 .section-link:hover{color:var(--cyan);}
 
-/* FEATURE GRID */
+/* FEATURE GRID — 3 cards only */
 .feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:24px;}
 @media(min-width:560px){.feature-grid{grid-template-columns:repeat(3,1fr);}}
-@media(min-width:900px){.feature-grid{grid-template-columns:repeat(4,1fr);}}
 .feat-card{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:18px;padding:18px 15px;cursor:pointer;transition:all .25s;text-decoration:none;display:block;position:relative;overflow:hidden;}
 .feat-card:hover{border-color:var(--border-h);transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.3);}
 .feat-card.locked-card{opacity:.55;cursor:not-allowed;}
@@ -247,7 +248,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 <div class="sidebar-overlay" id="sbOverlay" onclick="closeSidebar()"></div>
 <aside class="sidebar" id="sidebar">
   <div class="sb-head">
-    <div class="sb-logo">
+    <div class="sb-logo" onclick="closeSidebar();window.location.href='dashboard.html'">
       <div class="sb-logo-icon"><img src="assets/zwapy-logo.png" style="width:20px;height:20px;object-fit:contain;" onerror="this.style.display='none'"/></div>
       <span class="sb-logo-text">ZWAPY</span>
     </div>
@@ -347,19 +348,19 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 <div class="layout">
   <!-- TOPBAR -->
   <header class="topbar">
-    <div style="display:flex;align-items:center;gap:10px;">
-      <!-- Hamburger = 3 lines -->
-      <button class="menu-btn" id="menuBtn" onclick="openSidebar()">
-        <span></span><span></span><span></span>
-      </button>
-      <a href="dashboard.html" class="topbar-logo">
-        <div class="logo-node"><img src="assets/zwapy-logo.png" style="width:20px;height:20px;object-fit:contain;" onerror="this.style.display='none'"/></div>
-        <span class="logo-text">ZWAPY</span>
-      </a>
+    <!-- Logo click = open sidebar -->
+    <div class="topbar-logo" onclick="openSidebar()">
+      <div class="logo-node"><img src="assets/zwapy-logo.png" style="width:20px;height:20px;object-fit:contain;" onerror="this.style.display='none'"/></div>
+      <span class="logo-text">ZWAPY</span>
     </div>
+
+    <!-- Right side: avatar + logout -->
     <div class="topbar-right">
-      <div class="coins-pill">💰 <span id="coinsDisplay">0</span></div>
       <img id="topAvatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=default" class="tb-avatar" alt="" onclick="window.location.href='profile.html'"/>
+      <button class="tb-logout" id="topLogoutBtn">
+        <span class="tb-logout-icon">🏃‍➡️</span>
+        Logout
+      </button>
     </div>
   </header>
 
@@ -401,7 +402,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
     <a href="exam.html" class="exam-cta" id="examCta" style="display:none;">🔄 Retake Exam to Improve Score</a>
   </div>
 
-  <!-- FEATURES -->
+  <!-- FEATURES — only Skill Exchange, Events, Clubs -->
   <div class="section-hd fade-up d3">
     <div class="section-label">// Features</div>
   </div>
@@ -492,12 +493,10 @@ function fmt(n){return Number(n||0).toLocaleString();}
 window.openSidebar=function(){
   $('sidebar').classList.add('open');
   $('sbOverlay').classList.add('show');
-  $('menuBtn').classList.add('open');
 };
 window.closeSidebar=function(){
   $('sidebar').classList.remove('open');
   $('sbOverlay').classList.remove('show');
-  $('menuBtn').classList.remove('open');
 };
 
 // Greeting
@@ -513,15 +512,12 @@ function isPresidency(email){
   return PRESIDENCY_DOMAINS.some(x=>d===x||d.endsWith('.'+x));
 }
 
-// Build feature grid
+// Build feature grid — only 3 cards: Skill Exchange, Events, Clubs
 function buildGrid(presidencyStudent){
   const features=[
     {href:'skill-exchange.html',icon:'🔄',label:'All Universities',name:'Skill Exchange',desc:'Trade skills with students from any university',badge:'Live',bc:'b-live',locked:false},
-    {href:'network.html',icon:'💬',label:'All Universities',name:'Network',desc:'Connect and message other students',badge:'Live',bc:'b-live',locked:false},
-    {href:'discover.html',icon:'🔍',label:'All Universities',name:'Discover',desc:'Find people, skills and opportunities',badge:'Live',bc:'b-live',locked:false},
     {href:presidencyStudent?'events.html':'#',icon:'🎪',label:presidencyStudent?'Presidency':'Coming Soon',name:'Events',desc:presidencyStudent?'Hackathons, workshops and campus events':'Available when your university joins Zwapy',badge:presidencyStudent?'Live':'Locked',bc:presidencyStudent?'b-live':'b-locked',locked:!presidencyStudent},
     {href:presidencyStudent?'clubs.html':'#',icon:'🛡️',label:presidencyStudent?'Presidency':'Coming Soon',name:'Clubs',desc:presidencyStudent?'Join campus clubs and groups':'Available when your university joins Zwapy',badge:presidencyStudent?'Live':'Locked',bc:presidencyStudent?'b-live':'b-locked',locked:!presidencyStudent},
-    {href:'profile.html',icon:'👤',label:'Your Account',name:'Profile',desc:'Edit skills, bio, certificates and settings',badge:'',bc:'',locked:false},
   ];
   $('featureGrid').innerHTML=features.map(f=>`
     <a href="${f.href}" class="feat-card ${f.locked?'locked-card':''}"
@@ -539,7 +535,6 @@ function buildGrid(presidencyStudent){
     $('navClubs').href='#';
     $('navClubs').onclick=e=>{e.preventDefault();toast('Clubs available once your university joins Zwapy','e');};
     $('navClubs').style.opacity='.4';
-    // Update sidebar links
     const el=$('sbEventsLink');const cl=$('sbClubsLink');
     if(el){el.classList.add('locked-link');el.onclick=e=>{e.preventDefault();toast('Events coming to your university soon!','e');};}
     if(cl){cl.classList.add('locked-link');cl.onclick=e=>{e.preventDefault();toast('Clubs coming to your university soon!','e');};}
@@ -643,7 +638,6 @@ onAuthStateChanged(auth,async user=>{
   [$('avatarBig'),$('topAvatar'),$('navAvatar'),$('sbAvatar')].forEach(el=>{if(el)el.src=photo;});
   $('sbName').textContent=name;
   $('sbRole').textContent=userData.role||'Student';
-  $('coinsDisplay').textContent=fmt(coins);
   $('sbCoins').textContent=fmt(coins);
   $('statCoins').textContent=fmt(coins);
   $('statExchanges').textContent=fmt(exchanges);
@@ -674,7 +668,13 @@ onAuthStateChanged(auth,async user=>{
     toast('✅ Invite link copied!');
   });
 
-  // Sign out
+  // Top logout button
+  $('topLogoutBtn').addEventListener('click',async()=>{
+    await signOut(auth);
+    window.location.href='login.html';
+  });
+
+  // Sign out in sidebar
   $('signOutBtn').addEventListener('click',async()=>{
     await signOut(auth);
     window.location.href='login.html';
