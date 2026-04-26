@@ -3,14 +3,6 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-THCGY8NH1Z"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-THCGY8NH1Z');
-</script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-THCGY8NH1Z"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-THCGY8NH1Z');</script>
 <title>Dashboard | Zwapy</title>
@@ -28,167 +20,209 @@
 body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:100vh;overflow-x:hidden;}
 body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.018) 2px,rgba(0,0,0,0.018) 4px);pointer-events:none;z-index:9999;}
 .bg-glow{position:fixed;inset:0;pointer-events:none;z-index:0;
-  background:radial-gradient(ellipse 60% 40% at 15% 15%,rgba(0,212,255,0.05) 0%,transparent 60%),
-             radial-gradient(ellipse 40% 40% at 85% 80%,rgba(129,140,248,0.04) 0%,transparent 55%);}
+  background:radial-gradient(ellipse 70% 50% at 10% 10%,rgba(0,212,255,0.05) 0%,transparent 60%),
+             radial-gradient(ellipse 50% 50% at 90% 85%,rgba(129,140,248,0.04) 0%,transparent 55%);}
 
-/* ── LOAD SCREEN ── */
+/* LOAD */
 #loadScreen{position:fixed;inset:0;background:var(--bg);z-index:10000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;transition:opacity .4s;}
 #loadScreen.hide{opacity:0;pointer-events:none;}
 .ls-logo{font-size:2rem;font-weight:900;font-style:italic;color:var(--cyan);}
 .ls-bar{width:140px;height:2px;background:rgba(0,212,255,0.1);border-radius:100px;overflow:hidden;}
-.ls-fill{height:100%;background:linear-gradient(90deg,var(--cyan),var(--green));border-radius:100px;animation:lf .9s ease forwards;}
+.ls-fill{height:100%;background:linear-gradient(90deg,var(--cyan),var(--green));animation:lf .9s ease forwards;}
 @keyframes lf{from{width:0}to{width:100%}}
 .ls-text{font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);}
 
-.layout{position:relative;z-index:10;max-width:900px;margin:0 auto;padding:0 16px 110px;}
-@media(min-width:600px){.layout{padding:0 22px 110px;}}
+/* SIDEBAR */
+.sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);z-index:800;opacity:0;pointer-events:none;transition:opacity .3s;}
+.sidebar-overlay.show{opacity:1;pointer-events:all;}
+.sidebar{position:fixed;top:0;left:0;bottom:0;width:280px;background:rgba(2,0,36,0.99);border-right:1px solid rgba(0,212,255,0.12);z-index:900;transform:translateX(-100%);transition:transform .32s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;padding:0;}
+.sidebar.open{transform:translateX(0);}
+.sb-head{display:flex;align-items:center;justify-content:space-between;padding:20px 20px 16px;border-bottom:1px solid rgba(255,255,255,0.05);}
+.sb-logo{display:flex;align-items:center;gap:9px;}
+.sb-logo-icon{width:34px;height:34px;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.2);border-radius:9px;display:flex;align-items:center;justify-content:center;}
+.sb-logo-text{font-size:1.15rem;font-weight:900;font-style:italic;}
+.sb-close{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);font-size:.8rem;transition:all .2s;}
+.sb-close:hover{background:rgba(239,68,68,0.1);border-color:var(--red);color:var(--red);}
+/* User info in sidebar */
+.sb-user{display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid rgba(255,255,255,0.05);}
+.sb-avatar{width:44px;height:44px;border-radius:50%;border:2px solid rgba(0,212,255,0.25);object-fit:cover;flex-shrink:0;}
+.sb-user-info{}
+.sb-user-name{font-size:.86rem;font-weight:800;margin-bottom:2px;}
+.sb-user-role{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);opacity:.7;}
+/* Coins in sidebar */
+.sb-coins{display:flex;align-items:center;gap:10px;padding:12px 20px;border-bottom:1px solid rgba(255,255,255,0.05);background:rgba(245,158,11,0.04);}
+.sb-coins-icon{font-size:1.2rem;}
+.sb-coins-info{}
+.sb-coins-val{font-family:'Space Mono',monospace;font-size:1.1rem;font-weight:700;color:var(--amber);line-height:1;}
+.sb-coins-label{font-size:.58rem;color:var(--muted);margin-top:1px;}
+/* Nav links */
+.sb-nav{flex:1;padding:12px 10px;overflow-y:auto;}
+.sb-sec-label{font-family:'Space Mono',monospace;font-size:.46rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);padding:8px 10px 5px;opacity:.7;}
+.sb-link{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:12px;text-decoration:none;color:var(--muted);font-size:.82rem;font-weight:600;transition:all .2s;margin-bottom:2px;cursor:pointer;border:none;background:none;width:100%;text-align:left;font-family:'Sora',sans-serif;}
+.sb-link:hover{background:rgba(255,255,255,0.04);color:white;}
+.sb-link.active{background:rgba(0,212,255,0.08);color:var(--cyan);border-left:3px solid var(--cyan);padding-left:9px;}
+.sb-link.locked-link{opacity:.5;cursor:not-allowed;}
+.sb-link-icon{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;}
+.sb-link-info{}
+.sb-link-name{font-weight:700;font-size:.8rem;}
+.sb-link-sub{font-size:.6rem;color:var(--muted);margin-top:1px;}
+.sb-divider{height:1px;background:rgba(255,255,255,0.05);margin:8px 10px;}
+/* Sign out at bottom */
+.sb-foot{padding:14px 10px;border-top:1px solid rgba(255,255,255,0.05);}
+.sb-signout{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:12px;color:var(--red);font-size:.82rem;font-weight:700;cursor:pointer;transition:all .2s;border:none;background:none;width:100%;font-family:'Sora',sans-serif;}
+.sb-signout:hover{background:rgba(239,68,68,0.08);}
+.sb-signout-icon{width:32px;height:32px;border-radius:9px;background:rgba(239,68,68,0.08);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;}
 
-/* ── TOPBAR ── */
-.topbar{display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid rgba(0,212,255,0.06);margin-bottom:24px;position:sticky;top:0;z-index:200;background:rgba(1,1,20,0.94);backdrop-filter:blur(24px);margin-left:-16px;margin-right:-16px;padding-left:16px;padding-right:16px;gap:10px;flex-wrap:wrap;}
-@media(min-width:600px){.topbar{margin-left:-22px;margin-right:-22px;padding-left:22px;padding-right:22px;}}
+/* LAYOUT */
+.layout{position:relative;z-index:10;max-width:1100px;margin:0 auto;padding:0 16px 110px;}
+@media(min-width:700px){.layout{padding:0 28px 110px;}}
+
+/* TOPBAR */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid rgba(0,212,255,0.06);margin-bottom:28px;position:sticky;top:0;z-index:200;background:rgba(1,1,20,0.95);backdrop-filter:blur(24px);margin-left:-16px;margin-right:-16px;padding-left:16px;padding-right:16px;gap:10px;}
+@media(min-width:700px){.topbar{margin-left:-28px;margin-right:-28px;padding-left:28px;padding-right:28px;}}
+/* Hamburger button */
+.menu-btn{display:flex;flex-direction:column;gap:5px;cursor:pointer;padding:8px;border-radius:9px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);transition:all .2s;flex-shrink:0;}
+.menu-btn:hover{border-color:rgba(0,212,255,0.25);background:rgba(0,212,255,0.05);}
+.menu-btn span{display:block;width:18px;height:2px;background:white;border-radius:100px;transition:all .3s;}
+.menu-btn.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px);}
+.menu-btn.open span:nth-child(2){opacity:0;}
+.menu-btn.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px);}
 .topbar-logo{display:flex;align-items:center;gap:8px;text-decoration:none;flex-shrink:0;}
-.logo-node{width:34px;height:34px;background:rgba(0,212,255,0.07);border:1px solid rgba(0,212,255,0.2);border-radius:10px;display:flex;align-items:center;justify-content:center;}
+.logo-node{width:32px;height:32px;background:rgba(0,212,255,0.07);border:1px solid rgba(0,212,255,0.2);border-radius:9px;display:flex;align-items:center;justify-content:center;}
 .logo-text{font-size:1.15rem;font-weight:900;font-style:italic;}
 .topbar-right{display:flex;align-items:center;gap:8px;}
-.coins-pill{display:flex;align-items:center;gap:5px;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);border-radius:100px;padding:5px 11px;font-family:'Space Mono',monospace;font-size:.66rem;font-weight:700;color:var(--amber);}
-.notif-btn{width:34px;height:34px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.9rem;cursor:pointer;position:relative;}
-.notif-dot{position:absolute;top:6px;right:6px;width:7px;height:7px;background:var(--red);border-radius:50%;border:2px solid var(--bg);display:none;}
-.notif-dot.show{display:block;}
+.coins-pill{display:flex;align-items:center;gap:5px;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);border-radius:100px;padding:5px 11px;font-family:'Space Mono',monospace;font-size:.64rem;font-weight:700;color:var(--amber);}
+.tb-avatar{width:32px;height:32px;border-radius:50%;border:2px solid rgba(0,212,255,0.22);object-fit:cover;cursor:pointer;}
 
-/* ── HERO ── */
-.hero{margin-bottom:24px;}
-.hero-top{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:18px;}
-.greeting-wrap{}
-.greeting-time{font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);opacity:.6;margin-bottom:4px;}
-.greeting-name{font-size:clamp(1.5rem,5vw,2.2rem);font-weight:900;font-style:italic;letter-spacing:-.02em;line-height:1.1;}
-.greeting-sub{font-size:.76rem;color:var(--dim);margin-top:4px;line-height:1.5;}
-.avatar-big{width:52px;height:52px;border-radius:50%;border:2px solid rgba(0,212,255,0.25);object-fit:cover;flex-shrink:0;}
+/* HERO GREETING */
+.hero-section{margin-bottom:28px;}
+.hero-inner{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.greeting-block{}
+.greeting-time{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan);opacity:.6;margin-bottom:5px;}
+.greeting-name{font-size:clamp(1.8rem,6vw,2.8rem);font-weight:900;font-style:italic;letter-spacing:-.03em;line-height:1;margin-bottom:6px;}
+.greeting-name span{color:var(--cyan);}
+.greeting-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:5px;}
+.gm-badge{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:100px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:var(--dim);}
+.hero-avatar-wrap{flex-shrink:0;}
+.hero-avatar{width:68px;height:68px;border-radius:50%;border:3px solid rgba(0,212,255,0.22);object-fit:cover;}
 
-/* ── STATS ROW ── */
-.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:22px;}
-@media(min-width:500px){.stats-row{grid-template-columns:repeat(4,1fr);}}
-.stat-card{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:16px;padding:14px;text-align:center;transition:border-color .25s;}
-.stat-card:hover{border-color:rgba(0,212,255,0.2);}
-.sc-val{font-family:'Space Mono',monospace;font-size:1.4rem;font-weight:700;line-height:1;margin-bottom:3px;}
+/* STATS ROW */
+.stats-row{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:28px;}
+@media(min-width:480px){.stats-row{grid-template-columns:repeat(4,1fr);}}
+.stat-card{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:16px;padding:16px;text-align:center;transition:all .25s;cursor:default;}
+.stat-card:hover{border-color:rgba(0,212,255,0.22);transform:translateY(-2px);}
+.sc-val{font-family:'Space Mono',monospace;font-size:1.5rem;font-weight:700;line-height:1;margin-bottom:4px;}
 .sc-val.c{color:var(--cyan);}
 .sc-val.g{color:var(--green);}
 .sc-val.i{color:var(--indigo);}
 .sc-val.a{color:var(--amber);}
-.sc-label{font-family:'Space Mono',monospace;font-size:.46rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+.sc-label{font-family:'Space Mono',monospace;font-size:.44rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
 
-/* ── SECTION TITLE ── */
-.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
-.section-title{font-family:'Space Mono',monospace;font-size:.54rem;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan);opacity:.7;}
-.section-see-all{font-size:.66rem;font-weight:700;color:var(--dim);text-decoration:none;transition:color .2s;}
-.section-see-all:hover{color:var(--cyan);}
-
-/* ── FEATURE CARDS GRID ── */
-.features-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:24px;}
-@media(min-width:560px){.features-grid{grid-template-columns:repeat(3,1fr);}}
-.feat-card{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:18px;padding:18px 16px;cursor:pointer;transition:all .25s;text-decoration:none;display:block;position:relative;overflow:hidden;}
-.feat-card:hover{border-color:var(--border-h);transform:translateY(-2px);}
-.feat-card::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity .3s;}
-.feat-card:hover::before{opacity:1;}
-.feat-card.exchange::before{background:linear-gradient(135deg,rgba(0,212,255,0.04),transparent);}
-.feat-card.events::before{background:linear-gradient(135deg,rgba(244,114,182,0.04),transparent);}
-.feat-card.clubs::before{background:linear-gradient(135deg,rgba(129,140,248,0.04),transparent);}
-.feat-card.network::before{background:linear-gradient(135deg,rgba(16,185,129,0.04),transparent);}
-.feat-card.discover::before{background:linear-gradient(135deg,rgba(245,158,11,0.04),transparent);}
-.feat-card.locked{opacity:.5;cursor:not-allowed;}
-.feat-card.locked:hover{transform:none;border-color:var(--border);}
-.feat-icon{font-size:1.6rem;margin-bottom:8px;display:block;}
-.feat-label{font-family:'Space Mono',monospace;font-size:.46rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:3px;}
-.feat-name{font-size:.84rem;font-weight:800;margin-bottom:3px;}
-.feat-desc{font-size:.64rem;color:var(--muted);line-height:1.4;}
-.feat-badge{position:absolute;top:10px;right:10px;font-family:'Space Mono',monospace;font-size:.42rem;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:100px;font-weight:700;}
-.badge-live{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.25);color:var(--green);}
-.badge-soon{background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.22);color:var(--amber);}
-.badge-locked{background:rgba(100,116,139,0.1);border:1px solid rgba(100,116,139,0.2);color:var(--muted);}
-.badge-new{background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.25);color:var(--cyan);}
-
-/* ── UNIVERSITY ACCESS NOTICE ── */
-.uni-notice{background:rgba(129,140,248,0.06);border:1px solid rgba(129,140,248,0.18);border-radius:14px;padding:14px 16px;margin-bottom:16px;font-size:.74rem;color:var(--dim);line-height:1.6;display:none;}
+/* UNIVERSITY NOTICE */
+.uni-notice{background:rgba(129,140,248,0.06);border:1px solid rgba(129,140,248,0.18);border-radius:14px;padding:14px 16px;margin-bottom:20px;font-size:.74rem;color:var(--dim);line-height:1.7;display:none;}
 .uni-notice.show{display:block;}
 .uni-notice strong{color:var(--indigo);}
-.uni-notice a{color:var(--cyan);font-weight:700;text-decoration:none;}
 
-/* ── SKILL SCORE CARD ── */
-.skill-score-card{background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.14);border-radius:18px;padding:18px;margin-bottom:16px;}
-.ssc-title{font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);opacity:.7;margin-bottom:12px;}
-.skills-score-list{display:flex;flex-direction:column;gap:8px;}
-.skill-score-row{display:flex;align-items:center;gap:10px;}
-.ssr-name{font-size:.78rem;font-weight:700;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.ssr-level{font-family:'Space Mono',monospace;font-size:.48rem;letter-spacing:.08em;text-transform:uppercase;border-radius:100px;padding:2px 7px;flex-shrink:0;}
+/* SKILL SCORES */
+.skill-score-card{background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.14);border-radius:18px;padding:18px;margin-bottom:20px;display:none;}
+.skill-score-card.show{display:block;}
+.ssc-title{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);opacity:.7;margin-bottom:13px;}
+.skill-score-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.skill-score-row:last-child{margin-bottom:0;}
+.ssr-name{font-size:.78rem;font-weight:700;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.ssr-level{font-family:'Space Mono',monospace;font-size:.46rem;letter-spacing:.08em;text-transform:uppercase;border-radius:100px;padding:2px 7px;flex-shrink:0;}
 .level-beginner{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,.25);color:var(--green);}
 .level-intermediate{background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,.25);color:var(--amber);}
 .level-advanced{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,.25);color:var(--red);}
-.ssr-bar-wrap{width:80px;height:4px;background:rgba(255,255,255,0.07);border-radius:100px;overflow:hidden;flex-shrink:0;}
-.ssr-bar{height:100%;border-radius:100px;transition:width 1s ease;}
-.ssr-pct{font-family:'Space Mono',monospace;font-size:.58rem;color:var(--dim);flex-shrink:0;width:30px;text-align:right;}
-.take-exam-btn{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.2);border-radius:10px;padding:10px;font-size:.72rem;font-weight:800;color:var(--cyan);cursor:pointer;font-family:'Sora',sans-serif;text-decoration:none;margin-top:12px;transition:all .2s;}
-.take-exam-btn:hover{background:rgba(0,212,255,0.14);}
+.ssr-bar-wrap{width:70px;height:4px;background:rgba(255,255,255,0.07);border-radius:100px;overflow:hidden;flex-shrink:0;}
+.ssr-bar{height:100%;border-radius:100px;}
+.ssr-pct{font-family:'Space Mono',monospace;font-size:.56rem;color:var(--dim);flex-shrink:0;min-width:28px;text-align:right;}
+.exam-cta{margin-top:12px;display:flex;align-items:center;justify-content:center;gap:6px;background:rgba(0,212,255,0.07);border:1px solid rgba(0,212,255,0.18);border-radius:10px;padding:9px;font-size:.7rem;font-weight:800;color:var(--cyan);text-decoration:none;transition:all .2s;}
+.exam-cta:hover{background:rgba(0,212,255,0.13);}
 
-/* ── ACTIVITY FEED ── */
-.activity-list{display:flex;flex-direction:column;gap:8px;margin-bottom:24px;}
-.activity-item{background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:13px 15px;display:flex;gap:12px;align-items:flex-start;}
-.ai-dot{width:8px;height:8px;border-radius:50%;background:var(--cyan);flex-shrink:0;margin-top:4px;}
-.ai-content{}
-.ai-title{font-size:.78rem;font-weight:700;margin-bottom:2px;}
-.ai-time{font-size:.62rem;color:var(--muted);}
-.empty-activity{text-align:center;padding:28px 16px;color:var(--muted);}
-.ea-icon{font-size:1.8rem;margin-bottom:8px;opacity:.3;}
-.ea-text{font-size:.72rem;line-height:1.5;}
+/* SECTION HEADER */
+.section-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:13px;}
+.section-label{font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan);opacity:.7;}
+.section-link{font-size:.66rem;font-weight:700;color:var(--dim);text-decoration:none;transition:color .2s;}
+.section-link:hover{color:var(--cyan);}
 
-/* ── REFERRAL STRIP ── */
-.referral-strip{background:linear-gradient(135deg,rgba(16,185,129,0.06),rgba(1,1,20,0.9));border:1px solid rgba(16,185,129,0.18);border-radius:16px;padding:16px 18px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
-.rs-left{}
-.rs-label{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.14em;text-transform:uppercase;color:var(--green);margin-bottom:3px;}
-.rs-title{font-size:.84rem;font-weight:800;}
-.rs-sub{font-size:.66rem;color:var(--dim);margin-top:2px;}
-.rs-btn{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.28);border-radius:10px;padding:9px 16px;font-size:.7rem;font-weight:800;color:var(--green);cursor:pointer;font-family:'Sora',sans-serif;white-space:nowrap;transition:all .2s;flex-shrink:0;}
-.rs-btn:hover{background:rgba(16,185,129,0.2);}
+/* FEATURE GRID */
+.feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:24px;}
+@media(min-width:560px){.feature-grid{grid-template-columns:repeat(3,1fr);}}
+@media(min-width:900px){.feature-grid{grid-template-columns:repeat(4,1fr);}}
+.feat-card{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:18px;padding:18px 15px;cursor:pointer;transition:all .25s;text-decoration:none;display:block;position:relative;overflow:hidden;}
+.feat-card:hover{border-color:var(--border-h);transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.3);}
+.feat-card.locked-card{opacity:.55;cursor:not-allowed;}
+.feat-card.locked-card:hover{transform:none;box-shadow:none;border-color:var(--border);}
+.feat-icon{font-size:1.7rem;margin-bottom:9px;display:block;}
+.feat-uni-label{font-family:'Space Mono',monospace;font-size:.44rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:3px;}
+.feat-name{font-size:.85rem;font-weight:800;margin-bottom:3px;}
+.feat-desc{font-size:.63rem;color:var(--muted);line-height:1.45;}
+.feat-badge{position:absolute;top:10px;right:10px;font-family:'Space Mono',monospace;font-size:.4rem;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:100px;font-weight:700;}
+.b-live{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.25);color:var(--green);}
+.b-locked{background:rgba(100,116,139,0.1);border:1px solid rgba(100,116,139,0.2);color:var(--muted);}
+.b-new{background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.2);color:var(--cyan);}
 
-/* ── CREAGENIX COMING SOON ── */
-.crx-card{background:linear-gradient(135deg,rgba(255,184,0,0.06),rgba(1,1,20,0.95));border:1px solid rgba(255,184,0,0.2);border-radius:18px;padding:18px;margin-bottom:16px;cursor:pointer;transition:all .25s;text-decoration:none;display:block;}
-.crx-card:hover{border-color:rgba(255,184,0,0.38);transform:translateY(-1px);}
+/* CREAGENIX */
+.crx-card{background:linear-gradient(135deg,rgba(255,184,0,0.06),rgba(1,1,20,0.96));border:1px solid rgba(255,184,0,0.2);border-radius:18px;padding:18px;margin-bottom:20px;cursor:pointer;transition:all .25s;text-decoration:none;display:block;}
+.crx-card:hover{border-color:rgba(255,184,0,0.4);transform:translateY(-2px);}
 .crx-top{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
 .crx-icon{font-size:1.4rem;}
-.crx-label-wrap{}
-.crx-label{font-family:'Space Mono',monospace;font-size:.48rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);opacity:.8;margin-bottom:2px;}
+.crx-titles{}
+.crx-suplabel{font-family:'Space Mono',monospace;font-size:.46rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);opacity:.8;margin-bottom:2px;}
 .crx-name{font-size:.9rem;font-weight:800;}
-.crx-badge{margin-left:auto;background:rgba(255,184,0,0.1);border:1px solid rgba(255,184,0,0.25);border-radius:100px;padding:3px 10px;font-family:'Space Mono',monospace;font-size:.46rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);font-weight:700;}
-.crx-desc{font-size:.7rem;color:var(--dim);line-height:1.5;}
-.crx-skills{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px;}
-.crx-skill-tag{background:rgba(255,184,0,0.07);border:1px solid rgba(255,184,0,0.18);border-radius:100px;padding:3px 9px;font-size:.62rem;font-weight:700;color:var(--gold);}
+.crx-comingsoon{margin-left:auto;background:rgba(255,184,0,0.1);border:1px solid rgba(255,184,0,0.25);border-radius:100px;padding:3px 10px;font-family:'Space Mono',monospace;font-size:.44rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);font-weight:700;flex-shrink:0;}
+.crx-desc{font-size:.7rem;color:var(--dim);line-height:1.5;margin-bottom:10px;}
+.crx-tags{display:flex;flex-wrap:wrap;gap:6px;}
+.crx-tag{background:rgba(255,184,0,0.06);border:1px solid rgba(255,184,0,0.16);border-radius:100px;padding:3px 9px;font-size:.6rem;font-weight:700;color:var(--gold);}
 
-/* ── FEEDBACK POPUP ── */
-.feedback-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(10px);z-index:2000;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;pointer-events:none;transition:opacity .3s;}
-.feedback-overlay.open{opacity:1;pointer-events:all;}
-.feedback-modal{background:rgba(2,0,36,0.98);border:1px solid rgba(0,212,255,0.2);border-radius:22px;width:100%;max-width:420px;overflow:hidden;}
-.fm-stripe{height:3px;background:linear-gradient(90deg,var(--cyan),var(--green));}
-.fm-body{padding:24px;}
-.fm-close{float:right;background:none;border:none;color:var(--muted);cursor:pointer;font-size:.9rem;padding:0;line-height:1;}
-.fm-close:hover{color:white;}
-.fm-title{font-size:1.1rem;font-weight:900;font-style:italic;margin-bottom:4px;}
-.fm-sub{font-size:.72rem;color:var(--dim);margin-bottom:18px;line-height:1.5;}
-.fm-field{margin-bottom:12px;}
-.fm-field label{display:block;font-size:.58rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin-bottom:5px;}
-.fm-field textarea{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:11px 13px;font-size:.82rem;color:white;font-family:'Sora',sans-serif;outline:none;resize:vertical;min-height:80px;transition:border-color .2s;line-height:1.5;}
-.fm-field textarea:focus{border-color:var(--cyan);}
-.fm-rating{display:flex;gap:8px;margin-bottom:14px;}
-.fm-star{font-size:1.6rem;cursor:pointer;transition:transform .15s;filter:grayscale(1);}
-.fm-star.active{filter:none;transform:scale(1.15);}
-.fm-submit{width:100%;background:var(--cyan);color:#000;border:none;border-radius:10px;padding:12px;font-size:.82rem;font-weight:800;text-transform:uppercase;cursor:pointer;font-family:'Sora',sans-serif;}
-.fm-skip{width:100%;background:none;border:none;color:var(--muted);font-size:.68rem;cursor:pointer;margin-top:8px;padding:6px;font-family:'Sora',sans-serif;}
-.fm-skip:hover{color:var(--dim);}
+/* REFERRAL */
+.ref-strip{background:linear-gradient(135deg,rgba(16,185,129,0.06),rgba(1,1,20,0.95));border:1px solid rgba(16,185,129,0.18);border-radius:16px;padding:16px 18px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+.ref-left{}
+.ref-label{font-family:'Space Mono',monospace;font-size:.48rem;letter-spacing:.14em;text-transform:uppercase;color:var(--green);margin-bottom:3px;}
+.ref-title{font-size:.84rem;font-weight:800;margin-bottom:2px;}
+.ref-sub{font-size:.64rem;color:var(--dim);}
+.ref-btn{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.28);border-radius:10px;padding:9px 16px;font-size:.7rem;font-weight:800;color:var(--green);cursor:pointer;font-family:'Sora',sans-serif;white-space:nowrap;transition:all .2s;flex-shrink:0;}
+.ref-btn:hover{background:rgba(16,185,129,0.2);}
 
-/* ── TOAST ── */
+/* ACTIVITY */
+.activity-wrap{margin-bottom:24px;}
+.activity-empty{text-align:center;padding:28px;color:var(--muted);}
+.ae-icon{font-size:2rem;margin-bottom:8px;opacity:.28;}
+.ae-txt{font-size:.72rem;line-height:1.5;}
+.activity-item{background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:13px;padding:12px 14px;display:flex;gap:11px;align-items:flex-start;margin-bottom:8px;}
+.act-dot{width:7px;height:7px;border-radius:50%;background:var(--cyan);flex-shrink:0;margin-top:4px;}
+.act-body{}
+.act-title{font-size:.76rem;font-weight:700;margin-bottom:2px;}
+.act-sub{font-size:.6rem;color:var(--muted);}
+
+/* FEEDBACK POPUP */
+.fb-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(10px);z-index:3000;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;pointer-events:none;transition:opacity .3s;}
+.fb-overlay.open{opacity:1;pointer-events:all;}
+.fb-modal{background:rgba(2,0,36,0.99);border:1px solid rgba(0,212,255,0.2);border-radius:22px;width:100%;max-width:400px;overflow:hidden;}
+.fb-stripe{height:3px;background:linear-gradient(90deg,var(--cyan),var(--green));}
+.fb-body{padding:22px;}
+.fb-close-btn{float:right;background:none;border:none;color:var(--muted);cursor:pointer;font-size:.9rem;transition:color .2s;}
+.fb-close-btn:hover{color:white;}
+.fb-title{font-size:1.05rem;font-weight:900;font-style:italic;margin-bottom:4px;}
+.fb-sub{font-size:.7rem;color:var(--dim);margin-bottom:16px;line-height:1.5;}
+.fb-stars{display:flex;gap:7px;margin-bottom:14px;}
+.fb-star{font-size:1.5rem;cursor:pointer;filter:grayscale(1);transition:all .15s;}
+.fb-star.on{filter:none;transform:scale(1.12);}
+.fb-field{margin-bottom:10px;}
+.fb-field label{display:block;font-size:.56rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin-bottom:4px;}
+.fb-field textarea{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:9px;padding:10px 12px;font-size:.8rem;color:white;font-family:'Sora',sans-serif;outline:none;resize:none;height:68px;line-height:1.5;}
+.fb-field textarea:focus{border-color:var(--cyan);}
+.fb-submit{width:100%;background:var(--cyan);color:#000;border:none;border-radius:10px;padding:11px;font-size:.8rem;font-weight:800;text-transform:uppercase;cursor:pointer;font-family:'Sora',sans-serif;margin-top:4px;}
+.fb-skip-btn{width:100%;background:none;border:none;color:var(--muted);font-size:.66rem;cursor:pointer;margin-top:7px;padding:5px;font-family:'Sora',sans-serif;}
+
+/* TOAST */
 .toast{position:fixed;bottom:82px;left:50%;transform:translateX(-50%) translateY(14px);border-radius:100px;padding:9px 18px;font-size:.72rem;font-weight:700;z-index:5000;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap;max-width:90vw;text-align:center;}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 .toast.s{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,.28);color:var(--green);}
 .toast.e{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,.28);color:var(--red);}
 
-/* ── BOTTOM NAV ── */
+/* BOTTOM NAV */
 .bottom-nav{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);width:calc(100% - 24px);max-width:360px;background:rgba(2,0,36,0.96);backdrop-filter:blur(28px);border:1px solid rgba(0,212,255,0.14);border-radius:100px;padding:5px 10px;display:flex;justify-content:space-around;align-items:center;z-index:500;box-shadow:0 8px 28px rgba(0,0,0,.6);}
 .nav-item{width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:all .2s;text-decoration:none;color:var(--muted);font-size:1rem;}
 .nav-item.active{background:rgba(0,212,255,0.11);color:var(--cyan);}
@@ -206,34 +240,106 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 </head>
 <body>
 <div class="bg-glow"></div>
-<div id="loadScreen"><div class="ls-logo">ZWAPY</div><div class="ls-bar"><div class="ls-fill"></div></div><div class="ls-text">Loading your dashboard...</div></div>
+<div id="loadScreen"><div class="ls-logo">ZWAPY</div><div class="ls-bar"><div class="ls-fill"></div></div><div class="ls-text">Loading dashboard...</div></div>
 <div class="toast" id="toast"></div>
 
+<!-- SIDEBAR -->
+<div class="sidebar-overlay" id="sbOverlay" onclick="closeSidebar()"></div>
+<aside class="sidebar" id="sidebar">
+  <div class="sb-head">
+    <div class="sb-logo">
+      <div class="sb-logo-icon"><img src="assets/zwapy-logo.png" style="width:20px;height:20px;object-fit:contain;" onerror="this.style.display='none'"/></div>
+      <span class="sb-logo-text">ZWAPY</span>
+    </div>
+    <button class="sb-close" onclick="closeSidebar()">✕</button>
+  </div>
+  <!-- User info -->
+  <div class="sb-user">
+    <img id="sbAvatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=default" class="sb-avatar" alt=""/>
+    <div class="sb-user-info">
+      <div class="sb-user-name" id="sbName">—</div>
+      <div class="sb-user-role" id="sbRole">Student</div>
+    </div>
+  </div>
+  <!-- Coins -->
+  <div class="sb-coins">
+    <div class="sb-coins-icon">💰</div>
+    <div class="sb-coins-info">
+      <div class="sb-coins-val" id="sbCoins">0</div>
+      <div class="sb-coins-label">Skill Coins</div>
+    </div>
+  </div>
+  <!-- Navigation -->
+  <nav class="sb-nav">
+    <div class="sb-sec-label">Navigation</div>
+    <a href="dashboard.html" class="sb-link active" onclick="closeSidebar()">
+      <div class="sb-link-icon" style="background:rgba(0,212,255,0.08);">🏠</div>
+      <div class="sb-link-info"><div class="sb-link-name">Dashboard</div><div class="sb-link-sub">Your home</div></div>
+    </a>
+    <a href="skill-exchange.html" class="sb-link" onclick="closeSidebar()">
+      <div class="sb-link-icon" style="background:rgba(0,212,255,0.08);">🔄</div>
+      <div class="sb-link-info"><div class="sb-link-name">Skill Exchange</div><div class="sb-link-sub">All universities</div></div>
+    </a>
+    <a href="network.html" class="sb-link" onclick="closeSidebar()">
+      <div class="sb-link-icon" style="background:rgba(16,185,129,0.08);">💬</div>
+      <div class="sb-link-info"><div class="sb-link-name">Network</div><div class="sb-link-sub">Connect with students</div></div>
+    </a>
+    <a href="discover.html" class="sb-link" onclick="closeSidebar()">
+      <div class="sb-link-icon" style="background:rgba(245,158,11,0.08);">🔍</div>
+      <div class="sb-link-info"><div class="sb-link-name">Discover</div><div class="sb-link-sub">Find people & skills</div></div>
+    </a>
+    <a href="events.html" class="sb-link" id="sbEventsLink" onclick="closeSidebar()">
+      <div class="sb-link-icon" style="background:rgba(244,114,182,0.08);">🎪</div>
+      <div class="sb-link-info"><div class="sb-link-name">Events</div><div class="sb-link-sub" id="sbEventsSub">Campus events</div></div>
+    </a>
+    <a href="clubs.html" class="sb-link" id="sbClubsLink" onclick="closeSidebar()">
+      <div class="sb-link-icon" style="background:rgba(129,140,248,0.08);">🛡️</div>
+      <div class="sb-link-info"><div class="sb-link-name">Clubs</div><div class="sb-link-sub" id="sbClubsSub">Campus clubs</div></div>
+    </a>
+    <div class="sb-divider"></div>
+    <div class="sb-sec-label">Account</div>
+    <a href="profile.html" class="sb-link" onclick="closeSidebar()">
+      <div class="sb-link-icon" style="background:rgba(255,255,255,0.04);">👤</div>
+      <div class="sb-link-info"><div class="sb-link-name">Profile</div><div class="sb-link-sub">Your info & skills</div></div>
+    </a>
+    <button class="sb-link" onclick="showFeedback()">
+      <div class="sb-link-icon" style="background:rgba(0,212,255,0.06);">💬</div>
+      <div class="sb-link-info"><div class="sb-link-name">Give Feedback</div><div class="sb-link-sub">Help us improve</div></div>
+    </button>
+  </nav>
+  <div class="sb-foot">
+    <button class="sb-signout" id="signOutBtn">
+      <div class="sb-signout-icon">🚪</div>
+      Sign Out
+    </button>
+  </div>
+</aside>
+
 <!-- FEEDBACK POPUP -->
-<div class="feedback-overlay" id="feedbackOverlay">
-  <div class="feedback-modal">
-    <div class="fm-stripe"></div>
-    <div class="fm-body">
-      <button class="fm-close" onclick="closeFeedback()">✕</button>
-      <div class="fm-title">Quick Feedback 💬</div>
-      <p class="fm-sub">Help us build Zwapy better. Takes 30 seconds — completely anonymous.</p>
-      <div class="fm-rating" id="fmRating">
-        <span class="fm-star" onclick="setRating(1)">⭐</span>
-        <span class="fm-star" onclick="setRating(2)">⭐</span>
-        <span class="fm-star" onclick="setRating(3)">⭐</span>
-        <span class="fm-star" onclick="setRating(4)">⭐</span>
-        <span class="fm-star" onclick="setRating(5)">⭐</span>
+<div class="fb-overlay" id="fbOverlay">
+  <div class="fb-modal">
+    <div class="fb-stripe"></div>
+    <div class="fb-body">
+      <button class="fb-close-btn" onclick="closeFeedback()">✕</button>
+      <div class="fb-title">Quick Feedback 💬</div>
+      <p class="fb-sub">Help us build Zwapy better. 30 seconds. Anonymous.</p>
+      <div class="fb-stars" id="fbStars">
+        <span class="fb-star" onclick="setRating(1)">⭐</span>
+        <span class="fb-star" onclick="setRating(2)">⭐</span>
+        <span class="fb-star" onclick="setRating(3)">⭐</span>
+        <span class="fb-star" onclick="setRating(4)">⭐</span>
+        <span class="fb-star" onclick="setRating(5)">⭐</span>
       </div>
-      <div class="fm-field">
+      <div class="fb-field">
         <label>What do you like most?</label>
-        <textarea id="fmLike" placeholder="e.g. The skill exchange idea is great..."></textarea>
+        <textarea id="fbLike" placeholder="e.g. Skill exchange idea is great..."></textarea>
       </div>
-      <div class="fm-field">
+      <div class="fb-field">
         <label>What should we improve?</label>
-        <textarea id="fmImprove" placeholder="e.g. Make it easier to find people..."></textarea>
+        <textarea id="fbImprove" placeholder="e.g. Make it easier to find people..."></textarea>
       </div>
-      <button class="fm-submit" onclick="submitFeedback()">Send Feedback →</button>
-      <button class="fm-skip" onclick="closeFeedback()">Skip for now</button>
+      <button class="fb-submit" onclick="submitFeedback()">Send Feedback →</button>
+      <button class="fb-skip-btn" onclick="closeFeedback()">Skip for now</button>
     </div>
   </div>
 </div>
@@ -241,25 +347,36 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 <div class="layout">
   <!-- TOPBAR -->
   <header class="topbar">
-    <a href="dashboard.html" class="topbar-logo">
-      <div class="logo-node"><img src="assets/zwapy-logo.png" style="width:22px;height:22px;object-fit:contain;" onerror="this.style.display='none'"></div>
-      <span class="logo-text">ZWAPY</span>
-    </a>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <!-- Hamburger = 3 lines -->
+      <button class="menu-btn" id="menuBtn" onclick="openSidebar()">
+        <span></span><span></span><span></span>
+      </button>
+      <a href="dashboard.html" class="topbar-logo">
+        <div class="logo-node"><img src="assets/zwapy-logo.png" style="width:20px;height:20px;object-fit:contain;" onerror="this.style.display='none'"/></div>
+        <span class="logo-text">ZWAPY</span>
+      </a>
+    </div>
     <div class="topbar-right">
       <div class="coins-pill">💰 <span id="coinsDisplay">0</span></div>
-      <div class="notif-btn" onclick="toast('No new notifications','s')">🔔<div class="notif-dot" id="notifDot"></div></div>
+      <img id="topAvatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=default" class="tb-avatar" alt="" onclick="window.location.href='profile.html'"/>
     </div>
   </header>
 
   <!-- HERO -->
-  <div class="hero fade-up d1">
-    <div class="hero-top">
-      <div class="greeting-wrap">
-        <div class="greeting-time" id="greetingTime">Good morning</div>
-        <div class="greeting-name" id="greetingName">Loading...</div>
-        <div class="greeting-sub" id="greetingSub">Welcome back to Zwapy</div>
+  <div class="hero-section fade-up d1">
+    <div class="hero-inner">
+      <div class="greeting-block">
+        <div class="greeting-time" id="greetingTime">Good morning,</div>
+        <div class="greeting-name">Hey, <span id="greetingName">—</span> 👋</div>
+        <div class="greeting-meta">
+          <span class="gm-badge" id="gmUni">—</span>
+          <span class="gm-badge" id="gmCourse">—</span>
+        </div>
       </div>
-      <img id="avatarBig" src="https://api.dicebear.com/7.x/avataaars/svg?seed=default" class="avatar-big" alt="Avatar"/>
+      <div class="hero-avatar-wrap">
+        <img id="avatarBig" src="https://api.dicebear.com/7.x/avataaars/svg?seed=default" class="hero-avatar" alt=""/>
+      </div>
     </div>
   </div>
 
@@ -267,71 +384,67 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
   <div class="stats-row fade-up d2">
     <div class="stat-card"><div class="sc-val c" id="statCoins">0</div><div class="sc-label">Skill Coins</div></div>
     <div class="stat-card"><div class="sc-val g" id="statExchanges">0</div><div class="sc-label">Exchanges</div></div>
-    <div class="stat-card"><div class="sc-val i" id="statRank">#-</div><div class="sc-label">Rank</div></div>
-    <div class="stat-card" style="display:none;" id="statCertCard"><div class="sc-val a" id="statCerts">0</div><div class="sc-label">Certs</div></div>
+    <div class="stat-card"><div class="sc-val i" id="statRank">#—</div><div class="sc-label">Network Rank</div></div>
+    <div class="stat-card" id="statScoreCard" style="display:none;"><div class="sc-val a" id="statScore">—</div><div class="sc-label">Exam Score</div></div>
   </div>
 
-  <!-- UNIVERSITY ACCESS NOTICE — shown for non-Presidency users -->
+  <!-- UNIVERSITY NOTICE -->
   <div class="uni-notice" id="uniNotice">
-    <strong>🏛️ Your University Access</strong><br>
-    Skill Exchange is open to <strong>all universities</strong>. Clubs and Events are currently only available for <strong>Presidency University, Bangalore</strong>. Your university will be added to Zwapy soon — <a href="#">join the waitlist</a> to be notified.
+    <strong>🏛️ Your Access Level</strong><br>
+    <strong>Skill Exchange, Network and Discover</strong> are open to all universities. <strong>Clubs and Events</strong> are currently Presidency University only — your university will be added soon. Stay tuned!
   </div>
 
-  <!-- SKILL SCORES (shown if exam taken) -->
-  <div class="skill-score-card fade-up d2" id="skillScoreCard" style="display:none;">
-    <div class="ssc-title">// Your Skill Scores (Verified)</div>
-    <div class="skills-score-list" id="skillScoreList"></div>
-    <a href="exam.html" class="take-exam-btn" id="retakeExamBtn" style="display:none;">🔄 Retake Exam to Improve Score</a>
+  <!-- SKILL SCORES -->
+  <div class="skill-score-card" id="skillScoreCard">
+    <div class="ssc-title">// Your Verified Skill Scores</div>
+    <div id="skillScoreList"></div>
+    <a href="exam.html" class="exam-cta" id="examCta" style="display:none;">🔄 Retake Exam to Improve Score</a>
   </div>
 
-  <!-- FEATURES GRID -->
-  <div class="section-head fade-up d3">
-    <div class="section-title">// Features</div>
+  <!-- FEATURES -->
+  <div class="section-hd fade-up d3">
+    <div class="section-label">// Features</div>
   </div>
-  <div class="features-grid fade-up d3" id="featuresGrid">
-    <!-- Rendered by JS based on university access -->
-  </div>
+  <div class="feature-grid fade-up d3" id="featureGrid"></div>
 
-  <!-- CREAGENIX COMING SOON -->
+  <!-- CREAGENIX -->
   <a href="creagenix.html" class="crx-card fade-up d4">
     <div class="crx-top">
       <div class="crx-icon">🎬</div>
-      <div class="crx-label-wrap">
-        <div class="crx-label">Coming Soon · Partnership</div>
+      <div class="crx-titles">
+        <div class="crx-suplabel">Coming Soon · Official Partnership</div>
         <div class="crx-name">Creagenix × Zwapy</div>
       </div>
-      <div class="crx-badge">Coming Soon</div>
+      <div class="crx-comingsoon">Coming Soon</div>
     </div>
-    <div class="crx-desc">Professional video editing, photo editing and content creation — taught by Creagenix creators inside Zwapy. Earn certificates. Build your brand.</div>
-    <div class="crx-skills">
-      <span class="crx-skill-tag">🎬 Video Editing</span>
-      <span class="crx-skill-tag">📸 Photo Editing</span>
-      <span class="crx-skill-tag">🎨 Graphic Design</span>
-      <span class="crx-skill-tag">🚀 Personal Brand</span>
+    <div class="crx-desc">Professional video editing, photo editing and content creation — taught by Creagenix inside Zwapy. Earn real certificates. Build your personal brand.</div>
+    <div class="crx-tags">
+      <span class="crx-tag">🎬 Video Editing</span>
+      <span class="crx-tag">📸 Photo Editing</span>
+      <span class="crx-tag">🎨 Graphic Design</span>
+      <span class="crx-tag">🚀 Personal Brand</span>
     </div>
   </a>
 
-  <!-- REFERRAL STRIP -->
-  <div class="referral-strip fade-up d4">
-    <div class="rs-left">
-      <div class="rs-label">// Invite & Earn</div>
-      <div class="rs-title">Invite friends, earn coins 💰</div>
-      <div class="rs-sub">You get +2 coins for every friend who joins</div>
+  <!-- REFERRAL -->
+  <div class="ref-strip fade-up d4">
+    <div class="ref-left">
+      <div class="ref-label">// Invite & Earn</div>
+      <div class="ref-title">Invite friends, earn coins</div>
+      <div class="ref-sub">+2 coins when a friend joins through your link</div>
     </div>
-    <button class="rs-btn" id="copyRefBtn">📋 Copy Link</button>
+    <button class="ref-btn" id="refBtn">📋 Copy Invite Link</button>
   </div>
 
-  <!-- RECENT ACTIVITY -->
-  <div class="section-head fade-up d5">
-    <div class="section-title">// Recent Activity</div>
-    <a href="profile.html" class="section-see-all">See all →</a>
+  <!-- ACTIVITY -->
+  <div class="section-hd fade-up d5">
+    <div class="section-label">// Recent Activity</div>
+    <a href="profile.html" class="section-link">See all →</a>
   </div>
-  <div class="activity-list fade-up d5" id="activityList">
-    <div class="empty-activity">
-      <div class="ea-icon">⚡</div>
-      <p class="ea-text">No activity yet. Do your first skill exchange to get started.</p>
-    </div>
+  <div class="activity-wrap fade-up d5" id="activityWrap">
+    <div class="activity-empty"><div class="ae-icon">⚡</div><p class="ae-txt">No activity yet.<br>Do your first skill exchange to get started.</p></div>
   </div>
+
 </div>
 
 <!-- BOTTOM NAV -->
@@ -340,14 +453,12 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
   <a href="clubs.html" class="nav-item" id="navClubs">🛡️</a>
   <a href="network.html" class="nav-item">💬</a>
   <a href="discover.html" class="nav-item">🔍</a>
-  <a href="profile.html" class="nav-item">
-    <div class="nav-av"><img id="navAvatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=default" alt=""/></div>
-  </a>
+  <a href="profile.html" class="nav-item"><div class="nav-av"><img id="navAvatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=default" alt=""/></div></a>
 </nav>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
 import {
   getFirestore, doc, getDoc, getDocs, collection,
   addDoc, serverTimestamp, orderBy, limit, query
@@ -355,8 +466,6 @@ import {
 
 const CURRENT_PROFILE_VERSION = 2;
 const PRESIDENCY_DOMAINS = ['presidencyuniversity.in','presidency.edu.in','presidency.ac.in'];
-// Show feedback popup after this many minutes on dashboard
-const FEEDBACK_DELAY_MINS = 3;
 
 const app=initializeApp({
   apiKey:"AIzaSyBazCIc5vdQInSwvqvohIcbPToTjnw7KJI",
@@ -370,311 +479,212 @@ const auth=getAuth(app);
 const db=getFirestore(app);
 const $=id=>document.getElementById(id);
 
-let currentUser=null;
-let userData={};
-let feedbackRating=0;
-let referralCode='';
+let currentUser=null, userData={}, feedbackRating=0, referralCode='';
 
 function toast(msg,type='s'){
   const t=$('toast');t.textContent=msg;t.className=`toast ${type} show`;
   setTimeout(()=>t.className='toast',3000);
 }
+window.toast=toast;
 function fmt(n){return Number(n||0).toLocaleString();}
 
-// Greeting based on time
+// Sidebar
+window.openSidebar=function(){
+  $('sidebar').classList.add('open');
+  $('sbOverlay').classList.add('show');
+  $('menuBtn').classList.add('open');
+};
+window.closeSidebar=function(){
+  $('sidebar').classList.remove('open');
+  $('sbOverlay').classList.remove('show');
+  $('menuBtn').classList.remove('open');
+};
+
+// Greeting
 function setGreeting(){
   const h=new Date().getHours();
-  const greet=h<12?'Good morning':h<17?'Good afternoon':'Good evening';
-  $('greetingTime').textContent=greet+',';
+  $('greetingTime').textContent=h<12?'Good morning,':h<17?'Good afternoon,':'Good evening,';
 }
 
-// ── IS PRESIDENCY STUDENT ──
-function isPresidency(uniEmail){
-  if(!uniEmail) return false;
-  const domain=(uniEmail.split('@')[1]||'').toLowerCase();
-  return PRESIDENCY_DOMAINS.some(d=>domain===d||domain.endsWith('.'+d));
+// Is Presidency
+function isPresidency(email){
+  if(!email)return false;
+  const d=(email.split('@')[1]||'').toLowerCase();
+  return PRESIDENCY_DOMAINS.some(x=>d===x||d.endsWith('.'+x));
 }
 
-// ── BUILD FEATURES GRID ──
-function buildFeaturesGrid(isPresidencyStudent){
-  // Skill Exchange = open to ALL universities
-  // Clubs & Events = Presidency only for now
+// Build feature grid
+function buildGrid(presidencyStudent){
   const features=[
-    {
-      id:'exchange',
-      href:'skill-exchange.html',
-      icon:'🔄',
-      label:'All Universities',
-      name:'Skill Exchange',
-      desc:'Exchange skills with students from any university',
-      badge:'Live',
-      badgeClass:'badge-live',
-      locked:false,
-      cls:'exchange'
-    },
-    {
-      id:'network',
-      href:'network.html',
-      icon:'🧑‍🤝‍🧑',
-      label:'All Universities',
-      name:'Network',
-      desc:'Connect with students across campuses',
-      badge:'Live',
-      badgeClass:'badge-live',
-      locked:false,
-      cls:'network'
-    },
-    {
-      id:'discover',
-      href:'discover.html',
-      icon:'🔍',
-      label:'All Universities',
-      name:'Discover',
-      desc:'Find students, skills and opportunities',
-      badge:'Live',
-      badgeClass:'badge-live',
-      locked:false,
-      cls:'discover'
-    },
-    {
-      id:'events',
-      href:isPresidencyStudent?'events.html':'#',
-      icon:'🎪',
-      label:isPresidencyStudent?'Presidency':'Coming to your uni',
-      name:'Events',
-      desc:isPresidencyStudent?'Campus events, hackathons, workshops':'Available once your university joins Zwapy',
-      badge:isPresidencyStudent?'Live':'Locked',
-      badgeClass:isPresidencyStudent?'badge-live':'badge-locked',
-      locked:!isPresidencyStudent,
-      cls:'events'
-    },
-    {
-      id:'clubs',
-      href:isPresidencyStudent?'clubs.html':'#',
-      icon:'🛡️',
-      label:isPresidencyStudent?'Presidency':'Coming to your uni',
-      name:'Clubs',
-      desc:isPresidencyStudent?'Campus clubs, activities, news':'Available once your university joins Zwapy',
-      badge:isPresidencyStudent?'Live':'Locked',
-      badgeClass:isPresidencyStudent?'badge-live':'badge-locked',
-      locked:!isPresidencyStudent,
-      cls:'clubs'
-    },
-    {
-      id:'profile',
-      href:'profile.html',
-      icon:'👤',
-      label:'Your Profile',
-      name:'Profile',
-      desc:'Edit skills, bio, referrals and settings',
-      badge:'',
-      badgeClass:'',
-      locked:false,
-      cls:''
-    }
+    {href:'skill-exchange.html',icon:'🔄',label:'All Universities',name:'Skill Exchange',desc:'Trade skills with students from any university',badge:'Live',bc:'b-live',locked:false},
+    {href:'network.html',icon:'💬',label:'All Universities',name:'Network',desc:'Connect and message other students',badge:'Live',bc:'b-live',locked:false},
+    {href:'discover.html',icon:'🔍',label:'All Universities',name:'Discover',desc:'Find people, skills and opportunities',badge:'Live',bc:'b-live',locked:false},
+    {href:presidencyStudent?'events.html':'#',icon:'🎪',label:presidencyStudent?'Presidency':'Coming Soon',name:'Events',desc:presidencyStudent?'Hackathons, workshops and campus events':'Available when your university joins Zwapy',badge:presidencyStudent?'Live':'Locked',bc:presidencyStudent?'b-live':'b-locked',locked:!presidencyStudent},
+    {href:presidencyStudent?'clubs.html':'#',icon:'🛡️',label:presidencyStudent?'Presidency':'Coming Soon',name:'Clubs',desc:presidencyStudent?'Join campus clubs and groups':'Available when your university joins Zwapy',badge:presidencyStudent?'Live':'Locked',bc:presidencyStudent?'b-live':'b-locked',locked:!presidencyStudent},
+    {href:'profile.html',icon:'👤',label:'Your Account',name:'Profile',desc:'Edit skills, bio, certificates and settings',badge:'',bc:'',locked:false},
   ];
-
-  $('featuresGrid').innerHTML=features.map(f=>`
-    <a href="${f.href}" class="feat-card ${f.cls} ${f.locked?'locked':''}"
-       ${f.locked?'onclick="return lockedClick(event)"':''}>
-      ${f.badge?`<span class="feat-badge ${f.badgeClass}">${f.badge}</span>`:''}
+  $('featureGrid').innerHTML=features.map(f=>`
+    <a href="${f.href}" class="feat-card ${f.locked?'locked-card':''}"
+       ${f.locked?`onclick="event.preventDefault();toast('${f.name} is available once your university joins Zwapy','e')"`:''}>
+      ${f.badge?`<span class="feat-badge ${f.bc}">${f.badge}</span>`:''}
       <span class="feat-icon">${f.icon}</span>
-      <div class="feat-label">${f.label}</div>
+      <div class="feat-uni-label">${f.label}</div>
       <div class="feat-name">${f.name}</div>
       <div class="feat-desc">${f.desc}</div>
     </a>
   `).join('');
 
-  // Hide clubs nav item if not Presidency
-  if(!isPresidencyStudent && $('navClubs')){
-    $('navClubs').style.opacity='0.4';
-    $('navClubs').setAttribute('href','#');
-    $('navClubs').onclick=(e)=>{e.preventDefault();toast('Clubs available once your university joins Zwapy','e');};
+  // Lock clubs nav if not presidency
+  if(!presidencyStudent){
+    $('navClubs').href='#';
+    $('navClubs').onclick=e=>{e.preventDefault();toast('Clubs available once your university joins Zwapy','e');};
+    $('navClubs').style.opacity='.4';
+    // Update sidebar links
+    const el=$('sbEventsLink');const cl=$('sbClubsLink');
+    if(el){el.classList.add('locked-link');el.onclick=e=>{e.preventDefault();toast('Events coming to your university soon!','e');};}
+    if(cl){cl.classList.add('locked-link');cl.onclick=e=>{e.preventDefault();toast('Clubs coming to your university soon!','e');};}
+    $('sbEventsSub').textContent='Coming to your uni';
+    $('sbClubsSub').textContent='Coming to your uni';
   }
 }
 
-window.lockedClick=function(e){
-  e.preventDefault();
-  toast('This feature is not available for your university yet','e');
-};
-
-// ── SKILL SCORES ──
+// Build skill scores
 function buildSkillScores(ud){
   const skills=ud.skillsKnown||[];
-  const examScores=ud.examScores||{};
   if(!skills.length)return;
-
-  $('skillScoreCard').style.display='block';
-  const list=$('skillScoreList');
-  const breakdown=examScores.skillBreakdown||[];
-
-  list.innerHTML=skills.map(sk=>{
-    const scoreData=breakdown.find(b=>b.skill===sk.name);
-    const pct=scoreData?scoreData.pct:(ud.examTaken?0:null);
-    const barColor=pct===null?'rgba(255,255,255,0.1)':pct>=70?'#10b981':pct>=40?'#f59e0b':'#ef4444';
+  $('skillScoreCard').classList.add('show');
+  const breakdown=(ud.examScores?.skillBreakdown)||[];
+  $('skillScoreList').innerHTML=skills.map(sk=>{
+    const sd=breakdown.find(b=>b.skill===sk.name);
+    const pct=sd?sd.pct:null;
+    const color=pct==null?'rgba(255,255,255,0.1)':pct>=70?'#10b981':pct>=40?'#f59e0b':'#ef4444';
     return`<div class="skill-score-row">
       <span class="ssr-name">${sk.name}</span>
       <span class="ssr-level level-${sk.level}">${sk.level}</span>
-      ${pct!==null?`
-        <div class="ssr-bar-wrap"><div class="ssr-bar" style="width:${pct}%;background:${barColor};"></div></div>
-        <span class="ssr-pct">${pct}%</span>
-      `:``}
-      ${pct===null&&sk.certUrl?`<span style="font-size:.58rem;color:var(--green);">📎 Cert</span>`:''}
+      ${pct!=null?`<div class="ssr-bar-wrap"><div class="ssr-bar" style="width:${pct}%;background:${color};"></div></div><span class="ssr-pct">${pct}%</span>`:''}
+      ${pct==null&&sk.certUrl?`<span style="font-size:.56rem;color:var(--green);">📎</span>`:''}
     </div>`;
   }).join('');
-
-  // Show retake button if exam was taken
-  if(ud.examTaken){
-    $('retakeExamBtn').style.display='flex';
-  }
+  if(ud.examTaken)$('examCta').style.display='flex';
 }
 
-// ── ACTIVITY ──
+// Load activity
 async function loadActivity(uid){
   try{
-    const snap=await getDocs(query(
-      collection(db,'users',uid,'activity'),
-      orderBy('createdAt','desc'),limit(5)
-    ));
+    const snap=await getDocs(query(collection(db,'users',uid,'activity'),orderBy('createdAt','desc'),limit(5)));
     if(snap.empty)return;
-    const items=[];
-    snap.forEach(d=>items.push(d.data()));
-    $('activityList').innerHTML=items.map(item=>`
+    const items=[];snap.forEach(d=>items.push(d.data()));
+    $('activityWrap').innerHTML=items.map(item=>`
       <div class="activity-item">
-        <div class="ai-dot"></div>
-        <div class="ai-content">
-          <div class="ai-title">${item.title||'Activity'}</div>
-          <div class="ai-time">${item.desc||''}</div>
+        <div class="act-dot"></div>
+        <div class="act-body">
+          <div class="act-title">${item.title||'Activity'}</div>
+          <div class="act-sub">${item.desc||''}</div>
         </div>
       </div>
     `).join('');
   }catch(e){}
 }
 
-// ── FEEDBACK POPUP ──
+// Feedback
+window.showFeedback=function(){closeSidebar();setTimeout(()=>$('fbOverlay').classList.add('open'),200);};
+window.closeFeedback=function(){
+  $('fbOverlay').classList.remove('open');
+  localStorage.setItem('zwapyFbShown',Date.now().toString());
+};
 window.setRating=function(n){
   feedbackRating=n;
-  document.querySelectorAll('.fm-star').forEach((s,i)=>s.classList.toggle('active',i<n));
-};
-window.closeFeedback=function(){
-  $('feedbackOverlay').classList.remove('open');
-  localStorage.setItem('zwapyFeedbackShown',Date.now().toString());
+  document.querySelectorAll('.fb-star').forEach((s,i)=>s.classList.toggle('on',i<n));
 };
 window.submitFeedback=async function(){
-  if(!feedbackRating){toast('Please give a star rating first','e');return;}
+  if(!feedbackRating){toast('Give a star rating first','e');return;}
   try{
     await addDoc(collection(db,'feedback'),{
       rating:feedbackRating,
-      like:($('fmLike').value||'').trim(),
-      improve:($('fmImprove').value||'').trim(),
+      like:($('fbLike').value||'').trim(),
+      improve:($('fbImprove').value||'').trim(),
       userId:currentUser?.uid||'',
       university:userData.university||'',
       createdAt:serverTimestamp()
     });
-    closeFeedback();
-    toast('✅ Thanks for your feedback!');
-  }catch(e){toast('Saved — thanks!');closeFeedback();}
+    closeFeedback();toast('✅ Thanks for your feedback!');
+  }catch(e){closeFeedback();toast('Saved — thanks!');}
 };
-
 function maybeShowFeedback(){
-  const lastShown=localStorage.getItem('zwapyFeedbackShown');
-  if(lastShown){
-    const daysSince=(Date.now()-parseInt(lastShown))/(1000*60*60*24);
-    if(daysSince<7)return; // Don't show more than once a week
-  }
-  setTimeout(()=>{
-    $('feedbackOverlay').classList.add('open');
-  },FEEDBACK_DELAY_MINS*60*1000);
+  const last=localStorage.getItem('zwapyFbShown');
+  if(last&&(Date.now()-parseInt(last))<7*24*60*60*1000)return;
+  setTimeout(()=>$('fbOverlay').classList.add('open'),3*60*1000);
 }
 
-// ── AUTH + LOAD ──
-onAuthStateChanged(auth, async user => {
-  if (!user) {
-    window.location.href = 'login.html';
-    return;
-  }
-  
-  currentUser = user;
+// Auth
+onAuthStateChanged(auth,async user=>{
+  if(!user){window.location.href='login.html';return;}
+  currentUser=user;
   setGreeting();
 
-  try {
-    // 1. Get the user document first
-    const userSnap = await getDoc(doc(db, 'users', user.uid));
+  const userSnap=await getDoc(doc(db,'users',user.uid));
+  if(!userSnap.exists()||!userSnap.data().name){window.location.href='extra-details.html';return;}
+  userData=userSnap.data();
+  if((userData.profileVersion||0)<CURRENT_PROFILE_VERSION){window.location.href='extra-details.html';return;}
 
-    // 2. CHECK: If profile doesn't exist OR Name is missing
-    if (!userSnap.exists() || !userSnap.data().name) {
-      console.log("Redirecting: No profile found.");
-      window.location.href = 'extra-details.html';
-      return;
-    }
+  const allSnap=await getDocs(collection(db,'users'));
+  const name=userData.name||user.displayName||'Student';
+  const coins=userData.coins||0;
+  const exchanges=userData.exchanges||0;
+  const photo=userData.photoURL||`https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(name)}`;
+  const uniEmail=userData.universityEmail||'';
+  const presidency=isPresidency(uniEmail);
+  referralCode=userData.referralCode||user.uid.substring(0,8).toUpperCase();
 
-    userData = userSnap.data();
-    
-    // 3. CHECK: Profile Version (Crucial for your new update)
-    const savedVersion = userData.profileVersion || 0;
-    if (savedVersion < CURRENT_PROFILE_VERSION) {
-      console.log("Redirecting: Version mismatch.");
-      window.location.href = 'extra-details.html';
-      return;
-    }
+  // Set all UI
+  $('greetingName').textContent=name.split(' ')[0];
+  $('gmUni').textContent=userData.university||'Zwapy';
+  $('gmCourse').textContent=userData.course||'Student';
+  [$('avatarBig'),$('topAvatar'),$('navAvatar'),$('sbAvatar')].forEach(el=>{if(el)el.src=photo;});
+  $('sbName').textContent=name;
+  $('sbRole').textContent=userData.role||'Student';
+  $('coinsDisplay').textContent=fmt(coins);
+  $('sbCoins').textContent=fmt(coins);
+  $('statCoins').textContent=fmt(coins);
+  $('statExchanges').textContent=fmt(exchanges);
 
-    // --- IF WE REACH HERE, THE PROFILE IS GOOD. START LOADING DASHBOARD ---
+  // Rank
+  let rank=1;allSnap.forEach(d=>{if(d.id!==user.uid&&(d.data().coins||0)>coins)rank++;});
+  $('statRank').textContent=`#${rank}`;
 
-    const allSnap = await getDocs(collection(db, 'users'));
-    
-    const name = userData.name || user.displayName || 'Student';
-    const coins = userData.coins || 0;
-    const exchanges = userData.exchanges || 0;
-    const photoURL = userData.photoURL || `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(name)}`;
-    const uniEmail = userData.universityEmail || '';
-    const presidencyStudent = isPresidency(uniEmail);
-    referralCode = userData.referralCode || user.uid.substring(0, 8).toUpperCase();
-
-    // UI Updates
-    $('greetingName').textContent = name.split(' ')[0] + '!';
-    $('greetingSub').textContent = `${userData.university || 'Zwapy'} · ${userData.course || 'Student'}`;
-    $('avatarBig').src = photoURL;
-    $('navAvatar').src = photoURL;
-    $('coinsDisplay').textContent = fmt(coins);
-
-    // Stats
-    $('statCoins').textContent = fmt(coins);
-    $('statExchanges').textContent = fmt(exchanges);
-    
-    let rank = 1;
-    allSnap.forEach(d => {
-      if (d.id !== user.uid && (d.data().coins || 0) > coins) rank++;
-    });
-    $('statRank').textContent = `#${rank}`;
-
-    if (userData.examScores?.overall) {
-      $('statCertCard').style.display = 'block';
-      $('statCerts').textContent = userData.examScores.overall + '%';
-    }
-
-    if (!presidencyStudent) {
-      $('uniNotice').classList.add('show');
-    }
-
-    buildFeaturesGrid(presidencyStudent);
-    buildSkillScores(userData);
-
-    // Activity
-    await loadActivity(user.uid);
-    maybeShowFeedback();
-
-    // Hide load screen
-    setTimeout(() => {
-      $('loadScreen').classList.add('hide');
-      setTimeout(() => $('loadScreen').remove(), 400);
-      document.querySelectorAll('.fade-up').forEach(el => el.classList.add('in'));
-    }, 600);
-
-  } catch (error) {
-    console.error("Dashboard Load Error:", error);
-    // If there is a major error, it's safer to send them to extra-details
-    // window.location.href = 'extra-details.html'; 
+  // Exam score stat
+  if(userData.examScores?.overall){
+    $('statScoreCard').style.display='block';
+    $('statScore').textContent=userData.examScores.overall+'%';
   }
+
+  // University notice
+  if(!presidency)$('uniNotice').classList.add('show');
+
+  // Build everything
+  buildGrid(presidency);
+  buildSkillScores(userData);
+  await loadActivity(user.uid);
+  maybeShowFeedback();
+
+  // Referral
+  $('refBtn').addEventListener('click',()=>{
+    const link=`https://zwapy.com/signup.html?ref=${referralCode}`;
+    try{navigator.clipboard.writeText(link);}catch(e){const ta=document.createElement('textarea');ta.value=link;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);}
+    toast('✅ Invite link copied!');
+  });
+
+  // Sign out
+  $('signOutBtn').addEventListener('click',async()=>{
+    await signOut(auth);
+    window.location.href='login.html';
+  });
+
+  setTimeout(()=>{
+    $('loadScreen').classList.add('hide');
+    setTimeout(()=>$('loadScreen').remove(),400);
+    document.querySelectorAll('.fade-up').forEach(el=>el.classList.add('in'));
+  },600);
 });
 </script>
 </body>
