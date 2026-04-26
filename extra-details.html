@@ -1,12 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-<script type="text/javascript">
-   (function(){
-      // I put your Public Key here for you
-      emailjs.init("gjVpPMT3fejlwiwR_"); 
-   })();
 </script>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -164,6 +158,12 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:1
 ::-webkit-scrollbar{width:2px;}
 ::-webkit-scrollbar-thumb{background:rgba(0,212,255,0.14);border-radius:100px;}
 </style>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script type="text/javascript">
+   (function(){
+      emailjs.init("gjVpPMT3fejlwiwR_"); 
+   })();
+</script>
 </head>
 <body>
 <div class="bg-glow"></div>
@@ -531,76 +531,35 @@ window.checkUniEmail=function(){
 // We use Firebase sendEmailVerification — sends directly from Firebase, no third party
 // ── PERSONAL EMAIL OTP ──
 window.sendPersonalOTP = async function() {
-  if (!currentUser) { toast('Not logged in', 'e'); return; }
-
-  const enteredEmail = ($('personalEmailInput').value || '').trim().toLowerCase();
-  const authEmail = (currentUser.email || '').toLowerCase();
-
-  if (enteredEmail !== authEmail) {
-    toast('❌ Use your login email: ' + authEmail, 'e');
-    return;
-  }
-
-  const btn = $('sendOtpBtn');
-  btn.disabled = true;
-  btn.textContent = 'Sending...';
+  const btn = document.getElementById('sendOtpBtn');
+  btn.innerText = "CHECKING..."; 
 
   try {
-    // 1. Generate 6-digit code
+    // Check 1: Is EmailJS actually loaded?
+    if (typeof emailjs === 'undefined') {
+      alert("ERROR: EmailJS is not loaded! Check your script tag at the top.");
+      return;
+    }
+
+    // Check 2: Create the number
     generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
-
-    // 2. Save to Firestore so we can verify it
-    await setDoc(doc(db, 'email_otps', currentUser.uid), {
-      otp: generatedOTP,
-      email: authEmail,
-      createdAt: serverTimestamp()
-    });
-
-    // 3. Send via EmailJS using your Template ID
-    await emailjs.send("service_gmail", "template_k49il5e", {
-      to_email: authEmail,
+    
+    // Check 3: Send the email
+    btn.innerText = "SENDING NOW...";
+    await emailjs.send("service_n42p919", "template_k49il5e", {
+      to_email: currentUser.email,
       otp_code: generatedOTP
     });
 
-    $('otpVerifySection').style.display = 'block';
-    $('otpDestHint').textContent = `Code sent to ${authEmail}`;
-    btn.textContent = 'Resend Code';
-    btn.disabled = false;
-    toast('✅ Check your inbox!');
+    // Success!
+    alert("IT WORKED! Check your email: " + currentUser.email);
+    document.getElementById('otpVerifySection').style.display = 'block';
+    btn.innerText = "RESEND CODE";
 
   } catch (err) {
-    console.error('OTP Send Error:', err);
-    toast('Error: ' + err.message, 'e');
-    btn.disabled = false;
-  }
-};
-
-// ── VERIFY OTP ──
-window.verifyPersonalOTP = async function() {
-  const enteredOtp = $('otpInputField').value.trim();
-  
-  if (enteredOtp.length !== 6) {
-    toast('Enter the 6-digit code', 'e');
-    return;
-  }
-
-  try {
-    const otpDoc = await getDoc(doc(db, 'email_otps', currentUser.uid));
-    
-    if (otpDoc.exists() && otpDoc.data().otp === enteredOtp) {
-      emailOtpVerified = true;
-      $('otpVerifySection').style.display = 'none';
-      $('emailVerifiedBadge').classList.add('show');
-      $('sendOtpBtn').style.display = 'none';
-      $('personalEmailInput').disabled = true;
-      toast('✅ Email Verified!');
-      updateProgress();
-    } else {
-      toast('❌ Invalid Code', 'e');
-    }
-  } catch (err) {
-    console.error('Verify Error:', err);
-    toast('Verification failed', 'e');
+    // If it fails, this box will tell us WHY
+    alert("FAILED! Reason: " + JSON.stringify(err));
+    btn.innerText = "SEND OTP";
   }
 };
 // ── VERIFY OTP ──
