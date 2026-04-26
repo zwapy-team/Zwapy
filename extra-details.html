@@ -532,34 +532,39 @@ window.checkUniEmail=function(){
 // ── PERSONAL EMAIL OTP ──
 window.sendPersonalOTP = async function() {
   const btn = document.getElementById('sendOtpBtn');
-  btn.innerText = "CHECKING..."; 
+  
+  // 1. Get the email from the input box or the user profile
+  const emailInput = document.getElementById('personalEmailInput').value.trim();
+  const userEmail = currentUser ? currentUser.email : '';
+  const finalEmail = emailInput || userEmail;
+
+  if (!finalEmail) {
+    alert("Please enter your email address first!");
+    return;
+  }
+
+  btn.innerText = "SENDING...";
+  btn.disabled = true;
 
   try {
-    // Check 1: Is EmailJS actually loaded?
-    if (typeof emailjs === 'undefined') {
-      alert("ERROR: EmailJS is not loaded! Check your script tag at the top.");
-      return;
-    }
-
-    // Check 2: Create the number
     generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
     
-    // Check 3: Send the email
-    btn.innerText = "SENDING NOW...";
-    await emailjs.send("service_n42p919", "template_k49il5e", {
-      to_email: currentUser.email,
+    // 2. Send via EmailJS
+    // We use 'finalEmail' to make sure the address is NOT empty
+    await emailjs.send("service_gmail", "template_k49il5e", {
+      to_email: finalEmail,
       otp_code: generatedOTP
     });
 
-    // Success!
-    alert("IT WORKED! Check your email: " + currentUser.email);
+    alert("IT WORKED! Check your inbox: " + finalEmail);
     document.getElementById('otpVerifySection').style.display = 'block';
     btn.innerText = "RESEND CODE";
+    btn.disabled = false;
 
   } catch (err) {
-    // If it fails, this box will tell us WHY
     alert("FAILED! Reason: " + JSON.stringify(err));
     btn.innerText = "SEND OTP";
+    btn.disabled = false;
   }
 };
 // ── VERIFY OTP ──
