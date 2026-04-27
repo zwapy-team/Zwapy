@@ -568,7 +568,7 @@ window.animateLogout=function(){
 function buildGrid(presidencyStudent){
   const features=[
     {href:'skill-exchange.html',icon:'🔄',label:'All Universities',name:'Skill Exchange',desc:'Trade skills with students from any university',badge:'Live',bc:'b-live',locked:false},
-    {href:presidencyStudent?'events.html':'#',icon:'🎪',label:presidencyStudent?'Presidency':'Coming Soon',name:'Events',desc:presidencyStudent?'Hackathons, workshops and campus events':'Available when your university joins Zwapy',badge:presidencyStudent?'Live':'Locked',bc:presidencyStudent?'b-live':'b-locked',locked:!presidencyStudent},
+    {href:presidencyStudent?'event.html':'#',icon:'🎪',label:presidencyStudent?'Presidency':'Coming Soon',name:'Events',desc:presidencyStudent?'Hackathons, workshops and campus events':'Available when your university joins Zwapy',badge:presidencyStudent?'Live':'Locked',bc:presidencyStudent?'b-live':'b-locked',locked:!presidencyStudent},
     {href:presidencyStudent?'clubs.html':'#',icon:'🛡️',label:presidencyStudent?'Presidency':'Coming Soon',name:'Clubs',desc:presidencyStudent?'Join campus clubs and groups':'Available when your university joins Zwapy',badge:presidencyStudent?'Live':'Locked',bc:presidencyStudent?'b-live':'b-locked',locked:!presidencyStudent},
   ];
   $('featureGrid').innerHTML=features.map(f=>`
