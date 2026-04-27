@@ -787,9 +787,9 @@ window.submitProfile = async function() {
 
     setTimeout(()=>{
       if (isNewUser) {
-        window.location.href=(hasSkills&&!noSkills)?'exam.html':'thankyou.html';
+        window.location.href=(hasSkills&&!noSkills)?'thankyou.html';
       } else {
-        window.location.href=(hasSkills&&!noSkills)?'exam.html':'dashboard.html';
+        window.location.href=(hasSkills&&!noSkills)?'dashboard.html';
       }
     },800);
 
