@@ -141,15 +141,83 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
   <div class="load-bar"><div class="load-fill"></div></div>
   <div class="load-text">Loading discover...</div>
 </div>
+<!-- SIDEBAR -->
+<div class="sidebar-overlay" id="sbOverlay" onclick="closeSidebar()"></div>
+<aside class="sidebar" id="sidebar">
+  <div class="sb-head">
+    <div class="sb-logo" onclick="closeSidebar();window.location.href='dashboard.html'">
+      <div class="sb-logo-icon"><img src="assets/zwapy-logo.png" style="width:20px;height:20px;object-fit:contain;" onerror="this.style.display='none'"/></div>
+      <span class="sb-logo-text">ZWAPY</span>
+    </div>
+    <button class="sb-close" onclick="closeSidebar()">✕</button>
+  </div>
+  <div class="sb-user">
+    <img id="sbAvatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=default" class="sb-avatar" alt=""/>
+    <div class="sb-user-info">
+      <div class="sb-user-name" id="sbName">—</div>
+      <div class="sb-user-role" id="sbRole">Student</div>
+    </div>
+  </div>
+  <div class="sb-coins">
+    <div class="sb-coins-icon">💰</div>
+    <div class="sb-coins-info">
+      <div class="sb-coins-val" id="sbCoins">0</div>
+      <div class="sb-coins-label">Skill Coins</div>
+    </div>
+  </div>
+  <nav class="sb-nav">
+    <div class="sb-sec-label">Navigation</div>
+    <a href="dashboard.html" class="sb-link active" onclick="closeSidebar()">
+      <div class="sb-link-icon" style="background:rgba(0,212,255,0.08);">🏠</div>
+      <div class="sb-link-info"><div class="sb-link-name">Dashboard</div><div class="sb-link-sub">Your home</div></div>
+    </a>
+    <a href="skill-exchange.html" class="sb-link" onclick="closeSidebar()">
+      <div class="sb-link-icon" style="background:rgba(0,212,255,0.08);">🔄</div>
+      <div class="sb-link-info"><div class="sb-link-name">Skill Exchange</div><div class="sb-link-sub">All universities</div></div>
+    </a>
+    <a href="network.html" class="sb-link" onclick="closeSidebar()">
+      <div class="sb-link-icon" style="background:rgba(16,185,129,0.08);">💬</div>
+      <div class="sb-link-info"><div class="sb-link-name">Network</div><div class="sb-link-sub">Connect with students</div></div>
+    </a>
+    <a href="discover.html" class="sb-link" onclick="closeSidebar()">
+      <div class="sb-link-icon" style="background:rgba(245,158,11,0.08);">🔍</div>
+      <div class="sb-link-info"><div class="sb-link-name">Discover</div><div class="sb-link-sub">Find people & skills</div></div>
+    </a>
+    <a href="events.html" class="sb-link" id="sbEventsLink" onclick="closeSidebar()">
+      <div class="sb-link-icon" style="background:rgba(244,114,182,0.08);">🎪</div>
+      <div class="sb-link-info"><div class="sb-link-name">Events</div><div class="sb-link-sub" id="sbEventsSub">Campus events</div></div>
+    </a>
+    <a href="clubs.html" class="sb-link" id="sbClubsLink" onclick="closeSidebar()">
+      <div class="sb-link-icon" style="background:rgba(129,140,248,0.08);">🛡️</div>
+      <div class="sb-link-info"><div class="sb-link-name">Clubs</div><div class="sb-link-sub" id="sbClubsSub">Campus clubs</div></div>
+    </a>
+    <div class="sb-divider"></div>
+    <div class="sb-sec-label">Account</div>
+    <a href="profile.html" class="sb-link" onclick="closeSidebar()">
+      <div class="sb-link-icon" style="background:rgba(255,255,255,0.04);">👤</div>
+      <div class="sb-link-info"><div class="sb-link-name">Profile</div><div class="sb-link-sub">Your info & skills</div></div>
+    </a>
+    <button class="sb-link" onclick="showFeedback()">
+      <div class="sb-link-icon" style="background:rgba(0,212,255,0.06);">💬</div>
+      <div class="sb-link-info"><div class="sb-link-name">Give Feedback</div><div class="sb-link-sub">Help us improve</div></div>
+    </button>
+  </nav>
+  <div class="sb-foot">
+    <button class="sb-signout" id="signOutBtn">
+      <div class="sb-signout-icon">🚪</div>
+      Sign Out
+    </button>
+  </div>
+</aside>
 
 <div class="layout">
+  <!-- TOPBAR -->
   <header class="topbar">
-    <a href="dashboard.html" class="topbar-logo">
-      <div class="logo-node">
-        <img src="assets/zwapy-logo.png" style="width:26px;height:26px;object-fit:contain;">
-      </div>
+    <!-- Logo click = open sidebar (no hamburger) -->
+    <div class="topbar-logo" onclick="openSidebar()">
+      <div class="logo-node"><img src="assets/zwapy-logo.png" style="width:20px;height:20px;object-fit:contain;" onerror="this.style.display='none'"/></div>
       <span class="logo-text">ZWAPY</span>
-    </a>
+    </div>
     <a href="dashboard.html" class="back-btn">← Dashboard</a>
   </header>
 
