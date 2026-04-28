@@ -25,8 +25,6 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:1
 .version-banner strong{color:var(--amber);}
 .progress-bar{height:3px;background:rgba(0,212,255,0.08);border-radius:100px;margin-bottom:20px;overflow:hidden;}
 .progress-fill{height:100%;background:linear-gradient(90deg,var(--cyan),var(--green));border-radius:100px;transition:width .4s ease;}
-
-/* Upload progress overlay */
 .upload-overlay{position:fixed;inset:0;background:rgba(1,1,20,0.92);backdrop-filter:blur(12px);z-index:9000;display:none;align-items:center;justify-content:center;flex-direction:column;gap:16px;}
 .upload-overlay.show{display:flex;}
 .upload-icon{font-size:2.5rem;animation:pulse 1s ease infinite;}
@@ -36,7 +34,6 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:1
 .upload-bar-wrap{width:260px;height:4px;background:rgba(255,255,255,0.07);border-radius:100px;overflow:hidden;}
 .upload-bar-fill{height:100%;background:linear-gradient(90deg,var(--cyan),var(--green));border-radius:100px;transition:width .3s ease;width:0%;}
 .upload-pct{font-family:'Space Mono',monospace;font-size:.78rem;color:var(--cyan);font-weight:700;}
-
 .card{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:20px;padding:22px;margin-bottom:12px;}
 .card-title{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan);opacity:.7;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
 .card-title::after{content:'';flex:1;height:1px;background:rgba(0,212,255,0.1);}
@@ -53,8 +50,6 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:1
 .field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 @media(max-width:460px){.field-row{grid-template-columns:1fr;}}
 .field-hint{font-size:.58rem;color:var(--muted);margin-top:4px;line-height:1.5;}
-
-/* University email */
 .uni-box{background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.16);border-radius:12px;padding:13px;margin-bottom:12px;}
 .uni-label{font-size:.66rem;font-weight:700;color:var(--cyan);margin-bottom:5px;display:flex;align-items:center;gap:7px;}
 .sec-badge{font-family:'Space Mono',monospace;font-size:.44rem;letter-spacing:.1em;text-transform:uppercase;background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.2);padding:2px 7px;border-radius:100px;color:var(--cyan);}
@@ -68,8 +63,6 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:1
 .uni-status.show{display:flex;}
 .uni-status.ok{color:var(--green);}
 .uni-status.err{color:var(--red);}
-
-/* Email OTP */
 .email-otp-box{background:rgba(16,185,129,0.04);border:1px solid rgba(16,185,129,0.16);border-radius:12px;padding:13px;margin-bottom:12px;}
 .email-otp-label{font-size:.66rem;font-weight:700;color:var(--green);margin-bottom:5px;}
 .email-otp-hint{font-size:.63rem;color:var(--muted);line-height:1.5;margin-bottom:9px;}
@@ -84,13 +77,9 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:1
 .verify-btn{background:var(--green);color:#000;border:none;border-radius:10px;padding:11px 14px;font-size:.68rem;font-weight:800;cursor:pointer;font-family:'Sora',sans-serif;flex-shrink:0;}
 .verified-badge{display:none;align-items:center;gap:6px;font-size:.7rem;color:var(--green);font-weight:700;margin-top:7px;}
 .verified-badge.show{display:flex;}
-
-/* LinkedIn */
 .linkedin-row{display:flex;align-items:center;gap:8px;}
 .linkedin-icon{width:34px;height:34px;background:rgba(0,119,181,0.12);border:1px solid rgba(0,119,181,0.25);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
 .linkedin-row input{flex:1;}
-
-/* Skills */
 .skill-add-row{display:flex;gap:8px;margin-bottom:9px;}
 .skill-add-row input{flex:1;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:10px 12px;font-size:.82rem;color:white;font-family:'Sora',sans-serif;outline:none;}
 .skill-add-row input:focus{border-color:var(--cyan);}
@@ -99,7 +88,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:1
 .add-skill-btn{background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.22);border-radius:10px;padding:10px 14px;font-size:.7rem;font-weight:800;color:var(--cyan);cursor:pointer;font-family:'Sora',sans-serif;white-space:nowrap;}
 .skills-list{display:flex;flex-direction:column;gap:7px;}
 .skill-item{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:10px 12px;}
-.skill-item-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px;}
+.skill-item-top{display:flex;align-items:center;justify-content:space-between;gap:8px;}
 .skill-item-name{font-size:.8rem;font-weight:700;}
 .skill-level-badge{font-family:'Space Mono',monospace;font-size:.48rem;letter-spacing:.08em;text-transform:uppercase;border-radius:100px;padding:2px 8px;font-weight:700;}
 .level-beginner{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.25);color:var(--green);}
@@ -107,23 +96,14 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:1
 .level-advanced{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);color:var(--red);}
 .remove-skill{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.8rem;padding:0;}
 .remove-skill:hover{color:var(--red);}
-
-/* Certificate — APP ONLY block */
-.cert-app-only{display:flex;align-items:center;gap:8px;background:rgba(129,140,248,0.06);border:1px solid rgba(129,140,248,0.18);border-radius:8px;padding:7px 11px;margin-top:6px;}
-.cert-app-lock{font-size:.9rem;}
-.cert-app-text{font-size:.6rem;color:var(--indigo);line-height:1.4;}
+.cert-app-only{display:flex;align-items:center;gap:8px;background:rgba(129,140,248,0.06);border:1px solid rgba(129,140,248,0.18);border-radius:8px;padding:8px 12px;margin-top:8px;}
+.cert-app-text{font-size:.62rem;color:var(--indigo);line-height:1.4;}
 .cert-app-text strong{color:white;}
-
-/* file size hint */
-.size-note{font-size:.58rem;color:var(--muted);margin-top:6px;background:rgba(255,255,255,0.03);border-radius:8px;padding:6px 10px;line-height:1.5;}
-.size-note strong{color:white;}
-
-.no-skills-option{background:rgba(100,116,139,0.06);border:1px solid rgba(100,116,139,0.15);border-radius:12px;padding:13px;margin-top:8px;}
+.no-skills-option{background:rgba(100,116,139,0.06);border:1px solid rgba(100,116,139,0.15);border-radius:12px;padding:13px;margin-top:10px;}
 .no-skills-check{display:flex;align-items:flex-start;gap:10px;cursor:pointer;}
 .no-skills-check input[type=checkbox]{width:18px;height:18px;margin-top:2px;accent-color:var(--cyan);flex-shrink:0;cursor:pointer;}
 .no-skills-text h4{font-size:.82rem;font-weight:700;margin-bottom:2px;}
 .no-skills-text p{font-size:.68rem;color:var(--muted);line-height:1.5;}
-
 .interest-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
 @media(max-width:400px){.interest-grid{grid-template-columns:1fr;}}
 .interest-card{background:rgba(255,255,255,0.03);border:2px solid rgba(255,255,255,0.07);border-radius:12px;padding:12px;cursor:pointer;transition:all .2s;text-align:center;}
@@ -132,17 +112,14 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:1
 .interest-icon{font-size:1.4rem;margin-bottom:4px;}
 .interest-label{font-size:.72rem;font-weight:700;}
 .interest-desc{font-size:.6rem;color:var(--muted);margin-top:2px;line-height:1.4;}
-
 .learn-tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:7px;}
 .learn-tag{display:flex;align-items:center;gap:5px;background:rgba(129,140,248,0.08);border:1px solid rgba(129,140,248,0.2);border-radius:100px;padding:4px 11px;font-size:.68rem;font-weight:700;color:var(--indigo);}
 .learn-tag button{background:none;border:none;color:rgba(129,140,248,0.5);cursor:pointer;font-size:.75rem;padding:0;}
-
 .note-box{background:rgba(245,158,11,0.05);border:1px solid rgba(245,158,11,0.14);border-radius:11px;padding:11px 13px;font-size:.68rem;color:var(--dim);line-height:1.6;margin-bottom:12px;}
 .note-box strong{color:var(--amber);}
 .submit-btn{width:100%;background:linear-gradient(135deg,var(--cyan),#0099bb);color:#000;border:none;border-radius:12px;padding:14px;font-size:.86rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;font-family:'Sora',sans-serif;transition:all .22s;margin-top:4px;}
 .submit-btn:hover{box-shadow:0 0 24px rgba(0,212,255,.3);}
 .submit-btn:disabled{opacity:.5;cursor:not-allowed;}
-
 .toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(10px);border-radius:100px;padding:9px 18px;font-size:.72rem;font-weight:700;z-index:5000;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap;max-width:90vw;text-align:center;}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 .toast.s{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,.28);color:var(--green);}
@@ -155,11 +132,10 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:1
 <div class="bg-glow"></div>
 <div class="toast" id="toast"></div>
 
-<!-- UPLOAD PROGRESS OVERLAY -->
 <div class="upload-overlay" id="uploadOverlay">
   <div class="upload-icon">⚡</div>
   <div class="upload-title">Saving your profile...</div>
-  <div class="upload-sub" id="uploadSubText">Uploading your profile</div>
+  <div class="upload-sub" id="uploadSubText">Please wait...</div>
   <div class="upload-bar-wrap"><div class="upload-bar-fill" id="uploadBarFill"></div></div>
   <div class="upload-pct" id="uploadPct">0%</div>
 </div>
@@ -208,12 +184,12 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:1
       <div class="email-otp-hint">We'll send a 6-digit OTP to your email to confirm it's really you.</div>
       <div class="otp-send-row">
         <input type="email" id="personalEmailInput" placeholder="your@gmail.com" autocomplete="email"/>
-        <button class="send-otp-btn" id="sendOtpBtn" onclick="sendPersonalOTP()">Send OTP</button>
+        <button class="send-otp-btn" id="sendOtpBtn" type="button" onclick="sendPersonalOTP()">Send OTP</button>
       </div>
       <div id="otpVerifySection" style="display:none;">
         <div class="otp-verify-row">
           <input type="text" class="otp-input" id="otpInputField" maxlength="6" placeholder="• • • • • •" inputmode="numeric"/>
-          <button class="verify-btn" onclick="verifyPersonalOTP()">Verify</button>
+          <button class="verify-btn" type="button" onclick="verifyPersonalOTP()">Verify</button>
         </div>
         <div class="field-hint" id="otpDestHint" style="margin-top:6px;">OTP sent — check your inbox</div>
       </div>
@@ -302,7 +278,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:1
   <!-- 4. LINKEDIN -->
   <div class="card">
     <div class="card-title">// LinkedIn Profile</div>
-    <p style="font-size:.7rem;color:var(--dim);line-height:1.6;margin-bottom:12px;">LinkedIn is <strong style="color:white;">mandatory</strong> on Zwapy. Shown publicly on your profile so others know you're real.</p>
+    <p style="font-size:.7rem;color:var(--dim);line-height:1.6;margin-bottom:12px;">LinkedIn is <strong style="color:white;">mandatory</strong> on Zwapy. Must be your real profile — shown publicly so others know you're real.</p>
     <div class="field">
       <label>LinkedIn URL <span class="req">*</span></label>
       <div class="linkedin-row">
@@ -316,8 +292,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:1
   <!-- 5. SKILLS I KNOW -->
   <div class="card">
     <div class="card-title">// Skills I Know</div>
-    <p style="font-size:.7rem;color:var(--dim);line-height:1.6;margin-bottom:12px;">Add skills with level. Certificate upload is available in the <strong style="color:var(--indigo);">Zwapy App</strong>. You'll take a short exam — score shows on your profile.</p>
-
+    <p style="font-size:.7rem;color:var(--dim);line-height:1.6;margin-bottom:12px;">Add your skills with level. Certificate upload is coming in the <strong style="color:var(--indigo);">Zwapy App</strong>.</p>
     <div class="skill-add-row">
       <input type="text" id="skillKnownInput" placeholder="e.g. Python, Figma, Video Editing" autocomplete="off"
              onkeydown="if(event.key==='Enter'){event.preventDefault();addSkillKnown();}"/>
@@ -326,22 +301,18 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:1
         <option value="intermediate">Intermediate</option>
         <option value="advanced">Advanced</option>
       </select>
-      <button class="add-skill-btn" onclick="addSkillKnown()">+ Add</button>
+      <button class="add-skill-btn" type="button" onclick="addSkillKnown()">+ Add</button>
     </div>
     <div class="skills-list" id="skillsKnownList"></div>
-
-    <!-- Cert upload — App only notice -->
     <div class="cert-app-only">
-      <span class="cert-app-lock">🔒</span>
-      <div class="cert-app-text"><strong>Certificate upload</strong> is available in the Zwapy App version only. Coming soon!</div>
+      <div class="cert-app-text">🔒 <strong>Certificate upload</strong> — Available in the Zwapy App only. Launching soon!</div>
     </div>
-
     <div class="no-skills-option">
       <label class="no-skills-check">
         <input type="checkbox" id="noSkillsCheck" onchange="toggleNoSkills()"/>
         <div class="no-skills-text">
           <h4>I don't have any skills yet</h4>
-          <p>Completely fine. Skip the exam and go straight into Zwapy. Add skills later.</p>
+          <p>Completely fine. Go straight into Zwapy. Add skills later.</p>
         </div>
       </label>
     </div>
@@ -354,7 +325,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:1
     <div class="skill-add-row">
       <input type="text" id="skillLearnInput" placeholder="e.g. UI Design, Machine Learning" autocomplete="off"
              onkeydown="if(event.key==='Enter'){event.preventDefault();addSkillLearn();}"/>
-      <button class="add-skill-btn" onclick="addSkillLearn()">+ Add</button>
+      <button class="add-skill-btn" type="button" onclick="addSkillLearn()">+ Add</button>
     </div>
     <div class="learn-tags" id="skillsLearnList"></div>
   </div>
@@ -363,7 +334,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:1
   <div class="card">
     <div class="card-title">// Startup or Project Interest?</div>
     <p style="font-size:.7rem;color:var(--dim);line-height:1.6;margin-bottom:12px;">Helps us connect you with co-founders and collaborators on campus.</p>
-    <div class="interest-grid" id="interestGrid">
+    <div class="interest-grid">
       <div class="interest-card" onclick="selectInterest('startup',this)">
         <div class="interest-icon">🚀</div>
         <div class="interest-label">Startup</div>
@@ -397,12 +368,11 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:1
   </div>
 
   <div class="note-box">
-    <strong>📸 Profile Photo</strong> — Available in the <strong>app version</strong>. Auto-generated for now.<br>
-    <strong>🔐 Skill Exam</strong> — After saving you'll take a quick skill assessment. Score shows on your profile.
+    <strong>📸 Profile Photo</strong> — Available in the <strong>app version</strong>. Auto-generated for now.
   </div>
 
-  <button class="submit-btn" id="submitBtn" onclick="submitProfile()">
-    Save Profile & Take Skill Exam →
+  <button class="submit-btn" id="submitBtn" type="button" onclick="submitProfile()">
+    Complete Profile & Enter Zwapy →
   </button>
 </div>
 
@@ -411,7 +381,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebas
 import { getAuth, onAuthStateChanged, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
 import {
   getFirestore, doc, setDoc, getDoc, updateDoc,
-  serverTimestamp, collection, addDoc, getDocs, query, where, increment
+  serverTimestamp, collection, getDocs, query, where, increment
 } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
 const CURRENT_PROFILE_VERSION = 2;
@@ -425,7 +395,7 @@ const app = initializeApp({
   appId:"1:30612332450:web:9e23f36a69f89dbb325cfb"
 });
 const auth = getAuth(app);
-const db = getFirestore(app);
+const db   = getFirestore(app);
 await setPersistence(auth, browserLocalPersistence);
 
 const $ = id => document.getElementById(id);
@@ -435,39 +405,42 @@ let isNewUser = false;
 let skillsKnown = [];
 let skillsLearn = [];
 let uniEmailValid = false;
+let linkedInValid = false;
 let emailOtpVerified = false;
 let startupInterest = '';
 let generatedOTP = '';
-let linkedInValid = false;
 
+/* ─── TOAST ─── */
 function toast(msg, type='s') {
   const t = $('toast');
   t.textContent = msg;
-  t.className = `toast ${type} show`;
-  setTimeout(() => t.className = 'toast', 3500);
+  t.className = 'toast ' + type + ' show';
+  setTimeout(() => { t.className = 'toast'; }, 3500);
 }
 
+/* ─── UPLOAD OVERLAY ─── */
 function setUploadProgress(pct, text) {
   $('uploadOverlay').classList.add('show');
   $('uploadBarFill').style.width = pct + '%';
   $('uploadPct').textContent = pct + '%';
   if (text) $('uploadSubText').textContent = text;
 }
-
 function hideUploadProgress() {
   $('uploadOverlay').classList.remove('show');
 }
 
+/* ─── PROGRESS BAR ─── */
 function updateProgress() {
-  const checks = [
+  const vals = [
     $('fullName').value, $('dob').value, $('phone').value,
-    $('personalEmailInput').value, uniEmailValid ? 'ok' : '',
+    $('personalEmailInput').value,
+    uniEmailValid ? 'ok' : '',
     $('university').value, $('course').value, $('yearOfPassout').value,
     linkedInValid ? 'ok' : ''
   ];
-  $('progressFill').style.width = Math.round((checks.filter(v => (v||'').trim()).length / checks.length) * 100) + '%';
+  const pct = Math.round((vals.filter(v => (v||'').trim()).length / vals.length) * 100);
+  $('progressFill').style.width = pct + '%';
 }
-
 document.querySelectorAll('input,select,textarea').forEach(el => {
   el.addEventListener('input', updateProgress);
   el.addEventListener('change', updateProgress);
@@ -477,136 +450,104 @@ window.onUniversityChange = function() {
   $('otherUniField').style.display = $('university').value === 'other' ? 'block' : 'none';
 };
 
-// ══════════════════════════════════════════════════
-// VALIDATION ENGINE — packed to prevent easy reading
-// ══════════════════════════════════════════════════
+/* ─── VALIDATION ENGINE (obfuscated) ─── */
 const _v = (function(){
-  // All real known official university domains — only these pass
-  const _okDomains = [
-    'presidencyuniversity.in','presidency.edu.in','presidency.ac.in',
-    'christuniversity.in','jainuniversity.ac.in','pes.edu','reva.edu.in',
-    'msrit.edu','rvce.edu.in','bmsce.ac.in','sjce.ac.in','dsce.edu.in',
-    'niituniversity.in','manipal.edu','mahe.manipal.edu','bits-pilani.ac.in',
-    'vit.ac.in','amrita.edu','srmist.edu','sastra.edu','kle.edu.in',
-    'bvb.edu','kscollege.edu.in','bms.ac.in','ajce.edu.in','cusat.ac.in',
-    'tce.edu','psgtech.edu','karunya.edu','vel.ac.in','saveetha.ac.in',
-    'sathyabama.ac.in','annamalai.edu.in','annauniv.edu','ktu.edu.in',
-    'mu.ac.in','du.ac.in','bhu.ac.in','jnu.ac.in','iitb.ac.in',
-    'iitd.ac.in','iitm.ac.in','iitk.ac.in','iitkgp.ac.in','iitg.ac.in',
-    'iith.ac.in','iiti.ac.in','iitbbs.ac.in','iitmandi.ac.in','iitpkd.ac.in',
-    'iisc.ac.in','iimb.ac.in','iima.ac.in','iimc.ac.in','iimk.ac.in',
-    'nitk.ac.in','nitc.ac.in','nitt.edu','nitmanipur.ac.in','nit.ac.in',
-    'uvce.ac.in','sjbit.edu.in','hkbk.ac.in','nhce.edu.in','mite.ac.in',
-    'nmit.ac.in','dayanandagroupofcolleges.edu.in','acharya.ac.in',
-  ];
-  // Personal / public email providers — always block
-  const _bad = ['gmail.com','yahoo.com','hotmail.com','outlook.com',
-    'icloud.com','rediffmail.com','ymail.com','live.com','protonmail.com',
-    'zoho.com','aol.com','mail.com'];
-  // Presidency exact local pattern
-  const _pPat = /^[A-Z]+(\.[A-Z]+)*\.20(2[0-9]|3[0-2])[0-9][A-Z]{2,6}[0-9]{3,6}$/;
+  const _pPat  = /^[A-Z]+(\.[A-Z]+)*\.20(2[0-9]|3[0-2])[0-9][A-Z]{2,6}[0-9]{3,6}$/;
   const _presD = ['presidencyuniversity.in','presidency.edu.in','presidency.ac.in'];
-  // LinkedIn — must have a real slug of 3+ chars, no generic paths
-  const _liPat = /^(https?:\/\/)?(www\.)?linkedin\.com\/in\/[a-zA-Z0-9][a-zA-Z0-9_-]{2,}\/?\s*$/;
+  const _bad   = ['gmail.com','yahoo.com','hotmail.com','outlook.com','icloud.com',
+                  'rediffmail.com','ymail.com','live.com','yopmail.com','tempmail.com',
+                  'mailinator.com','guerrillamail.com','10minutemail.com','aol.com'];
+  const _liPat = /^(https?:\/\/)?(www\.)?linkedin\.com\/in\/[a-zA-Z0-9][a-zA-Z0-9_.-]{2,99}\/?$/;
+  const _liBlock = ['profile','yourprofile','username','yourname','test','demo','admin','fake','null','me'];
 
-  function _chkUni(raw) {
+  function chkUni(raw) {
     if (!raw || !raw.includes('@')) return {ok:false, msg:'❌ Invalid email format'};
-    const local = raw.split('@')[0].toUpperCase();
+    const local  = raw.split('@')[0].toUpperCase();
     const domain = (raw.split('@')[1]||'').toLowerCase().trim();
     if (_bad.includes(domain)) return {ok:false, msg:'❌ Personal email not allowed — use your university email'};
-    const isP = _presD.some(d => domain===d || domain.endsWith('.'+d));
-    if (isP) {
+    const isPres = _presD.some(d => domain===d || domain.endsWith('.'+d));
+    if (isPres) {
       if (!_pPat.test(local)) return {ok:false, msg:'❌ Format must be: FIRSTNAME.20241CIT0056@presidencyuniversity.in'};
       return {ok:true, msg:'✅ Valid Presidency University email — roll number verified'};
     }
-    // Check against whitelist of known university domains
-    const isKnown = _okDomains.some(d => domain===d || domain.endsWith('.'+d));
-    // Also allow if domain ends with .edu.in / .ac.in / .edu (strong university signals)
-    const isEduDomain = /\.(edu\.in|ac\.in|edu)$/.test(domain);
-    if (!isKnown && !isEduDomain) return {ok:false, msg:'❌ Domain not recognized as a university. Use your official college email.'};
+    const isEdu = /\.(edu\.in|ac\.in|edu)$/.test(domain);
+    if (!isEdu) return {ok:false, msg:'❌ Domain not recognized as a university. Use your official college email.'};
     if (local.length < 3) return {ok:false, msg:'❌ Email username too short'};
     return {ok:true, msg:'✅ University email accepted'};
   }
 
-  function _chkLI(val) {
+  function chkLI(val) {
     const v = (val||'').trim();
-    if (!v) return false;
-    // Must match real linkedin.com/in/username pattern
-    if (!_liPat.test(v)) return false;
-    // Extract the slug — it must not be a generic word
-    const slug = v.replace(/^(https?:\/\/)?(www\.)?linkedin\.com\/in\//,'').replace(/\/$/,'').trim();
-    const _generic = ['in','profile','linkedin','user','student','admin','test','demo','fake','null','undefined','home','me','you'];
-    if (_generic.includes(slug.toLowerCase())) return false;
-    if (slug.length < 3) return false;
+    if (!v || !_liPat.test(v)) return false;
+    const slug = v.replace(/^(https?:\/\/)?(www\.)?linkedin\.com\/in\//,'').replace(/\/$/,'').toLowerCase();
+    if (slug.length < 3 || _liBlock.includes(slug)) return false;
     return true;
   }
 
-  return { chkUni: _chkUni, chkLI: _chkLI };
+  return { chkUni, chkLI };
 })();
 
-// ── UNIVERSITY EMAIL CHECK ──
+/* ─── UNIVERSITY EMAIL CHECK ─── */
 window.checkUniEmail = function() {
-  const raw = ($('uniEmail').value || '').trim();
-  const status = $('uniStatus'), inp = $('uniEmail');
+  const raw = ($('uniEmail').value||'').trim();
+  const status = $('uniStatus');
+  const inp    = $('uniEmail');
   if (!raw) { inp.className=''; status.className='uni-status'; uniEmailValid=false; updateProgress(); return; }
-  const res = _v.chkUni(raw);
-  if (res.ok) {
-    inp.className='valid'; status.className='uni-status ok show'; status.textContent=res.msg;
-    uniEmailValid=true;
-  } else {
-    inp.className='invalid'; status.className='uni-status err show'; status.textContent=res.msg;
-    uniEmailValid=false;
-  }
+  const r = _v.chkUni(raw);
+  inp.className    = r.ok ? 'valid' : 'invalid';
+  status.className = r.ok ? 'uni-status ok show' : 'uni-status err show';
+  status.textContent = r.msg;
+  uniEmailValid = r.ok;
   updateProgress();
 };
 
-// ── LINKEDIN CHECK ──
+/* ─── LINKEDIN CHECK ─── */
 window.checkLinkedIn = function() {
-  const v = ($('linkedin').value||'').trim();
+  const v    = ($('linkedin').value||'').trim();
   const hint = $('linkedinHint');
   if (!v) { hint.style.color=''; hint.textContent='Must be a real linkedin.com/in/username link'; linkedInValid=false; updateProgress(); return; }
   linkedInValid = _v.chkLI(v);
-  if (linkedInValid) {
-    hint.style.color='var(--green)';
-    hint.textContent='✅ Valid LinkedIn profile URL';
-  } else {
-    hint.style.color='var(--red)';
-    hint.textContent='❌ Must be linkedin.com/in/yourname with a real username (min 3 chars)';
-  }
+  hint.style.color   = linkedInValid ? 'var(--green)' : 'var(--red)';
+  hint.textContent   = linkedInValid ? '✅ Valid LinkedIn profile URL' : '❌ Must be linkedin.com/in/yourname (real username, min 3 chars)';
   updateProgress();
 };
 
-// ── SEND OTP via EmailJS ──
+/* ─── SEND OTP ─── */
 window.sendPersonalOTP = async function() {
-  const emailField = $('personalEmailInput');
-  const finalEmail = emailField.value.trim();
+  const finalEmail = ($('personalEmailInput').value||'').trim();
   if (!finalEmail || !finalEmail.includes('@')) { toast('Enter your email address first','e'); return; }
   const btn = $('sendOtpBtn');
-  btn.textContent='Sending...'; btn.disabled=true;
+  btn.textContent = 'Sending...';
+  btn.disabled    = true;
   try {
-    generatedOTP = Math.floor(100000 + Math.random()*900000).toString();
-    await emailjs.send("service_n42p919","template_k49il5e",{to_email:finalEmail,otp_code:generatedOTP});
-    $('otpVerifySection').style.display='block';
-    $('otpDestHint').textContent='✅ OTP sent to '+finalEmail+' — check your inbox';
-    btn.textContent='Resend OTP'; btn.disabled=false;
+    generatedOTP = String(Math.floor(100000 + Math.random() * 900000));
+    await emailjs.send('service_n42p919', 'template_k49il5e', {
+      to_email: finalEmail,
+      otp_code: generatedOTP
+    });
+    $('otpVerifySection').style.display = 'block';
+    $('otpDestHint').textContent = '✅ OTP sent to ' + finalEmail + ' — check inbox';
+    btn.textContent = 'Resend OTP';
+    btn.disabled    = false;
     toast('✅ OTP sent!');
   } catch(err) {
-    console.error('EmailJS error:',err);
-    toast('Failed to send OTP. Try again.','e');
-    btn.textContent='Send OTP'; btn.disabled=false;
+    console.error('EmailJS error:', err);
+    toast('Could not send OTP. Try again.', 'e');
+    btn.textContent = 'Send OTP';
+    btn.disabled    = false;
   }
 };
 
-// ── VERIFY OTP ──
+/* ─── VERIFY OTP ─── */
 window.verifyPersonalOTP = function() {
   const entered = ($('otpInputField').value||'').trim();
-  if (entered.length!==6) { toast('Enter the 6-digit code','e'); return; }
-  if (entered===generatedOTP) {
-    emailOtpVerified=true;
-    $('otpVerifySection').style.display='none';
-    $('emailVerifiedBadge').style.display='flex';
-    $('sendOtpBtn').style.display='none';
-    $('personalEmailInput').disabled=true;
+  if (entered.length !== 6) { toast('Enter the 6-digit code','e'); return; }
+  if (entered === generatedOTP) {
+    emailOtpVerified = true;
+    $('otpVerifySection').style.display = 'none';
+    $('emailVerifiedBadge').style.display = 'flex';
+    $('sendOtpBtn').style.display = 'none';
+    $('personalEmailInput').disabled = true;
     toast('✅ Email verified!');
     updateProgress();
   } else {
@@ -614,240 +555,268 @@ window.verifyPersonalOTP = function() {
   }
 };
 
-// ── SKILLS KNOWN (no cert upload) ──
+/* ─── SKILLS KNOWN ─── */
 window.addSkillKnown = function() {
-  const name = ($('skillKnownInput').value||'').trim();
+  const name  = ($('skillKnownInput').value||'').trim();
   const level = $('skillLevelSelect').value;
   if (!name) return;
-  if (skillsKnown.find(s=>s.name.toLowerCase()===name.toLowerCase())) { toast('Already added','e'); return; }
-  skillsKnown.push({name, level, certUrl:''});
-  $('skillKnownInput').value='';
+  if (skillsKnown.find(s => s.name.toLowerCase() === name.toLowerCase())) { toast('Already added','e'); return; }
+  skillsKnown.push({ name, level, certUrl: '' });
+  $('skillKnownInput').value = '';
   renderSkillsKnown();
-  $('noSkillsCheck').checked=false;
+  $('noSkillsCheck').checked = false;
 };
-
 function renderSkillsKnown() {
   const list = $('skillsKnownList');
-  list.innerHTML='';
-  skillsKnown.forEach((sk,i) => {
+  list.innerHTML = '';
+  skillsKnown.forEach((sk, i) => {
     const div = document.createElement('div');
-    div.className='skill-item';
-    div.innerHTML=`
-      <div class="skill-item-top">
-        <div style="display:flex;align-items:center;gap:8px;">
-          <span class="skill-item-name">${sk.name}</span>
-          <span class="skill-level-badge level-${sk.level}">${sk.level}</span>
-        </div>
-        <button class="remove-skill" onclick="removeSkillKnown(${i})">✕</button>
+    div.className = 'skill-item';
+    div.innerHTML = `<div class="skill-item-top">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span class="skill-item-name">${sk.name}</span>
+        <span class="skill-level-badge level-${sk.level}">${sk.level}</span>
       </div>
-    `;
+      <button class="remove-skill" type="button" onclick="removeSkillKnown(${i})">✕</button>
+    </div>`;
     list.appendChild(div);
   });
 }
+window.removeSkillKnown = function(i) { skillsKnown.splice(i, 1); renderSkillsKnown(); };
 
-window.removeSkillKnown = function(i) { skillsKnown.splice(i,1); renderSkillsKnown(); };
-
-// ── SKILLS TO LEARN ──
+/* ─── SKILLS TO LEARN ─── */
 window.addSkillLearn = function() {
   const v = ($('skillLearnInput').value||'').trim();
   if (!v) return;
   if (skillsLearn.includes(v)) { toast('Already added','e'); return; }
   skillsLearn.push(v);
-  $('skillLearnInput').value='';
+  $('skillLearnInput').value = '';
   renderSkillsLearn();
 };
 function renderSkillsLearn() {
-  $('skillsLearnList').innerHTML='';
-  skillsLearn.forEach(s=>{
-    const div=document.createElement('div');
-    div.className='learn-tag';
-    div.innerHTML=`${s}<button onclick="removeSkillLearn(this,'${s.replace(/'/g,"\\'")}')">×</button>`;
+  $('skillsLearnList').innerHTML = '';
+  skillsLearn.forEach(s => {
+    const div = document.createElement('div');
+    div.className = 'learn-tag';
+    div.innerHTML = s + '<button type="button" onclick="removeSkillLearn(\'' + s.replace(/'/g,"\\'") + '\')">×</button>';
     $('skillsLearnList').appendChild(div);
   });
 }
-window.removeSkillLearn = function(btn,s) { skillsLearn=skillsLearn.filter(x=>x!==s); renderSkillsLearn(); };
+window.removeSkillLearn = function(s) { skillsLearn = skillsLearn.filter(x => x !== s); renderSkillsLearn(); };
 
 window.toggleNoSkills = function() {
   const checked = $('noSkillsCheck').checked;
   $('learnCard').style.opacity = checked ? '0.5' : '1';
-  if (checked) { skillsKnown=[]; renderSkillsKnown(); }
+  if (checked) { skillsKnown = []; renderSkillsKnown(); }
 };
 
-window.selectInterest = function(type,el) {
-  document.querySelectorAll('.interest-card').forEach(c=>c.classList.remove('selected'));
+window.selectInterest = function(type, el) {
+  document.querySelectorAll('.interest-card').forEach(c => c.classList.remove('selected'));
   el.classList.add('selected');
-  startupInterest=type;
+  startupInterest = type;
 };
 
-// ── SUBMIT — with all strict validation ──
+/* ─── SUBMIT ─── */
 window.submitProfile = async function() {
   if (!currentUser) { toast('Not logged in','e'); return; }
 
-  const name     = ($('fullName').value||'').trim();
-  const dob      = $('dob').value;
-  const phone    = ($('phone').value||'').trim();
-  const uniEmail = ($('uniEmail').value||'').trim();
+  const name          = ($('fullName').value||'').trim();
+  const dob           = $('dob').value;
+  const phone         = ($('phone').value||'').trim();
+  const uniEmail      = ($('uniEmail').value||'').trim();
   const universityRaw = $('university').value;
-  const university = universityRaw==='other'
-    ? ($('otherUniversityName').value||'').trim()
-    : universityRaw;
-  const course   = $('course').value;
-  const year     = $('yearOfPassout').value;
-  const linkedin = ($('linkedin').value||'').trim();
-  const hasSkills = skillsKnown.length > 0;
-  const noSkills  = $('noSkillsCheck').checked;
+  const university    = universityRaw === 'other'
+                        ? ($('otherUniversityName').value||'').trim()
+                        : universityRaw;
+  const course        = $('course').value;
+  const year          = $('yearOfPassout').value;
+  const linkedin      = ($('linkedin').value||'').trim();
+  const hasSkills     = skillsKnown.length > 0;
+  const noSkills      = $('noSkillsCheck').checked;
 
-  // ── All field checks ──
-  if (!name || name.length < 3)                  { toast('Enter your full real name','e'); return; }
-  if (!/^[A-Za-z\s.'-]{3,}$/.test(name))         { toast('Name should only contain letters','e'); return; }
-  if (!dob)                                       { toast('Enter your date of birth','e'); return; }
-  // Must be between 15 and 35 years old
-  const age = (Date.now() - new Date(dob).getTime()) / (1000*60*60*24*365.25);
-  if (age < 15 || age > 35)                      { toast('Enter a valid date of birth (age 15–35)','e'); return; }
-  if (!phone || phone.replace(/\D/g,'').length < 10) { toast('Enter a valid phone number','e'); return; }
-  if (!emailOtpVerified)                         { toast('Please verify your email first','e'); return; }
-  if (!uniEmail)                                  { toast('Enter your university email','e'); return; }
-  if (!uniEmailValid)                             { toast('Enter a valid university email','e'); return; }
-  if (!university)                                { toast('Select your university','e'); return; }
-  if (!course)                                    { toast('Select your course','e'); return; }
-  if (!year)                                      { toast('Select your year of passout','e'); return; }
+  /* ── Validations ── */
+  if (!name || name.length < 3)                          { toast('Enter your full real name','e'); return; }
+  if (!/^[A-Za-z\s.'\-]{3,}$/.test(name))               { toast('Name should only contain letters','e'); return; }
+  // Block garbage name patterns like "afdafdafd"
+  const _nl = name.toLowerCase().replace(/\s/g,'');
+  if (/(.{2,})\1{2,}/.test(_nl) || /(.)\1{4,}/.test(_nl)) { toast('Enter your real full name','e'); return; }
+  if (new Set(_nl).size < 3)                             { toast('Enter your real full name','e'); return; }
 
-  // ── LinkedIn — strict final check at submit ──
-  if (!linkedin)                                  { toast('LinkedIn profile is required','e'); return; }
-  if (!_v.chkLI(linkedin))                       { toast('Enter a real LinkedIn URL: linkedin.com/in/yourname','e'); return; }
+  if (!dob)                                              { toast('Enter your date of birth','e'); return; }
+  const _age = (Date.now() - new Date(dob).getTime()) / (1000*60*60*24*365.25);
+  if (_age < 15 || _age > 40)                           { toast('Enter a valid date of birth (age 15–40)','e'); return; }
 
-  if (!hasSkills && !noSkills)                    { toast('Add a skill OR check "no skills yet"','e'); return; }
-  if (!startupInterest)                           { toast('Select your startup/project interest','e'); return; }
+  if (!phone || phone.replace(/\D/g,'').length < 10)    { toast('Enter a valid phone number','e'); return; }
+  if (!emailOtpVerified)                                { toast('Please verify your email first','e'); return; }
+  if (!uniEmail)                                         { toast('Enter your university email','e'); return; }
+  if (!uniEmailValid)                                    { toast('Enter a valid university email','e'); return; }
+  if (!university)                                       { toast('Select your university','e'); return; }
+  if (!course)                                           { toast('Select your course','e'); return; }
+  if (!year)                                             { toast('Select your year of passout','e'); return; }
 
-  $('submitBtn').disabled=true;
+  // Passout year vs DOB cross-check
+  if (dob && year) {
+    const birthYear    = new Date(dob).getFullYear();
+    const passoutYear  = parseInt(year);
+    const ageAtPassout = passoutYear - birthYear;
+    if (ageAtPassout < 17 || ageAtPassout > 36) { toast('Passout year does not match your date of birth','e'); return; }
+  }
+
+  if (!linkedin)                                         { toast('LinkedIn profile is required','e'); return; }
+  if (!_v.chkLI(linkedin))                              { toast('Enter a real LinkedIn URL: linkedin.com/in/yourname','e'); return; }
+  if (!hasSkills && !noSkills)                           { toast('Add a skill OR check "no skills yet"','e'); return; }
+  if (!startupInterest)                                  { toast('Select your startup/project interest','e'); return; }
+
+  $('submitBtn').disabled = true;
 
   try {
-    setUploadProgress(30,'Saving your profile...');
-
-    const skillsData = skillsKnown.map(sk=>({name:sk.name, level:sk.level, certUrl:''}));
+    setUploadProgress(40, 'Saving your profile...');
 
     const profileData = {
       name, dob, phone,
-      email: currentUser.email,
-      universityEmail: uniEmail,
+      email:                   currentUser.email,
+      universityEmail:         uniEmail,
       universityEmailVerified: true,
-      personalEmailVerified: true,
+      personalEmailVerified:   true,
       university, course,
-      yearOfPassout: parseInt(year),
+      yearOfPassout:           parseInt(year),
       linkedin,
-      skillsKnown: skillsData,
+      skillsKnown:             skillsKnown.map(sk => ({ name: sk.name, level: sk.level, certUrl: '' })),
       skillsLearn,
-      noSkills: noSkills && !hasSkills,
+      noSkills:                noSkills && !hasSkills,
       startupInterest,
-      bio: ($('bio').value||'').trim(),
-      role: existingData.role||'student',
-      photoURL: existingData.photoURL||'',
-      coins: existingData.coins!==undefined ? existingData.coins : 0,
-      coinDebt: existingData.coinDebt||0,
-      exchanges: existingData.exchanges||0,
-      referrals: existingData.referrals||0,
-      referralCode: existingData.referralCode||currentUser.uid.substring(0,8).toUpperCase(),
-      profileVersion: CURRENT_PROFILE_VERSION,
-      updatedAt: serverTimestamp()
+      bio:                     ($('bio').value||'').trim(),
+      role:                    existingData.role  || 'student',
+      photoURL:                existingData.photoURL || '',
+      coins:                   existingData.coins !== undefined ? existingData.coins : 0,
+      coinDebt:                existingData.coinDebt  || 0,
+      exchanges:               existingData.exchanges || 0,
+      referrals:               existingData.referrals || 0,
+      referralCode:            existingData.referralCode || currentUser.uid.substring(0,8).toUpperCase(),
+      profileVersion:          CURRENT_PROFILE_VERSION,
+      updatedAt:               serverTimestamp()
     };
-    if (!existingData.createdAt) profileData.createdAt=serverTimestamp();
+    if (!existingData.createdAt) profileData.createdAt = serverTimestamp();
 
-    setUploadProgress(60,'Saving to database...');
-    await setDoc(doc(db,'users',currentUser.uid),profileData,{merge:true});
-    setUploadProgress(80,'Updating platform stats...');
+    setUploadProgress(65, 'Saving to database...');
+    await setDoc(doc(db,'users',currentUser.uid), profileData, { merge: true });
+    setUploadProgress(80, 'Updating stats...');
 
+    /* Stats — new users only */
     if (isNewUser) {
       try {
-        await updateDoc(doc(db,'stats','platform'),{totalUsers:increment(1),updatedAt:serverTimestamp()});
+        await updateDoc(doc(db,'stats','platform'), { totalUsers: increment(1), updatedAt: serverTimestamp() });
       } catch(e) {
-        try { await setDoc(doc(db,'stats','platform'),{totalUsers:1,totalExchanges:0,totalCerts:0,updatedAt:serverTimestamp()}); } catch(e2){}
+        try { await setDoc(doc(db,'stats','platform'), { totalUsers:1, totalExchanges:0, totalCerts:0, updatedAt: serverTimestamp() }); } catch(e2){}
       }
     }
 
-    // Referral
+    /* Referral */
     const storedRef = sessionStorage.getItem('zwapyRef');
     if (storedRef && isNewUser && !existingData.referredBy) {
       try {
-        const refQ = await getDocs(query(collection(db,'users'),where('referralCode','==',storedRef)));
+        const refQ = await getDocs(query(collection(db,'users'), where('referralCode','==',storedRef)));
         if (!refQ.empty) {
-          const rDoc=refQ.docs[0];
-          if (rDoc.id!==currentUser.uid) {
-            await updateDoc(doc(db,'users',rDoc.id),{coins:(rDoc.data().coins||0)+2,referrals:(rDoc.data().referrals||0)+1});
-            await updateDoc(doc(db,'users',currentUser.uid),{coins:1,referredBy:rDoc.id});
+          const rDoc = refQ.docs[0];
+          if (rDoc.id !== currentUser.uid) {
+            await updateDoc(doc(db,'users',rDoc.id), { coins:(rDoc.data().coins||0)+2, referrals:(rDoc.data().referrals||0)+1 });
+            await updateDoc(doc(db,'users',currentUser.uid), { coins:1, referredBy:rDoc.id });
           }
         }
-      } catch(e){}
+      } catch(e) {}
       sessionStorage.removeItem('zwapyRef');
     }
 
-    setUploadProgress(100,'Done! 🎉');
-    await new Promise(r=>setTimeout(r,600));
+    setUploadProgress(100, 'Done! 🎉');
+    await new Promise(r => setTimeout(r, 500));
     hideUploadProgress();
     toast('✅ Profile saved!');
 
-    setTimeout(()=>{
+    /* ── REDIRECT — NO EXAM ──
+       New user  → thankyou.html
+       Returning → dashboard.html                    */
+    setTimeout(() => {
       if (isNewUser) {
-        window.location.href=(hasSkills&&!noSkills)?'thankyou.html';
+        window.location.href = 'thankyou.html';
       } else {
-        window.location.href=(hasSkills&&!noSkills)?'dashboard.html';
+        window.location.href = 'dashboard.html';
       }
-    },800);
+    }, 800);
 
   } catch(err) {
     console.error(err);
     hideUploadProgress();
-    toast('Error: '+err.message,'e');
-    $('submitBtn').disabled=false;
+    toast('Error: ' + err.message, 'e');
+    $('submitBtn').disabled = false;
   }
 };
 
-// Referral from URL
+/* ─── Referral from URL ─── */
 const refCode = new URLSearchParams(window.location.search).get('ref');
-if (refCode) sessionStorage.setItem('zwapyRef',refCode);
+if (refCode) sessionStorage.setItem('zwapyRef', refCode);
 
-// ── AUTH ──
+/* ─── AUTH ─── */
 onAuthStateChanged(auth, async user => {
-  if (!user) { window.location.href='signup.html'; return; }
-  currentUser=user;
-  $('personalEmailInput').value=user.email||'';
-  $('personalEmail').value=user.email||'';
+  if (!user) { window.location.href = 'signup.html'; return; }
+  currentUser = user;
+  $('personalEmailInput').value = user.email || '';
+  $('personalEmail').value      = user.email || '';
 
   const snap = await getDoc(doc(db,'users',user.uid));
   if (snap.exists()) {
-    existingData=snap.data();
-    const savedVersion=existingData.profileVersion||0;
-    if (savedVersion>=CURRENT_PROFILE_VERSION&&existingData.name) { window.location.href='dashboard.html'; return; }
-    isNewUser=!existingData.name;
+    existingData = snap.data();
+    const savedVersion = existingData.profileVersion || 0;
+
+    /* Already complete + up to date → go to dashboard */
+    if (savedVersion >= CURRENT_PROFILE_VERSION && existingData.name) {
+      window.location.href = 'dashboard.html'; return;
+    }
+
+    isNewUser = !existingData.name;
+
     if (!isNewUser) {
+      /* Returning user — update mode */
       $('versionBanner').classList.add('show');
-      $('pageSubtitle').textContent='Update your profile';
-      $('submitBtn').textContent='Update Profile →';
-      if (existingData.name)           $('fullName').value=existingData.name;
-      if (existingData.dob)            $('dob').value=existingData.dob;
-      if (existingData.phone)          $('phone').value=existingData.phone;
-      if (existingData.university)     $('university').value=existingData.university;
-      if (existingData.course)         $('course').value=existingData.course;
-      if (existingData.yearOfPassout)  $('yearOfPassout').value=existingData.yearOfPassout;
-      if (existingData.linkedin) { $('linkedin').value=existingData.linkedin||''; checkLinkedIn(); }
-      if (existingData.bio)            $('bio').value=existingData.bio||'';
-      if (existingData.universityEmail) { $('uniEmail').value=existingData.universityEmail; checkUniEmail(); }
-      if (existingData.skillsKnown&&existingData.skillsKnown.length) { skillsKnown=existingData.skillsKnown.map(s=>({...s})); renderSkillsKnown(); }
-      if (existingData.skillsLearn&&existingData.skillsLearn.length) { skillsLearn=[...existingData.skillsLearn]; renderSkillsLearn(); }
+      $('pageSubtitle').textContent   = 'Update your profile';
+      $('submitBtn').textContent      = 'Update Profile →';
+
+      if (existingData.name)           $('fullName').value      = existingData.name;
+      if (existingData.dob)            $('dob').value           = existingData.dob;
+      if (existingData.phone)          $('phone').value         = existingData.phone;
+      if (existingData.university)     $('university').value    = existingData.university;
+      if (existingData.course)         $('course').value        = existingData.course;
+      if (existingData.yearOfPassout)  $('yearOfPassout').value = existingData.yearOfPassout;
+      if (existingData.bio)            $('bio').value           = existingData.bio || '';
+      if (existingData.linkedin)       { $('linkedin').value = existingData.linkedin; checkLinkedIn(); }
+      if (existingData.universityEmail){ $('uniEmail').value = existingData.universityEmail; checkUniEmail(); }
+      if (existingData.skillsKnown && existingData.skillsKnown.length) {
+        skillsKnown = existingData.skillsKnown.map(s => ({ ...s }));
+        renderSkillsKnown();
+      }
+      if (existingData.skillsLearn && existingData.skillsLearn.length) {
+        skillsLearn = [...existingData.skillsLearn];
+        renderSkillsLearn();
+      }
       if (existingData.startupInterest) {
-        startupInterest=existingData.startupInterest;
-        const map={startup:0,project:1,both:2,none:3};
-        const idx=map[startupInterest];
-        const cards=document.querySelectorAll('.interest-card');
-        if (idx!==undefined&&cards[idx]) cards[idx].classList.add('selected');
+        startupInterest = existingData.startupInterest;
+        const map = { startup:0, project:1, both:2, none:3 };
+        const idx = map[startupInterest];
+        const cards = document.querySelectorAll('.interest-card');
+        if (idx !== undefined && cards[idx]) cards[idx].classList.add('selected');
       }
       if (existingData.personalEmailVerified) {
-        emailOtpVerified=true;
-        $('emailVerifiedBadge').style.display='flex';
-        $('sendOtpBtn').style.display='none';
-        $('personalEmailInput').disabled=true;
+        emailOtpVerified = true;
+        $('emailVerifiedBadge').style.display = 'flex';
+        $('sendOtpBtn').style.display         = 'none';
+        $('personalEmailInput').disabled      = true;
       }
-    } else { isNewUser=true; }
-  } else { isNewUser=true; }
+    } else {
+      isNewUser = true;
+    }
+  } else {
+    isNewUser = true;
+  }
+
   updateProgress();
 });
 </script>
