@@ -603,19 +603,29 @@ async function loadActivity(uid){
 window.showFeedback  = ()=>{ closeSidebar(); setTimeout(()=>$('fbOverlay').classList.add('open'),200); };
 window.closeFeedback = ()=>{ $('fbOverlay').classList.remove('open'); localStorage.setItem('zwapyFbShown',Date.now().toString()); };
 window.setRating     = n=>{ feedbackRating=n; document.querySelectorAll('.fb-star').forEach((s,i)=>s.classList.toggle('on',i<n)); };
-window.submitFeedback= async()=>{
-  if(!feedbackRating){toast('Give a star rating first','e');return;}
-  try{
-    await addDoc(collection(db,'feedback'),{rating:feedbackRating,like:($('fbLike').value||'').trim(),
-      improve:($('fbImprove').value||'').trim(),userId:currentUser?.uid||'',university:userData.university||'',createdAt:serverTimestamp()});
-    closeFeedback(); toast('✅ Thanks for your feedback!');
-  }catch(e){closeFeedback();toast('Saved — thanks!');}
+window.submitFeedback = async () => {
+  if (!feedbackRating) { toast('Give a star rating first', 'e'); return; }
+  
+  // Create the object exactly as it is expected
+  const feedbackData = {
+    rating: feedbackRating,
+    like: document.getElementById('fbLike').value || '',
+    improve: document.getElementById('fbImprove').value || '',
+    userId: auth.currentUser ? auth.currentUser.uid : 'anonymous',
+    university: userData.university || 'unknown',
+    createdAt: new Date() // Or serverTimestamp() if you imported it
+  };
+
+  try {
+    // This line "Creates" the collection if it doesn't exist
+    await addDoc(collection(db, 'feedback'), feedbackData);
+    closeFeedback();
+    toast('✅ Thanks for your feedback!');
+  } catch(e) {
+    console.error("Firebase Error:", e);
+    toast('Error: ' + e.message, 'e');
+  }
 };
-function maybeShowFeedback(){
-  const last=localStorage.getItem('zwapyFbShown');
-  if(last&&(Date.now()-parseInt(last))<7*24*60*60*1000) return;
-  setTimeout(()=>$('fbOverlay').classList.add('open'),3*60*1000);
-}
 
 /* ════════════════════════════════════════
    MAIN AUTH LISTENER
