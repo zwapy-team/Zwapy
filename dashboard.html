@@ -626,6 +626,11 @@ window.submitFeedback = async () => {
     toast('Error: ' + e.message, 'e');
   }
 };
+function maybeShowFeedback(){
+  const last=localStorage.getItem('zwapyFbShown');
+  if(last&&(Date.now()-parseInt(last))<7*24*60*60*1000) return;
+  setTimeout(()=>$('fbOverlay').classList.add('open'),3*60*1000);
+}
 
 /* ════════════════════════════════════════
    MAIN AUTH LISTENER
