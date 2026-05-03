@@ -7,8 +7,6 @@
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-THCGY8NH1Z');</script>
 <title>Complete Your Profile | Zwapy</title>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-<script>(function(){emailjs.init("tEpE8UaJHGLscU9mU");})();</script>
 <style>
 :root{--cyan:#00D4FF;--bg:#010114;--border:rgba(0,212,255,0.12);--muted:#64748b;--dim:#94a3b8;--green:#10b981;--amber:#f59e0b;--red:#ef4444;--indigo:#818cf8;}
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -63,20 +61,6 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:1
 .uni-status.show{display:flex;}
 .uni-status.ok{color:var(--green);}
 .uni-status.err{color:var(--red);}
-.email-otp-box{background:rgba(16,185,129,0.04);border:1px solid rgba(16,185,129,0.16);border-radius:12px;padding:13px;margin-bottom:12px;}
-.email-otp-label{font-size:.66rem;font-weight:700;color:var(--green);margin-bottom:5px;}
-.email-otp-hint{font-size:.63rem;color:var(--muted);line-height:1.5;margin-bottom:9px;}
-.otp-send-row{display:flex;gap:8px;}
-.otp-send-row input{flex:1;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:11px 13px;font-size:.84rem;color:white;font-family:'Sora',sans-serif;outline:none;transition:border-color .2s;}
-.otp-send-row input:focus{border-color:var(--green);}
-.send-otp-btn{background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.28);border-radius:10px;padding:11px 14px;font-size:.68rem;font-weight:800;color:var(--green);cursor:pointer;font-family:'Sora',sans-serif;white-space:nowrap;flex-shrink:0;transition:all .2s;}
-.send-otp-btn:disabled{opacity:.5;cursor:not-allowed;}
-.otp-verify-row{display:flex;gap:8px;margin-top:9px;}
-.otp-input{flex:1;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:11px;font-size:1rem;letter-spacing:.24em;text-align:center;color:white;font-family:'Space Mono',monospace;outline:none;}
-.otp-input:focus{border-color:var(--green);}
-.verify-btn{background:var(--green);color:#000;border:none;border-radius:10px;padding:11px 14px;font-size:.68rem;font-weight:800;cursor:pointer;font-family:'Sora',sans-serif;flex-shrink:0;}
-.verified-badge{display:none;align-items:center;gap:6px;font-size:.7rem;color:var(--green);font-weight:700;margin-top:7px;}
-.verified-badge.show{display:flex;}
 .linkedin-row{display:flex;align-items:center;gap:8px;}
 .linkedin-icon{width:34px;height:34px;background:rgba(0,119,181,0.12);border:1px solid rgba(0,119,181,0.25);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
 .linkedin-row input{flex:1;}
@@ -161,7 +145,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:1
     <div class="card-title">// Personal Info</div>
     <div class="field">
       <label>Full Name <span class="req">*</span></label>
-      <input type="text" id="fullName" placeholder="Your real full name" autocomplete="name"/>
+      <input type="text" id="fullName" placeholder=" full name" autocomplete="name"/>
     </div>
     <div class="field-row">
       <div class="field">
@@ -174,27 +158,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:1
         <div class="field-hint">Your own number</div>
       </div>
     </div>
-  </div>
-
-  <!-- 2. EMAIL OTP -->
-  <div class="card">
-    <div class="card-title">// Verify Your Email</div>
-    <div class="email-otp-box">
-      <div class="email-otp-label">📧 Email Verification</div>
-      <div class="email-otp-hint">We'll send a 6-digit OTP to your email to confirm it's really you.</div>
-      <div class="otp-send-row">
-        <input type="email" id="personalEmailInput" placeholder="your@gmail.com" autocomplete="email"/>
-        <button class="send-otp-btn" id="sendOtpBtn" type="button" onclick="sendPersonalOTP()">Send OTP</button>
-      </div>
-      <div id="otpVerifySection" style="display:none;">
-        <div class="otp-verify-row">
-          <input type="text" class="otp-input" id="otpInputField" maxlength="6" placeholder="• • • • • •" inputmode="numeric"/>
-          <button class="verify-btn" type="button" onclick="verifyPersonalOTP()">Verify</button>
-        </div>
-        <div class="field-hint" id="otpDestHint" style="margin-top:6px;">OTP sent — check your inbox</div>
-      </div>
-      <div class="verified-badge" id="emailVerifiedBadge">✅ Email verified</div>
-    </div>
+    <!-- Login email shown as read only — no OTP needed -->
     <div class="field">
       <label>Email (Login)</label>
       <input type="email" id="personalEmail" disabled/>
@@ -202,7 +166,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:1
     </div>
   </div>
 
-  <!-- 3. UNIVERSITY EMAIL -->
+  <!-- 2. UNIVERSITY EMAIL -->
   <div class="card">
     <div class="card-title">// University Email</div>
     <div class="uni-box">
@@ -275,21 +239,21 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:1
     </div>
   </div>
 
-  <!-- 4. LINKEDIN -->
+  <!-- 3. LINKEDIN -->
   <div class="card">
     <div class="card-title">// LinkedIn Profile</div>
-    <p style="font-size:.7rem;color:var(--dim);line-height:1.6;margin-bottom:12px;">LinkedIn is <strong style="color:white;">mandatory</strong> on Zwapy. Must be your real profile — shown publicly so others know you're real.</p>
+    <p style="font-size:.7rem;color:var(--dim);line-height:1.6;margin-bottom:12px;">LinkedIn is <strong style="color:white;">mandatory</strong> on Zwapy. Must be your real profile - shown publicly so others know you're real.</p>
     <div class="field">
       <label>LinkedIn URL <span class="req">*</span></label>
       <div class="linkedin-row">
         <div class="linkedin-icon">in</div>
-        <input type="url" id="linkedin" placeholder="https://linkedin.com/in/yourname" autocomplete="off" oninput="checkLinkedIn()"/>
+        <input type="url" id="linkedin" placeholder="https://" autocomplete="off" oninput="checkLinkedIn()"/>
       </div>
       <div class="field-hint" id="linkedinHint">Must be a real linkedin.com/in/username link</div>
     </div>
   </div>
 
-  <!-- 5. SKILLS I KNOW -->
+  <!-- 4. SKILLS I KNOW -->
   <div class="card">
     <div class="card-title">// Skills I Know</div>
     <p style="font-size:.7rem;color:var(--dim);line-height:1.6;margin-bottom:12px;">Add your skills with level. Certificate upload is coming in the <strong style="color:var(--indigo);">Zwapy App</strong>.</p>
@@ -318,7 +282,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:1
     </div>
   </div>
 
-  <!-- 6. SKILLS TO LEARN -->
+  <!-- 5. SKILLS TO LEARN -->
   <div class="card" id="learnCard">
     <div class="card-title">// Skills I Want to Learn</div>
     <p style="font-size:.7rem;color:var(--dim);line-height:1.6;margin-bottom:10px;">Helps Zwapy match you with the right exchange partners.</p>
@@ -330,7 +294,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:1
     <div class="learn-tags" id="skillsLearnList"></div>
   </div>
 
-  <!-- 7. STARTUP INTEREST -->
+  <!-- 6. STARTUP INTEREST -->
   <div class="card">
     <div class="card-title">// Startup or Project Interest?</div>
     <p style="font-size:.7rem;color:var(--dim);line-height:1.6;margin-bottom:12px;">Helps us connect you with co-founders and collaborators on campus.</p>
@@ -358,7 +322,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:1
     </div>
   </div>
 
-  <!-- 8. BIO -->
+  <!-- 7. BIO -->
   <div class="card">
     <div class="card-title">// About You</div>
     <div class="field">
@@ -399,26 +363,21 @@ const db   = getFirestore(app);
 await setPersistence(auth, browserLocalPersistence);
 
 const $ = id => document.getElementById(id);
-let currentUser = null;
-let existingData = {};
-let isNewUser = false;
-let skillsKnown = [];
-let skillsLearn = [];
+let currentUser   = null;
+let existingData  = {};
+let isNewUser     = false;
+let skillsKnown   = [];
+let skillsLearn   = [];
 let uniEmailValid = false;
 let linkedInValid = false;
-let emailOtpVerified = false;
 let startupInterest = '';
-let generatedOTP = '';
 
-/* ─── TOAST ─── */
 function toast(msg, type='s') {
   const t = $('toast');
   t.textContent = msg;
   t.className = 'toast ' + type + ' show';
   setTimeout(() => { t.className = 'toast'; }, 3500);
 }
-
-/* ─── UPLOAD OVERLAY ─── */
 function setUploadProgress(pct, text) {
   $('uploadOverlay').classList.add('show');
   $('uploadBarFill').style.width = pct + '%';
@@ -428,151 +387,96 @@ function setUploadProgress(pct, text) {
 function hideUploadProgress() {
   $('uploadOverlay').classList.remove('show');
 }
-
-/* ─── PROGRESS BAR ─── */
 function updateProgress() {
   const vals = [
     $('fullName').value, $('dob').value, $('phone').value,
-    $('personalEmailInput').value,
     uniEmailValid ? 'ok' : '',
     $('university').value, $('course').value, $('yearOfPassout').value,
     linkedInValid ? 'ok' : ''
   ];
-  const pct = Math.round((vals.filter(v => (v||'').trim()).length / vals.length) * 100);
-  $('progressFill').style.width = pct + '%';
+  $('progressFill').style.width = Math.round((vals.filter(v=>(v||'').trim()).length/vals.length)*100)+'%';
 }
-document.querySelectorAll('input,select,textarea').forEach(el => {
-  el.addEventListener('input', updateProgress);
-  el.addEventListener('change', updateProgress);
+document.querySelectorAll('input,select,textarea').forEach(el=>{
+  el.addEventListener('input',updateProgress);
+  el.addEventListener('change',updateProgress);
 });
 
 window.onUniversityChange = function() {
-  $('otherUniField').style.display = $('university').value === 'other' ? 'block' : 'none';
+  $('otherUniField').style.display = $('university').value==='other'?'block':'none';
 };
 
-/* ─── VALIDATION ENGINE (obfuscated) ─── */
-const _v = (function(){
-  const _pPat  = /^[A-Z]+(\.[A-Z]+)*\.20(2[0-9]|3[0-2])[0-9][A-Z]{2,6}[0-9]{3,6}$/;
-  const _presD = ['presidencyuniversity.in','presidency.edu.in','presidency.ac.in'];
-  const _bad   = ['gmail.com','yahoo.com','hotmail.com','outlook.com','icloud.com',
-                  'rediffmail.com','ymail.com','live.com','yopmail.com','tempmail.com',
-                  'mailinator.com','guerrillamail.com','10minutemail.com','aol.com'];
-  const _liPat = /^(https?:\/\/)?(www\.)?linkedin\.com\/in\/[a-zA-Z0-9][a-zA-Z0-9_.-]{2,99}\/?$/;
-  const _liBlock = ['profile','yourprofile','username','yourname','test','demo','admin','fake','null','me'];
-
-  function chkUni(raw) {
-    if (!raw || !raw.includes('@')) return {ok:false, msg:'❌ Invalid email format'};
-    const local  = raw.split('@')[0].toUpperCase();
-    const domain = (raw.split('@')[1]||'').toLowerCase().trim();
-    if (_bad.includes(domain)) return {ok:false, msg:'❌ Personal email not allowed — use your university email'};
-    const isPres = _presD.some(d => domain===d || domain.endsWith('.'+d));
-    if (isPres) {
-      if (!_pPat.test(local)) return {ok:false, msg:'❌ Format must be: FIRSTNAME.20241CIT0056@presidencyuniversity.in'};
-      return {ok:true, msg:'✅ Valid Presidency University email — roll number verified'};
+/* ── VALIDATION ENGINE (obfuscated) ── */
+const _v=(function(){
+  const _pPat=/^[A-Z]+(\.[A-Z]+)*\.20(2[0-9]|3[0-2])[0-9][A-Z]{2,6}[0-9]{3,6}$/;
+  const _presD=['presidencyuniversity.in','presidency.edu.in','presidency.ac.in'];
+  const _bad=['gmail.com','yahoo.com','hotmail.com','outlook.com','icloud.com',
+    'rediffmail.com','ymail.com','live.com','yopmail.com','tempmail.com',
+    'mailinator.com','guerrillamail.com','10minutemail.com','aol.com'];
+  const _liPat=/^(https?:\/\/)?(www\.)?linkedin\.com\/in\/[a-zA-Z0-9][a-zA-Z0-9_.-]{2,99}\/?$/;
+  const _liBlock=['profile','yourprofile','username','yourname','test','demo','admin','fake','null','me'];
+  function chkUni(raw){
+    if(!raw||!raw.includes('@'))return{ok:false,msg:'❌ Invalid email format'};
+    const local=raw.split('@')[0].toUpperCase();
+    const domain=(raw.split('@')[1]||'').toLowerCase().trim();
+    if(_bad.includes(domain))return{ok:false,msg:'❌ Personal email not allowed — use your university email'};
+    const isPres=_presD.some(d=>domain===d||domain.endsWith('.'+d));
+    if(isPres){
+      if(!_pPat.test(local))return{ok:false,msg:'❌ Format must be: FIRSTNAME.20241CIT0056@presidencyuniversity.in'};
+      return{ok:true,msg:'✅ Valid Presidency University email — roll number verified'};
     }
-    const isEdu = /\.(edu\.in|ac\.in|edu)$/.test(domain);
-    if (!isEdu) return {ok:false, msg:'❌ Domain not recognized as a university. Use your official college email.'};
-    if (local.length < 3) return {ok:false, msg:'❌ Email username too short'};
-    return {ok:true, msg:'✅ University email accepted'};
+    const isEdu=/\.(edu\.in|ac\.in|edu)$/.test(domain);
+    if(!isEdu)return{ok:false,msg:'❌ Domain not recognized as a university. Use your official college email.'};
+    if(local.length<3)return{ok:false,msg:'❌ Email username too short'};
+    return{ok:true,msg:'✅ University email accepted'};
   }
-
-  function chkLI(val) {
-    const v = (val||'').trim();
-    if (!v || !_liPat.test(v)) return false;
-    const slug = v.replace(/^(https?:\/\/)?(www\.)?linkedin\.com\/in\//,'').replace(/\/$/,'').toLowerCase();
-    if (slug.length < 3 || _liBlock.includes(slug)) return false;
+  function chkLI(val){
+    const v=(val||'').trim();
+    if(!v||!_liPat.test(v))return false;
+    const slug=v.replace(/^(https?:\/\/)?(www\.)?linkedin\.com\/in\//,'').replace(/\/$/,'').toLowerCase();
+    if(slug.length<3||_liBlock.includes(slug))return false;
     return true;
   }
-
-  return { chkUni, chkLI };
+  return{chkUni,chkLI};
 })();
 
-/* ─── UNIVERSITY EMAIL CHECK ─── */
-window.checkUniEmail = function() {
-  const raw = ($('uniEmail').value||'').trim();
-  const status = $('uniStatus');
-  const inp    = $('uniEmail');
-  if (!raw) { inp.className=''; status.className='uni-status'; uniEmailValid=false; updateProgress(); return; }
-  const r = _v.chkUni(raw);
-  inp.className    = r.ok ? 'valid' : 'invalid';
-  status.className = r.ok ? 'uni-status ok show' : 'uni-status err show';
-  status.textContent = r.msg;
-  uniEmailValid = r.ok;
+window.checkUniEmail=function(){
+  const raw=($('uniEmail').value||'').trim();
+  const status=$('uniStatus'),inp=$('uniEmail');
+  if(!raw){inp.className='';status.className='uni-status';uniEmailValid=false;updateProgress();return;}
+  const r=_v.chkUni(raw);
+  inp.className=r.ok?'valid':'invalid';
+  status.className=r.ok?'uni-status ok show':'uni-status err show';
+  status.textContent=r.msg;
+  uniEmailValid=r.ok;
   updateProgress();
 };
 
-/* ─── LINKEDIN CHECK ─── */
-window.checkLinkedIn = function() {
-  const v    = ($('linkedin').value||'').trim();
-  const hint = $('linkedinHint');
-  if (!v) { hint.style.color=''; hint.textContent='Must be a real linkedin.com/in/username link'; linkedInValid=false; updateProgress(); return; }
-  linkedInValid = _v.chkLI(v);
-  hint.style.color   = linkedInValid ? 'var(--green)' : 'var(--red)';
-  hint.textContent   = linkedInValid ? '✅ Valid LinkedIn profile URL' : '❌ Must be linkedin.com/in/yourname (real username, min 3 chars)';
+window.checkLinkedIn=function(){
+  const v=($('linkedin').value||'').trim();
+  const hint=$('linkedinHint');
+  if(!v){hint.style.color='';hint.textContent='Must be a real linkedin.com/in/username link';linkedInValid=false;updateProgress();return;}
+  linkedInValid=_v.chkLI(v);
+  hint.style.color=linkedInValid?'var(--green)':'var(--red)';
+  hint.textContent=linkedInValid?'✅ Valid LinkedIn profile URL':'❌ Must be linkedin.com/in/yourname (real username, min 3 chars)';
   updateProgress();
 };
 
-/* ─── SEND OTP ─── */
-window.sendPersonalOTP = async function() {
-  const finalEmail = ($('personalEmailInput').value||'').trim();
-  if (!finalEmail || !finalEmail.includes('@')) { toast('Enter your email address first','e'); return; }
-  const btn = $('sendOtpBtn');
-  btn.textContent = 'Sending...';
-  btn.disabled    = true;
-  try {
-    generatedOTP = String(Math.floor(100000 + Math.random() * 900000));
-    await emailjs.send('service_n42p919', 'template_k49il5e', {
-      to_email: finalEmail,
-      otp_code: generatedOTP
-    });
-    $('otpVerifySection').style.display = 'block';
-    $('otpDestHint').textContent = '✅ OTP sent to ' + finalEmail + ' — check inbox';
-    btn.textContent = 'Resend OTP';
-    btn.disabled    = false;
-    toast('✅ OTP sent!');
-  } catch(err) {
-    console.error('EmailJS error:', err);
-    toast('Could not send OTP. Try again.', 'e');
-    btn.textContent = 'Send OTP';
-    btn.disabled    = false;
-  }
-};
-
-/* ─── VERIFY OTP ─── */
-window.verifyPersonalOTP = function() {
-  const entered = ($('otpInputField').value||'').trim();
-  if (entered.length !== 6) { toast('Enter the 6-digit code','e'); return; }
-  if (entered === generatedOTP) {
-    emailOtpVerified = true;
-    $('otpVerifySection').style.display = 'none';
-    $('emailVerifiedBadge').style.display = 'flex';
-    $('sendOtpBtn').style.display = 'none';
-    $('personalEmailInput').disabled = true;
-    toast('✅ Email verified!');
-    updateProgress();
-  } else {
-    toast('❌ Wrong OTP. Check your email.','e');
-  }
-};
-
-/* ─── SKILLS KNOWN ─── */
-window.addSkillKnown = function() {
-  const name  = ($('skillKnownInput').value||'').trim();
-  const level = $('skillLevelSelect').value;
-  if (!name) return;
-  if (skillsKnown.find(s => s.name.toLowerCase() === name.toLowerCase())) { toast('Already added','e'); return; }
-  skillsKnown.push({ name, level, certUrl: '' });
-  $('skillKnownInput').value = '';
+/* ── SKILLS ── */
+window.addSkillKnown=function(){
+  const name=($('skillKnownInput').value||'').trim();
+  const level=$('skillLevelSelect').value;
+  if(!name)return;
+  if(skillsKnown.find(s=>s.name.toLowerCase()===name.toLowerCase())){toast('Already added','e');return;}
+  skillsKnown.push({name,level,certUrl:''});
+  $('skillKnownInput').value='';
   renderSkillsKnown();
-  $('noSkillsCheck').checked = false;
+  $('noSkillsCheck').checked=false;
 };
-function renderSkillsKnown() {
-  const list = $('skillsKnownList');
-  list.innerHTML = '';
-  skillsKnown.forEach((sk, i) => {
-    const div = document.createElement('div');
-    div.className = 'skill-item';
-    div.innerHTML = `<div class="skill-item-top">
+function renderSkillsKnown(){
+  const list=$('skillsKnownList');list.innerHTML='';
+  skillsKnown.forEach((sk,i)=>{
+    const div=document.createElement('div');div.className='skill-item';
+    div.innerHTML=`<div class="skill-item-top">
       <div style="display:flex;align-items:center;gap:8px;">
         <span class="skill-item-name">${sk.name}</span>
         <span class="skill-level-badge level-${sk.level}">${sk.level}</span>
@@ -582,240 +486,199 @@ function renderSkillsKnown() {
     list.appendChild(div);
   });
 }
-window.removeSkillKnown = function(i) { skillsKnown.splice(i, 1); renderSkillsKnown(); };
+window.removeSkillKnown=function(i){skillsKnown.splice(i,1);renderSkillsKnown();};
 
-/* ─── SKILLS TO LEARN ─── */
-window.addSkillLearn = function() {
-  const v = ($('skillLearnInput').value||'').trim();
-  if (!v) return;
-  if (skillsLearn.includes(v)) { toast('Already added','e'); return; }
-  skillsLearn.push(v);
-  $('skillLearnInput').value = '';
-  renderSkillsLearn();
+window.addSkillLearn=function(){
+  const v=($('skillLearnInput').value||'').trim();
+  if(!v)return;
+  if(skillsLearn.includes(v)){toast('Already added','e');return;}
+  skillsLearn.push(v);$('skillLearnInput').value='';renderSkillsLearn();
 };
-function renderSkillsLearn() {
-  $('skillsLearnList').innerHTML = '';
-  skillsLearn.forEach(s => {
-    const div = document.createElement('div');
-    div.className = 'learn-tag';
-    div.innerHTML = s + '<button type="button" onclick="removeSkillLearn(\'' + s.replace(/'/g,"\\'") + '\')">×</button>';
+function renderSkillsLearn(){
+  $('skillsLearnList').innerHTML='';
+  skillsLearn.forEach(s=>{
+    const div=document.createElement('div');div.className='learn-tag';
+    div.innerHTML=s+'<button type="button" onclick="removeSkillLearn(\''+s.replace(/'/g,"\\'")+'\')" >×</button>';
     $('skillsLearnList').appendChild(div);
   });
 }
-window.removeSkillLearn = function(s) { skillsLearn = skillsLearn.filter(x => x !== s); renderSkillsLearn(); };
+window.removeSkillLearn=function(s){skillsLearn=skillsLearn.filter(x=>x!==s);renderSkillsLearn();};
 
-window.toggleNoSkills = function() {
-  const checked = $('noSkillsCheck').checked;
-  $('learnCard').style.opacity = checked ? '0.5' : '1';
-  if (checked) { skillsKnown = []; renderSkillsKnown(); }
+window.toggleNoSkills=function(){
+  const checked=$('noSkillsCheck').checked;
+  $('learnCard').style.opacity=checked?'0.5':'1';
+  if(checked){skillsKnown=[];renderSkillsKnown();}
 };
 
-window.selectInterest = function(type, el) {
-  document.querySelectorAll('.interest-card').forEach(c => c.classList.remove('selected'));
-  el.classList.add('selected');
-  startupInterest = type;
+window.selectInterest=function(type,el){
+  document.querySelectorAll('.interest-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');startupInterest=type;
 };
 
-/* ─── SUBMIT ─── */
-window.submitProfile = async function() {
-  if (!currentUser) { toast('Not logged in','e'); return; }
+/* ── SUBMIT ── */
+window.submitProfile=async function(){
+  if(!currentUser){toast('Not logged in','e');return;}
 
-  const name          = ($('fullName').value||'').trim();
-  const dob           = $('dob').value;
-  const phone         = ($('phone').value||'').trim();
-  const uniEmail      = ($('uniEmail').value||'').trim();
-  const universityRaw = $('university').value;
-  const university    = universityRaw === 'other'
-                        ? ($('otherUniversityName').value||'').trim()
-                        : universityRaw;
-  const course        = $('course').value;
-  const year          = $('yearOfPassout').value;
-  const linkedin      = ($('linkedin').value||'').trim();
-  const hasSkills     = skillsKnown.length > 0;
-  const noSkills      = $('noSkillsCheck').checked;
+  const name         =($('fullName').value||'').trim();
+  const dob          =$('dob').value;
+  const phone        =($('phone').value||'').trim();
+  const uniEmail     =($('uniEmail').value||'').trim();
+  const universityRaw=$('university').value;
+  const university   =universityRaw==='other'
+                       ?($('otherUniversityName').value||'').trim()
+                       :universityRaw;
+  const course       =$('course').value;
+  const year         =$('yearOfPassout').value;
+  const linkedin     =($('linkedin').value||'').trim();
+  const hasSkills    =skillsKnown.length>0;
+  const noSkills     =$('noSkillsCheck').checked;
 
-  /* ── Validations ── */
-  if (!name || name.length < 3)                          { toast('Enter your full real name','e'); return; }
-  if (!/^[A-Za-z\s.'\-]{3,}$/.test(name))               { toast('Name should only contain letters','e'); return; }
-  // Block garbage name patterns like "afdafdafd"
-  const _nl = name.toLowerCase().replace(/\s/g,'');
-  if (/(.{2,})\1{2,}/.test(_nl) || /(.)\1{4,}/.test(_nl)) { toast('Enter your real full name','e'); return; }
-  if (new Set(_nl).size < 3)                             { toast('Enter your real full name','e'); return; }
-
-  if (!dob)                                              { toast('Enter your date of birth','e'); return; }
-  const _age = (Date.now() - new Date(dob).getTime()) / (1000*60*60*24*365.25);
-  if (_age < 15 || _age > 40)                           { toast('Enter a valid date of birth (age 15–40)','e'); return; }
-
-  if (!phone || phone.replace(/\D/g,'').length < 10)    { toast('Enter a valid phone number','e'); return; }
-  if (!emailOtpVerified)                                { toast('Please verify your email first','e'); return; }
-  if (!uniEmail)                                         { toast('Enter your university email','e'); return; }
-  if (!uniEmailValid)                                    { toast('Enter a valid university email','e'); return; }
-  if (!university)                                       { toast('Select your university','e'); return; }
-  if (!course)                                           { toast('Select your course','e'); return; }
-  if (!year)                                             { toast('Select your year of passout','e'); return; }
-
-  // Passout year vs DOB cross-check
-  if (dob && year) {
-    const birthYear    = new Date(dob).getFullYear();
-    const passoutYear  = parseInt(year);
-    const ageAtPassout = passoutYear - birthYear;
-    if (ageAtPassout < 17 || ageAtPassout > 36) { toast('Passout year does not match your date of birth','e'); return; }
+  /* Validations */
+  if(!name||name.length<3)                       {toast('Enter your full real name','e');return;}
+  if(!/^[A-Za-z\s.'\-]{3,}$/.test(name))        {toast('Name should only contain letters','e');return;}
+  const _nl=name.toLowerCase().replace(/\s/g,'');
+  if(/(.{2,})\1{2,}/.test(_nl)||/(.)\1{4,}/.test(_nl)){toast('Enter your real full name','e');return;}
+  if(new Set(_nl).size<3)                        {toast('Enter your real full name','e');return;}
+  if(!dob)                                       {toast('Enter your date of birth','e');return;}
+  const _age=(Date.now()-new Date(dob).getTime())/(1000*60*60*24*365.25);
+  if(_age<15||_age>40)                           {toast('Enter a valid date of birth (age 15–40)','e');return;}
+  if(!phone||phone.replace(/\D/g,'').length<10)  {toast('Enter a valid phone number','e');return;}
+  if(!uniEmail)                                  {toast('Enter your university email','e');return;}
+  if(!uniEmailValid)                             {toast('Enter a valid university email','e');return;}
+  if(!university)                                {toast('Select your university','e');return;}
+  if(!course)                                    {toast('Select your course','e');return;}
+  if(!year)                                      {toast('Select your year of passout','e');return;}
+  if(dob&&year){
+    const ageAtPassout=parseInt(year)-new Date(dob).getFullYear();
+    if(ageAtPassout<17||ageAtPassout>36){toast('Passout year does not match your date of birth','e');return;}
   }
+  if(!linkedin)                                  {toast('LinkedIn profile is required','e');return;}
+  if(!_v.chkLI(linkedin))                       {toast('Enter a real LinkedIn URL: linkedin.com/in/yourname','e');return;}
+  if(!hasSkills&&!noSkills)                      {toast('Add a skill OR check "no skills yet"','e');return;}
+  if(!startupInterest)                           {toast('Select your startup/project interest','e');return;}
 
-  if (!linkedin)                                         { toast('LinkedIn profile is required','e'); return; }
-  if (!_v.chkLI(linkedin))                              { toast('Enter a real LinkedIn URL: linkedin.com/in/yourname','e'); return; }
-  if (!hasSkills && !noSkills)                           { toast('Add a skill OR check "no skills yet"','e'); return; }
-  if (!startupInterest)                                  { toast('Select your startup/project interest','e'); return; }
+  $('submitBtn').disabled=true;
 
-  $('submitBtn').disabled = true;
+  try{
+    setUploadProgress(40,'Saving your profile...');
 
-  try {
-    setUploadProgress(40, 'Saving your profile...');
-
-    const profileData = {
-      name, dob, phone,
-      email:                   currentUser.email,
-      universityEmail:         uniEmail,
-      universityEmailVerified: true,
-      personalEmailVerified:   true,
-      university, course,
-      yearOfPassout:           parseInt(year),
+    const profileData={
+      name,dob,phone,
+      email:                  currentUser.email,
+      universityEmail:        uniEmail,
+      universityEmailVerified:true,
+      personalEmailVerified:  true,  /* kept true — no OTP needed right now */
+      university,course,
+      yearOfPassout:          parseInt(year),
       linkedin,
-      skillsKnown:             skillsKnown.map(sk => ({ name: sk.name, level: sk.level, certUrl: '' })),
+      skillsKnown:            skillsKnown.map(sk=>({name:sk.name,level:sk.level,certUrl:''})),
       skillsLearn,
-      noSkills:                noSkills && !hasSkills,
+      noSkills:               noSkills&&!hasSkills,
       startupInterest,
-      bio:                     ($('bio').value||'').trim(),
-      role:                    existingData.role  || 'student',
-      photoURL:                existingData.photoURL || '',
-      coins:                   existingData.coins !== undefined ? existingData.coins : 0,
-      coinDebt:                existingData.coinDebt  || 0,
-      exchanges:               existingData.exchanges || 0,
-      referrals:               existingData.referrals || 0,
-      referralCode:            existingData.referralCode || currentUser.uid.substring(0,8).toUpperCase(),
-      profileVersion:          CURRENT_PROFILE_VERSION,
-      updatedAt:               serverTimestamp()
+      bio:                    ($('bio').value||'').trim(),
+      role:                   existingData.role||'student',
+      photoURL:               existingData.photoURL||'',
+      coins:                  existingData.coins!==undefined?existingData.coins:0,
+      coinDebt:               existingData.coinDebt||0,
+      exchanges:              existingData.exchanges||0,
+      referrals:              existingData.referrals||0,
+      referralCode:           existingData.referralCode||currentUser.uid.substring(0,8).toUpperCase(),
+      profileVersion:         CURRENT_PROFILE_VERSION,
+      updatedAt:              serverTimestamp()
     };
-    if (!existingData.createdAt) profileData.createdAt = serverTimestamp();
+    if(!existingData.createdAt)profileData.createdAt=serverTimestamp();
 
-    setUploadProgress(65, 'Saving to database...');
-    await setDoc(doc(db,'users',currentUser.uid), profileData, { merge: true });
-    setUploadProgress(80, 'Updating stats...');
+    setUploadProgress(65,'Saving to database...');
+    await setDoc(doc(db,'users',currentUser.uid),profileData,{merge:true});
+    setUploadProgress(80,'Updating stats...');
 
-    /* Stats — new users only */
-    if (isNewUser) {
-      try {
-        await updateDoc(doc(db,'stats','platform'), { totalUsers: increment(1), updatedAt: serverTimestamp() });
-      } catch(e) {
-        try { await setDoc(doc(db,'stats','platform'), { totalUsers:1, totalExchanges:0, totalCerts:0, updatedAt: serverTimestamp() }); } catch(e2){}
+    if(isNewUser){
+      try{
+        await updateDoc(doc(db,'stats','platform'),{totalUsers:increment(1),updatedAt:serverTimestamp()});
+      }catch(e){
+        try{await setDoc(doc(db,'stats','platform'),{totalUsers:1,totalExchanges:0,totalCerts:0,updatedAt:serverTimestamp()});}catch(e2){}
       }
     }
 
     /* Referral */
-    const storedRef = sessionStorage.getItem('zwapyRef');
-    if (storedRef && isNewUser && !existingData.referredBy) {
-      try {
-        const refQ = await getDocs(query(collection(db,'users'), where('referralCode','==',storedRef)));
-        if (!refQ.empty) {
-          const rDoc = refQ.docs[0];
-          if (rDoc.id !== currentUser.uid) {
-            await updateDoc(doc(db,'users',rDoc.id), { coins:(rDoc.data().coins||0)+2, referrals:(rDoc.data().referrals||0)+1 });
-            await updateDoc(doc(db,'users',currentUser.uid), { coins:1, referredBy:rDoc.id });
+    const storedRef=sessionStorage.getItem('zwapyRef');
+    if(storedRef&&isNewUser&&!existingData.referredBy){
+      try{
+        const refQ=await getDocs(query(collection(db,'users'),where('referralCode','==',storedRef)));
+        if(!refQ.empty){
+          const rDoc=refQ.docs[0];
+          if(rDoc.id!==currentUser.uid){
+            await updateDoc(doc(db,'users',rDoc.id),{coins:(rDoc.data().coins||0)+2,referrals:(rDoc.data().referrals||0)+1});
+            await updateDoc(doc(db,'users',currentUser.uid),{coins:1,referredBy:rDoc.id});
           }
         }
-      } catch(e) {}
+      }catch(e){}
       sessionStorage.removeItem('zwapyRef');
     }
 
-    setUploadProgress(100, 'Done! 🎉');
-    await new Promise(r => setTimeout(r, 500));
+    setUploadProgress(100,'Done! 🎉');
+    await new Promise(r=>setTimeout(r,500));
     hideUploadProgress();
     toast('✅ Profile saved!');
 
-    /* ── REDIRECT — NO EXAM ──
-       New user  → thankyou.html
-       Returning → dashboard.html                    */
-    setTimeout(() => {
-      if (isNewUser) {
-        window.location.href = 'thankyou.html';
-      } else {
-        window.location.href = 'dashboard.html';
-      }
-    }, 800);
+    setTimeout(()=>{
+      window.location.href=isNewUser?'thankyou.html':'dashboard.html';
+    },800);
 
-  } catch(err) {
+  }catch(err){
     console.error(err);
     hideUploadProgress();
-    toast('Error: ' + err.message, 'e');
-    $('submitBtn').disabled = false;
+    toast('Error: '+err.message,'e');
+    $('submitBtn').disabled=false;
   }
 };
 
-/* ─── Referral from URL ─── */
-const refCode = new URLSearchParams(window.location.search).get('ref');
-if (refCode) sessionStorage.setItem('zwapyRef', refCode);
+/* Referral from URL */
+const refCode=new URLSearchParams(window.location.search).get('ref');
+if(refCode)sessionStorage.setItem('zwapyRef',refCode);
 
-/* ─── AUTH ─── */
-onAuthStateChanged(auth, async user => {
-  if (!user) { window.location.href = 'signup.html'; return; }
-  currentUser = user;
-  $('personalEmailInput').value = user.email || '';
-  $('personalEmail').value      = user.email || '';
+/* AUTH */
+onAuthStateChanged(auth,async user=>{
+  if(!user){window.location.href='signup.html';return;}
+  currentUser=user;
+  $('personalEmail').value=user.email||'';
 
-  const snap = await getDoc(doc(db,'users',user.uid));
-  if (snap.exists()) {
-    existingData = snap.data();
-    const savedVersion = existingData.profileVersion || 0;
-
-    /* Already complete + up to date → go to dashboard */
-    if (savedVersion >= CURRENT_PROFILE_VERSION && existingData.name) {
-      window.location.href = 'dashboard.html'; return;
+  const snap=await getDoc(doc(db,'users',user.uid));
+  if(snap.exists()){
+    existingData=snap.data();
+    const savedVersion=existingData.profileVersion||0;
+    if(savedVersion>=CURRENT_PROFILE_VERSION&&existingData.name){
+      window.location.href='dashboard.html';return;
     }
-
-    isNewUser = !existingData.name;
-
-    if (!isNewUser) {
-      /* Returning user — update mode */
+    isNewUser=!existingData.name;
+    if(!isNewUser){
       $('versionBanner').classList.add('show');
-      $('pageSubtitle').textContent   = 'Update your profile';
-      $('submitBtn').textContent      = 'Update Profile →';
-
-      if (existingData.name)           $('fullName').value      = existingData.name;
-      if (existingData.dob)            $('dob').value           = existingData.dob;
-      if (existingData.phone)          $('phone').value         = existingData.phone;
-      if (existingData.university)     $('university').value    = existingData.university;
-      if (existingData.course)         $('course').value        = existingData.course;
-      if (existingData.yearOfPassout)  $('yearOfPassout').value = existingData.yearOfPassout;
-      if (existingData.bio)            $('bio').value           = existingData.bio || '';
-      if (existingData.linkedin)       { $('linkedin').value = existingData.linkedin; checkLinkedIn(); }
-      if (existingData.universityEmail){ $('uniEmail').value = existingData.universityEmail; checkUniEmail(); }
-      if (existingData.skillsKnown && existingData.skillsKnown.length) {
-        skillsKnown = existingData.skillsKnown.map(s => ({ ...s }));
-        renderSkillsKnown();
+      $('pageSubtitle').textContent='Update your profile';
+      $('submitBtn').textContent='Update Profile →';
+      if(existingData.name)          $('fullName').value     =existingData.name;
+      if(existingData.dob)           $('dob').value          =existingData.dob;
+      if(existingData.phone)         $('phone').value        =existingData.phone;
+      if(existingData.university)    $('university').value   =existingData.university;
+      if(existingData.course)        $('course').value       =existingData.course;
+      if(existingData.yearOfPassout) $('yearOfPassout').value=existingData.yearOfPassout;
+      if(existingData.bio)           $('bio').value          =existingData.bio||'';
+      if(existingData.linkedin)      {$('linkedin').value=existingData.linkedin;checkLinkedIn();}
+      if(existingData.universityEmail){$('uniEmail').value=existingData.universityEmail;checkUniEmail();}
+      if(existingData.skillsKnown&&existingData.skillsKnown.length){
+        skillsKnown=existingData.skillsKnown.map(s=>({...s}));renderSkillsKnown();
       }
-      if (existingData.skillsLearn && existingData.skillsLearn.length) {
-        skillsLearn = [...existingData.skillsLearn];
-        renderSkillsLearn();
+      if(existingData.skillsLearn&&existingData.skillsLearn.length){
+        skillsLearn=[...existingData.skillsLearn];renderSkillsLearn();
       }
-      if (existingData.startupInterest) {
-        startupInterest = existingData.startupInterest;
-        const map = { startup:0, project:1, both:2, none:3 };
-        const idx = map[startupInterest];
-        const cards = document.querySelectorAll('.interest-card');
-        if (idx !== undefined && cards[idx]) cards[idx].classList.add('selected');
+      if(existingData.startupInterest){
+        startupInterest=existingData.startupInterest;
+        const map={startup:0,project:1,both:2,none:3};
+        const idx=map[startupInterest];
+        const cards=document.querySelectorAll('.interest-card');
+        if(idx!==undefined&&cards[idx])cards[idx].classList.add('selected');
       }
-      if (existingData.personalEmailVerified) {
-        emailOtpVerified = true;
-        $('emailVerifiedBadge').style.display = 'flex';
-        $('sendOtpBtn').style.display         = 'none';
-        $('personalEmailInput').disabled      = true;
-      }
-    } else {
-      isNewUser = true;
-    }
-  } else {
-    isNewUser = true;
-  }
+    }else{isNewUser=true;}
+  }else{isNewUser=true;}
 
   updateProgress();
 });
