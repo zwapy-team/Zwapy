@@ -189,7 +189,7 @@ function selectRole(role){
   // Save referral code immediately when signup page loads
 (function(){
   const ref = new URLSearchParams(window.location.search).get('ref');
-  if(ref) sessionStorage.setItem('zwapyRef', ref);
+  if(ref) localStorage.setItem('zwapyRef', ref);
 })();
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";

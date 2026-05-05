@@ -295,7 +295,7 @@ window.submitProfile = async function() {
       referrals:              existingData.referrals||0,
       referralCode:           existingData.referralCode||currentUser.uid.substring(0,8).toUpperCase(),
       profileVersion:         CURRENT_PROFILE_VERSION,
-      profileComplete:        false, // will become true once they fill profile
+      profileComplete:        false,
       updatedAt:              serverTimestamp()
     };
     if(!existingData.createdAt) profileData.createdAt=serverTimestamp();
@@ -304,7 +304,7 @@ window.submitProfile = async function() {
     await setDoc(doc(db,'users',currentUser.uid), profileData, {merge:true});
     setBar(85);
 
-    /* Stats */
+    /* Stats — only for truly new users */
     if(isNewUser){
       try{
         await updateDoc(doc(db,'stats','platform'),{totalUsers:increment(1),updatedAt:serverTimestamp()});
@@ -313,20 +313,46 @@ window.submitProfile = async function() {
       }
     }
 
-    /* Referral */
-    const storedRef=sessionStorage.getItem('zwapyRef');
-    if(storedRef&&isNewUser&&!existingData.referredBy){
+    /* ─────────────────────────────────────────────
+       REFERRAL — 3 FIXES APPLIED HERE:
+       FIX 1: localStorage instead of sessionStorage
+               sessionStorage is wiped when Google OAuth
+               redirects away and back. localStorage survives.
+       FIX 2: increment() instead of rDoc.data().coins + 2
+               Atomic — prevents race condition if two people
+               sign up with same ref code at same time.
+       FIX 3: Re-read Firestore doc before awarding coins
+               Prevents double-award if user submits form twice.
+    ───────────────────────────────────────────── */
+    const storedRef = localStorage.getItem('zwapyRef');
+    if(storedRef){
       try{
-        const refQ=await getDocs(query(collection(db,'users'),where('referralCode','==',storedRef)));
-        if(!refQ.empty){
-          const rDoc=refQ.docs[0];
-          if(rDoc.id!==currentUser.uid){
-            await updateDoc(doc(db,'users',rDoc.id),{coins:(rDoc.data().coins||0)+2,referrals:(rDoc.data().referrals||0)+1});
-            await updateDoc(doc(db,'users',currentUser.uid),{coins:1,referredBy:rDoc.id});
+        // FIX 3: fresh read to make sure referredBy is not already set
+        const freshSnap = await getDoc(doc(db,'users',currentUser.uid));
+        const alreadyReferred = freshSnap.exists() && freshSnap.data().referredBy;
+
+        if(!alreadyReferred){
+          const refQ = await getDocs(query(collection(db,'users'),where('referralCode','==',storedRef)));
+          if(!refQ.empty){
+            const rDoc = refQ.docs[0];
+            if(rDoc.id !== currentUser.uid){
+              // FIX 2: atomic increment — no stale read race condition
+              await updateDoc(doc(db,'users',rDoc.id),{
+                coins:     increment(2),   // referrer gets +2
+                referrals: increment(1)
+              });
+              await updateDoc(doc(db,'users',currentUser.uid),{
+                coins:     increment(1),   // new user gets +1
+                referredBy:rDoc.id
+              });
+            }
           }
         }
-      }catch(e){}
-      sessionStorage.removeItem('zwapyRef');
+      }catch(refErr){
+        console.error('[Zwapy Referral]',refErr);
+      }
+      // Always clear so it never fires again
+      localStorage.removeItem('zwapyRef');
     }
 
     setBar(100);
@@ -343,9 +369,14 @@ window.submitProfile = async function() {
   }
 };
 
-/* Referral */
-const refCode=new URLSearchParams(window.location.search).get('ref');
-if(refCode) sessionStorage.setItem('zwapyRef',refCode);
+/* ─────────────────────────────────────────────
+   REFERRAL FROM URL — FIX 1 ALSO HERE
+   Must use localStorage so the ref code survives
+   the Google OAuth redirect (sessionStorage dies).
+   This runs on page load before anything else.
+───────────────────────────────────────────── */
+const refCode = new URLSearchParams(window.location.search).get('ref');
+if(refCode) localStorage.setItem('zwapyRef', refCode);
 
 /* AUTH */
 onAuthStateChanged(auth, async user=>{
