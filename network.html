@@ -3,20 +3,17 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-THCGY8NH1Z"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-THCGY8NH1Z');
-</script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-THCGY8NH1Z"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-THCGY8NH1Z');</script>
 <title>Network | Zwapy</title>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
 <style>
-:root{--cyan:#00D4FF;--cyan-dim:rgba(0,212,255,0.1);--bg:#010114;--border:rgba(0,212,255,0.1);--border-h:rgba(0,212,255,0.3);--muted:#64748b;--dim:#94a3b8;--green:#10b981;--amber:#f59e0b;--red:#ef4444;--indigo:#818cf8;}
+:root{
+  --cyan:#00D4FF;--cyan-dim:rgba(0,212,255,0.1);--bg:#010114;
+  --border:rgba(0,212,255,0.1);--border-h:rgba(0,212,255,0.3);
+  --muted:#64748b;--dim:#94a3b8;--green:#10b981;--amber:#f59e0b;
+  --indigo:#818cf8;--pink:#f472b6;--purple:#a78bfa;--red:#ef4444;
+}
 *{margin:0;padding:0;box-sizing:border-box;}
 ::selection{background:var(--cyan);color:#000;}
 body{font-family:'Sora',sans-serif;background:var(--bg);color:white;overflow-x:hidden;min-height:100vh;}
@@ -81,14 +78,14 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .person-stats{display:flex;gap:12px;}
 .pstat{font-size:.62rem;color:var(--muted);display:flex;align-items:center;gap:4px;}
 
-/* CONNECT BUTTON STATES */
+/* ── CONNECT BUTTON STATES ── */
 .connect-btn{background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.22);border-radius:9px;padding:7px 15px;font-size:.7rem;font-weight:800;color:var(--cyan);cursor:pointer;transition:all .22s;font-family:'Sora',sans-serif;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;}
 .connect-btn:hover{background:rgba(0,212,255,0.18);box-shadow:0 0 12px rgba(0,212,255,.2);}
-.connect-btn.connected{background:rgba(16,185,129,0.08);border-color:rgba(16,185,129,0.22);color:var(--green);cursor:default;}
-.connect-btn.pending{background:rgba(245,158,11,0.08);border-color:rgba(245,158,11,0.22);color:var(--amber);cursor:default;}
+.connect-btn.pending{background:rgba(245,158,11,0.08);border-color:rgba(245,158,11,0.25);color:var(--amber);cursor:default;}
+.connect-btn.connected{background:rgba(16,185,129,0.08);border-color:rgba(16,185,129,0.22);color:var(--green);}
 .connect-btn.self{background:transparent;border-color:transparent;color:var(--muted);cursor:default;pointer-events:none;}
 
-/* MODAL */
+/* ── MODAL ── */
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(12px);z-index:3000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s;}
 .modal-bg.open{opacity:1;pointer-events:all;}
 .modal{background:rgba(4,2,40,0.99);border:1px solid rgba(0,212,255,0.18);border-radius:26px;width:100%;max-width:500px;position:relative;transform:translateY(24px) scale(.97);transition:transform .3s;overflow:hidden;max-height:90vh;display:flex;flex-direction:column;}
@@ -100,7 +97,8 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .modal-close{position:absolute;top:14px;right:14px;width:30px;height:30px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.75rem;color:var(--muted);transition:all .2s;z-index:10;}
 .modal-close:hover{border-color:#ef4444;color:#ef4444;}
 .modal-profile-top{display:flex;align-items:flex-start;gap:16px;margin-bottom:20px;}
-.modal-av{width:68px;height:68px;border-radius:50%;overflow:hidden;border:3px solid rgba(0,212,255,0.25);flex-shrink:0;}
+.modal-av-wrap{position:relative;flex-shrink:0;}
+.modal-av{width:68px;height:68px;border-radius:50%;overflow:hidden;border:3px solid rgba(0,212,255,0.25);}
 .modal-av img{width:100%;height:100%;object-fit:cover;}
 .modal-name{font-size:1.25rem;font-weight:900;font-style:italic;margin-bottom:3px;}
 .modal-role{font-size:.65rem;color:var(--cyan);font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px;}
@@ -117,8 +115,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .cert-item{display:flex;align-items:flex-start;gap:10px;background:rgba(245,158,11,0.04);border:1px solid rgba(245,158,11,0.14);border-radius:12px;padding:11px 13px;}
 .cert-icon{font-size:1.1rem;flex-shrink:0;margin-top:1px;}
 .cert-info{flex:1;min-width:0;}
-.cert-name{font-size:.78rem;font-weight:700;color:white;margin-bottom:2px;}
-.cert-issuer{font-size:.65rem;color:var(--amber);font-family:'Space Mono',monospace;}
+.cert-name{font-size:.78rem;font-weight:700;color:white;margin-bottom:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .cert-link{font-size:.62rem;color:var(--cyan);text-decoration:none;border:1px solid rgba(0,212,255,0.2);border-radius:6px;padding:3px 8px;white-space:nowrap;flex-shrink:0;align-self:center;transition:all .2s;}
 .cert-link:hover{background:rgba(0,212,255,0.08);}
 .no-certs{font-size:.74rem;color:var(--muted);font-style:italic;}
@@ -129,16 +126,16 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .modal-actions{display:flex;flex-direction:column;gap:9px;margin-top:18px;}
 .modal-connect-btn{width:100%;background:var(--cyan);color:#000;border:none;border-radius:11px;padding:13px;font-size:.82rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:all .25s;font-family:'Sora',sans-serif;}
 .modal-connect-btn:hover{box-shadow:0 0 20px rgba(0,212,255,.4);transform:translateY(-1px);}
-.modal-connect-btn.connected{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,.25);color:var(--green);}
-.modal-connect-btn.pending{background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,.25);color:var(--amber);}
+.modal-connect-btn.pending{background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,.25);color:var(--amber);cursor:default;}
+.modal-connect-btn.connected{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,.25);color:var(--green);cursor:default;}
 .modal-connect-btn.self-btn{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:var(--dim);}
 .modal-linkedin{display:flex;align-items:center;justify-content:center;gap:9px;padding:11px 14px;background:rgba(10,102,194,0.08);border:1px solid rgba(10,102,194,0.25);border-radius:11px;text-decoration:none;color:#60a5fa;font-size:.76rem;font-weight:700;transition:all .22s;cursor:pointer;}
-.modal-linkedin:hover{background:rgba(10,102,194,0.18);color:white;}
+.modal-linkedin:hover{background:rgba(10,102,194,0.18);border-color:rgba(10,102,194,0.5);color:white;}
 .modal-linkedin svg{width:16px;height:16px;flex-shrink:0;}
 .empty-state{text-align:center;padding:50px 20px;color:var(--muted);}
 .empty-icon{font-size:2.5rem;margin-bottom:12px;opacity:.3;}
 .empty-text{font-size:.8rem;line-height:1.6;}
-.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);border-radius:100px;padding:10px 22px;font-size:.76rem;font-weight:700;z-index:4000;opacity:0;transition:all .35s;pointer-events:none;white-space:nowrap;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,.28);color:var(--green);}
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,.28);border-radius:100px;padding:10px 22px;font-size:.76rem;font-weight:700;color:var(--green);z-index:4000;opacity:0;transition:all .35s;pointer-events:none;white-space:nowrap;}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 .bottom-nav{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:380px;background:rgba(2,0,36,0.95);backdrop-filter:blur(28px);border:1px solid rgba(0,212,255,0.14);border-radius:100px;padding:7px 12px;display:flex;justify-content:space-around;align-items:center;z-index:500;box-shadow:0 8px 32px rgba(0,0,0,.6);}
 .nav-item{width:42px;height:42px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:all .22s;text-decoration:none;color:var(--muted);font-size:1.1rem;}
@@ -169,7 +166,9 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
     <div class="modal-scroll">
       <button class="modal-close" id="modalClose">✕</button>
       <div class="modal-profile-top">
-        <div class="modal-av"><img id="mAv" src="" alt=""></div>
+        <div class="modal-av-wrap">
+          <div class="modal-av"><img id="mAv" src="" alt=""></div>
+        </div>
         <div style="flex:1;min-width:0;">
           <div class="modal-name" id="mName"></div>
           <div class="modal-role" id="mRole"></div>
@@ -209,7 +208,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
   <div class="page-head fade-up d1">
     <div class="page-label">// Student Network</div>
     <h1 class="page-title">The <span>Network</span></h1>
-    <p class="page-sub">Find people with skills you need, send connection requests, and collaborate.</p>
+    <p class="page-sub">Every student on Zwapy. Find people with skills you need, connect, and collaborate.</p>
   </div>
 
   <div class="stats-strip fade-up d1">
@@ -248,15 +247,18 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
   <a href="clubs.html" class="nav-item">🏛️</a>
   <a href="network.html" class="nav-item active">🧑‍🤝‍🧑</a>
   <a href="discover.html" class="nav-item">🔍</a>
-  <a href="profile.html" class="nav-item"><div class="nav-av"><img id="navAvatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=default" alt=""></div></a>
+  <a href="profile.html" class="nav-item">
+    <div class="nav-av"><img id="navAvatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=default" alt=""></div>
+  </a>
 </nav>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
 import { getAuth, onAuthStateChanged, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
 import {
-  getFirestore, collection, getDocs, doc, getDoc, updateDoc,
-  addDoc, query, where, serverTimestamp, arrayUnion
+  getFirestore, collection, getDocs, doc, getDoc,
+  updateDoc, arrayUnion, addDoc, serverTimestamp,
+  query, where, getDocs as gd
 } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
 const app = initializeApp({
@@ -273,134 +275,76 @@ await setPersistence(auth, browserLocalPersistence);
 
 const $ = id => document.getElementById(id);
 
-function toast(msg, type='s') {
+function toast(msg, col='#10b981'){
   const t=$('toast');
   t.textContent=msg;
-  if(type==='e'){t.style.background='rgba(239,68,68,0.1)';t.style.borderColor='rgba(239,68,68,.28)';t.style.color='#ef4444';}
-  else{t.style.background='rgba(16,185,129,0.1)';t.style.borderColor='rgba(16,185,129,.28)';t.style.color='#10b981';}
+  t.style.color=col;
+  t.style.borderColor=col==='#10b981'?'rgba(16,185,129,.28)':'rgba(0,212,255,.28)';
   t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),3000);
 }
 
-let allPeople     = [];
-let myConnections = []; // accepted connections
-let pendingSet    = new Set(); // uids I've sent requests to (pending)
-let currentUser   = null;
-let userData      = {};
-let activeFilter  = 'all';
-let searchQ       = '';
-let openPerson    = null;
+let allPeople    = [];
+let myConnections= []; // accepted connections (friends list)
+let pendingSent  = []; // UIDs I sent a request to (pending)
+let currentUser  = null;
+let userData     = {};
+let activeFilter = 'all';
+let searchQ      = '';
+let openPerson   = null;
 
-/* ══════════════════════════════════════════
-   CONNECTION REQUEST SYSTEM
-   ══════════════════════════════════════════
-
-   Firestore collection: connection_requests
-   Document fields:
-   {
-     senderId:    uid of person who clicked Connect
-     receiverId:  uid of person receiving the request
-     senderName:  name of sender (for notification display)
-     senderPhoto: photo URL of sender
-     status:      'pending' | 'accepted' | 'declined'
-     createdAt:   serverTimestamp()
-   }
-
-   Flow:
-   1. Click Connect → creates doc in connection_requests with status:'pending'
-   2. Receiver sees it in their dashboard Activity Feed
-   3. Receiver clicks Accept → status becomes 'accepted'
-      + both users added to each other's connections[] array
-   ══════════════════════════════════════════ */
-
-// ── SEND CONNECTION REQUEST ──
-window.handleConnect = async function(receiverId) {
-  if (!currentUser) return;
-  if (receiverId === currentUser.uid) return;
-
-  // Already connected
-  if (myConnections.includes(receiverId)) {
-    toast('Already connected ✓', 's'); return;
-  }
-  // Already sent request
-  if (pendingSet.has(receiverId)) {
-    toast('Request already sent ⏳', 's'); return;
-  }
-
-  try {
-    // Check if request already exists in Firestore
-    const existing = await getDocs(query(
-      collection(db, 'connection_requests'),
-      where('senderId', '==', currentUser.uid),
-      where('receiverId', '==', receiverId)
-    ));
-    if (!existing.empty) {
-      pendingSet.add(receiverId);
-      render(); return;
-    }
-
-    // Create the connection request document
-    await addDoc(collection(db, 'connection_requests'), {
-      senderId:    currentUser.uid,
-      receiverId:  receiverId,
-      senderName:  userData.name || currentUser.displayName || 'Student',
-      senderPhoto: userData.photoURL || '',
-      status:      'pending',
-      createdAt:   serverTimestamp()
-    });
-
-    pendingSet.add(receiverId);
-    render();
-    if (openPerson?.uid === receiverId) openProfile(receiverId);
-    toast('✅ Connection request sent!');
-
-  } catch(err) {
-    console.error('Connect error:', err);
-    toast('Failed to send request', 'e');
-  }
-};
-
-// ── RENDER GRID ──
-function getStatus(uid) {
-  if (myConnections.includes(uid)) return 'connected';
-  if (pendingSet.has(uid)) return 'pending';
+// ── HELPER: get connection status with a person ──
+function connStatus(uid){
+  if(myConnections.includes(uid)) return 'connected';
+  if(pendingSent.includes(uid))   return 'pending';
   return 'none';
 }
 
-function render() {
+// ── RENDER GRID ──
+function render(){
   let list = allPeople.filter(p => p.uid !== currentUser?.uid);
-  if (activeFilter !== 'all') list = list.filter(p => (p.role||'Student') === activeFilter);
-  if (searchQ) list = list.filter(p =>
+  if(activeFilter !== 'all') list = list.filter(p => (p.role||'Student') === activeFilter);
+  if(searchQ) list = list.filter(p =>
     (p.name||'').toLowerCase().includes(searchQ) ||
-    (p.skills||[]).some(s => s.toLowerCase().includes(searchQ)) ||
+    (p.university||'').toLowerCase().includes(searchQ) ||
+    // FIXED: use skillsKnown (actual Firestore field)
+    (p.skillsKnown||[]).some(s=>(typeof s==='string'?s:(s.name||'')).toLowerCase().includes(searchQ)) ||
+    (p.skillsLearn||[]).some(s=>s.toLowerCase().includes(searchQ)) ||
     (p.bio||'').toLowerCase().includes(searchQ)
   );
 
   $('peopleCount').textContent = list.length;
-
-  if (!list.length) {
-    $('peopleGrid').innerHTML=`<div class="empty-state"><div class="empty-icon">👥</div><p class="empty-text">No students found.</p></div>`;
+  if(!list.length){
+    $('peopleGrid').innerHTML=`<div class="empty-state"><div class="empty-icon">👥</div><p class="empty-text">No students found.<br>More will join soon.</p></div>`;
     return;
   }
 
   $('peopleGrid').innerHTML = list.map(p => {
-    const isMe      = p.uid === currentUser?.uid;
-    const status    = getStatus(p.uid);
-    const av        = p.photoURL||`https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(p.name||p.uid)}`;
-    const knowSkills= (p.skills||[]).slice(0,3);
-    const learnSkills=(p.wantToLearn||[]).slice(0,2);
-    const certCount = (p.certificates||[]).length;
+    const isMe = p.uid === currentUser?.uid;
+    const st   = connStatus(p.uid);
+    const av   = p.photoURL || `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(p.name||p.uid)}`;
 
-    let btnClass = 'connect-btn';
-    let btnText  = '+ Connect';
-    let btnClick = `event.stopPropagation();handleConnect('${p.uid}')`;
-    if (isMe)                  { btnClass='connect-btn self'; btnText='Your Profile'; btnClick=''; }
-    else if (status==='connected') { btnClass='connect-btn connected'; btnText='✓ Connected'; btnClick=''; }
-    else if (status==='pending')   { btnClass='connect-btn pending'; btnText='⏳ Pending'; btnClick=''; }
+    // FIXED: use skillsKnown and skillsLearn (actual Firestore field names)
+    const rawKnown    = (p.skillsKnown||[]);
+    const knowSkills  = rawKnown.slice(0,3).map(s=>typeof s==='string'?s:(s.name||''));
+    const learnSkills = (p.skillsLearn||[]).slice(0,2);
+    const certCount   = rawKnown.filter(s=>typeof s==='object'&&s.certUrl).length;
 
-    return `<div class="person-card" onclick="openProfile('${p.uid}')">
+    let btnHtml = '';
+    if(isMe){
+      btnHtml = `<button class="connect-btn self">Your Profile</button>`;
+    } else if(st==='connected'){
+      btnHtml = `<button class="connect-btn connected">✓ Connected</button>`;
+    } else if(st==='pending'){
+      btnHtml = `<button class="connect-btn pending">⏳ Pending</button>`;
+    } else {
+      btnHtml = `<button class="connect-btn" onclick="event.stopPropagation();handleConnect('${p.uid}')">+ Connect</button>`;
+    }
+
+    return `
+    <div class="person-card" onclick="openProfile('${p.uid}')">
       <div class="person-top">
-        <div class="person-av"><img src="${av}" alt="" loading="lazy"></div>
+        <div class="person-av"><img src="${av}" alt="${p.name||'Student'}" loading="lazy"></div>
         <div class="person-info">
           <div class="person-name">${p.name||'Student'}${isMe?'<span class="you-badge">You</span>':''}</div>
           <div class="person-role">${p.role||'Student'}</div>
@@ -410,7 +354,7 @@ function render() {
       ${p.bio?`<div class="person-bio">${p.bio}</div>`:''}
       <div class="skills-wrap">
         ${knowSkills.map(s=>`<span class="skill-tag">${s}</span>`).join('')}
-        ${(p.skills||[]).length>3?`<span class="skill-tag">+${(p.skills||[]).length-3}</span>`:''}
+        ${rawKnown.length>3?`<span class="skill-tag">+${rawKnown.length-3}</span>`:''}
         ${learnSkills.map(s=>`<span class="skill-tag learn">↑ ${s}</span>`).join('')}
       </div>
       ${certCount>0?`<div class="cert-hint">🏅 ${certCount} certificate${certCount>1?'s':''}</div>`:''}
@@ -419,78 +363,140 @@ function render() {
           <span class="pstat">💰 ${p.coins||0}</span>
           <span class="pstat">🔄 ${p.exchanges||0}</span>
         </div>
-        <button class="${btnClass}" ${btnClick?`onclick="${btnClick}"`:''}>${btnText}</button>
+        ${btnHtml}
       </div>
     </div>`;
   }).join('');
 }
 
-// ── OPEN MODAL ──
-window.openProfile = function(uid) {
+// ── SEND CONNECTION REQUEST ──
+window.handleConnect = async function(uid){
+  if(!currentUser) return;
+  const st = connStatus(uid);
+  if(st==='connected'){ toast('Already connected'); return; }
+  if(st==='pending')  { toast('Request already sent','#f59e0b'); return; }
+
+  try{
+    // Create a connection request document in 'connections' collection
+    await addDoc(collection(db,'connections'),{
+      senderId:   currentUser.uid,
+      receiverId: uid,
+      status:     'pending',
+      createdAt:  serverTimestamp()
+    });
+
+    // Also write to receiver's notifications subcollection
+    // so it shows in their Activity Feed on dashboard
+    const receiverSnap = await getDoc(doc(db,'users',uid));
+    const receiverName = receiverSnap.exists() ? receiverSnap.data().name : 'Someone';
+    const myName = userData.name || 'Someone';
+
+    await addDoc(collection(db,'users',uid,'activity'),{
+      type:      'connection_request',
+      title:     `${myName} wants to connect`,
+      desc:      'Tap to accept the connection request',
+      senderId:  currentUser.uid,
+      senderName:myName,
+      status:    'pending',
+      createdAt: serverTimestamp()
+    });
+
+    pendingSent.push(uid);
+    render();
+    if(openPerson?.uid === uid) openProfile(uid);
+    toast('✅ Connection request sent!');
+  }catch(e){
+    console.error('Connect error:',e);
+    toast('Error sending request','#ef4444');
+  }
+};
+
+// ── OPEN PROFILE MODAL ──
+window.openProfile = function(uid){
   const p = allPeople.find(x=>x.uid===uid);
-  if (!p) return;
+  if(!p) return;
   openPerson = p;
 
-  const isMe   = uid === currentUser?.uid;
-  const status = getStatus(uid);
-  const av     = p.photoURL||`https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(p.name||uid)}`;
+  const isMe = uid === currentUser?.uid;
+  const st   = connStatus(uid);
+  const av   = p.photoURL||`https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(p.name||uid)}`;
 
-  $('mAv').src          = av;
+  $('mAv').src           = av;
   $('mName').textContent = p.name||'Student';
   $('mRole').textContent = p.role||'Student';
   $('mUni').textContent  = p.university||'—';
   $('mBio').textContent  = p.bio||'No bio added yet.';
 
-  $('mSkillsKnow').innerHTML = (p.skills||[]).length
-    ? (p.skills||[]).map(s=>`<span class="modal-skill know">${s}</span>`).join('')
+  // FIXED: skillsKnown (actual Firestore field)
+  const rawKnown = (p.skillsKnown||[]);
+  const knowArr  = rawKnown.map(s=>typeof s==='string'?s:(s.name||''));
+  $('mSkillsKnow').innerHTML = knowArr.length
+    ? knowArr.map(s=>`<span class="modal-skill know">${s}</span>`).join('')
     : '<span class="modal-skill empty">No skills listed yet</span>';
 
-  $('mSkillsLearn').innerHTML = (p.wantToLearn||[]).length
-    ? (p.wantToLearn||[]).map(s=>`<span class="modal-skill learn">${s}</span>`).join('')
+  // FIXED: skillsLearn (actual Firestore field)
+  const learnArr = (p.skillsLearn||[]);
+  $('mSkillsLearn').innerHTML = learnArr.length
+    ? learnArr.map(s=>`<span class="modal-skill learn">${s}</span>`).join('')
     : '<span class="modal-skill empty">Nothing listed yet</span>';
 
-  const certs = p.certificates||[];
-  $('mCerts').innerHTML = certs.length
-    ? certs.map(c => typeof c==='string'
-        ? `<div class="cert-item"><div class="cert-icon">🏅</div><div class="cert-info"><div class="cert-name">${c}</div></div></div>`
-        : `<div class="cert-item"><div class="cert-icon">🏅</div><div class="cert-info"><div class="cert-name">${c.name||'Certificate'}</div>${c.issuer?`<div class="cert-issuer">${c.issuer}</div>`:''}</div>${c.url?`<a class="cert-link" href="${c.url}" target="_blank" onclick="event.stopPropagation()">View →</a>`:''}</div>`
-      ).join('')
-    : '<p class="no-certs">No certificates added yet</p>';
+  // FIXED: certs are inside skillsKnown objects with certUrl
+  const certs = rawKnown.filter(s=>typeof s==='object'&&s.certUrl);
+  if(certs.length){
+    $('mCerts').innerHTML = certs.map(c=>`
+      <div class="cert-item">
+        <div class="cert-icon">🏅</div>
+        <div class="cert-info"><div class="cert-name">${c.name||'Certificate'}</div></div>
+        <a class="cert-link" href="${c.certUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation()">View →</a>
+      </div>`).join('');
+  } else {
+    $('mCerts').innerHTML = '<p class="no-certs">No certificates added yet</p>';
+  }
 
   $('mStats').innerHTML = `
     <div class="msr"><div class="msr-val">${p.coins||0}</div><div class="msr-label">Coins</div></div>
     <div class="msr"><div class="msr-val">${p.exchanges||0}</div><div class="msr-label">Exchanges</div></div>
-    <div class="msr"><div class="msr-val">${(p.certificates||[]).length}</div><div class="msr-label">Certs</div></div>`;
+    <div class="msr"><div class="msr-val">${p.clubs||0}</div><div class="msr-label">Clubs</div></div>`;
 
+  // Modal connect button
   const btn = $('mConnectBtn');
-  if (isMe) {
-    btn.textContent='Edit Your Profile'; btn.className='modal-connect-btn self-btn';
+  if(isMe){
+    btn.textContent='Edit Your Profile';
+    btn.className='modal-connect-btn self-btn';
     btn.onclick=()=>window.location.href='profile.html';
-  } else if (status==='connected') {
-    btn.textContent='✓ Connected'; btn.className='modal-connect-btn connected'; btn.onclick=null;
-  } else if (status==='pending') {
-    btn.textContent='⏳ Request Sent'; btn.className='modal-connect-btn pending'; btn.onclick=null;
+  } else if(st==='connected'){
+    btn.textContent='✓ Connected';
+    btn.className='modal-connect-btn connected';
+    btn.onclick=null;
+  } else if(st==='pending'){
+    btn.textContent='⏳ Request Sent';
+    btn.className='modal-connect-btn pending';
+    btn.onclick=null;
   } else {
-    btn.textContent='+ Send Connection Request'; btn.className='modal-connect-btn';
-    btn.onclick=()=>handleConnect(uid);
+    btn.textContent='+ Connect';
+    btn.className='modal-connect-btn';
+    btn.onclick=()=>{ handleConnect(uid); };
   }
 
+  // LinkedIn
   const li = $('mLinkedin');
-  if (p.linkedin?.trim()) {
-    let url = p.linkedin.trim();
-    if (!url.startsWith('http')) url = 'https://'+url;
-    li.href=url; li.style.display='flex';
-    li.onclick=e=>{e.preventDefault();e.stopPropagation();window.open(url,'_blank','noopener,noreferrer');};
+  if(p.linkedin && p.linkedin.trim()){
+    let liUrl = p.linkedin.trim();
+    if(!liUrl.startsWith('http://') && !liUrl.startsWith('https://')) liUrl='https://'+liUrl;
+    li.href=liUrl;
+    li.style.display='flex';
+    li.onclick=function(e){ e.preventDefault();e.stopPropagation();window.open(liUrl,'_blank','noopener,noreferrer'); };
   } else {
-    li.style.display='none'; li.onclick=null;
+    li.style.display='none';
+    li.onclick=null;
   }
 
   $('profileModal').classList.add('open');
 };
 
-$('modalClose').addEventListener('click',()=>{$('profileModal').classList.remove('open');openPerson=null;});
-$('profileModal').addEventListener('click',e=>{if(e.target===$('profileModal')){$('profileModal').classList.remove('open');openPerson=null;}});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){$('profileModal').classList.remove('open');openPerson=null;}});
+$('modalClose').addEventListener('click',()=>{ $('profileModal').classList.remove('open'); openPerson=null; });
+$('profileModal').addEventListener('click',e=>{ if(e.target===$('profileModal')){ $('profileModal').classList.remove('open'); openPerson=null; } });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ $('profileModal').classList.remove('open'); openPerson=null; } });
 
 document.querySelectorAll('.ftab').forEach(t=>{
   t.addEventListener('click',()=>{
@@ -500,51 +506,53 @@ document.querySelectorAll('.ftab').forEach(t=>{
     render();
   });
 });
-$('searchInput').addEventListener('input',e=>{searchQ=e.target.value.toLowerCase().trim();render();});
+
+$('searchInput').addEventListener('input',e=>{ searchQ=e.target.value.toLowerCase().trim(); render(); });
 
 // ── AUTH + LOAD ──
 onAuthStateChanged(auth, async user=>{
-  if (!user) { window.location.href='login.html'; return; }
+  if(!user){ window.location.href='login.html'; return; }
   currentUser=user;
 
-  // Load my data
   const us = await getDoc(doc(db,'users',user.uid));
-  if (us.exists()) {
-    userData = us.data();
-    $('navAvatar').src = userData.photoURL||`https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(userData.name||'user')}`;
-    myConnections = userData.connections||[];
-    $('statConnected').textContent = myConnections.length;
+  if(us.exists()){
+    userData=us.data();
+    $('navAvatar').src=userData.photoURL||user.photoURL||
+      `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(userData.name||'user')}`;
+    myConnections=userData.friends||userData.connections||[];
+    $('statConnected').textContent=myConnections.length;
   }
 
-  // Load my sent pending requests
-  const sentSnap = await getDocs(query(
-    collection(db,'connection_requests'),
-    where('senderId','==',user.uid),
-    where('status','==','pending')
-  ));
-  sentSnap.forEach(d => pendingSet.add(d.data().receiverId));
-
-  // Load all accepted requests (where I'm receiver and they're accepted)
-  const acceptedSnap = await getDocs(query(
-    collection(db,'connection_requests'),
-    where('receiverId','==',user.uid),
-    where('status','==','accepted')
-  ));
-  acceptedSnap.forEach(d => {
-    if (!myConnections.includes(d.data().senderId)) myConnections.push(d.data().senderId);
-  });
+  // Load pending sent requests from connections collection
+  try{
+    const pendingSnap = await getDocs(query(
+      collection(db,'connections'),
+      where('senderId','==',user.uid),
+      where('status','==','pending')
+    ));
+    pendingSnap.forEach(d=>{ pendingSent.push(d.data().receiverId); });
+  }catch(e){ console.log('Pending load:',e); }
 
   // Load all users
   const snap = await getDocs(collection(db,'users'));
-  allPeople=[]; let totalSkills=0, totalCerts=0;
+  allPeople=[];
+  let totalSkills=0, totalCerts=0;
+
   snap.forEach(d=>{
     const ud=d.data();
     if(ud.role==='super_admin') return;
     allPeople.push({uid:d.id,...ud});
-    totalSkills+=(ud.skills||[]).length;
-    totalCerts+=(ud.certificates||[]).length;
+    // FIXED: count skillsKnown and skillsLearn
+    totalSkills+=(ud.skillsKnown||[]).length+(ud.skillsLearn||[]).length;
+    totalCerts+=(ud.skillsKnown||[]).filter(s=>typeof s==='object'&&s.certUrl).length;
   });
-  allPeople.sort((a,b)=>(b.coins||0)-(a.coins||0));
+
+  allPeople.sort((a,b)=>{
+    const aC=myConnections.includes(a.uid)?1:0;
+    const bC=myConnections.includes(b.uid)?1:0;
+    if(bC!==aC) return bC-aC;
+    return (b.coins||0)-(a.coins||0);
+  });
 
   $('statTotal').textContent  = allPeople.filter(p=>p.uid!==user.uid).length;
   $('statSkills').textContent = totalSkills;
@@ -554,7 +562,7 @@ onAuthStateChanged(auth, async user=>{
 
   setTimeout(()=>{
     $('loadScreen').classList.add('hide');
-    setTimeout(()=>{try{$('loadScreen').remove();}catch(e){}},500);
+    setTimeout(()=>{ if($('loadScreen')) $('loadScreen').remove(); },500);
     document.querySelectorAll('.fade-up').forEach(el=>el.classList.add('in'));
   },600);
 });
