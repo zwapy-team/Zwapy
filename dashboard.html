@@ -723,33 +723,70 @@ async function loadActivityFeed(uid) {
     console.error('Connection requests load error:', e);
   }
 
-  /* ── 2. RECENT USER ACTIVITY ── */
+  /* ── 2. RECENT USER ACTIVITY & NOTIFICATIONS ── */
+async function loadActivityFeed(uid) {
+  const wrap = document.getElementById('activityWrapper'); // Make sure this ID matches your HTML
+  if (!wrap) return;
+
+  let html = ''; // 1. Initialize the HTML string
+
   try {
-    const actSnap = await getDocs(query(
-      collection(db,'users',uid,'activity'),
-      orderBy('createdAt','desc'),
-      limit(5)
+    // A. FETCH CONNECTION REQUESTS
+    const notifySnap = await getDocs(query(
+      collection(db, 'notifications'),
+      where('receiverId', '==', uid),
+      where('status', '==', 'pending'),
+      orderBy('createdAt', 'desc')
     ));
-    actSnap.forEach(d => {
-      const i = d.data();
+
+    notifySnap.forEach(d => {
+      const n = d.data();
       html += `
-        <div class="activity-item">
-          <div class="act-dot"></div>
-          <div>
-            <div class="act-title">${i.title||'Activity'}</div>
-            <div class="act-sub">${i.desc||''}</div>
+        <div class="activity-item connection-req" style="border-left: 3px solid #3b82f6; background: rgba(59, 130, 246, 0.05); margin-bottom: 12px; padding: 12px; border-radius: 8px;">
+          <div style="display: flex; gap: 10px;">
+            <div class="act-dot" style="background: #3b82f6; width: 8px; height: 8px; border-radius: 50%; margin-top: 6px;"></div>
+            <div style="flex: 1;">
+              <div class="act-title" style="font-weight: 600; color: #f8fafc;">${n.senderName} wants to connect</div>
+              <p style="font-size: 12px; color: #94a3b8; margin: 4px 0 8px 0;">Wants to exchange skills with you.</p>
+              <button onclick="acceptConnection('${d.id}', '${n.senderId}')" style="padding: 6px 16px; background: #3b82f6; color: white; border: none; border-radius: 6px; font-size: 12px; cursor: pointer; font-weight: 600;">Accept</button>
+            </div>
           </div>
         </div>`;
     });
-  } catch(e) {}
 
-  if (html) {
-    wrap.innerHTML = html;
-  } else {
-    wrap.innerHTML = `<div class="activity-empty">
-      <div class="ae-icon">⚡</div>
-      <p class="ae-txt">No activity yet.<br>Do your first skill exchange to get started.</p>
-    </div>`;
+    // B. FETCH GENERAL ACTIVITY
+    const actSnap = await getDocs(query(
+      collection(db, 'users', uid, 'activity'),
+      orderBy('createdAt', 'desc'),
+      limit(5)
+    ));
+    
+    actSnap.forEach(d => {
+      const i = d.data();
+      html += `
+        <div class="activity-item" style="display: flex; gap: 12px; margin-bottom: 12px; padding: 0 12px;">
+          <div class="act-dot" style="width: 8px; height: 8px; background: #64748b; border-radius: 50%; margin-top: 6px;"></div>
+          <div>
+            <div class="act-title" style="color: #e2e8f0; font-size: 14px;">${i.title || 'Activity'}</div>
+            <div class="act-sub" style="color: #64748b; font-size: 12px;">${i.desc || ''}</div>
+          </div>
+        </div>`;
+    });
+
+    // C. EMPTY STATE CHECK
+    if (!html) {
+      wrap.innerHTML = `
+        <div class="activity-empty" style="text-align: center; padding: 40px 20px;">
+          <div style="font-size: 32px; margin-bottom: 10px;">⚡</div>
+          <p style="color: #64748b; font-size: 14px;">No activity yet.<br>Start a skill exchange to earn coins!</p>
+        </div>`;
+    } else {
+      wrap.innerHTML = html;
+    }
+
+  } catch(e) {
+    console.error("Activity Load Error:", e);
+    wrap.innerHTML = `<p style="color: red; font-size: 12px;">Error loading activity.</p>`;
   }
 }
 
@@ -838,6 +875,18 @@ onAuthStateChanged(auth, async user=>{
     document.querySelectorAll('.fade-up').forEach(el=>el.classList.add('in'));
   },600);
 });
+window.acceptConnection = async function(noteId, sId) {
+  try {
+    // Update the notification to 'connected'
+    await updateDoc(doc(db, 'notifications', noteId), { status: 'connected' });
+    toast("Connection Accepted! 🤝");
+    setTimeout(() => location.reload(), 1500); // Refresh to show changes
+  } catch(e) {
+    console.error(e);
+    toast("Failed to connect", "#ef4444");
+  }
+};
+}
 </script>
 </body>
 </html>
