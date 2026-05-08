@@ -372,32 +372,19 @@ function render(){
 // ── SEND CONNECTION REQUEST ──
 window.handleConnect = async function(uid){
   if(!currentUser) return;
+  
   const st = connStatus(uid);
   if(st==='connected'){ toast('Already connected'); return; }
-  if(st==='pending')  { toast('Request already sent','#f59e0b'); return; }
+  if(st==='pending')   { toast('Request already sent','#f59e0b'); return; }
 
-  try{
-    // Create a connection request document in 'connections' collection
-    await addDoc(collection(db,'connections'),{
-      senderId:   currentUser.uid,
+  try {
+    // This sends the request to the 'notifications' folder (Rules allow this!)
+    await addDoc(collection(db, 'notifications'), {
+      type: 'connection_request',
+      senderId: currentUser.uid,
+      senderName: userData.name || 'A Zwapy Student',
       receiverId: uid,
-      status:     'pending',
-      createdAt:  serverTimestamp()
-    });
-
-    // Also write to receiver's notifications subcollection
-    // so it shows in their Activity Feed on dashboard
-    const receiverSnap = await getDoc(doc(db,'users',uid));
-    const receiverName = receiverSnap.exists() ? receiverSnap.data().name : 'Someone';
-    const myName = userData.name || 'Someone';
-
-    await addDoc(collection(db,'users',uid,'activity'),{
-      type:      'connection_request',
-      title:     `${myName} wants to connect`,
-      desc:      'Tap to accept the connection request',
-      senderId:  currentUser.uid,
-      senderName:myName,
-      status:    'pending',
+      status: 'pending',
       createdAt: serverTimestamp()
     });
 
@@ -405,9 +392,10 @@ window.handleConnect = async function(uid){
     render();
     if(openPerson?.uid === uid) openProfile(uid);
     toast('✅ Connection request sent!');
-  }catch(e){
-    console.error('Connect error:',e);
-    toast('Error sending request','#ef4444');
+
+  } catch(e) {
+    console.error('Connect error:', e);
+    toast('Error: Permissions Denied. Check Firebase Rules!','#ef4444');
   }
 };
 
