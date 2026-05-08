@@ -3,14 +3,6 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-THCGY8NH1Z"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-THCGY8NH1Z');
-</script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-THCGY8NH1Z"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-THCGY8NH1Z');</script>
 <title>Dashboard | Zwapy</title>
@@ -28,8 +20,6 @@
 body{font-family:'Sora',sans-serif;background:var(--bg);color:white;min-height:100vh;overflow-x:hidden;}
 body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.018) 2px,rgba(0,0,0,0.018) 4px);pointer-events:none;z-index:9999;}
 .bg-glow{position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse 70% 50% at 10% 10%,rgba(0,212,255,0.05) 0%,transparent 60%),radial-gradient(ellipse 50% 50% at 90% 85%,rgba(129,140,248,0.04) 0%,transparent 55%);}
-
-/* LOAD */
 #loadScreen{position:fixed;inset:0;background:var(--bg);z-index:10000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;transition:opacity .4s;}
 #loadScreen.hide{opacity:0;pointer-events:none;}
 .ls-logo{font-size:2rem;font-weight:900;font-style:italic;color:var(--cyan);}
@@ -37,8 +27,6 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .ls-fill{height:100%;background:linear-gradient(90deg,var(--cyan),var(--green));animation:lf .9s ease forwards;}
 @keyframes lf{from{width:0}to{width:100%}}
 .ls-text{font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);}
-
-/* SIDEBAR */
 .sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);z-index:800;opacity:0;pointer-events:none;transition:opacity .3s;}
 .sidebar-overlay.show{opacity:1;pointer-events:all;}
 .sidebar{position:fixed;top:0;left:0;bottom:0;width:280px;background:rgba(2,0,36,0.99);border-right:1px solid rgba(0,212,255,0.12);z-index:900;transform:translateX(-100%);transition:transform .32s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;}
@@ -76,8 +64,6 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .sb-signout{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:12px;color:var(--red);font-size:.82rem;font-weight:700;cursor:pointer;transition:all .2s;border:none;background:none;width:100%;font-family:'Sora',sans-serif;}
 .sb-signout:hover{background:rgba(239,68,68,0.08);}
 .sb-signout-icon{width:32px;height:32px;border-radius:9px;background:rgba(239,68,68,0.08);display:flex;align-items:center;justify-content:center;font-size:.9rem;}
-
-/* LAYOUT */
 .layout{position:relative;z-index:10;max-width:1100px;margin:0 auto;padding:0 16px 110px;}
 @media(min-width:700px){.layout{padding:0 28px 110px;}}
 .topbar{display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid rgba(0,212,255,0.06);margin-bottom:28px;position:sticky;top:0;z-index:200;background:rgba(1,1,20,0.95);backdrop-filter:blur(24px);margin-left:-16px;margin-right:-16px;padding-left:16px;padding-right:16px;gap:10px;}
@@ -100,8 +86,6 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 @keyframes fadeText{to{opacity:0;width:0;overflow:hidden;margin:0;padding:0;}}
 @keyframes manRun{0%{transform:translateX(0) scale(1);}60%{transform:translateX(20px);}85%{transform:translateX(26px) scale(.7);opacity:.6;}100%{transform:translateX(28px) scale(.3);opacity:0;}}
 @keyframes doorSlam{0%{transform:scaleX(1);}40%{transform:scaleX(1.25);}100%{transform:scaleX(1);filter:brightness(.3);}}
-
-/* HERO */
 .hero-section{margin-bottom:28px;}
 .greeting-time{font-family:'Space Mono',monospace;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan);opacity:.8;margin-bottom:7px;}
 .greeting-name{font-size:clamp(2.4rem,8vw,3.6rem);font-weight:900;font-style:italic;letter-spacing:-.03em;line-height:1;margin-bottom:10px;}
@@ -111,8 +95,6 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .gm-portal{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:100px;font-weight:700;}
 .gm-portal.premium{background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.3);color:var(--cyan);}
 .gm-portal.public{background:rgba(129,140,248,0.1);border:1px solid rgba(129,140,248,0.3);color:var(--indigo);}
-
-/* STATS */
 .stats-row{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:24px;}
 @media(min-width:480px){.stats-row{grid-template-columns:repeat(4,1fr);}}
 .stat-card{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:16px;padding:16px;text-align:center;transition:all .25s;}
@@ -120,8 +102,6 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .sc-val{font-family:'Space Mono',monospace;font-size:1.5rem;font-weight:700;line-height:1;margin-bottom:4px;}
 .sc-val.c{color:var(--cyan);}.sc-val.g{color:var(--green);}.sc-val.i{color:var(--indigo);}.sc-val.a{color:var(--amber);}
 .sc-label{font-family:'Space Mono',monospace;font-size:.44rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
-
-/* PORTAL NOTICE */
 .portal-notice{border-radius:18px;padding:20px;margin-bottom:24px;display:none;}
 .portal-notice.show{display:block;}
 .portal-notice.pub-style{background:rgba(129,140,248,0.06);border:1px solid rgba(129,140,248,0.24);}
@@ -135,8 +115,20 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .pn-chip{display:flex;align-items:center;gap:5px;border-radius:100px;padding:4px 11px;font-size:.62rem;font-weight:700;}
 .chip-open{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.25);color:var(--green);}
 .chip-locked{background:rgba(100,116,139,0.08);border:1px solid rgba(100,116,139,0.2);color:var(--muted);}
-
-/* FEATURES */
+.skill-score-card{background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.14);border-radius:18px;padding:18px;margin-bottom:20px;display:none;}
+.skill-score-card.show{display:block;}
+.ssc-title{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);opacity:.7;margin-bottom:13px;}
+.skill-score-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.ssr-name{font-size:.78rem;font-weight:700;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.ssr-level{font-family:'Space Mono',monospace;font-size:.46rem;letter-spacing:.08em;text-transform:uppercase;border-radius:100px;padding:2px 7px;flex-shrink:0;}
+.level-beginner{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,.25);color:var(--green);}
+.level-intermediate{background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,.25);color:var(--amber);}
+.level-advanced{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,.25);color:var(--red);}
+.ssr-bar-wrap{width:70px;height:4px;background:rgba(255,255,255,0.07);border-radius:100px;overflow:hidden;flex-shrink:0;}
+.ssr-bar{height:100%;border-radius:100px;}
+.ssr-pct{font-family:'Space Mono',monospace;font-size:.56rem;color:var(--dim);flex-shrink:0;min-width:28px;text-align:right;}
+.exam-cta{margin-top:12px;display:flex;align-items:center;justify-content:center;gap:6px;background:rgba(0,212,255,0.07);border:1px solid rgba(0,212,255,0.18);border-radius:10px;padding:9px;font-size:.7rem;font-weight:800;color:var(--cyan);text-decoration:none;transition:all .2s;}
+.exam-cta:hover{background:rgba(0,212,255,0.13);}
 .section-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:13px;}
 .section-label{font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan);opacity:.7;}
 .section-link{font-size:.66rem;font-weight:700;color:var(--dim);text-decoration:none;transition:color .2s;}
@@ -155,8 +147,6 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .feat-badge{position:absolute;top:10px;right:10px;font-family:'Space Mono',monospace;font-size:.4rem;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:100px;font-weight:700;}
 .b-live{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.28);color:var(--green);}
 .b-locked{background:rgba(25,25,55,0.85);border:1px solid rgba(255,255,255,0.07);color:rgba(100,116,139,0.55);}
-
-/* LOCKED PANEL */
 .locked-panel{background:rgba(129,140,248,0.07);border:1px solid rgba(129,140,248,0.24);border-radius:16px;padding:16px 18px;margin-top:12px;margin-bottom:20px;display:none;}
 .locked-panel.show{display:flex;align-items:flex-start;gap:12px;animation:slideIn .25s ease;}
 @keyframes slideIn{from{opacity:0;transform:translateY(-8px);}to{opacity:1;transform:translateY(0);}}
@@ -165,8 +155,6 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .lp-sub{font-size:.68rem;color:var(--dim);line-height:1.65;}
 .lp-sub strong{color:white;}
 .lp-sub a{color:var(--indigo);font-weight:700;text-decoration:none;}
-
-/* CREAGENIX */
 .crx-card{background:linear-gradient(135deg,rgba(255,184,0,0.06),rgba(1,1,20,0.96));border:1px solid rgba(255,184,0,0.2);border-radius:18px;padding:18px;margin-bottom:20px;cursor:pointer;transition:all .25s;text-decoration:none;display:block;}
 .crx-card:hover{border-color:rgba(255,184,0,0.4);transform:translateY(-2px);}
 .crx-top{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
@@ -177,46 +165,32 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .crx-desc{font-size:.7rem;color:var(--dim);line-height:1.5;margin-bottom:10px;}
 .crx-tags{display:flex;flex-wrap:wrap;gap:6px;}
 .crx-tag{background:rgba(255,184,0,0.06);border:1px solid rgba(255,184,0,0.16);border-radius:100px;padding:3px 9px;font-size:.6rem;font-weight:700;color:var(--gold);}
-
-/* REFERRAL */
 .ref-strip{background:linear-gradient(135deg,rgba(16,185,129,0.06),rgba(1,1,20,0.95));border:1px solid rgba(16,185,129,0.18);border-radius:16px;padding:16px 18px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
 .ref-label{font-family:'Space Mono',monospace;font-size:.48rem;letter-spacing:.14em;text-transform:uppercase;color:var(--green);margin-bottom:3px;}
 .ref-title{font-size:.84rem;font-weight:800;margin-bottom:2px;}
 .ref-sub{font-size:.64rem;color:var(--dim);}
 .ref-btn{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.28);border-radius:10px;padding:9px 16px;font-size:.7rem;font-weight:800;color:var(--green);cursor:pointer;font-family:'Sora',sans-serif;white-space:nowrap;transition:all .2s;flex-shrink:0;}
 .ref-btn:hover{background:rgba(16,185,129,0.2);}
-
-/* ════════════════════════════════════════
-   ACTIVITY FEED — CONNECTION REQUESTS
-   ════════════════════════════════════════ */
 .activity-wrap{margin-bottom:24px;}
 .activity-empty{text-align:center;padding:28px;color:var(--muted);}
 .ae-icon{font-size:2rem;margin-bottom:8px;opacity:.28;}
 .ae-txt{font-size:.72rem;line-height:1.5;}
-
-/* Normal activity item */
+/* Activity item — normal */
 .activity-item{background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:13px;padding:12px 14px;display:flex;gap:11px;align-items:flex-start;margin-bottom:8px;}
-.act-dot{width:7px;height:7px;border-radius:50%;background:var(--cyan);flex-shrink:0;margin-top:5px;}
+.act-dot{width:7px;height:7px;border-radius:50%;background:var(--cyan);flex-shrink:0;margin-top:4px;}
 .act-title{font-size:.76rem;font-weight:700;margin-bottom:2px;}
 .act-sub{font-size:.6rem;color:var(--muted);}
-
-/* CONNECTION REQUEST CARD in feed — highlighted */
-.conn-req-card{background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.18);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:13px;margin-bottom:10px;flex-wrap:wrap;}
-.conn-req-av{width:42px;height:42px;border-radius:50%;border:2px solid rgba(0,212,255,0.25);object-fit:cover;flex-shrink:0;}
-.conn-req-info{flex:1;min-width:120px;}
-.conn-req-name{font-size:.82rem;font-weight:800;margin-bottom:2px;}
-.conn-req-sub{font-size:.64rem;color:var(--dim);}
-.conn-req-time{font-family:'Space Mono',monospace;font-size:.52rem;color:var(--muted);}
-.conn-req-actions{display:flex;gap:7px;flex-shrink:0;}
-.accept-btn{background:var(--cyan);color:#000;border:none;border-radius:8px;padding:8px 16px;font-size:.68rem;font-weight:800;cursor:pointer;font-family:'Sora',sans-serif;transition:all .2s;text-transform:uppercase;letter-spacing:.04em;}
-.accept-btn:hover{box-shadow:0 0 12px rgba(0,212,255,.4);}
-.accept-btn:disabled{opacity:.5;cursor:not-allowed;}
-.decline-btn{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:8px 12px;font-size:.68rem;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif;color:var(--muted);transition:all .2s;}
-.decline-btn:hover{border-color:var(--red);color:var(--red);}
-.decline-btn:disabled{opacity:.5;cursor:not-allowed;}
-.conn-req-accepted{font-size:.7rem;color:var(--green);font-weight:700;display:flex;align-items:center;gap:5px;}
-
-/* FEEDBACK MODAL */
+/* Connection request activity item */
+.act-conn-req{background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.16);border-radius:13px;padding:12px 14px;display:flex;gap:11px;align-items:center;margin-bottom:8px;flex-wrap:wrap;}
+.act-conn-dot{width:7px;height:7px;border-radius:50%;background:var(--cyan);flex-shrink:0;}
+.act-conn-body{flex:1;min-width:0;}
+.act-conn-title{font-size:.76rem;font-weight:700;margin-bottom:2px;}
+.act-conn-sub{font-size:.6rem;color:var(--muted);}
+.act-conn-actions{display:flex;gap:7px;flex-shrink:0;}
+.act-accept-btn{background:var(--cyan);color:#000;border:none;border-radius:8px;padding:6px 13px;font-size:.66rem;font-weight:800;cursor:pointer;font-family:'Sora',sans-serif;transition:all .2s;}
+.act-accept-btn:hover{box-shadow:0 0 10px rgba(0,212,255,.4);}
+.act-decline-btn{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:6px 11px;font-size:.66rem;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif;color:var(--muted);transition:all .2s;}
+.act-decline-btn:hover{background:rgba(239,68,68,0.08);border-color:var(--red);color:var(--red);}
 .fb-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(10px);z-index:3000;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;pointer-events:none;transition:opacity .3s;}
 .fb-overlay.open{opacity:1;pointer-events:all;}
 .fb-modal{background:rgba(2,0,36,0.99);border:1px solid rgba(0,212,255,0.2);border-radius:22px;width:100%;max-width:400px;overflow:hidden;}
@@ -235,24 +209,16 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .fb-field textarea:focus{border-color:var(--cyan);}
 .fb-submit{width:100%;background:var(--cyan);color:#000;border:none;border-radius:10px;padding:11px;font-size:.8rem;font-weight:800;text-transform:uppercase;cursor:pointer;font-family:'Sora',sans-serif;margin-top:4px;}
 .fb-skip-btn{width:100%;background:none;border:none;color:var(--muted);font-size:.66rem;cursor:pointer;margin-top:7px;padding:5px;font-family:'Sora',sans-serif;}
-
-/* TOAST */
 .toast{position:fixed;bottom:82px;left:50%;transform:translateX(-50%) translateY(14px);border-radius:100px;padding:9px 18px;font-size:.72rem;font-weight:700;z-index:5000;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap;max-width:90vw;text-align:center;}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 .toast.s{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,.28);color:var(--green);}
 .toast.e{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,.28);color:var(--red);}
-
-/* BOTTOM NAV */
 .bottom-nav{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);width:calc(100% - 24px);max-width:360px;background:rgba(2,0,36,0.96);backdrop-filter:blur(28px);border:1px solid rgba(0,212,255,0.14);border-radius:100px;padding:5px 10px;display:flex;justify-content:space-around;align-items:center;z-index:500;box-shadow:0 8px 28px rgba(0,0,0,.6);}
 .nav-item{width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:all .2s;text-decoration:none;color:var(--muted);font-size:1rem;}
 .nav-item.active{background:rgba(0,212,255,0.11);color:var(--cyan);}
 .nav-item:hover{background:rgba(0,212,255,0.07);color:var(--cyan);}
 .nav-av{width:24px;height:24px;border-radius:50%;border:2px solid rgba(0,212,255,.25);overflow:hidden;}
 .nav-av img{width:100%;height:100%;object-fit:cover;}
-
-/* NOTIF BADGE on bottom nav */
-.nav-badge{position:absolute;top:4px;right:4px;width:8px;height:8px;background:var(--red);border-radius:50%;border:1.5px solid var(--bg);}
-
 .fade-up{opacity:0;transform:translateY(14px);transition:opacity .55s ease,transform .55s ease;}
 .fade-up.in{opacity:1;transform:translateY(0);}
 .d1{transition-delay:.05s;}.d2{transition-delay:.1s;}.d3{transition-delay:.15s;}
@@ -269,7 +235,6 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
   <div class="ls-text">Loading dashboard...</div>
 </div>
 <div class="toast" id="toast"></div>
-
 <div class="sidebar-overlay" id="sbOverlay" onclick="closeSidebar()"></div>
 <aside class="sidebar" id="sidebar">
   <div class="sb-head">
@@ -281,7 +246,10 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
   </div>
   <div class="sb-user">
     <img id="sbAvatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=default" class="sb-avatar" alt=""/>
-    <div><div class="sb-user-name" id="sbName">—</div><div class="sb-user-role" id="sbRole">Student</div></div>
+    <div>
+      <div class="sb-user-name" id="sbName">—</div>
+      <div class="sb-user-role" id="sbRole">Student</div>
+    </div>
   </div>
   <div class="sb-portal-row">
     <span class="sb-portal-pill" id="sbPortalPill">—</span>
@@ -289,7 +257,10 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
   </div>
   <div class="sb-coins">
     <div class="sb-coins-icon">💰</div>
-    <div><div class="sb-coins-val" id="sbCoins">0</div><div class="sb-coins-label">Skill Coins</div></div>
+    <div>
+      <div class="sb-coins-val" id="sbCoins">0</div>
+      <div class="sb-coins-label">Skill Coins</div>
+    </div>
   </div>
   <nav class="sb-nav">
     <div class="sb-sec-label">Navigation</div>
@@ -334,7 +305,6 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
     </button>
   </div>
 </aside>
-
 <div class="fb-overlay" id="fbOverlay">
   <div class="fb-modal">
     <div class="fb-stripe"></div>
@@ -354,7 +324,6 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
     </div>
   </div>
 </div>
-
 <div class="layout">
   <header class="topbar">
     <div class="topbar-logo" onclick="openSidebar()">
@@ -368,7 +337,6 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
       </button>
     </div>
   </header>
-
   <div class="hero-section fade-up d1">
     <div class="greeting-time" id="greetingTime">Good morning,</div>
     <div class="greeting-name"><span id="greetingName">—</span></div>
@@ -378,14 +346,12 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
       <span class="gm-portal" id="gmPortal"></span>
     </div>
   </div>
-
   <div class="stats-row fade-up d2">
     <div class="stat-card"><div class="sc-val c" id="statCoins">0</div><div class="sc-label">Skill Coins</div></div>
     <div class="stat-card"><div class="sc-val g" id="statExchanges">0</div><div class="sc-label">Exchanges</div></div>
-    <div class="stat-card"><div class="sc-val i" id="statConnections">0</div><div class="sc-label">Connections</div></div>
+    <div class="stat-card"><div class="sc-val i" id="statRank">#—</div><div class="sc-label">Network Rank</div></div>
     <div class="stat-card" id="statScoreCard" style="display:none;"><div class="sc-val a" id="statScore">—</div><div class="sc-label">Exam Score</div></div>
   </div>
-
   <div class="portal-notice fade-up d2" id="portalNotice">
     <div class="pn-top"><div class="pn-icon">🌐</div><div class="pn-title" id="pnTitle">Public Portal</div></div>
     <div class="pn-body" id="pnBody"></div>
@@ -395,12 +361,15 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
       <span class="pn-chip chip-locked">🔒 Events — your uni only (coming soon)</span>
     </div>
   </div>
-
+  <div class="skill-score-card" id="skillScoreCard">
+    <div class="ssc-title">// Your Verified Skill Scores</div>
+    <div id="skillScoreList"></div>
+    <a href="exam.html" class="exam-cta" id="examCta" style="display:none;">🔄 Retake Exam to Improve Score</a>
+  </div>
   <div class="section-hd fade-up d3">
     <div class="section-label">// Features</div>
   </div>
   <div class="feature-grid fade-up d3" id="featureGrid"></div>
-
   <div class="locked-panel" id="lockedPanel">
     <div class="lp-icon">🔒</div>
     <div>
@@ -412,20 +381,18 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
       </div>
     </div>
   </div>
-
   <a href="creagenix.html" class="crx-card fade-up d4">
     <div class="crx-top">
       <div class="crx-icon">🎬</div>
       <div><div class="crx-suplabel">Coming Soon · Official Partnership</div><div class="crx-name">Creagenix × Zwapy</div></div>
       <div class="crx-soon">Coming Soon</div>
     </div>
-    <div class="crx-desc">Professional video editing, photo editing and content creation — taught by Creagenix inside Zwapy.</div>
+    <div class="crx-desc">Professional video editing, photo editing and content creation — taught by Creagenix inside Zwapy. Earn real certificates. Build your personal brand.</div>
     <div class="crx-tags">
       <span class="crx-tag">🎬 Video Editing</span><span class="crx-tag">📸 Photo Editing</span>
       <span class="crx-tag">🎨 Graphic Design</span><span class="crx-tag">🚀 Personal Brand</span>
     </div>
   </a>
-
   <div class="ref-strip fade-up d4">
     <div>
       <div class="ref-label">// Invite &amp; Earn</div>
@@ -434,45 +401,32 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
     </div>
     <button class="ref-btn" id="refBtn">📋 Copy Invite Link</button>
   </div>
-
-  <!-- ══════════════════════════════════════════
-       ACTIVITY FEED — shows connection requests
-       + recent activity
-  ══════════════════════════════════════════ -->
   <div class="section-hd fade-up d5">
-    <div class="section-label">// Activity &amp; Requests</div>
+    <div class="section-label">// Recent Activity</div>
     <a href="profile.html" class="section-link">See all →</a>
   </div>
   <div class="activity-wrap fade-up d5" id="activityWrap">
-    <div class="activity-empty">
-      <div class="ae-icon">⚡</div>
-      <p class="ae-txt">No activity yet.<br>Do your first skill exchange to get started.</p>
-    </div>
+    <div class="activity-empty"><div class="ae-icon">⚡</div><p class="ae-txt">No activity yet.<br>Do your first skill exchange to get started.</p></div>
   </div>
 </div>
-
 <nav class="bottom-nav">
   <a href="dashboard.html" class="nav-item active">🏠</a>
-  <a id="navClubs" class="nav-item" style="position:relative;">🏛️</a>
-  <a href="network.html" class="nav-item" style="position:relative;">🧑‍🤝‍🧑<span id="navReqBadge" style="display:none;" class="nav-badge"></span></a>
+  <a id="navClubs" class="nav-item">🏛️</a>
+  <a href="network.html" class="nav-item">🧑‍🤝‍🧑</a>
   <a href="discover.html" class="nav-item">🔍</a>
   <a href="profile.html" class="nav-item"><div class="nav-av"><img id="navAvatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=default" alt=""/></div></a>
 </nav>
 
 <script type="module">
-import { initializeApp }     from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
 import {
   getFirestore, doc, getDoc, getDocs, collection,
-  addDoc, updateDoc, serverTimestamp,
-  orderBy, limit, query, where, arrayUnion
+  addDoc, updateDoc, serverTimestamp, orderBy, limit, query, where,
+  arrayUnion
 } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
-/* ═══════════════════════════════════════
-   PORTAL RESOLUTION
-═══════════════════════════════════════ */
 const PRESIDENCY_DOMAINS = ['presidencyuniversity.in','presidency.edu.in','presidency.ac.in'];
-const CURRENT_PROFILE_VERSION = 3;
 
 function resolvePortal(ud) {
   const rawEmail = (ud.universityEmail||'').toLowerCase().trim();
@@ -484,9 +438,10 @@ function resolvePortal(ud) {
   return (emailMatch||nameMatch) ? 'premium' : 'public';
 }
 
-/* ═══════════════════════════════════════
-   FIREBASE
-═══════════════════════════════════════ */
+// ── FIXED: version bumped to 3 to match new extra-details flow ──
+// Old users with version 2 are still let in if they have a name
+const CURRENT_PROFILE_VERSION = 3;
+
 const app = initializeApp({
   apiKey:"AIzaSyBazCIc5vdQInSwvqvohIcbPToTjnw7KJI",
   authDomain:"zwapy-25.firebaseapp.com",
@@ -499,23 +454,22 @@ const auth = getAuth(app);
 const db   = getFirestore(app);
 const $    = id => document.getElementById(id);
 
-let currentUser = null, userData = {}, feedbackRating = 0, referralCode = '';
+let currentUser=null, userData={}, feedbackRating=0, referralCode='';
 
-/* ═══════════════════════════════════════
-   HELPERS
-═══════════════════════════════════════ */
-function toast(msg, type='s') {
-  const t=$('toast'); t.textContent=msg; t.className=`toast ${type} show`;
+function toast(msg,type='s'){
+  const t=$('toast');t.textContent=msg;t.className=`toast ${type} show`;
   setTimeout(()=>{t.className='toast';},3200);
 }
-const fmt = n => Number(n||0).toLocaleString();
-window.openSidebar  = ()=>{$('sidebar').classList.add('open');$('sbOverlay').classList.add('show');};
-window.closeSidebar = ()=>{$('sidebar').classList.remove('open');$('sbOverlay').classList.remove('show');};
+window.toast=toast;
+const fmt=n=>Number(n||0).toLocaleString();
+window.openSidebar =()=>{$('sidebar').classList.add('open');$('sbOverlay').classList.add('show');};
+window.closeSidebar=()=>{$('sidebar').classList.remove('open');$('sbOverlay').classList.remove('show');};
 
 function setGreeting(){
   const h=new Date().getHours();
   $('greetingTime').textContent=h<12?'Good morning,':h<17?'Good afternoon,':'Good evening,';
 }
+
 window.animateLogout=function(){
   const btn=$('topLogoutBtn');
   if(btn.classList.contains('running'))return;
@@ -532,9 +486,74 @@ function showLockedPanel(){
 }
 window.showLockedPanel=showLockedPanel;
 
-/* ═══════════════════════════════════════
-   BUILD FEATURE GRID
-═══════════════════════════════════════ */
+// ── ACCEPT CONNECTION REQUEST ──
+window.acceptConnection=async function(activityDocId, senderId, senderName, btn){
+  if(!currentUser)return;
+  btn.disabled=true;btn.textContent='Accepting...';
+  try{
+    // 1. Add each other to friends list
+    await updateDoc(doc(db,'users',currentUser.uid),{ friends: arrayUnion(senderId) });
+    await updateDoc(doc(db,'users',senderId),{ friends: arrayUnion(currentUser.uid) });
+
+    // 2. Update the connection doc status to 'connected'
+    const connSnap=await getDocs(query(
+      collection(db,'connections'),
+      where('senderId','==',senderId),
+      where('receiverId','==',currentUser.uid),
+      where('status','==','pending')
+    ));
+    connSnap.forEach(async d=>{
+      await updateDoc(doc(db,'connections',d.id),{status:'connected'});
+    });
+
+    // 3. Update activity doc status
+    await updateDoc(doc(db,'users',currentUser.uid,'activity',activityDocId),{
+      status:'accepted',title:`Connected with ${senderName}`
+    });
+
+    // 4. Notify sender that request was accepted
+    await addDoc(collection(db,'users',senderId,'activity'),{
+      type:'connection_accepted',
+      title:`${userData.name||'Someone'} accepted your request`,
+      desc:'You are now connected on Zwapy!',
+      createdAt:serverTimestamp()
+    });
+
+    toast(`✅ Connected with ${senderName}!`);
+    // Reload activity feed
+    await loadActivity(currentUser.uid);
+  }catch(e){
+    console.error('Accept error:',e);
+    toast('Error accepting request','e');
+    btn.disabled=false;btn.textContent='Accept';
+  }
+};
+
+// ── DECLINE CONNECTION REQUEST ──
+window.declineConnection=async function(activityDocId, senderId, btn){
+  if(!currentUser)return;
+  btn.disabled=true;
+  try{
+    await updateDoc(doc(db,'users',currentUser.uid,'activity',activityDocId),{
+      status:'declined'
+    });
+    const connSnap=await getDocs(query(
+      collection(db,'connections'),
+      where('senderId','==',senderId),
+      where('receiverId','==',currentUser.uid),
+      where('status','==','pending')
+    ));
+    connSnap.forEach(async d=>{
+      await updateDoc(doc(db,'connections',d.id),{status:'declined'});
+    });
+    toast('Request declined');
+    await loadActivity(currentUser.uid);
+  }catch(e){
+    console.error('Decline error:',e);
+    btn.disabled=false;
+  }
+};
+
 function buildGrid(portal){
   const prem=portal==='premium';
   const features=[
@@ -551,9 +570,11 @@ function buildGrid(portal){
       <div class="feat-name">${f.name}</div>
       <div class="feat-desc">${f.desc}</div>
     </a>`).join('');
+
   const nc=$('navClubs');
   if(prem){nc.href='clubs.html';}
   else{nc.href='#';nc.style.opacity='.32';nc.onclick=e=>{e.preventDefault();showLockedPanel();};}
+
   const se=$('sbEventsLink'),sc=$('sbClubsLink');
   if(prem){
     se.href='event.html';sc.href='clubs.html';
@@ -567,12 +588,60 @@ function buildGrid(portal){
   }
 }
 
-/* ═══════════════════════════════════════
-   FEEDBACK
-═══════════════════════════════════════ */
-window.showFeedback  =()=>{closeSidebar();setTimeout(()=>$('fbOverlay').classList.add('open'),200);};
-window.closeFeedback =()=>{$('fbOverlay').classList.remove('open');localStorage.setItem('zwapyFbShown',Date.now().toString());};
-window.setRating     =n=>{feedbackRating=n;document.querySelectorAll('.fb-star').forEach((s,i)=>s.classList.toggle('on',i<n));};
+function buildSkillScores(ud){
+  const skills=ud.skillsKnown||[];
+  if(!skills.length)return;
+  $('skillScoreCard').classList.add('show');
+  const bd=(ud.examScores?.skillBreakdown)||[];
+  $('skillScoreList').innerHTML=skills.map(sk=>{
+    const sd=bd.find(b=>b.skill===sk.name);
+    const pct=sd?sd.pct:null;
+    const col=pct==null?'rgba(255,255,255,0.1)':pct>=70?'#10b981':pct>=40?'#f59e0b':'#ef4444';
+    return`<div class="skill-score-row">
+      <span class="ssr-name">${sk.name}</span>
+      <span class="ssr-level level-${sk.level}">${sk.level}</span>
+      ${pct!=null?`<div class="ssr-bar-wrap"><div class="ssr-bar" style="width:${pct}%;background:${col};"></div></div><span class="ssr-pct">${pct}%</span>`:''}
+    </div>`;
+  }).join('');
+  if(ud.examTaken)$('examCta').style.display='flex';
+}
+
+// ── ACTIVITY FEED with connection request support ──
+async function loadActivity(uid){
+  try{
+    const snap=await getDocs(query(collection(db,'users',uid,'activity'),orderBy('createdAt','desc'),limit(8)));
+    if(snap.empty){
+      $('activityWrap').innerHTML='<div class="activity-empty"><div class="ae-icon">⚡</div><p class="ae-txt">No activity yet.<br>Do your first skill exchange to get started.</p></div>';
+      return;
+    }
+    const items=[];snap.forEach(d=>items.push({id:d.id,...d.data()}));
+    $('activityWrap').innerHTML=items.map(item=>{
+      // Connection request — show Accept/Decline buttons
+      if(item.type==='connection_request'&&item.status==='pending'){
+        return`<div class="act-conn-req">
+          <div class="act-conn-dot"></div>
+          <div class="act-conn-body">
+            <div class="act-conn-title">${item.title||'Connection Request'}</div>
+            <div class="act-conn-sub">${item.desc||''}</div>
+          </div>
+          <div class="act-conn-actions">
+            <button class="act-accept-btn" onclick="acceptConnection('${item.id}','${item.senderId}','${(item.senderName||'').replace(/'/g,"\\'")}',this)">Accept</button>
+            <button class="act-decline-btn" onclick="declineConnection('${item.id}','${item.senderId}',this)">Decline</button>
+          </div>
+        </div>`;
+      }
+      // Normal activity item
+      return`<div class="activity-item">
+        <div class="act-dot"></div>
+        <div><div class="act-title">${item.title||'Activity'}</div><div class="act-sub">${item.desc||''}</div></div>
+      </div>`;
+    }).join('');
+  }catch(e){console.error('Activity load error:',e);}
+}
+
+window.showFeedback=()=>{closeSidebar();setTimeout(()=>$('fbOverlay').classList.add('open'),200);};
+window.closeFeedback=()=>{$('fbOverlay').classList.remove('open');localStorage.setItem('zwapyFbShown',Date.now().toString());};
+window.setRating=n=>{feedbackRating=n;document.querySelectorAll('.fb-star').forEach((s,i)=>s.classList.toggle('on',i<n));};
 window.submitFeedback=async()=>{
   if(!feedbackRating){toast('Give a star rating first','e');return;}
   try{
@@ -593,269 +662,62 @@ function maybeShowFeedback(){
   setTimeout(()=>$('fbOverlay').classList.add('open'),3*60*1000);
 }
 
-/* ═══════════════════════════════════════
-   ACCEPT CONNECTION REQUEST
-   — called when receiver clicks Accept
-   — updates Firestore request doc status
-   — arrayUnion both users' connections[]
-═══════════════════════════════════════ */
-window.acceptRequest = async function(requestDocId, senderId, btnAccept, btnDecline) {
-  btnAccept.disabled=true; btnDecline.disabled=true;
-  btnAccept.textContent='Accepting...';
-  try {
-    // 1. Update request doc status → accepted
-    await updateDoc(doc(db,'connection_requests',requestDocId), {
-      status: 'accepted',
-      acceptedAt: serverTimestamp()
-    });
-
-    // 2. Add sender to MY connections array
-    await updateDoc(doc(db,'users',currentUser.uid), {
-      connections: arrayUnion(senderId)
-    });
-
-    // 3. Add ME to SENDER's connections array
-    await updateDoc(doc(db,'users',senderId), {
-      connections: arrayUnion(currentUser.uid)
-    });
-
-    // 4. Update UI — replace buttons with accepted badge
-    const actionDiv = btnAccept.parentElement;
-    actionDiv.innerHTML = '<span class="conn-req-accepted">✅ Connected</span>';
-
-    // 5. Update connections count in stats
-    const curCount = parseInt($('statConnections').textContent.replace(/,/g,''))||0;
-    $('statConnections').textContent = fmt(curCount+1);
-
-    toast('✅ Connected!');
-  } catch(err) {
-    console.error('Accept error:', err);
-    toast('Failed: '+err.message,'e');
-    btnAccept.disabled=false; btnDecline.disabled=false;
-    btnAccept.textContent='Accept';
-  }
-};
-
-/* ═══════════════════════════════════════
-   DECLINE CONNECTION REQUEST
-═══════════════════════════════════════ */
-window.declineRequest = async function(requestDocId, cardEl) {
-  try {
-    await updateDoc(doc(db,'connection_requests',requestDocId), {
-      status: 'declined',
-      declinedAt: serverTimestamp()
-    });
-    // Animate out and remove card
-    cardEl.style.transition='opacity .3s, transform .3s';
-    cardEl.style.opacity='0';
-    cardEl.style.transform='translateX(10px)';
-    setTimeout(()=>cardEl.remove(), 300);
-    toast('Request declined');
-  } catch(err) {
-    toast('Failed: '+err.message,'e');
-  }
-};
-
-/* ═══════════════════════════════════════
-   LOAD ACTIVITY FEED
-   Queries:
-   1. Pending connection requests (receiver = me)
-   2. Recent user activity subcollection
-═══════════════════════════════════════ */
-async function loadActivityFeed(uid) {
-  const wrap = $('activityWrap');
-  let html = '';
-
-  /* ── 1. PENDING CONNECTION REQUESTS ── */
-  try {
-    const reqSnap = await getDocs(query(
-      collection(db,'connection_requests'),
-      where('receiverId','==',uid),
-      where('status','==','pending')
-    ));
-
-    if (!reqSnap.empty) {
-      reqSnap.forEach(d => {
-        const req = d.data();
-        const reqId = d.id;
-        const av = req.senderPhoto
-          ? req.senderPhoto
-          : `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(req.senderName||'user')}`;
-
-        // Time ago
-        let timeAgo = '';
-        if (req.createdAt?.toDate) {
-          const ms = Date.now() - req.createdAt.toDate().getTime();
-          const mins = Math.floor(ms/60000);
-          if (mins<1) timeAgo='just now';
-          else if (mins<60) timeAgo=`${mins}m ago`;
-          else if (mins<1440) timeAgo=`${Math.floor(mins/60)}h ago`;
-          else timeAgo=`${Math.floor(mins/1440)}d ago`;
-        }
-
-        html += `
-          <div class="conn-req-card" id="req_${reqId}">
-            <img class="conn-req-av" src="${av}" alt=""/>
-            <div class="conn-req-info">
-              <div class="conn-req-name">🤝 ${req.senderName||'Someone'}</div>
-              <div class="conn-req-sub">Wants to connect with you</div>
-              ${timeAgo?`<div class="conn-req-time">${timeAgo}</div>`:''}
-            </div>
-            <div class="conn-req-actions" id="actions_${reqId}">
-              <button class="accept-btn" id="accept_${reqId}"
-                onclick="acceptRequest('${reqId}','${req.senderId}',
-                  document.getElementById('accept_${reqId}'),
-                  document.getElementById('decline_${reqId}'))">
-                Accept
-              </button>
-              <button class="decline-btn" id="decline_${reqId}"
-                onclick="declineRequest('${reqId}', document.getElementById('req_${reqId}'))">
-                ✕
-              </button>
-            </div>
-          </div>`;
-      });
-
-      // Show red badge on network nav icon
-      if (!reqSnap.empty) $('navReqBadge').style.display='block';
-    }
-  } catch(e) {
-    console.error('Connection requests load error:', e);
-  }
-
-  /* ── 2. RECENT USER ACTIVITY & NOTIFICATIONS ── */
-async function loadActivityFeed(uid) {
-  const wrap = document.getElementById('activityWrapper'); // Make sure this ID matches your HTML
-  if (!wrap) return;
-
-  let html = ''; // 1. Initialize the HTML string
-
-  try {
-    // A. FETCH CONNECTION REQUESTS
-    const notifySnap = await getDocs(query(
-      collection(db, 'notifications'),
-      where('receiverId', '==', uid),
-      where('status', '==', 'pending'),
-      orderBy('createdAt', 'desc')
-    ));
-
-    notifySnap.forEach(d => {
-      const n = d.data();
-      html += `
-        <div class="activity-item connection-req" style="border-left: 3px solid #3b82f6; background: rgba(59, 130, 246, 0.05); margin-bottom: 12px; padding: 12px; border-radius: 8px;">
-          <div style="display: flex; gap: 10px;">
-            <div class="act-dot" style="background: #3b82f6; width: 8px; height: 8px; border-radius: 50%; margin-top: 6px;"></div>
-            <div style="flex: 1;">
-              <div class="act-title" style="font-weight: 600; color: #f8fafc;">${n.senderName} wants to connect</div>
-              <p style="font-size: 12px; color: #94a3b8; margin: 4px 0 8px 0;">Wants to exchange skills with you.</p>
-              <button onclick="acceptConnection('${d.id}', '${n.senderId}')" style="padding: 6px 16px; background: #3b82f6; color: white; border: none; border-radius: 6px; font-size: 12px; cursor: pointer; font-weight: 600;">Accept</button>
-            </div>
-          </div>
-        </div>`;
-    });
-
-    // B. FETCH GENERAL ACTIVITY
-    const actSnap = await getDocs(query(
-      collection(db, 'users', uid, 'activity'),
-      orderBy('createdAt', 'desc'),
-      limit(5)
-    ));
-    
-    actSnap.forEach(d => {
-      const i = d.data();
-      html += `
-        <div class="activity-item" style="display: flex; gap: 12px; margin-bottom: 12px; padding: 0 12px;">
-          <div class="act-dot" style="width: 8px; height: 8px; background: #64748b; border-radius: 50%; margin-top: 6px;"></div>
-          <div>
-            <div class="act-title" style="color: #e2e8f0; font-size: 14px;">${i.title || 'Activity'}</div>
-            <div class="act-sub" style="color: #64748b; font-size: 12px;">${i.desc || ''}</div>
-          </div>
-        </div>`;
-    });
-
-    // C. EMPTY STATE CHECK
-    if (!html) {
-      wrap.innerHTML = `
-        <div class="activity-empty" style="text-align: center; padding: 40px 20px;">
-          <div style="font-size: 32px; margin-bottom: 10px;">⚡</div>
-          <p style="color: #64748b; font-size: 14px;">No activity yet.<br>Start a skill exchange to earn coins!</p>
-        </div>`;
-    } else {
-      wrap.innerHTML = html;
-    }
-
-  } catch(e) {
-    console.error("Activity Load Error:", e);
-    wrap.innerHTML = `<p style="color: red; font-size: 12px;">Error loading activity.</p>`;
-  }
-}
-
-/* ═══════════════════════════════════════
-   MAIN AUTH
-═══════════════════════════════════════ */
-onAuthStateChanged(auth, async user=>{
-  if (!user) { window.location.href='login.html'; return; }
+onAuthStateChanged(auth,async user=>{
+  if(!user){window.location.href='login.html';return;}
   currentUser=user;
   setGreeting();
 
-  const snap = await getDoc(doc(db,'users',user.uid));
-  if (!snap.exists()||!snap.data().name) { window.location.href='extra-details.html'; return; }
-  userData = snap.data();
-  if ((userData.profileVersion||0) < CURRENT_PROFILE_VERSION) { window.location.href='extra-details.html'; return; }
+  const snap=await getDoc(doc(db,'users',user.uid));
 
-  const portal    = resolvePortal(userData);
-  const isPremium = portal==='premium';
-  const name      = userData.name||user.displayName||'Student';
-  const coins     = userData.coins||0;
-  const exchanges = userData.exchanges||0;
-  const connections = (userData.connections||[]).length;
-  const photo     = userData.photoURL||`https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(name)}`;
-  referralCode    = userData.referralCode||user.uid.substring(0,8).toUpperCase();
+  // ── FIXED: only redirect if no name at all
+  // version 2 users still valid — don't redirect them
+  if(!snap.exists()||!snap.data().name){window.location.href='extra-details.html';return;}
+  userData=snap.data();
 
-  /* Hero */
-  $('greetingName').textContent = name.split(' ')[0];
-  $('gmUni').textContent        = userData.university||'Zwapy';
-  $('gmCourse').textContent     = userData.course||'Student';
+  const portal=resolvePortal(userData);
+  const isPremium=portal==='premium';
+
+  const allSnap=await getDocs(collection(db,'users'));
+  const name=userData.name||user.displayName||'Student';
+  const coins=userData.coins||0;
+  const exchanges=userData.exchanges||0;
+  const photo=userData.photoURL||`https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(name)}`;
+  referralCode=userData.referralCode||user.uid.substring(0,8).toUpperCase();
+
+  $('greetingName').textContent=name.split(' ')[0];
+  $('gmUni').textContent=userData.university||'Zwapy';
+  $('gmCourse').textContent=userData.course||'Student';
   const gp=$('gmPortal');
-  gp.textContent = isPremium?'⭐ Premium Portal':'🌐 Public Portal';
-  gp.className   = isPremium?'gm-portal premium':'gm-portal public';
+  gp.textContent=isPremium?'⭐ Premium Portal':'🌐 Public Portal';
+  gp.className=isPremium?'gm-portal premium':'gm-portal public';
 
-  /* Sidebar */
   const pill=$('sbPortalPill'),desc=$('sbPortalDesc');
   pill.textContent=isPremium?'Premium':'Public';
-  pill.className  =isPremium?'sb-portal-pill pill-premium':'sb-portal-pill pill-public';
+  pill.className=isPremium?'sb-portal-pill pill-premium':'sb-portal-pill pill-public';
   desc.textContent=isPremium?'Full access':'Skill Exchange only';
+
   [$('topAvatar'),$('navAvatar'),$('sbAvatar')].forEach(el=>{if(el)el.src=photo;});
-  $('sbName').textContent  = name;
-  $('sbRole').textContent  = userData.role||'Student';
-  $('sbCoins').textContent = fmt(coins);
+  $('sbName').textContent=name;
+  $('sbRole').textContent=userData.role||'Student';
+  $('sbCoins').textContent=fmt(coins);
+  $('statCoins').textContent=fmt(coins);
+  $('statExchanges').textContent=fmt(exchanges);
+  let rank=1;allSnap.forEach(d=>{if(d.id!==user.uid&&(d.data().coins||0)>coins)rank++;});
+  $('statRank').textContent='#'+rank;
+  if(userData.examScores?.overall){$('statScoreCard').style.display='block';$('statScore').textContent=userData.examScores.overall+'%';}
 
-  /* Stats — NO getDocs(all users) to prevent crash */
-  $('statCoins').textContent       = fmt(coins);
-  $('statExchanges').textContent   = fmt(exchanges);
-  $('statConnections').textContent = fmt(connections);
-  if (userData.examScores?.overall) {
-    $('statScoreCard').style.display='block';
-    $('statScore').textContent=userData.examScores.overall+'%';
-  }
-
-  /* Portal notice */
-  if (!isPremium) {
+  if(!isPremium){
     const uniName=userData.university||'your university';
-    $('pnBody').innerHTML=
-      `You're on Zwapy's <strong>Public Portal</strong>. `+
-      `<strong>Skill Exchange</strong> is fully live — browse and trade skills with students from `+
-      `<strong>all universities including Presidency University</strong>.<br><br>`+
-      `<strong>Clubs</strong> and <strong>Events</strong> are campus-specific and will unlock `+
-      `the moment Zwapy officially collaborates with <strong>${uniName}</strong>. `+
-      `Ask your student council to <a href="mailto:partner@zwapy.com">partner with us →</a>`;
+    $('pnBody').innerHTML=`You're on Zwapy's <strong>Public Portal</strong>. <strong>Skill Exchange</strong> is fully live — browse and trade skills with students from <strong>all universities including Presidency University</strong>.<br><br><strong>Clubs</strong> and <strong>Events</strong> are campus-specific and will unlock the moment Zwapy officially collaborates with <strong>${uniName}</strong>. Ask your student council to <a href="mailto:partner@zwapy.com">partner with us →</a>`;
     $('portalNotice').classList.add('show','pub-style');
     $('lpUniName').textContent=uniName;
   }
 
   buildGrid(portal);
+  buildSkillScores(userData);
+  await loadActivity(user.uid);
+  maybeShowFeedback();
 
-  /* Referral */
   $('refBtn').addEventListener('click',()=>{
     const link=`https://zwapy.com/signup.html?ref=${referralCode}`;
     try{navigator.clipboard.writeText(link);}catch(e){
@@ -865,28 +727,12 @@ onAuthStateChanged(auth, async user=>{
   });
   $('signOutBtn').addEventListener('click',async()=>{await signOut(auth);window.location.href='login.html';});
 
-  /* Activity Feed + Connection Requests */
-  await loadActivityFeed(user.uid);
-  maybeShowFeedback();
-
   setTimeout(()=>{
     $('loadScreen').classList.add('hide');
     setTimeout(()=>{try{$('loadScreen').remove();}catch(e){}},400);
     document.querySelectorAll('.fade-up').forEach(el=>el.classList.add('in'));
   },600);
 });
-window.acceptConnection = async function(noteId, sId) {
-  try {
-    // Update the notification to 'connected'
-    await updateDoc(doc(db, 'notifications', noteId), { status: 'connected' });
-    toast("Connection Accepted! 🤝");
-    setTimeout(() => location.reload(), 1500); // Refresh to show changes
-  } catch(e) {
-    console.error(e);
-    toast("Failed to connect", "#ef4444");
-  }
-};
-}
 </script>
 </body>
 </html>
