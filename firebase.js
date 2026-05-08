@@ -1,4 +1,4 @@
-// firebase.js — Zwapy Analytics + Auth + DB
+// firebase.js — Zwapy Core Config
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
 import { getAuth, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
@@ -20,27 +20,19 @@ const provider = new GoogleAuthProvider();
 const db       = getFirestore(app);
 const analytics= getAnalytics(app);
 
-// ── TRACK PAGE VIEW ──
-// Fires every time any page loads — counts as a session
+// ── TRACK PAGE VIEW on every page load ──
 logEvent(analytics, 'page_view', {
   page_location: window.location.href,
   page_title: document.title
 });
 
-// ── TRACK ACTIVE USER ──
-// When user is logged in, set their identity so DAU counts correctly
+// ── TRACK ACTIVE USER when logged in ──
 onAuthStateChanged(auth, (user) => {
-  if(user){
-    // Set user ID — this is what makes Firebase count unique DAU
+  if (user) {
     setUserId(analytics, user.uid);
-
-    // Set user properties — shows up in Firebase audience segments
     setUserProperties(analytics, {
-      university: 'Presidency University',
       platform: 'zwapy_web'
     });
-
-    // Log active session
     logEvent(analytics, 'user_engagement', {
       engagement_time_msec: 1000
     });
