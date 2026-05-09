@@ -20,20 +20,18 @@ const provider = new GoogleAuthProvider();
 const db       = getFirestore(app);
 const analytics= getAnalytics(app);
 
-// Track every page load
 logEvent(analytics, 'page_view', {
   page_location: window.location.href,
   page_title: document.title
 });
 
-// Track logged-in users with real university from Firestore
 onAuthStateChanged(auth, async (user) => {
   if(user){
     setUserId(analytics, user.uid);
     try {
       const snap = await getDoc(doc(db, 'users', user.uid));
       const university = snap.exists() ? (snap.data().university || 'Unknown') : 'Unknown';
-      const role       = snap.exists() ? (snap.data().role || 'Student') : 'Student';
+      const role = snap.exists() ? (snap.data().role || 'Student') : 'Student';
       setUserProperties(analytics, { university, role, platform: 'zwapy_web' });
     } catch(e) {
       setUserProperties(analytics, { platform: 'zwapy_web' });
