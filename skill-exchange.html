@@ -106,17 +106,45 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .rc-actions{display:flex;gap:7px;flex-wrap:wrap;}
 .btn-accept{background:var(--green);color:#000;border:none;border-radius:8px;padding:8px 14px;font-size:.68rem;font-weight:800;text-transform:uppercase;cursor:pointer;font-family:'Sora',sans-serif;}
 .btn-reject{background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;padding:8px 12px;font-size:.68rem;font-weight:700;color:var(--red);cursor:pointer;font-family:'Sora',sans-serif;}
+
+/* SESSION CARD */
 .session-card{background:rgba(16,185,129,0.04);border:1px solid rgba(16,185,129,0.18);border-radius:14px;padding:16px;margin-bottom:10px;}
 .session-title{font-size:.88rem;font-weight:800;margin-bottom:3px;}
 .session-with{font-size:.68rem;color:var(--muted);margin-bottom:9px;}
-.session-meta{display:flex;flex-direction:column;gap:3px;margin-bottom:11px;}
-.smr{font-size:.7rem;color:var(--dim);display:flex;align-items:center;gap:5px;}
+.session-meta{display:flex;flex-direction:column;gap:4px;margin-bottom:11px;}
+.smr{font-size:.7rem;color:var(--dim);display:flex;align-items:flex-start;gap:5px;flex-wrap:wrap;}
+
+/* ZOOM JOIN BOX — the key fix */
+.zoom-join-box{background:rgba(45,140,255,0.06);border:1px solid rgba(45,140,255,0.2);border-radius:12px;padding:14px;margin-bottom:10px;}
+.zjb-header{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.zjb-icon{font-size:1.1rem;}
+.zjb-title{font-size:.8rem;font-weight:800;color:white;}
+.zjb-role{font-family:'Space Mono',monospace;font-size:.46rem;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:100px;margin-left:auto;flex-shrink:0;}
+.zjb-role.teacher{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,.2);color:var(--green);}
+.zjb-role.learner{background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,.2);color:var(--cyan);}
+
+/* Teacher instruction */
+.teacher-join-instruction{font-size:.7rem;color:var(--dim);line-height:1.65;margin-bottom:10px;}
+.teacher-join-instruction strong{color:white;}
+.teacher-join-instruction ol{padding-left:18px;margin-top:4px;}
+.teacher-join-instruction li{margin-bottom:2px;}
+
+/* Learner instruction */
+.learner-join-instruction{font-size:.7rem;color:var(--dim);line-height:1.65;margin-bottom:10px;}
+.learner-join-instruction strong{color:white;}
+
+/* Direct join button — THE FIX: opens zoom.us/j/ID directly, no copy-paste needed */
+.zoom-open-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:linear-gradient(135deg,var(--zoom),#0E6FE8);color:white;border:none;border-radius:10px;padding:12px;font-size:.82rem;font-weight:800;text-transform:uppercase;cursor:pointer;font-family:'Sora',sans-serif;text-decoration:none;transition:all .2s;letter-spacing:.04em;}
+.zoom-open-btn:hover{box-shadow:0 0 18px rgba(45,140,255,.45);}
+.zoom-open-btn.teacher-start{background:linear-gradient(135deg,#10b981,#059669);}
+
+.zoom-id-display{font-family:'Space Mono',monospace;font-size:.72rem;color:var(--muted);text-align:center;margin-top:7px;}
+.zoom-id-display span{color:var(--zoom);font-weight:700;}
+
 .cert-progress-bar{background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.18);border-radius:10px;padding:10px 13px;margin-top:8px;font-size:.68rem;color:var(--amber);}
 .cert-prog-label{margin-bottom:5px;}
 .cert-prog-track{height:5px;background:rgba(255,255,255,0.07);border-radius:100px;overflow:hidden;}
 .cert-prog-fill{height:100%;background:linear-gradient(90deg,var(--amber),var(--green));border-radius:100px;transition:width .4s;}
-.zoom-btn{display:inline-flex;align-items:center;gap:7px;background:linear-gradient(135deg,#2D8CFF,#0E6FE8);color:white;border:none;border-radius:9px;padding:10px 18px;font-size:.74rem;font-weight:800;text-transform:uppercase;cursor:pointer;font-family:'Sora',sans-serif;text-decoration:none;letter-spacing:.04em;}
-.zoom-btn:hover{box-shadow:0 0 16px rgba(45,140,255,.4);}
 .session-actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:6px;}
 .confirm-session-btn{display:inline-flex;align-items:center;gap:5px;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.28);border-radius:8px;padding:9px 14px;font-size:.7rem;font-weight:800;color:var(--amber);cursor:pointer;font-family:'Sora',sans-serif;}
 .take-exam-btn{display:inline-flex;align-items:center;gap:5px;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.28);border-radius:8px;padding:9px 14px;font-size:.7rem;font-weight:800;color:var(--green);cursor:pointer;font-family:'Sora',sans-serif;}
@@ -138,6 +166,8 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .star-rating{display:flex;gap:8px;margin:10px 0;}
 .star{font-size:1.6rem;cursor:pointer;opacity:.25;transition:all .18s;}
 .star.active{opacity:1;}
+
+/* MODALS */
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.86);backdrop-filter:blur(12px);z-index:3000;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;pointer-events:none;transition:opacity .25s;overflow-y:auto;}
 .modal-bg.open{opacity:1;pointer-events:all;}
 .modal{background:rgba(2,0,36,0.98);border:1px solid rgba(0,212,255,0.2);border-radius:22px;width:100%;max-width:440px;position:relative;transform:translateY(16px) scale(.97);transition:transform .25s;overflow:hidden;max-height:90vh;overflow-y:auto;margin:auto;}
@@ -148,32 +178,18 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .modal-tag{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px;}
 .modal-title{font-size:1.05rem;font-weight:900;font-style:italic;margin-bottom:4px;}
 .modal-sub{font-size:.72rem;color:var(--dim);margin-bottom:16px;line-height:1.5;}
-.safety-item{display:flex;align-items:flex-start;gap:10px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:10px 12px;margin-bottom:7px;}
-.safety-icon{font-size:1.1rem;flex-shrink:0;}
-.safety-text{font-size:.72rem;color:var(--dim);line-height:1.5;}
-.safety-text strong{color:white;}
-.safety-agree-row{display:flex;align-items:flex-start;gap:10px;margin:12px 0;}
-.safety-agree-row input{width:18px;height:18px;margin-top:2px;accent-color:var(--cyan);flex-shrink:0;cursor:pointer;}
-.safety-agree-text{font-size:.72rem;color:var(--dim);line-height:1.5;}
-.safety-agree-text strong{color:white;}
-.safety-launch-btn{width:100%;background:var(--zoom);color:white;border:none;border-radius:10px;padding:13px;font-size:.82rem;font-weight:800;text-transform:uppercase;cursor:pointer;font-family:'Sora',sans-serif;}
-.safety-launch-btn:disabled{opacity:.5;cursor:not-allowed;}
-.zoom-info-box{background:rgba(45,140,255,0.06);border:1px solid rgba(45,140,255,0.2);border-radius:11px;padding:12px 14px;margin-bottom:14px;font-size:.72rem;color:var(--dim);line-height:1.7;}
-.zoom-info-box strong{color:white;}
-.zoom-room-id{font-family:'Space Mono',monospace;font-size:.78rem;color:var(--zoom);font-weight:700;margin:6px 0;display:block;}
-.copy-id-btn{background:rgba(45,140,255,0.1);border:1px solid rgba(45,140,255,0.25);border-radius:7px;padding:5px 11px;font-size:.62rem;font-weight:700;color:var(--zoom);cursor:pointer;font-family:'Sora',sans-serif;margin-top:4px;}
 
-/* ── ZOOM STEP BOX in schedule modal ── */
+/* Zoom step box in schedule modal */
 .zoom-step-box{background:rgba(45,140,255,0.06);border:1px solid rgba(45,140,255,0.2);border-radius:12px;padding:15px;margin-bottom:14px;}
 .zsb-title{font-family:'Space Mono',monospace;font-size:.48rem;letter-spacing:.14em;text-transform:uppercase;color:var(--zoom);margin-bottom:9px;}
 .zsb-step{display:flex;align-items:flex-start;gap:9px;margin-bottom:7px;font-size:.7rem;color:var(--dim);line-height:1.5;}
 .zsb-step:last-child{margin-bottom:0;}
-.zsb-num{width:20px;height:20px;border-radius:50%;background:rgba(45,140,255,0.15);border:1px solid rgba(45,140,255,0.3);display:flex;align-items:center;justify-content:center;font-size:.58rem;font-weight:800;color:var(--zoom);flex-shrink:0;}
+.zsb-num{width:20px;height:20px;border-radius:50%;background:rgba(45,140,255,0.15);border:1px solid rgba(45,140,255,0.3);display:flex;align-items:center;justify-content:center;font-size:.58rem;font-weight:800;color:var(--zoom);flex-shrink:0;margin-top:1px;}
 .zsb-step strong{color:white;}
 .zoom-id-input-wrap{position:relative;margin-top:10px;}
 .zoom-id-input-wrap input{width:100%;background:rgba(255,255,255,0.04);border:1.5px solid rgba(45,140,255,0.3);border-radius:10px;padding:12px 14px;font-size:1rem;color:white;font-family:'Space Mono',monospace;outline:none;letter-spacing:.06em;transition:border-color .2s;}
 .zoom-id-input-wrap input::placeholder{color:var(--muted);font-family:'Sora',sans-serif;font-size:.82rem;letter-spacing:0;}
-.zoom-id-input-wrap input:focus{border-color:var(--zoom);background:rgba(45,140,255,0.04);}
+.zoom-id-input-wrap input:focus{border-color:var(--zoom);}
 .zoom-id-input-wrap input.valid{border-color:var(--green);}
 .zoom-id-input-wrap input.invalid{border-color:var(--red);}
 .zoom-id-status{font-size:.62rem;margin-top:5px;min-height:16px;}
@@ -186,6 +202,24 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .send-req-btn:disabled{opacity:.5;cursor:not-allowed;}
 .rating-btn{width:100%;background:var(--amber);color:#000;border:none;border-radius:10px;padding:12px;font-size:.82rem;font-weight:800;text-transform:uppercase;cursor:pointer;font-family:'Sora',sans-serif;margin-top:10px;}
 .rating-btn:disabled{opacity:.5;cursor:not-allowed;}
+
+/* SAFETY MODAL */
+.safety-item{display:flex;align-items:flex-start;gap:10px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:10px 12px;margin-bottom:7px;}
+.safety-icon{font-size:1.1rem;flex-shrink:0;}
+.safety-text{font-size:.72rem;color:var(--dim);line-height:1.5;}
+.safety-text strong{color:white;}
+.safety-agree-row{display:flex;align-items:flex-start;gap:10px;margin:12px 0;}
+.safety-agree-row input{width:18px;height:18px;margin-top:2px;accent-color:var(--cyan);flex-shrink:0;cursor:pointer;}
+.safety-agree-text{font-size:.72rem;color:var(--dim);line-height:1.5;}
+.safety-agree-text strong{color:white;}
+.safety-launch-btn{width:100%;background:var(--zoom);color:white;border:none;border-radius:10px;padding:13px;font-size:.82rem;font-weight:800;text-transform:uppercase;cursor:pointer;font-family:'Sora',sans-serif;}
+.safety-launch-btn:disabled{opacity:.5;cursor:not-allowed;}
+.safety-launch-btn.teacher{background:linear-gradient(135deg,#10b981,#059669);}
+.zoom-info-box{background:rgba(45,140,255,0.06);border:1px solid rgba(45,140,255,0.2);border-radius:11px;padding:12px 14px;margin-bottom:14px;font-size:.72rem;color:var(--dim);line-height:1.7;}
+.zoom-info-box strong{color:white;}
+.zoom-room-id{font-family:'Space Mono',monospace;font-size:.82rem;color:var(--zoom);font-weight:700;margin:4px 0;display:block;letter-spacing:.06em;}
+
+/* EXAM */
 .exam-modal{max-width:560px;}
 .exam-modal .modal-in{user-select:none;-webkit-user-select:none;}
 .exam-header{margin-bottom:14px;}
@@ -210,7 +244,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .cheat-warning.show{display:block;}
 .code-section{margin-bottom:14px;}
 .code-label{font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);margin-bottom:8px;}
-.code-editor{width:100%;background:#0a0a1a;border:1px solid rgba(0,212,255,0.2);border-radius:10px;padding:12px;font-family:'Space Mono',monospace;font-size:.78rem;color:#e2e8f0;min-height:100px;resize:vertical;outline:none;line-height:1.6;tab-size:2;}
+.code-editor{width:100%;background:#0a0a1a;border:1px solid rgba(0,212,255,0.2);border-radius:10px;padding:12px;font-family:'Space Mono',monospace;font-size:.78rem;color:#e2e8f0;min-height:100px;resize:vertical;outline:none;line-height:1.6;}
 .code-editor::placeholder{color:#334155;}
 .run-code-btn{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.28);border-radius:8px;padding:8px 16px;font-size:.7rem;font-weight:800;color:var(--green);cursor:pointer;font-family:'Sora',sans-serif;margin-top:8px;}
 .code-output{background:#0a0a1a;border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:10px 12px;font-family:'Space Mono',monospace;font-size:.72rem;color:#94a3b8;margin-top:8px;min-height:40px;white-space:pre-wrap;line-height:1.5;}
@@ -257,60 +291,43 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 <div id="loadScreen"><div class="load-logo">ZWAPY</div><div class="load-bar"><div class="load-fill"></div></div><div class="load-text">Loading skill exchange...</div></div>
 <div class="toast" id="toast"></div>
 
-<!-- ═══════════════════════════════════
-  SCHEDULE MODAL — teacher pastes real Zoom Meeting ID
-  ═══════════════════════════════════ -->
+<!-- SCHEDULE MODAL -->
 <div class="modal-bg" id="scheduleModal"><div class="modal">
   <div class="modal-stripe" style="background:linear-gradient(90deg,var(--green),rgba(16,185,129,.3))"></div>
   <div class="modal-in">
     <button class="mc" id="scheduleClose">✕</button>
     <div class="modal-tag">📅 Schedule Session</div>
-    <div class="modal-title">Set a Time &amp; Add Zoom</div>
+    <div class="modal-title">Set Time + Add Zoom</div>
     <div class="modal-sub" id="scheduleWith"></div>
-
     <div class="field"><label>Date *</label><input type="date" id="sessDate"/></div>
     <div class="field"><label>Time *</label><input type="time" id="sessTime"/></div>
     <div class="field"><label>Duration</label>
       <select id="sessDuration">
-        <option value="1">1 Hour</option>
-        <option value="1.5">1.5 Hours</option>
-        <option value="2">2 Hours</option>
+        <option value="1">1 Hour</option><option value="1.5">1.5 Hours</option><option value="2">2 Hours</option>
       </select>
     </div>
-
-    <!-- ── ZOOM MEETING ID — teacher enters their own ── -->
     <div class="zoom-step-box">
-      <div class="zsb-title">🎥 How to get your Zoom Meeting ID</div>
-      <div class="zsb-step">
-        <div class="zsb-num">1</div>
-        <div>Open <strong>Zoom app</strong> on your phone or laptop</div>
-      </div>
-      <div class="zsb-step">
-        <div class="zsb-num">2</div>
-        <div>Tap <strong>"New Meeting"</strong> → start the meeting → copy the <strong>Meeting ID</strong> shown at the top</div>
-      </div>
-      <div class="zsb-step">
-        <div class="zsb-num">3</div>
-        <div>Paste it below. Your partner will get this ID and join your meeting directly.</div>
-      </div>
-      <div class="field" style="margin-bottom:8px;margin-top:10px;">
-        <label>Zoom Meeting ID * <span style="font-weight:400;text-transform:none;font-size:.58rem;color:var(--muted);">(9–11 digits from Zoom)</span></label>
+      <div class="zsb-title">🎥 Add Your Zoom Meeting ID</div>
+      <div class="zsb-step"><div class="zsb-num">1</div><div>Open <strong>Zoom app</strong> → tap <strong>"New Meeting"</strong> → start it</div></div>
+      <div class="zsb-step"><div class="zsb-num">2</div><div>You'll see your <strong>Meeting ID</strong> at the top (9–11 digits) — copy it</div></div>
+      <div class="zsb-step"><div class="zsb-num">3</div><div>Paste below. Your partner gets a direct join link — <strong>no typing needed</strong></div></div>
+      <div class="field" style="margin:10px 0 8px;">
+        <label>Zoom Meeting ID * <span style="font-weight:400;text-transform:none;font-size:.56rem;color:var(--muted);">(digits only, 9–11 digits)</span></label>
         <div class="zoom-id-input-wrap">
-          <input type="text" id="zoomMeetingIdInput" placeholder="e.g.  123 456 7890" maxlength="15" inputmode="numeric" oninput="validateZoomId()"/>
+          <input type="text" id="zoomMeetingIdInput" placeholder="e.g. 123 456 7890" maxlength="15" inputmode="numeric" oninput="validateZoomId()"/>
         </div>
         <div class="zoom-id-status" id="zoomIdStatus"></div>
       </div>
       <div class="field" style="margin-bottom:0;">
-        <label>Zoom Password <span style="font-weight:400;text-transform:none;font-size:.58rem;color:var(--muted);">(optional — only if your meeting has one)</span></label>
-        <input type="text" id="zoomPasswordInput" placeholder="Leave blank if no password"/>
+        <label>Password <span style="font-weight:400;text-transform:none;font-size:.56rem;color:var(--muted);">(optional)</span></label>
+        <input type="text" id="zoomPasswordInput" placeholder="Leave blank if no password set"/>
       </div>
     </div>
-
-    <div style="background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.12);border-radius:10px;padding:10px 13px;margin-bottom:14px;font-size:.7rem;color:var(--dim);line-height:1.7;">
-      📝 Only the <strong style="color:white;">learner</strong> takes the exam after session — not the teacher.<br>
-      🏆 Certificate unlocks after <strong style="color:white;">5 exchanges on same skill</strong>.
+    <div style="background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.1);border-radius:10px;padding:10px 12px;margin-bottom:14px;font-size:.68rem;color:var(--dim);line-height:1.65;">
+      📝 Only the <strong style="color:white;">learner</strong> takes the exam — not you as teacher.<br>
+      🏆 Certificate after <strong style="color:white;">5 exchanges on same skill</strong>.
     </div>
-    <button class="schedule-btn" id="confirmSchedule" disabled>Confirm &amp; Send Zoom Details →</button>
+    <button class="schedule-btn" id="confirmSchedule" disabled>Confirm &amp; Share Zoom Link →</button>
   </div>
 </div></div>
 
@@ -328,38 +345,43 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
   </div>
 </div></div>
 
-<!-- SAFETY / ZOOM LAUNCH MODAL -->
+<!-- SAFETY MODAL -->
 <div class="modal-bg" id="safetyModal"><div class="modal">
   <div class="modal-stripe" style="background:linear-gradient(90deg,var(--zoom),var(--green))"></div>
   <div class="modal-in">
     <button class="mc" id="safetyClose">✕</button>
-    <div class="modal-tag">🛡️ Safety Check · Zoom Meeting</div>
+    <div class="modal-tag">🛡️ Safety · Zoom Session</div>
     <div class="modal-title">Before You Join</div>
-    <p style="font-size:.72rem;color:var(--dim);margin-bottom:14px;line-height:1.6;">Zwapy monitors session safety. Please read and agree before joining.</p>
-    <div class="safety-item"><div class="safety-icon">🚫</div><div class="safety-text"><strong>18+ Content Strictly Prohibited</strong> — Sexual, violent, or inappropriate content will result in immediate ban and account termination.</div></div>
-    <div class="safety-item"><div class="safety-icon">🎓</div><div class="safety-text"><strong>Educational Purpose Only</strong> — This session is for skill exchange. Keep the conversation professional and focused.</div></div>
-    <div class="safety-item"><div class="safety-icon">📵</div><div class="safety-text"><strong>No Recording</strong> — Recording without consent is prohibited.</div></div>
-    <div class="safety-item"><div class="safety-icon">🤝</div><div class="safety-text"><strong>Respectful Behaviour</strong> — Harassment or bullying = permanent suspension.</div></div>
-    <div class="safety-item"><div class="safety-icon">⚠️</div><div class="safety-text"><strong>Report Violations</strong> — End the meeting and email <strong>zwapyteam@gmail.com</strong> immediately.</div></div>
-    <div id="safetyGeminiTip" style="background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.14);border-radius:10px;padding:11px;margin:12px 0;font-size:.7rem;color:var(--dim);line-height:1.6;display:none;">
-      <div style="font-family:'Space Mono',monospace;font-size:.46rem;letter-spacing:.12em;color:var(--cyan);margin-bottom:5px;">// AI SAFETY TIP</div>
+    <div class="safety-item"><div class="safety-icon">🚫</div><div class="safety-text"><strong>18+ Content Strictly Prohibited</strong> — Immediate ban and account termination.</div></div>
+    <div class="safety-item"><div class="safety-icon">🎓</div><div class="safety-text"><strong>Educational Only</strong> — Stay focused on the skill. Professional conduct always.</div></div>
+    <div class="safety-item"><div class="safety-icon">📵</div><div class="safety-text"><strong>No Recording</strong> — Recording without consent is prohibited and reportable.</div></div>
+    <div class="safety-item"><div class="safety-icon">⚠️</div><div class="safety-text"><strong>Report Violations</strong> — End the meeting and email <strong>zwapyteam@gmail.com</strong>.</div></div>
+    <div id="safetyGeminiTip" style="background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.12);border-radius:10px;padding:10px;margin:12px 0;font-size:.7rem;color:var(--dim);line-height:1.6;display:none;">
+      <div style="font-family:'Space Mono',monospace;font-size:.44rem;letter-spacing:.12em;color:var(--cyan);margin-bottom:4px;">// AI SAFETY TIP</div>
       <div id="geminiSafetyText"></div>
     </div>
+
+    <!-- THE FIX: show zoom details clearly, no copy needed -->
     <div class="zoom-info-box">
-      <strong>🎥 Your Zoom Meeting Details</strong><br>
-      Meeting ID: <span class="zoom-room-id" id="modalZoomId">—</span>
-      Password: <span id="modalZoomPass" style="font-family:'Space Mono',monospace;font-size:.72rem;color:var(--dim);">None</span>
-      <div style="font-size:.68rem;color:var(--muted);margin-top:5px;">Open Zoom app → Join Meeting → paste this ID</div>
-      <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;">
-        <button class="copy-id-btn" onclick="copyCurrentZoomId()">📋 Copy Meeting ID</button>
-        <button class="copy-id-btn" style="background:rgba(45,140,255,0.15);" onclick="copyCurrentZoomLink()">🔗 Copy Join Link</button>
-      </div>
+      <strong>🎥 Zoom Meeting</strong>
+      <div class="zoom-room-id" id="modalZoomId">—</div>
+      <div id="modalZoomPassRow" style="display:none;font-size:.68rem;color:var(--dim);margin-bottom:4px;">Password: <span id="modalZoomPass" style="color:white;font-weight:700;"></span></div>
+      <div style="font-size:.66rem;color:var(--muted);">Click the button below — it opens Zoom directly. No need to copy or type anything.</div>
     </div>
+
+    <div id="safetyTeacherNote" style="display:none;background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.2);border-radius:10px;padding:10px 12px;margin-bottom:12px;font-size:.7rem;color:var(--green);line-height:1.65;">
+      👨‍🏫 <strong style="color:white;">You are the TEACHER.</strong> Make sure you <strong>Start</strong> the meeting in Zoom first, then wait for your learner to join.
+    </div>
+    <div id="safetyLearnerNote" style="display:none;background:rgba(0,212,255,0.05);border:1px solid rgba(0,212,255,0.15);border-radius:10px;padding:10px 12px;margin-bottom:12px;font-size:.7rem;color:var(--cyan);line-height:1.65;">
+      📖 <strong style="color:white;">You are the LEARNER.</strong> The teacher must <strong>start the meeting first</strong>. Then click the button below to join.
+    </div>
+
     <div class="safety-agree-row">
       <input type="checkbox" id="safetyAgree"/>
-      <div class="safety-agree-text">I have read and agree to Zwapy's safety guidelines. This session is for educational purposes only.</div>
+      <div class="safety-agree-text">I agree to Zwapy's safety guidelines. This session is for educational purposes only.</div>
     </div>
-    <button class="safety-launch-btn" id="safetyLaunchBtn" disabled onclick="launchZoom()">🎥 Open Zoom &amp; Join Meeting →</button>
+    <button class="safety-launch-btn" id="safetyLaunchBtn" disabled>🎥 Open Zoom Meeting →</button>
+    <p style="font-size:.58rem;color:var(--muted);margin-top:6px;text-align:center;">Opens zoom.us directly. If Zoom app is installed it will launch automatically.</p>
   </div>
 </div></div>
 
@@ -370,7 +392,6 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
     <div class="modal-tag">⭐ Rate Your Teacher</div>
     <div class="modal-title">How was the session?</div>
     <div class="modal-sub" id="ratingTeacherName"></div>
-    <p style="font-size:.74rem;color:var(--dim);margin-bottom:12px;line-height:1.6;">Your rating determines your teacher's bonus coins.</p>
     <div class="star-rating" id="starRating">
       <span class="star" data-v="1">⭐</span><span class="star" data-v="2">⭐</span>
       <span class="star" data-v="3">⭐</span><span class="star" data-v="4">⭐</span>
@@ -388,7 +409,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
   <div class="modal-in">
     <button class="mc" id="examClose">✕</button>
     <div id="examScreen">
-      <div style="font-family:'Space Mono',monospace;font-size:.46rem;letter-spacing:.14em;color:var(--cyan);margin-bottom:6px;text-transform:uppercase;">// Exam powered by Gemini AI</div>
+      <div style="font-family:'Space Mono',monospace;font-size:.44rem;letter-spacing:.14em;color:var(--cyan);margin-bottom:6px;text-transform:uppercase;">// Exam powered by Gemini AI</div>
       <div class="exam-header">
         <div class="exam-progress">
           <div class="ep-bar-wrap"><div class="ep-bar" id="examProgressBar" style="width:0%"></div></div>
@@ -396,7 +417,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
           <div class="exam-timer" id="examTimer">30s</div>
         </div>
         <div class="cheat-warning" id="cheatWarning"></div>
-        <div class="exam-q-num" id="examQNum">Question 1 of 30</div>
+        <div class="exam-q-num" id="examQNum"></div>
         <div class="exam-question" id="examQuestion"></div>
       </div>
       <div class="exam-options" id="examOptions"></div>
@@ -419,9 +440,7 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
         <div class="result-cert" id="resultCert"></div>
         <canvas id="certCanvas" class="cert-preview" width="900" height="620" style="display:none;"></canvas>
         <div class="hardcopy-box" id="hardcopyBox" style="display:none;">
-          <strong>📜 Want a signed hard copy?</strong><br>
-          Zwapy sends a real printed certificate with an official hand-written signature.<br>
-          Cost: <strong style="color:var(--indigo);">₹99</strong> · Delivered in 7 days.
+          <strong>📜 Want a signed hard copy?</strong><br>₹99 · Delivered in 7 days.
           <a class="hardcopy-link" id="hardcopyLink" href="#" target="_blank">Order Signed Hard Copy (₹99) →</a>
         </div>
         <button class="result-btn" id="resultBtn">Claim Coins →</button>
@@ -438,61 +457,44 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
     </a>
     <a href="dashboard.html" class="back-btn">← Back</a>
   </header>
-
   <div class="page-head fade-up d1">
     <div class="page-label">// Peer-to-Peer Learning</div>
     <h1 class="page-title">Skill <span>Exchange</span></h1>
     <p class="page-sub">Offer what you know · Get what you need · Earn coins &amp; certificates</p>
   </div>
-
   <div class="coin-info fade-up d1">
     <div class="ci-row"><span class="ci-badge ci-beg">Beginner</span> Pass → <strong>+5 coins</strong> · Fail → <strong>-5 coins</strong></div>
     <div class="ci-row"><span class="ci-badge ci-int">Intermediate</span> Pass → <strong>+10 coins</strong> · Fail → <strong>-5 coins</strong></div>
     <div class="ci-row"><span class="ci-badge ci-adv">Advanced</span> Pass → <strong>+15 coins</strong> · Fail → <strong>-5 coins</strong></div>
-    Teacher: <strong>double coins</strong> if rated 4-5⭐ · Same as learner for 1-3⭐ · Teacher never loses coins.
+    Teacher: <strong>double coins</strong> if rated 4-5⭐ · Teacher never loses coins.
   </div>
-
   <div class="cert-rule fade-up d1">
-    🏆 <strong>Certificate Rule:</strong> Complete <strong>5 skill exchanges on the same skill</strong> to earn a certificate.<br>
-    📝 <strong>Exam Rule:</strong> Only the <strong>learner</strong> takes the exam — teacher does not.<br>
-    🤖 <strong>Exam Questions:</strong> AI-generated by Gemini based on exactly the skill taught.
+    🏆 <strong>Certificate:</strong> 5 exchanges on same skill · 📝 <strong>Exam:</strong> Learner only · 🤖 <strong>Questions:</strong> Gemini AI generates them
   </div>
-
   <div class="stats-strip fade-up d1">
     <div class="sc"><div class="sc-val" id="statTotal">0</div><div class="sc-label">Requests</div></div>
     <div class="sc"><div class="sc-val" id="statMine" style="color:var(--green);">0</div><div class="sc-label">My Posts</div></div>
     <div class="sc"><div class="sc-val" id="statSessions" style="color:var(--amber);">0</div><div class="sc-label">Sessions</div></div>
   </div>
-
   <div class="tab-row fade-up d2">
     <button class="tab-btn active" onclick="switchTab('browse',this)">🔄 Browse</button>
     <button class="tab-btn" onclick="switchTab('requests',this)">📬 Requests<span class="tab-dot" id="reqDot"></span></button>
     <button class="tab-btn" onclick="switchTab('sessions',this)">📹 Sessions</button>
     <button class="tab-btn" onclick="switchTab('post',this)">+ Post</button>
   </div>
-
   <div class="tab-content active" id="tab-browse">
     <div class="filter-bar fade-up d2">
       <div class="sw"><span class="si">🔍</span><input class="search-input" id="searchInput" placeholder="Search skills..."/></div>
       <div class="ftabs">
-        <div class="ftab active" data-f="all">All</div>
-        <div class="ftab" data-f="mine">Mine</div>
-        <div class="ftab" data-f="Beginner">Beginner</div>
-        <div class="ftab" data-f="Intermediate">Inter.</div>
+        <div class="ftab active" data-f="all">All</div><div class="ftab" data-f="mine">Mine</div>
+        <div class="ftab" data-f="Beginner">Beginner</div><div class="ftab" data-f="Intermediate">Inter.</div>
         <div class="ftab" data-f="Advanced">Advanced</div>
       </div>
     </div>
     <div class="ex-grid fade-up d3" id="exGrid"><div class="empty-state"><div class="ei">🔄</div><p class="et">Loading...</p></div></div>
   </div>
-
-  <div class="tab-content" id="tab-requests">
-    <div id="requestsList"><div class="empty-state"><div class="ei">📬</div><p class="et">No requests yet.</p></div></div>
-  </div>
-
-  <div class="tab-content" id="tab-sessions">
-    <div id="sessionsList"><div class="empty-state"><div class="ei">📹</div><p class="et">No sessions yet.</p></div></div>
-  </div>
-
+  <div class="tab-content" id="tab-requests"><div id="requestsList"><div class="empty-state"><div class="ei">📬</div><p class="et">No requests yet.</p></div></div></div>
+  <div class="tab-content" id="tab-sessions"><div id="sessionsList"><div class="empty-state"><div class="ei">📹</div><p class="et">No sessions yet.</p></div></div></div>
   <div class="tab-content" id="tab-post">
     <div class="post-card fade-up d2">
       <div class="pc-title">// Post Your Exchange Request</div>
@@ -526,8 +528,7 @@ import {
   deleteDoc, updateDoc, serverTimestamp, query, orderBy
 } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
-/* ── CONFIG ── */
-const GEMINI_KEY = 'YOUR_GEMINI_API_KEY_HERE'; // get free key at makersuite.google.com
+const GEMINI_KEY = 'YOUR_GEMINI_API_KEY_HERE';
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_KEY}`;
 const CERT_EXCHANGES_REQUIRED = 5;
 
@@ -544,114 +545,130 @@ const db   = getFirestore(app);
 await setPersistence(auth, browserLocalPersistence);
 const $ = id => document.getElementById(id);
 
-function toast(msg, type='s'){const t=$('toast');t.textContent=msg;t.className=`toast ${type} show`;setTimeout(()=>t.className='toast',3500);}
+function toast(msg,type='s'){const t=$('toast');t.textContent=msg;t.className=`toast ${type} show`;setTimeout(()=>t.className='toast',3500);}
 function timeAgo(ts){if(!ts)return'just now';const m=Math.floor((Date.now()-ts.toMillis())/60000);if(m<1)return'just now';if(m<60)return m+'m ago';const h=Math.floor(m/60);if(h<24)return h+'h ago';return Math.floor(h/24)+'d ago';}
 function levelColor(l){if(l==='Advanced')return'#10b981';if(l==='Intermediate')return'#f59e0b';return'#818cf8';}
 
-/* ── COIN LOGIC ── */
 const COIN_TABLE={Beginner:{pass:5,fail:-5},Intermediate:{pass:10,fail:-5},Advanced:{pass:15,fail:-5}};
 function getLearnerCoins(level,passed){const t=COIN_TABLE[level]||COIN_TABLE.Intermediate;return passed?t.pass:t.fail;}
 function getTeacherCoins(level,stars){const base=COIN_TABLE[level]?.pass||10;return stars>=4?base*2:base;}
 
-/* ── CODING SKILL DETECT ── */
 const CODING_SKILLS=['python','javascript','js','java','c++','cpp','c#','html','css','react','node','sql','kotlin','swift','typescript','ruby','go','rust','flutter','php','coding','programming','dev','frontend','backend'];
 function isCodingSkill(skill){const s=(skill||'').toLowerCase();return CODING_SKILLS.some(k=>s.includes(k));}
 
-/* ════════════════════════════════════════════════
-   ZOOM MEETING ID — Teacher enters real ID from Zoom app
-   We format, validate, build join link
-════════════════════════════════════════════════ */
-function formatZoomId(raw) {
-  // Strip non-digits
-  const digits = raw.replace(/\D/g,'');
-  if(digits.length===9)  return digits.slice(0,3)+'-'+digits.slice(3,6)+'-'+digits.slice(6);
-  if(digits.length===10) return digits.slice(0,3)+'-'+digits.slice(3,6)+'-'+digits.slice(6);
-  if(digits.length===11) return digits.slice(0,3)+'-'+digits.slice(3,7)+'-'+digits.slice(7);
-  return digits;
+/* ══════════════════════════════════════
+   ZOOM HELPERS — pure digit handling
+   Build real zoom.us/j/DIGITS link
+   NO formatting, NO dashes in the URL
+══════════════════════════════════════ */
+function cleanDigits(raw){
+  // Strip everything except digits
+  return (raw||'').replace(/\D/g,'');
 }
-function buildZoomJoinLink(rawId, password) {
-  const digits = rawId.replace(/\D/g,'');
-  let url = `https://zoom.us/j/${digits}`;
-  if(password) url += `?pwd=${encodeURIComponent(password)}`;
+function displayZoomId(raw){
+  // Pretty display only — NEVER used for joining
+  const d = cleanDigits(raw);
+  if(d.length===9)  return d.slice(0,3)+' '+d.slice(3,6)+' '+d.slice(6);
+  if(d.length===10) return d.slice(0,3)+' '+d.slice(3,6)+' '+d.slice(6);
+  if(d.length===11) return d.slice(0,3)+' '+d.slice(3,7)+' '+d.slice(7);
+  return d;
+}
+function buildZoomJoinUrl(rawDigits, password){
+  // Always use clean digits in the URL — this is what Zoom expects
+  const d = cleanDigits(rawDigits);
+  let url = `https://zoom.us/j/${d}`;
+  if(password && password.trim()) {
+    url += `?pwd=${encodeURIComponent(password.trim())}`;
+  }
   return url;
 }
 
-/* ── Validate Zoom ID as user types ── */
-window.validateZoomId = function() {
-  const raw = ($('zoomMeetingIdInput').value||'').replace(/[\s\-]/g,'');
-  const digits = raw.replace(/\D/g,'');
+/* ── Validate Zoom ID as teacher types ── */
+window.validateZoomId = function(){
+  const raw = ($('zoomMeetingIdInput').value||'');
+  const digits = cleanDigits(raw);
   const status = $('zoomIdStatus');
   const btn    = $('confirmSchedule');
-
-  if(!raw){
+  if(!raw.trim()){
     $('zoomMeetingIdInput').className='';
     status.textContent='';status.className='zoom-id-status';
     btn.disabled=true;return;
   }
-  if(/\D/.test(raw)){
-    $('zoomMeetingIdInput').className='invalid';
-    status.textContent='❌ Meeting ID should only contain numbers';
-    status.className='zoom-id-status err';btn.disabled=true;return;
-  }
   if(digits.length<9){
     $('zoomMeetingIdInput').className='invalid';
-    status.textContent='❌ Meeting ID must be 9–11 digits';
+    status.textContent='❌ Too short — Zoom Meeting ID is 9–11 digits';
     status.className='zoom-id-status err';btn.disabled=true;return;
   }
   if(digits.length>11){
     $('zoomMeetingIdInput').className='invalid';
-    status.textContent='❌ Meeting ID too long — should be 9–11 digits';
+    status.textContent='❌ Too long — Zoom Meeting ID is 9–11 digits';
     status.className='zoom-id-status err';btn.disabled=true;return;
   }
   $('zoomMeetingIdInput').className='valid';
-  status.textContent=`✅ Valid Zoom ID — formatted as ${formatZoomId(digits)}`;
+  status.textContent=`✅ Valid — ${displayZoomId(digits)} · join link ready`;
   status.className='zoom-id-status ok';
   btn.disabled=false;
 };
 
-/* ── Current Zoom details for safety modal ── */
-let _currentZoomId = '', _currentZoomLink = '';
+/* ── Safety modal — opens before joining ── */
+let _zoomJoinUrl = '';
+let _iAmTeacherInSession = false;
 
-window.copyCurrentZoomId = function(){
-  const txt = formatZoomId(_currentZoomId);
-  try{navigator.clipboard.writeText(txt);}catch(e){const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);}
-  toast('✅ Meeting ID copied!');
-};
-window.copyCurrentZoomLink = function(){
-  try{navigator.clipboard.writeText(_currentZoomLink);}catch(e){const ta=document.createElement('textarea');ta.value=_currentZoomLink;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);}
-  toast('✅ Zoom link copied!');
-};
-window.launchZoom = function(){
-  window.open(_currentZoomLink,'_blank','noopener,noreferrer');
-  $('safetyModal').classList.remove('open');
-};
+async function openSafetyModal(session, iAmTeacher, skill){
+  // Build the direct join URL from stored digits
+  _zoomJoinUrl    = buildZoomJoinUrl(session.zoomMeetingId, session.zoomPassword);
+  _iAmTeacherInSession = iAmTeacher;
 
-/* ── Safety modal ── */
-async function openSafetyModal(meetingId, password, skill){
-  _currentZoomId   = meetingId;
-  _currentZoomLink = buildZoomJoinLink(meetingId, password);
-  $('modalZoomId').textContent  = formatZoomId(meetingId);
-  $('modalZoomPass').textContent = password || 'None';
-  $('safetyAgree').checked = false;
-  $('safetyLaunchBtn').disabled = true;
+  // Show meeting info
+  $('modalZoomId').textContent = displayZoomId(session.zoomMeetingId);
+  if(session.zoomPassword){
+    $('modalZoomPassRow').style.display='block';
+    $('modalZoomPass').textContent=session.zoomPassword;
+  }else{
+    $('modalZoomPassRow').style.display='none';
+  }
+
+  // Show role-specific note
+  $('safetyTeacherNote').style.display = iAmTeacher?'block':'none';
+  $('safetyLearnerNote').style.display  = iAmTeacher?'none':'block';
+
+  // Update button text
+  const btn=$('safetyLaunchBtn');
+  btn.textContent = iAmTeacher?'🎥 Start Zoom Meeting →':'🎥 Join Zoom Meeting →';
+  btn.className   = iAmTeacher?'safety-launch-btn teacher':'safety-launch-btn';
+
+  $('safetyAgree').checked=false;
+  btn.disabled=true;
   $('safetyModal').classList.add('open');
 
   // Gemini safety tip
   try{
     $('safetyGeminiTip').style.display='block';
-    $('geminiSafetyText').textContent='Loading AI safety tip...';
-    const tip = await callGemini(`Give ONE 2-sentence safety tip for students doing a "${skill}" peer-learning Zoom session on Zwapy. Focus on staying focused and reporting violations. Plain sentences only.`);
-    $('geminiSafetyText').textContent = tip.trim();
+    $('geminiSafetyText').textContent='Loading...';
+    const tip=await callGemini(`One 2-sentence safety tip for a "${skill}" peer learning Zoom session on a student platform. Plain sentences, no bullet points.`);
+    $('geminiSafetyText').textContent=tip.trim();
   }catch(e){
-    $('geminiSafetyText').textContent='Keep the session focused on learning. End the meeting immediately and email zwapyteam@gmail.com if anything feels inappropriate.';
+    $('geminiSafetyText').textContent='Stay focused on the skill and keep the session professional. End the meeting immediately if anything inappropriate happens.';
   }
 }
-$('safetyAgree').addEventListener('change',()=>{ $('safetyLaunchBtn').disabled=!$('safetyAgree').checked; });
+
+$('safetyAgree').addEventListener('change',()=>{$('safetyLaunchBtn').disabled=!$('safetyAgree').checked;});
 $('safetyClose').addEventListener('click',()=>$('safetyModal').classList.remove('open'));
+
+/* ════════════════════════════════════════
+   THE FIX: launchZoom opens the URL directly
+   No copy, no paste, no typing needed
+════════════════════════════════════════ */
+$('safetyLaunchBtn').addEventListener('click',()=>{
+  if(!_zoomJoinUrl)return;
+  // Open the direct zoom.us/j/DIGITS link — Zoom app intercepts this automatically
+  window.open(_zoomJoinUrl,'_blank','noopener,noreferrer');
+  $('safetyModal').classList.remove('open');
+});
 
 /* ── Gemini API ── */
 async function callGemini(prompt){
-  const res = await fetch(GEMINI_URL,{
+  const res=await fetch(GEMINI_URL,{
     method:'POST',headers:{'Content-Type':'application/json'},
     body:JSON.stringify({
       contents:[{parts:[{text:prompt}]}],
@@ -669,65 +686,54 @@ async function callGemini(prompt){
   return data.candidates[0].content.parts[0].text;
 }
 
-/* ── Exam question generation via Gemini ── */
+/* ── Exam questions via Gemini ── */
 async function generateExamQuestions(skill,level){
-  toast('🤖 Gemini is generating your exam...','s');
+  toast('🤖 Gemini generating exam...','s');
   const isCoding=isCodingSkill(skill);
-  const prompt=`You are an expert exam creator for Zwapy campus skill exchange.
-Generate exactly 30 exam questions to test a student who just learned "${skill}" (${level} level) in a 1-hour peer session.
-RULES:
-- 100% specific to "${skill}" — not generic
-- VARY correct answer positions evenly across 0,1,2,3
-${isCoding?`Include 22 MCQ + 8 coding questions (type:"code")`:`All 30 MCQ (type:"mcq")`}
-MCQ: 4 options A/B/C/D. "answer"=0 for A,1 for B,2 for C,3 for D.
+  const prompt=`Expert exam creator for Zwapy campus skill exchange.
+Generate 30 exam questions testing a student who just learned "${skill}" (${level} level) in 1 hour.
+Rules: 100% specific to "${skill}". Vary correct answer positions 0,1,2,3 evenly.
+${isCoding?'22 MCQ + 8 code questions (type:"code")':'All 30 MCQ (type:"mcq")'}
+MCQ: 4 options A/B/C/D. answer=0(A),1(B),2(C),3(D).
 Return ONLY valid JSON no markdown:
 {"questions":[{"type":"mcq","q":"question?","options":["A. a","B. b","C. c","D. d"],"answer":2}]}`;
   try{
     const text=await callGemini(prompt);
     const parsed=JSON.parse(text.replace(/```json|```/g,'').trim());
     return shuffleArr(parsed.questions);
-  }catch(err){console.error('Gemini error:',err);return shuffleArr(fallbackQ(skill,isCoding));}
+  }catch(err){console.error('Gemini:',err);return shuffleArr(fallbackQ(skill,isCoding));}
 }
 
 function shuffleArr(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
-
 function fallbackQ(skill,isCoding){
   const base=[
     {type:'mcq',q:`What is the primary purpose of ${skill}?`,options:['A. Creating value and solving problems','B. Only for entertainment','C. Only for large companies','D. Only academic use'],answer:0},
     {type:'mcq',q:`Which is the best first step when learning ${skill}?`,options:['A. Skip basics immediately','B. Only watch tutorials','C. Start fundamentals with regular practice','D. Memorize syntax blindly'],answer:2},
-    {type:'mcq',q:`After a ${skill} session, what should you do?`,options:['A. Never revisit','B. Practice what you learned right away','C. Wait weeks before trying','D. Just read more theory'],answer:1},
+    {type:'mcq',q:`After a ${skill} session what should you do?`,options:['A. Never revisit','B. Practice what you learned right away','C. Wait weeks before trying','D. Just read more theory'],answer:1},
     {type:'mcq',q:`What makes ${skill} valuable in the real world?`,options:['A. Not useful practically','B. Only one industry uses it','C. Builds problem-solving and career skills','D. Too complex for most people'],answer:2},
-    {type:'mcq',q:`When stuck while practicing ${skill}, you should:`,options:['A. Give up permanently','B. Skip that concept forever','C. Memorize without understanding','D. Break it down and seek help'],answer:3},
+    {type:'mcq',q:`When stuck while practicing ${skill} you should:`,options:['A. Give up permanently','B. Skip that concept forever','C. Memorize without understanding','D. Break it down and seek help'],answer:3},
     {type:'mcq',q:`What mindset helps in mastering ${skill}?`,options:['A. Consistent practice with patience','B. Expect instant results','C. Only learn when forced','D. Avoid all challenges'],answer:0},
-    {type:'mcq',q:`How can you apply ${skill} as a student?`,options:['A. Cannot apply it yet','B. Only in exams','C. Only in professional settings','D. Projects, assignments and collaborations'],answer:3},
+    {type:'mcq',q:`How can you apply ${skill} as a student?`,options:['A. Cannot apply it yet','B. Only in exams','C. Only in professional settings','D. Projects assignments and collaborations'],answer:3},
     {type:'mcq',q:`What was most valuable about learning ${skill} from a peer?`,options:['A. Nothing was useful','B. Real context and faster understanding','C. Only experts can teach properly','D. Pure theory is better'],answer:1},
     {type:'mcq',q:`How should you test your ${skill} knowledge?`,options:['A. Never test yourself','B. Build a project and apply it practically','C. Just read more','D. Ask someone to do it for you'],answer:1},
     {type:'mcq',q:`How can you use ${skill} to help other students?`,options:['A. Keep it to yourself','B. Cannot help others with it','C. Only use for personal gain','D. Share through exchanges and collaboration'],answer:3},
   ];
-  if(isCoding){
-    base.push({type:'code',q:`Write a simple ${skill} program that prints "Hello Zwapy"`,expected:'Output: Hello Zwapy'});
-    base.push({type:'code',q:`Write a ${skill} function that takes two numbers and returns their sum`,expected:'Function(a,b) → a+b'});
-    base.push({type:'code',q:`Write a ${skill} snippet that stores 3 items in a list and loops through them`,expected:'Should print 3 items'});
-  }
+  if(isCoding){base.push({type:'code',q:`Write a simple ${skill} program that prints "Hello Zwapy"`,expected:'Output: Hello Zwapy'},{type:'code',q:`Write a ${skill} function that adds two numbers`,expected:'Returns sum of two numbers'},{type:'code',q:`Write a ${skill} loop that prints numbers 1 to 5`,expected:'Prints 1 2 3 4 5'});}
   const q=[];for(let i=0;i<3;i++)q.push(...base.slice(0,10));
   if(isCoding)q.push(...base.slice(10));
   return q.slice(0,30);
 }
 
-/* ── Skill exchange count (for cert) ── */
+/* ── Cert count per skill ── */
 async function getSkillExchangeCount(userId,skill){
-  const ud=await getDoc(doc(db,'users',userId));
-  if(!ud.exists())return 0;
+  const ud=await getDoc(doc(db,'users',userId));if(!ud.exists())return 0;
   return(ud.data().skillExchangeCounts||{})[skill.toLowerCase().trim()]||0;
 }
 async function incrementSkillExchangeCount(userId,skill){
-  const userRef=doc(db,'users',userId);
-  const ud=await getDoc(userRef);
+  const userRef=doc(db,'users',userId);const ud=await getDoc(userRef);
   const counts=(ud.exists()?ud.data().skillExchangeCounts:null)||{};
-  const key=skill.toLowerCase().trim();
-  counts[key]=(counts[key]||0)+1;
-  await updateDoc(userRef,{skillExchangeCounts:counts});
-  return counts[key];
+  const key=skill.toLowerCase().trim();counts[key]=(counts[key]||0)+1;
+  await updateDoc(userRef,{skillExchangeCounts:counts});return counts[key];
 }
 
 /* ── STATE ── */
@@ -744,32 +750,26 @@ window.switchTab=function(tab,el){
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
   document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
   el.classList.add('active');$('tab-'+tab).classList.add('active');
-  if(tab==='requests')renderRequests();
-  if(tab==='sessions')renderSessions();
+  if(tab==='requests')renderRequests();if(tab==='sessions')renderSessions();
 };
 
-/* ── RENDER GRID ── */
 function renderExchanges(){
   let list=allExchanges;
   if(activeFilter==='mine')list=list.filter(e=>e.uid===currentUser?.uid);
   else if(activeFilter!=='all')list=list.filter(e=>e.level===activeFilter);
   if(searchQ)list=list.filter(e=>(e.offer||'').toLowerCase().includes(searchQ)||(e.need||'').toLowerCase().includes(searchQ));
-  $('statTotal').textContent=allExchanges.length;
-  $('statMine').textContent=allExchanges.filter(e=>e.uid===currentUser?.uid).length;
+  $('statTotal').textContent=allExchanges.length;$('statMine').textContent=allExchanges.filter(e=>e.uid===currentUser?.uid).length;
   allExchanges.forEach(e=>{exchangesMap[e.id]=e;});
   if(!list.length){$('exGrid').innerHTML=`<div class="empty-state"><div class="ei">🔄</div><p class="et">No exchanges found.</p></div>`;return;}
   $('exGrid').innerHTML=list.map(ex=>{
     const isMe=ex.uid===currentUser?.uid,col=levelColor(ex.level);
     const av=ex.photoURL||`https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(ex.name||ex.uid)}`;
     const isCoding=isCodingSkill(ex.offer);
-    return`<div class="ex-card">
-      <div class="ex-bar" style="background:linear-gradient(90deg,${col},transparent)"></div>
+    return`<div class="ex-card"><div class="ex-bar" style="background:linear-gradient(90deg,${col},transparent)"></div>
       <div class="ex-body">
-        <div class="ex-header">
-          <div class="ex-av"><img src="${av}" loading="lazy" alt=""></div>
+        <div class="ex-header"><div class="ex-av"><img src="${av}" loading="lazy" alt=""></div>
           <div class="ex-user"><div class="ex-name">${ex.name||'Student'}</div><div class="ex-uni">${ex.university||''}</div></div>
-          <div class="ex-time">${timeAgo(ex.createdAt)}</div>
-        </div>
+          <div class="ex-time">${timeAgo(ex.createdAt)}</div></div>
         <div class="swap-box">
           <div class="swap-side"><div class="swap-lbl off">Offering</div><div class="swap-skill">${ex.offer||'—'}${isCoding?' 💻':''}</div></div>
           <div class="swap-arr">⇄</div>
@@ -784,8 +784,7 @@ function renderExchanges(){
           </div>
           ${isMe?`<button class="connect-btn mine" onclick="deleteEx('${ex.id}')">Delete</button>`:`<button class="connect-btn" onclick="openConnect('${ex.id}')">Connect →</button>`}
         </div>
-      </div>
-    </div>`;
+      </div></div>`;
   }).join('');
 }
 
@@ -793,13 +792,8 @@ window.deleteEx=async function(id){if(!confirm('Delete this post?'))return;await
 
 window.openConnect=function(exId){
   const ex=exchangesMap[exId];if(!ex)return;connectTarget=ex;
-  $('cTitle').textContent=`Connect with ${ex.name||'Student'}`;
-  $('cSub').textContent=`${ex.offer} ↔ ${ex.need} · ${ex.level||''} · ${ex.duration||''}`;
-  $('cSwapBox').innerHTML=`<div style="display:flex;align-items:center;gap:10px;">
-    <div style="flex:1;min-width:0;"><div style="font-family:'Space Mono',monospace;font-size:.44rem;text-transform:uppercase;color:var(--cyan);margin-bottom:3px;">They Offer</div><div style="font-size:.86rem;font-weight:800;">${ex.offer}</div></div>
-    <div style="opacity:.3;">⇄</div>
-    <div style="flex:1;min-width:0;"><div style="font-family:'Space Mono',monospace;font-size:.44rem;text-transform:uppercase;color:var(--green);margin-bottom:3px;">They Need</div><div style="font-size:.86rem;font-weight:800;">${ex.need}</div></div>
-  </div>`;
+  $('cTitle').textContent=`Connect with ${ex.name||'Student'}`;$('cSub').textContent=`${ex.offer} ↔ ${ex.need} · ${ex.level||''} · ${ex.duration||''}`;
+  $('cSwapBox').innerHTML=`<div style="display:flex;align-items:center;gap:10px;"><div style="flex:1;min-width:0;"><div style="font-family:'Space Mono',monospace;font-size:.44rem;text-transform:uppercase;color:var(--cyan);margin-bottom:3px;">They Offer</div><div style="font-size:.86rem;font-weight:800;">${ex.offer}</div></div><div style="opacity:.3;">⇄</div><div style="flex:1;min-width:0;"><div style="font-family:'Space Mono',monospace;font-size:.44rem;text-transform:uppercase;color:var(--green);margin-bottom:3px;">They Need</div><div style="font-size:.86rem;font-weight:800;">${ex.need}</div></div></div>`;
   $('cMsg').value='';$('connectModal').classList.add('open');
 };
 $('connectClose').addEventListener('click',()=>$('connectModal').classList.remove('open'));
@@ -811,24 +805,17 @@ $('sendReqBtn').addEventListener('click',async()=>{
   $('connectModal').classList.remove('open');btn.disabled=false;btn.textContent='Send Request →';toast('✅ Request sent!');
 });
 
-/* ── RENDER REQUESTS ── */
 async function renderRequests(){
   const snap=await getDocs(query(collection(db,'exchange_requests'),orderBy('createdAt','desc')));
   const reqs=[];snap.forEach(d=>{const r={id:d.id,...d.data()};if(r.toUid===currentUser.uid){reqs.push(r);requestsMap[r.id]=r;}});
   $('reqDot').className=reqs.filter(r=>r.status==='pending').length?'tab-dot show':'tab-dot';
   if(!reqs.length){$('requestsList').innerHTML=`<div class="empty-state"><div class="ei">📬</div><p class="et">No requests yet.</p></div>`;return;}
-  $('requestsList').innerHTML=reqs.map(r=>`
-    <div class="request-card">
-      <div class="rc-top">
-        <div><div class="rc-title">From ${r.fromName||'Student'}</div><div class="rc-from">${r.fromUniversity||''} · ${timeAgo(r.createdAt)}</div></div>
-        <span class="rc-status ${r.status}">${r.status}</span>
-      </div>
-      <div class="rc-skills"><strong style="color:white;">${r.offer}</strong> ↔ <strong style="color:white;">${r.need}</strong></div>
-      <div class="rc-msg">"${r.message}"</div>
-      <div class="rc-actions">
-        ${r.status==='pending'?`<button class="btn-accept" onclick="acceptReq('${r.id}')">✓ Accept &amp; Set Zoom</button><button class="btn-reject" onclick="rejectReq('${r.id}')">Reject</button>`:`<span style="font-size:.68rem;color:var(--muted);">Already ${r.status}</span>`}
-      </div>
-    </div>`).join('');
+  $('requestsList').innerHTML=reqs.map(r=>`<div class="request-card">
+    <div class="rc-top"><div><div class="rc-title">From ${r.fromName||'Student'}</div><div class="rc-from">${r.fromUniversity||''} · ${timeAgo(r.createdAt)}</div></div><span class="rc-status ${r.status}">${r.status}</span></div>
+    <div class="rc-skills"><strong style="color:white;">${r.offer}</strong> ↔ <strong style="color:white;">${r.need}</strong></div>
+    <div class="rc-msg">"${r.message}"</div>
+    <div class="rc-actions">${r.status==='pending'?`<button class="btn-accept" onclick="acceptReq('${r.id}')">✓ Accept &amp; Add Zoom</button><button class="btn-reject" onclick="rejectReq('${r.id}')">Reject</button>`:`<span style="font-size:.68rem;color:var(--muted);">Already ${r.status}</span>`}</div>
+  </div>`).join('');
 }
 
 window.acceptReq=function(reqId){
@@ -838,75 +825,58 @@ window.acceptReq=function(reqId){
   $('sessDate').value='';$('sessTime').value='';$('sessDuration').value='1';
   $('zoomMeetingIdInput').value='';$('zoomPasswordInput').value='';
   $('zoomIdStatus').textContent='';$('zoomIdStatus').className='zoom-id-status';
-  $('zoomMeetingIdInput').className='';
-  $('confirmSchedule').disabled=true;
+  $('zoomMeetingIdInput').className='';$('confirmSchedule').disabled=true;
   $('scheduleModal').classList.add('open');
 };
 $('scheduleClose').addEventListener('click',()=>$('scheduleModal').classList.remove('open'));
 
-/* ════════════════════════════════════════════════
-   confirmSchedule — uses teacher's real Zoom ID
-   Saves to Firestore → both students see the ID
-   in their Sessions tab
-════════════════════════════════════════════════ */
 $('confirmSchedule').addEventListener('click',async()=>{
-  const date     = $('sessDate').value;
-  const time     = $('sessTime').value;
-  const dur      = $('sessDuration').value;
-  const rawInput = ($('zoomMeetingIdInput').value||'').replace(/[\s\-]/g,'');
-  const digits   = rawInput.replace(/\D/g,'');
-  const zoomPass = ($('zoomPasswordInput').value||'').trim();
-
-  if(!date||!time)               {toast('Pick date and time','e');return;}
-  if(digits.length<9||digits.length>11){toast('Enter a valid 9–11 digit Zoom Meeting ID','e');return;}
-
+  const date=$('sessDate').value,time=$('sessTime').value,dur=$('sessDuration').value;
+  const rawId=($('zoomMeetingIdInput').value||'');
+  const digits=cleanDigits(rawId);
+  const zoomPass=($('zoomPasswordInput').value||'').trim();
+  if(!date||!time){toast('Pick date and time','e');return;}
+  if(digits.length<9||digits.length>11){toast('Enter a valid Zoom Meeting ID (9–11 digits)','e');return;}
   const btn=$('confirmSchedule');btn.disabled=true;btn.textContent='Saving...';
 
-  const zoomFormatted = formatZoomId(digits);
-  const zoomJoinLink  = buildZoomJoinLink(digits, zoomPass);
+  // Store ONLY clean digits — never store formatted/dashed version
+  const zoomJoinLink = buildZoomJoinUrl(digits, zoomPass);
 
-  // Save session — both students will see this Zoom ID
   await addDoc(collection(db,'sessions'),{
-    requestId:    scheduleTarget.reqId,
-    fromUid:      scheduleTarget.fromUid,  // teacher (person who accepted)
-    fromName:     scheduleTarget.fromName,
-    fromEmail:    scheduleTarget.fromEmail||'',
-    toUid:        currentUser.uid,          // learner (person who sent request)
-    toName:       userData.name||'Student',
-    toEmail:      currentUser.email||'',
-    offer:        scheduleTarget.offer,
-    need:         scheduleTarget.need,
-    level:        scheduleTarget.level||'Intermediate',
-    date, time,
-    durationHours:  parseFloat(dur),
-    zoomMeetingId:  digits,
-    zoomFormatted:  zoomFormatted,
-    zoomPassword:   zoomPass,
-    zoomJoinLink:   zoomJoinLink,
-    status:         'scheduled',
+    requestId:scheduleTarget.reqId,
+    fromUid:scheduleTarget.fromUid,fromName:scheduleTarget.fromName,fromEmail:scheduleTarget.fromEmail||'',
+    toUid:currentUser.uid,toName:userData.name||'Student',toEmail:currentUser.email||'',
+    offer:scheduleTarget.offer,need:scheduleTarget.need,level:scheduleTarget.level||'Intermediate',
+    date,time,durationHours:parseFloat(dur),
+    zoomMeetingId:digits,      // ← clean digits only, e.g. "1234567890"
+    zoomPassword:zoomPass,
+    zoomJoinLink:zoomJoinLink, // ← ready-to-use URL, e.g. "https://zoom.us/j/1234567890"
+    status:'scheduled',
     sessionConfirmed:{[scheduleTarget.fromUid]:false,[currentUser.uid]:false},
-    examDone:        {[scheduleTarget.fromUid]:false,[currentUser.uid]:false},
-    rated:           {[scheduleTarget.fromUid]:false,[currentUser.uid]:false},
-    createdAt:      serverTimestamp()
+    examDone:{[scheduleTarget.fromUid]:false,[currentUser.uid]:false},
+    rated:{[scheduleTarget.fromUid]:false,[currentUser.uid]:false},
+    createdAt:serverTimestamp()
   });
-
   await updateDoc(doc(db,'exchange_requests',scheduleTarget.reqId),{status:'accepted'});
-
-  const desc=`${date} at ${time} · ${dur}hr · Zoom ID: ${zoomFormatted}${zoomPass?` · Password: ${zoomPass}`:''}`;
+  const desc=`${date} at ${time} · ${dur}hr · Zoom ID: ${displayZoomId(digits)}${zoomPass?` · Password: ${zoomPass}`:''}`;
   await Promise.all([
     addDoc(collection(db,'users',currentUser.uid,'activity'),{title:`📹 Session with ${scheduleTarget.fromName}`,desc,createdAt:serverTimestamp()}),
     addDoc(collection(db,'users',scheduleTarget.fromUid,'activity'),{title:`📹 Session confirmed with ${userData.name||'Student'}`,desc,createdAt:serverTimestamp()})
   ]);
-
-  $('scheduleModal').classList.remove('open');
-  btn.disabled=false;btn.textContent='Confirm & Send Zoom Details →';
-  toast('✅ Session scheduled! Zoom ID sent to both students.');
+  $('scheduleModal').classList.remove('open');btn.disabled=false;btn.textContent='Confirm & Share Zoom Link →';
+  toast('✅ Zoom meeting saved! Both students can now join from Sessions tab.');
   renderRequests();document.querySelectorAll('.tab-btn')[2].click();
 });
 
 window.rejectReq=async function(reqId){await updateDoc(doc(db,'exchange_requests',reqId),{status:'rejected'});toast('Rejected');renderRequests();};
 
-/* ── RENDER SESSIONS ── */
+/* ══════════════════════════════════════════════════════
+   RENDER SESSIONS
+   - Teacher: shows "Start Meeting" button
+   - Learner: shows "Join Meeting" button
+   - Both open direct zoom.us/j/DIGITS URL
+   - No copy-paste of meeting ID needed at all
+══════════════════════════════════════════════════════ */
 async function renderSessions(){
   const snap=await getDocs(query(collection(db,'sessions'),orderBy('createdAt','desc')));
   const sessions=[];
@@ -915,7 +885,8 @@ async function renderSessions(){
   if(!sessions.length){$('sessionsList').innerHTML=`<div class="empty-state"><div class="ei">📹</div><p class="et">No sessions yet.</p></div>`;return;}
 
   const cards=await Promise.all(sessions.map(async s=>{
-    const iAmLearner=s.toUid===currentUser.uid;
+    const iAmLearner=s.toUid===currentUser.uid; // learner = person who sent the original request
+    const iAmTeacher=s.fromUid===currentUser.uid; // teacher = person who accepted + added Zoom ID
     const withName=iAmLearner?s.fromName:s.toName;
     const now=new Date(),sessStart=new Date(`${s.date}T${s.time}`),sessEnd=new Date(sessStart.getTime()+(s.durationHours||1)*3600000);
     const upcoming=sessStart>now,ongoing=sessStart<=now&&sessEnd>now,completed=sessEnd<=now;
@@ -926,41 +897,63 @@ async function renderSessions(){
     const myExamDone=(s.examDone||{})[currentUser.uid];
     const myRated=(s.rated||{})[currentUser.uid];
     const level=s.level||'Intermediate';
-    const zoomId=s.zoomFormatted||s.zoomMeetingId||'—';
-    const zoomPass=s.zoomPassword||'';
 
     let exchangeCount=0;
     if(iAmLearner&&myExamDone){exchangeCount=await getSkillExchangeCount(currentUser.uid,s.offer);}
 
     const statusBadge=upcoming?`<span style="font-size:.62rem;color:var(--cyan);background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.2);padding:2px 8px;border-radius:100px;">Upcoming</span>`:ongoing?`<span style="font-size:.62rem;color:var(--green);background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);padding:2px 8px;border-radius:100px;">🔴 Live</span>`:`<span style="font-size:.62rem;color:var(--muted);">Completed</span>`;
 
+    // Build the correct join URL from stored digits
+    const joinUrl = s.zoomJoinLink || buildZoomJoinUrl(s.zoomMeetingId||'', s.zoomPassword||'');
+
+    // Zoom join box HTML — different for teacher vs learner
+    const zoomBox = (upcoming||ongoing) ? `
+      <div class="zoom-join-box">
+        <div class="zjb-header">
+          <div class="zjb-icon">🎥</div>
+          <div class="zjb-title">Zoom Meeting Ready</div>
+          <span class="zjb-role ${iAmTeacher?'teacher':'learner'}">${iAmTeacher?'YOU ARE TEACHER':'YOU ARE LEARNER'}</span>
+        </div>
+        ${iAmTeacher?`
+          <div class="teacher-join-instruction">
+            <strong>Your steps as teacher:</strong>
+            <ol>
+              <li>Click the button below — it opens your Zoom meeting</li>
+              <li>Tap <strong>"Start Meeting"</strong> in Zoom</li>
+              <li>Wait for your learner to join — then begin teaching</li>
+            </ol>
+          </div>
+          <button class="zoom-open-btn teacher-start" onclick="handleZoomJoin('${s.id}')">🎥 Start Zoom Meeting →</button>
+        `:` 
+          <div class="learner-join-instruction">
+            <strong>⚠️ Wait for teacher to start first!</strong> The teacher (${s.fromName||'your partner'}) must click "Start Meeting" in their Zoom app before you can join.<br><br>
+            Once they've started, click the button below:
+          </div>
+          <button class="zoom-open-btn" onclick="handleZoomJoin('${s.id}')">🎥 Join Zoom Meeting →</button>
+        `}
+        <div class="zoom-id-display">Meeting ID: <span>${displayZoomId(s.zoomMeetingId||'')}</span>${s.zoomPassword?` · Password: <span>${s.zoomPassword}</span>`:''}</div>
+      </div>` : '';
+
     return`<div class="session-card">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;flex-wrap:wrap;gap:5px;">
         <div class="session-title">${s.offer} ↔ ${s.need}</div>${statusBadge}
       </div>
-      <div class="session-with">with ${withName||'Student'} · <span style="font-family:'Space Mono',monospace;font-size:.54rem;color:var(--muted);">${level}</span>
-        · <span style="font-family:'Space Mono',monospace;font-size:.52rem;color:${iAmLearner?'var(--cyan)':'var(--green)'};">${iAmLearner?'You are LEARNER 📖':'You are TEACHER 🎓'}</span>
-      </div>
+      <div class="session-with">with ${withName||'Student'} · <span style="font-family:'Space Mono',monospace;font-size:.54rem;color:var(--muted);">${level}</span></div>
       <div class="session-meta">
         <div class="smr">📅 ${s.date} at ${s.time} (${s.durationHours}hr)</div>
-        <div class="smr" style="flex-wrap:wrap;gap:6px;align-items:center;">
-          🎥 <strong style="color:var(--zoom);">Zoom: ${zoomId}</strong>
-          ${zoomPass?`<span style="font-size:.6rem;color:var(--muted);">· Password: ${zoomPass}</span>`:''}
-          <button onclick="copyZoomIdBtn('${s.zoomMeetingId||''}')" style="background:rgba(45,140,255,0.1);border:1px solid rgba(45,140,255,0.22);border-radius:5px;padding:2px 8px;font-size:.56rem;font-weight:700;color:var(--zoom);cursor:pointer;font-family:'Sora',sans-serif;">📋 Copy ID</button>
-        </div>
       </div>
+      ${zoomBox}
       <div class="session-actions">
-        ${(upcoming||ongoing)?`<button class="zoom-btn" onclick="openSafetyAndZoom('${s.id}','${s.offer}')">🎥 Launch Zoom Meeting →</button>`:''}
         ${completed&&!myConfirmed?`<button class="confirm-session-btn" onclick="confirmSession('${s.id}')">✅ Confirm Session Done</button>`:''}
         ${completed&&myConfirmed&&!otherConfirmed?`<span style="font-size:.66rem;color:var(--amber);">⏳ Waiting for ${withName} to confirm...</span>`:''}
         ${completed&&bothConfirmed&&iAmLearner&&!myExamDone?`<button class="take-exam-btn" onclick="startExam('${s.id}')">📝 Take Exam &amp; Earn Coins</button>`:''}
-        ${completed&&bothConfirmed&&!iAmLearner&&!myExamDone?`<span style="font-size:.66rem;color:var(--green);">✓ You're the teacher — no exam needed. Waiting for learner rating for your bonus coins.</span>`:''}
+        ${completed&&bothConfirmed&&iAmTeacher&&!myExamDone?`<span style="font-size:.66rem;color:var(--green);">✓ Teacher — no exam needed. Waiting for learner rating for your bonus coins.</span>`:''}
         ${myExamDone&&iAmLearner&&!myRated?`<button class="rate-btn" onclick="openRating('${s.id}')">⭐ Rate Your Teacher</button>`:''}
         ${myExamDone&&iAmLearner&&myRated?`<span style="font-size:.66rem;color:var(--green);">✓ All done · Coins credited</span>`:''}
         ${myExamDone&&iAmLearner?`<div class="cert-progress-bar">
-          <div class="cert-prog-label">🏆 ${s.offer} Certificate: ${Math.min(exchangeCount,CERT_EXCHANGES_REQUIRED)}/${CERT_EXCHANGES_REQUIRED} exchanges</div>
+          <div class="cert-prog-label">🏆 "${s.offer}" Certificate: ${Math.min(exchangeCount,CERT_EXCHANGES_REQUIRED)}/${CERT_EXCHANGES_REQUIRED} exchanges</div>
           <div class="cert-prog-track"><div class="cert-prog-fill" style="width:${Math.min((exchangeCount/CERT_EXCHANGES_REQUIRED)*100,100)}%;"></div></div>
-          ${exchangeCount>=CERT_EXCHANGES_REQUIRED?`<div style="color:var(--green);font-size:.68rem;margin-top:4px;">✅ Certificate unlocked! Check your email.</div>`:`<div style="color:var(--muted);font-size:.62rem;margin-top:3px;">${CERT_EXCHANGES_REQUIRED-Math.min(exchangeCount,CERT_EXCHANGES_REQUIRED)} more exchange${CERT_EXCHANGES_REQUIRED-Math.min(exchangeCount,CERT_EXCHANGES_REQUIRED)!==1?'s':''} on ${s.offer} to unlock certificate</div>`}
+          ${exchangeCount>=CERT_EXCHANGES_REQUIRED?`<div style="color:var(--green);font-size:.68rem;margin-top:4px;">✅ Certificate unlocked! Check your email.</div>`:`<div style="color:var(--muted);font-size:.62rem;margin-top:3px;">${CERT_EXCHANGES_REQUIRED-Math.min(exchangeCount,CERT_EXCHANGES_REQUIRED)} more exchange${CERT_EXCHANGES_REQUIRED-Math.min(exchangeCount,CERT_EXCHANGES_REQUIRED)!==1?'s':''} to unlock certificate</div>`}
         </div>`:''}
       </div>
       ${completed?`<div class="confirm-status">${myConfirmed?'✅ You confirmed':'⬜ You haven\'t confirmed'} · ${otherConfirmed?`✅ ${withName} confirmed`:`⬜ ${withName} hasn\'t confirmed`}${!myConfirmed?'<br><span style="color:var(--amber);font-size:.66rem;">Both must confirm before exam unlocks</span>':''}</div>`:''}
@@ -969,16 +962,11 @@ async function renderSessions(){
   $('sessionsList').innerHTML=cards.join('');
 }
 
-window.copyZoomIdBtn=function(meetingId){
-  if(!meetingId)return;
-  const txt=formatZoomId(meetingId);
-  try{navigator.clipboard.writeText(txt);}catch(e){const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);}
-  toast('✅ Zoom ID copied!');
-};
-
-window.openSafetyAndZoom=async function(sessionId,skill){
+/* handleZoomJoin — safety check first, then open direct URL */
+window.handleZoomJoin=async function(sessionId){
   const s=sessionsMap[sessionId];if(!s)return;
-  await openSafetyModal(s.zoomMeetingId||'',s.zoomPassword||'',skill);
+  const iAmTeacher = s.fromUid===currentUser.uid;
+  await openSafetyModal(s, iAmTeacher, s.offer);
 };
 
 window.confirmSession=async function(sid){
@@ -991,10 +979,8 @@ window.confirmSession=async function(sid){
 /* ── RATING ── */
 window.openRating=function(sid){
   const s=sessionsMap[sid];if(!s)return;ratingSession=s;currentStars=0;
-  $('ratingTeacherName').textContent=`Rating ${s.fromName||'your teacher'}`;
-  $('ratingCoinPreview').textContent='';
-  document.querySelectorAll('.star').forEach(s=>s.classList.remove('active'));
-  $('ratingSubmitBtn').disabled=true;$('ratingModal').classList.add('open');
+  $('ratingTeacherName').textContent=`Rating ${s.fromName||'your teacher'}`;$('ratingCoinPreview').textContent='';
+  document.querySelectorAll('.star').forEach(s=>s.classList.remove('active'));$('ratingSubmitBtn').disabled=true;$('ratingModal').classList.add('open');
 };
 document.querySelectorAll('.star').forEach(star=>{
   star.addEventListener('click',()=>{
@@ -1007,8 +993,7 @@ document.querySelectorAll('.star').forEach(star=>{
   });
 });
 $('ratingSubmitBtn').addEventListener('click',async()=>{
-  if(!ratingSession||currentStars===0)return;
-  const btn=$('ratingSubmitBtn');btn.disabled=true;btn.textContent='Submitting...';
+  if(!ratingSession||currentStars===0)return;const btn=$('ratingSubmitBtn');btn.disabled=true;btn.textContent='Submitting...';
   const tc=getTeacherCoins(ratingSession.level||'Intermediate',currentStars);
   try{
     await updateDoc(doc(db,'sessions',ratingSession.id),{[`rated.${currentUser.uid}`]:true,[`stars.${currentUser.uid}`]:currentStars,teacherCoinsAwarded:tc});
@@ -1026,30 +1011,26 @@ window.startExam=async function(sid){
   const skillTaught=s.offer;
   examSession={sessionId:sid,skill:skillTaught,teacherName:s.fromName||'Student',level:s.level||'Intermediate',iAmLearner:true};
   examQuestions=[];examIdx=0;examScore=0;selectedAnswer=null;codeAnswers=[];tabSwitchCount=0;
-  clearInterval(examTimerInterval);
-  $('examScreen').style.display='block';$('resultScreen').style.display='none';
+  clearInterval(examTimerInterval);$('examScreen').style.display='block';$('resultScreen').style.display='none';
   $('cheatWarning').className='cheat-warning';$('examModal').classList.add('open');
-  examQuestions=await generateExamQuestions(skillTaught,s.level||'Intermediate');
-  showExamQ();
+  examQuestions=await generateExamQuestions(skillTaught,s.level||'Intermediate');showExamQ();
 };
 $('examClose').addEventListener('click',()=>{if(confirm('Exit? Progress lost.')){clearInterval(examTimerInterval);$('examModal').classList.remove('open');}});
-
 document.addEventListener('visibilitychange',()=>{
   if(document.hidden&&$('examModal').classList.contains('open')&&$('examScreen').style.display!=='none'){
     tabSwitchCount++;$('cheatWarning').className='cheat-warning show';
     $('cheatWarning').textContent=`⚠️ Tab switch #${tabSwitchCount} detected.${tabSwitchCount>=3?' EXAM VOIDED.':''}`;
-    if(tabSwitchCount>=3){clearInterval(examTimerInterval);$('examModal').classList.remove('open');toast('❌ Exam voided — tab switches.','e');}
+    if(tabSwitchCount>=3){clearInterval(examTimerInterval);$('examModal').classList.remove('open');toast('❌ Exam voided.','e');}
   }
 });
-document.addEventListener('copy',e=>{if($('examModal').classList.contains('open')&&$('codeSection').style.display==='none'){e.preventDefault();toast('❌ Copying disabled during exam','e');}});
+document.addEventListener('copy',e=>{if($('examModal').classList.contains('open')&&$('codeSection').style.display==='none'){e.preventDefault();toast('❌ Copying disabled','e');}});
 
 function showExamQ(){
   const q=examQuestions[examIdx];
   $('examProgressBar').style.width=`${(examIdx/examQuestions.length)*100}%`;
   $('examProgressText').textContent=`${examIdx+1}/${examQuestions.length}`;
   $('examQNum').textContent=`Question ${examIdx+1} of ${examQuestions.length}`;
-  $('examQuestion').textContent=q.q;
-  selectedAnswer=null;$('examNextBtn').disabled=true;
+  $('examQuestion').textContent=q.q;selectedAnswer=null;$('examNextBtn').disabled=true;
   if(q.type==='code'){
     $('examOptions').style.display='none';$('codeSection').style.display='block';
     $('codeEditor').value='';$('codeOutput').style.display='none';$('codeSubmitBtn').disabled=true;
@@ -1061,29 +1042,22 @@ function showExamQ(){
     $('examOptions').innerHTML=q.options.map((opt,i)=>`<button class="exam-option" onclick="selectAns(${i})">${opt}</button>`).join('');
     clearInterval(examTimerInterval);timeLeft=30;$('examTimer').textContent='30s';$('examTimer').className='exam-timer';
     examTimerInterval=setInterval(()=>{
-      timeLeft--;$('examTimer').textContent=timeLeft+'s';
-      if(timeLeft<=10)$('examTimer').className='exam-timer urgent';
+      timeLeft--;$('examTimer').textContent=timeLeft+'s';if(timeLeft<=10)$('examTimer').className='exam-timer urgent';
       if(timeLeft<=0){clearInterval(examTimerInterval);examIdx++;if(examIdx<examQuestions.length)setTimeout(showExamQ,400);else setTimeout(showExamResult,400);}
     },1000);
   }
 }
 window.selectAns=function(idx){selectedAnswer=idx;document.querySelectorAll('.exam-option').forEach((b,i)=>b.className='exam-option'+(i===idx?' selected':''));$('examNextBtn').disabled=false;};
 window.runCode=function(){
-  const code=$('codeEditor').value.trim();if(!code)return;
-  const output=$('codeOutput');output.style.display='block';
+  const code=$('codeEditor').value.trim();if(!code)return;const output=$('codeOutput');output.style.display='block';
   if((examSession.skill||'').toLowerCase().includes('javascript')||(examSession.skill||'').toLowerCase().includes(' js')){
-    let logs=[];const origLog=console.log;
-    console.log=(...args)=>logs.push(args.map(a=>typeof a==='object'?JSON.stringify(a):String(a)).join(' '));
+    let logs=[];const origLog=console.log;console.log=(...args)=>logs.push(args.map(a=>typeof a==='object'?JSON.stringify(a):String(a)).join(' '));
     try{eval(code);console.log=origLog;output.textContent=logs.length?logs.join('\n'):'(No output)';output.className='code-output success';}
     catch(err){console.log=origLog;output.textContent='Error: '+err.message;output.className='code-output error';}
-  }else{output.textContent='▶ Code saved. Run only works for JavaScript.';output.className='code-output';}
+  }else{output.textContent='▶ Code saved. Run works for JavaScript only.';output.className='code-output';}
   $('codeSubmitBtn').disabled=$('codeEditor').value.trim().length<5;
 };
-window.submitCode=function(){
-  codeAnswers.push({qIdx:examIdx,code:$('codeEditor').value.trim()});examScore+=0.5;
-  clearInterval(examTimerInterval);examIdx++;
-  if(examIdx<examQuestions.length)setTimeout(showExamQ,400);else setTimeout(showExamResult,400);
-};
+window.submitCode=function(){codeAnswers.push({qIdx:examIdx,code:$('codeEditor').value.trim()});examScore+=0.5;clearInterval(examTimerInterval);examIdx++;if(examIdx<examQuestions.length)setTimeout(showExamQ,400);else setTimeout(showExamResult,400);};
 $('examNextBtn').addEventListener('click',()=>{
   clearInterval(examTimerInterval);const q=examQuestions[examIdx];
   document.querySelectorAll('.exam-option').forEach((b,i)=>{if(i===q.answer)b.className='exam-option correct';else if(i===selectedAnswer&&i!==q.answer)b.className='exam-option wrong';});
@@ -1092,42 +1066,33 @@ $('examNextBtn').addEventListener('click',()=>{
 });
 
 async function showExamResult(){
-  clearInterval(examTimerInterval);
-  $('examScreen').style.display='none';$('resultScreen').style.display='block';
+  clearInterval(examTimerInterval);$('examScreen').style.display='none';$('resultScreen').style.display='block';
   const total=examQuestions.length,pct=Math.round((examScore/total)*100),pass=pct>=60;
   const level=examSession.level||'Intermediate',learnerCoins=getLearnerCoins(level,pass);
-  $('resultIcon').textContent=pass?'🏆':'📚';
-  $('resultScore').textContent=`${Math.round(examScore)}/${total}`;
+  $('resultIcon').textContent=pass?'🏆':'📚';$('resultScore').textContent=`${Math.round(examScore)}/${total}`;
   $('resultScore').className=`result-score ${pass?'pass':'fail'}`;
-  $('resultLabel').textContent=`${pct}% — ${pass?'Passed! Great work.':'Need 60% to pass. Keep practicing!'}`;
-  $('resultCoins').innerHTML=learnerCoins>0?`💰 <strong>+${learnerCoins} Skill Coins</strong> earned! (${level} level pass)<br>Rate your teacher for their bonus coins.`:`💸 <strong>${learnerCoins} coins</strong> deducted (${level} fail). Teacher is NOT penalised.`;
+  $('resultLabel').textContent=`${pct}% — ${pass?'Passed! Great work.':'Need 60% to pass.'}`;
+  $('resultCoins').innerHTML=learnerCoins>0?`💰 <strong>+${learnerCoins} Skill Coins</strong> earned!<br>Rate your teacher for their bonus coins.`:`💸 <strong>${learnerCoins} coins</strong> deducted. Teacher is NOT penalised.`;
   if(pass){
-    const currentCount=await getSkillExchangeCount(currentUser.uid,examSession.skill);
-    const newCount=currentCount+1;
+    const currentCount=await getSkillExchangeCount(currentUser.uid,examSession.skill);const newCount=currentCount+1;
     const certEl=$('certProgressResult');certEl.style.display='block';
     if(newCount>=CERT_EXCHANGES_REQUIRED){
-      certEl.innerHTML=`🏆 <strong>CERTIFICATE UNLOCKED!</strong> ${newCount}/${CERT_EXCHANGES_REQUIRED} exchanges on "${examSession.skill}"! Email incoming.`;
+      certEl.innerHTML=`🏆 <strong>CERTIFICATE UNLOCKED!</strong> ${newCount}/${CERT_EXCHANGES_REQUIRED} for "${examSession.skill}"! Email incoming.`;
       generateCert();$('certCanvas').style.display='block';$('hardcopyBox').style.display='block';
-      const mailBody=`Name: ${userData.name||''}%0ASkill: ${examSession.skill||''}%0AScore: ${Math.round(examScore)}/${total} (${pct}%)%0ALevel: ${level}%0ADelivery Address: `;
-      $('hardcopyLink').href=`mailto:zwapyteam@gmail.com?subject=Hard Copy Certificate Request — ${examSession.skill}&body=${mailBody}`;
-    }else{
-      certEl.innerHTML=`📊 ${newCount}/${CERT_EXCHANGES_REQUIRED} exchanges on "${examSession.skill}" · ${CERT_EXCHANGES_REQUIRED-newCount} more to unlock certificate`;
-    }
-    $('resultCert').innerHTML=newCount>=CERT_EXCHANGES_REQUIRED?`🎓 Certificate sent to <strong>${currentUser.email}</strong>!`:`📈 ${CERT_EXCHANGES_REQUIRED-newCount} more ${examSession.skill} exchange${CERT_EXCHANGES_REQUIRED-newCount!==1?'s':''} for certificate.`;
+      const mailBody=`Name: ${userData.name||''}%0ASkill: ${examSession.skill}%0AScore: ${Math.round(examScore)}/${total} (${pct}%)%0ALevel: ${level}%0ADelivery Address: `;
+      $('hardcopyLink').href=`mailto:zwapyteam@gmail.com?subject=Hard Copy Certificate — ${examSession.skill}&body=${mailBody}`;
+    }else{certEl.innerHTML=`📊 ${newCount}/${CERT_EXCHANGES_REQUIRED} on "${examSession.skill}" · ${CERT_EXCHANGES_REQUIRED-newCount} more to unlock certificate`;}
+    $('resultCert').innerHTML=newCount>=CERT_EXCHANGES_REQUIRED?`🎓 Certificate sent to <strong>${currentUser.email}</strong>!`:`📈 ${CERT_EXCHANGES_REQUIRED-newCount} more ${examSession.skill} exchange${CERT_EXCHANGES_REQUIRED-newCount!==1?'s':''} to earn certificate.`;
   }else{$('resultCert').innerHTML=`📖 Study more and retake to earn your certificate.`;$('certProgressResult').style.display='none';}
   $('resultBtn').disabled=false;$('resultBtn').textContent=pass?'Claim Coins →':'Accept Deduction';
 }
 
 function generateCert(){
-  const canvas=$('certCanvas');canvas.style.display='block';
-  const ctx=canvas.getContext('2d');const w=900,h=620;
-  ctx.fillStyle='#010114';ctx.fillRect(0,0,w,h);
-  ctx.strokeStyle='rgba(0,212,255,0.45)';ctx.lineWidth=2.5;ctx.strokeRect(18,18,w-36,h-36);
+  const canvas=$('certCanvas');canvas.style.display='block';const ctx=canvas.getContext('2d');const w=900,h=620;
+  ctx.fillStyle='#010114';ctx.fillRect(0,0,w,h);ctx.strokeStyle='rgba(0,212,255,0.45)';ctx.lineWidth=2.5;ctx.strokeRect(18,18,w-36,h-36);
   ctx.strokeStyle='rgba(0,212,255,0.18)';ctx.lineWidth=1;ctx.strokeRect(28,28,w-56,h-56);
-  const grd=ctx.createRadialGradient(w/2,h/2,0,w/2,h/2,380);grd.addColorStop(0,'rgba(0,212,255,0.07)');grd.addColorStop(1,'transparent');
-  ctx.fillStyle=grd;ctx.fillRect(0,0,w,h);
-  ctx.textAlign='center';
-  ctx.fillStyle='#00D4FF';ctx.font='bold 24px monospace';ctx.fillText('ZWAPY',w/2,74);
+  const grd=ctx.createRadialGradient(w/2,h/2,0,w/2,h/2,380);grd.addColorStop(0,'rgba(0,212,255,0.07)');grd.addColorStop(1,'transparent');ctx.fillStyle=grd;ctx.fillRect(0,0,w,h);
+  ctx.textAlign='center';ctx.fillStyle='#00D4FF';ctx.font='bold 24px monospace';ctx.fillText('ZWAPY',w/2,74);
   ctx.fillStyle='rgba(0,212,255,0.4)';ctx.font='10px monospace';ctx.fillText('CAMPUS SKILL NETWORK · PRESIDENCY UNIVERSITY, BANGALORE',w/2,92);
   ctx.strokeStyle='rgba(0,212,255,0.2)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(80,104);ctx.lineTo(w-80,104);ctx.stroke();
   ctx.fillStyle='white';ctx.font='bold 32px sans-serif';ctx.fillText('Certificate of Skill Exchange',w/2,146);
@@ -1140,20 +1105,11 @@ function generateCert(){
   ctx.fillStyle='rgba(100,116,139,0.7)';ctx.font='12px monospace';ctx.fillText(new Date().toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'}),w/2,404);
   ctx.strokeStyle='rgba(0,212,255,0.15)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(80,425);ctx.lineTo(w-80,425);ctx.stroke();
   const sigImg=new Image();sigImg.src='assets/signature.png';
-  sigImg.onload=()=>{
-    ctx.drawImage(sigImg,110,455,160,55);
-    ctx.fillStyle='rgba(148,163,184,0.7)';ctx.font='11px monospace';ctx.textAlign='center';
-    ctx.fillText('Jayashankar R',200,516);ctx.fillText('Founder, Zwapy',200,530);
-  };
-  ctx.save();ctx.translate(w-200,480);
-  ctx.strokeStyle='rgba(0,212,255,0.35)';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(0,0,28,0,Math.PI*2);ctx.stroke();
-  ctx.fillStyle='rgba(0,212,255,0.06)';ctx.fill();
-  ctx.fillStyle='#00D4FF';ctx.font='bold 11px monospace';ctx.textAlign='center';ctx.fillText('ZWAPY',0,-5);ctx.fillText('VERIFIED',0,8);
-  ctx.restore();
-  ctx.fillStyle='rgba(148,163,184,0.7)';ctx.font='11px monospace';ctx.textAlign='center';
-  ctx.fillText('Official Digital Certificate',w-200,516);ctx.fillText(`ID: ZWP-${Date.now().toString(36).toUpperCase().slice(-8)}`,w-200,530);
-  ctx.fillStyle='rgba(100,116,139,0.45)';ctx.font='10px monospace';
-  ctx.fillText('Issued by Zwapy · zwapy.com · This certificate is digitally verified',w/2,570);
+  sigImg.onload=()=>{ctx.drawImage(sigImg,110,455,160,55);ctx.fillStyle='rgba(148,163,184,0.7)';ctx.font='11px monospace';ctx.textAlign='center';ctx.fillText('Jayashankar R',200,516);ctx.fillText('Founder, Zwapy',200,530);};
+  ctx.save();ctx.translate(w-200,480);ctx.strokeStyle='rgba(0,212,255,0.35)';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(0,0,28,0,Math.PI*2);ctx.stroke();ctx.fillStyle='rgba(0,212,255,0.06)';ctx.fill();
+  ctx.fillStyle='#00D4FF';ctx.font='bold 11px monospace';ctx.textAlign='center';ctx.fillText('ZWAPY',0,-5);ctx.fillText('VERIFIED',0,8);ctx.restore();
+  ctx.fillStyle='rgba(148,163,184,0.7)';ctx.font='11px monospace';ctx.textAlign='center';ctx.fillText('Official Digital Certificate',w-200,516);ctx.fillText(`ID: ZWP-${Date.now().toString(36).toUpperCase().slice(-8)}`,w-200,530);
+  ctx.fillStyle='rgba(100,116,139,0.45)';ctx.font='10px monospace';ctx.fillText('Issued by Zwapy · zwapy.com · Digitally verified',w/2,570);
 }
 
 $('resultBtn').addEventListener('click',async()=>{
@@ -1166,38 +1122,32 @@ $('resultBtn').addEventListener('click',async()=>{
     else{const newCoins=Math.max(0,currentCoins+learnerCoins);await updateDoc(doc(db,'users',currentUser.uid),{coins:newCoins,exchanges:(userData.exchanges||0)+1});userData.coins=newCoins;}
     await updateDoc(doc(db,'sessions',examSession.sessionId),{[`examDone.${currentUser.uid}`]:true,[`examScore.${currentUser.uid}`]:Math.round(examScore),[`tabSwitches.${currentUser.uid}`]:tabSwitchCount});
     if(codeAnswers.length>0)await updateDoc(doc(db,'sessions',examSession.sessionId),{[`codeAnswers.${currentUser.uid}`]:codeAnswers});
-    let newExchangeCount=0;
-    if(pass){newExchangeCount=await incrementSkillExchangeCount(currentUser.uid,examSession.skill);}
+    let newExchangeCount=0;if(pass){newExchangeCount=await incrementSkillExchangeCount(currentUser.uid,examSession.skill);}
     await addDoc(collection(db,'users',currentUser.uid,'activity'),{title:`📝 Exam: ${examSession.skill}`,desc:`${Math.round(examScore)}/${examQuestions.length} (${pct}%) · ${learnerCoins>0?'+':''}${learnerCoins} coins · ${level}`,createdAt:serverTimestamp()});
     if(pass&&newExchangeCount>=CERT_EXCHANGES_REQUIRED){
-      try{await emailjs.send('service_n42p919','template_vwhzfdr',{to_name:userData.name||'Student',to_email:currentUser.email,skill:examSession.skill,score:`${Math.round(examScore)}/${examQuestions.length} (${pct}%)`,exchanges:`${newExchangeCount}`,date:new Date().toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'})});toast('🎓 Certificate email sent!');}catch(e){toast('✅ Coins credited! Certificate soon.','s');}
+      try{await emailjs.send('service_n42p919','template_vwhzfdr',{to_name:userData.name||'Student',to_email:currentUser.email,skill:examSession.skill,score:`${Math.round(examScore)}/${examQuestions.length} (${pct}%)`,exchanges:`${newExchangeCount}`,date:new Date().toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'})});toast('🎓 Certificate email sent!');}catch(e){toast('✅ Coins credited!','s');}
     }
     $('examModal').classList.remove('open');
     if(learnerCoins<0)toast(`💸 ${learnerCoins} coins deducted.`,'e');
-    else toast(`🎉 +${learnerCoins} coins!${pass&&newExchangeCount>=CERT_EXCHANGES_REQUIRED?' 🎓 Certificate unlocked!':''}`);
-    renderSessions();
-    if(pass&&examSession.iAmLearner)setTimeout(()=>openRating(examSession.sessionId),1600);
+    else toast(`🎉 +${learnerCoins} coins!${pass&&newExchangeCount>=CERT_EXCHANGES_REQUIRED?' 🎓 Certificate!':''}`);
+    renderSessions();if(pass&&examSession.iAmLearner)setTimeout(()=>openRating(examSession.sessionId),1600);
   }catch(err){console.error(err);toast('Error: '+err.message,'e');btn.disabled=false;btn.textContent='Claim Coins →';}
 });
 
-/* ── POST ── */
 $('postBtn').addEventListener('click',async()=>{
   const offer=$('offerSkill').value.trim(),need=$('needSkill').value.trim();
   if(!offer||!need){toast('Fill both skill fields','e');return;}
   const btn=$('postBtn');btn.disabled=true;btn.textContent='Posting...';
   await addDoc(collection(db,'exchanges'),{uid:currentUser.uid,name:userData.name||'Student',university:userData.university||'',photoURL:userData.photoURL||'',offer,need,level:$('skillLevel').value,duration:$('duration').value,desc:$('postDesc').value.trim(),createdAt:serverTimestamp()});
   $('offerSkill').value='';$('needSkill').value='';$('postDesc').value='';
-  btn.disabled=false;btn.textContent='Post Request →';toast('✅ Posted!');
-  document.querySelectorAll('.tab-btn')[0].click();
+  btn.disabled=false;btn.textContent='Post Request →';toast('✅ Posted!');document.querySelectorAll('.tab-btn')[0].click();
 });
 
 document.querySelectorAll('.ftab').forEach(f=>{f.addEventListener('click',()=>{document.querySelectorAll('.ftab').forEach(x=>x.classList.remove('active'));f.classList.add('active');activeFilter=f.dataset.f;renderExchanges();});});
 let st;$('searchInput').addEventListener('input',e=>{clearTimeout(st);st=setTimeout(()=>{searchQ=e.target.value.toLowerCase().trim();renderExchanges();},200);});
 
-/* ── AUTH ── */
 onAuthStateChanged(auth,async user=>{
-  if(!user){window.location.href='login.html';return;}
-  currentUser=user;
+  if(!user){window.location.href='login.html';return;}currentUser=user;
   const[us,exSnap]=await Promise.all([getDoc(doc(db,'users',user.uid)),getDocs(query(collection(db,'exchanges'),orderBy('createdAt','desc')))]);
   if(us.exists()){userData=us.data();$('navAvatar').src=userData.photoURL||user.photoURL||`https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(userData.name||'user')}`;}
   allExchanges=[];exSnap.forEach(d=>allExchanges.push({id:d.id,...d.data()}));renderExchanges();
