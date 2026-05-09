@@ -36,8 +36,6 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .page-title{font-size:clamp(1.5rem,6vw,2.8rem);font-weight:900;font-style:italic;letter-spacing:-.03em;line-height:1;}
 .page-title span{color:var(--cyan);}
 .page-sub{font-size:.76rem;color:var(--dim);margin-top:6px;line-height:1.5;}
-
-/* COIN INFO */
 .coin-info{background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.14);border-radius:14px;padding:13px 16px;margin-bottom:20px;font-size:.74rem;color:var(--dim);line-height:1.8;}
 .coin-info strong{color:white;}
 .ci-row{display:flex;gap:6px;align-items:baseline;margin-bottom:2px;flex-wrap:wrap;}
@@ -47,13 +45,10 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .ci-adv{background:rgba(16,185,129,0.1);color:var(--green);border:1px solid rgba(16,185,129,0.2);}
 .cert-rule{background:rgba(245,158,11,0.05);border:1px solid rgba(245,158,11,0.18);border-radius:12px;padding:11px 14px;margin-bottom:16px;font-size:.72rem;color:var(--dim);line-height:1.7;}
 .cert-rule strong{color:var(--amber);}
-
 .stats-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px;}
 .sc{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:12px;padding:12px 10px;}
 .sc-val{font-family:'Space Mono',monospace;font-size:1.2rem;font-weight:700;color:var(--cyan);line-height:1;margin-bottom:2px;}
 .sc-label{font-family:'Space Mono',monospace;font-size:.44rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);}
-
-/* TABS */
 .tab-row{display:flex;gap:0;margin-bottom:18px;border-bottom:1px solid rgba(255,255,255,0.06);overflow-x:auto;-webkit-overflow-scrolling:touch;}
 .tab-row::-webkit-scrollbar{height:0;}
 .tab-btn{background:none;border:none;border-bottom:2px solid transparent;padding:9px 12px;font-size:.7rem;font-weight:700;color:var(--muted);cursor:pointer;font-family:'Sora',sans-serif;margin-bottom:-1px;white-space:nowrap;position:relative;flex-shrink:0;}
@@ -62,8 +57,6 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .tab-dot.show{display:block;}
 .tab-content{display:none;}
 .tab-content.active{display:block;}
-
-/* FILTER */
 .filter-bar{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;align-items:center;}
 .sw{flex:1;min-width:140px;position:relative;}
 .si{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:.8rem;pointer-events:none;}
@@ -72,8 +65,6 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .ftabs{display:flex;gap:5px;flex-wrap:wrap;}
 .ftab{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:100px;padding:6px 11px;font-size:.64rem;font-weight:700;cursor:pointer;color:var(--muted);white-space:nowrap;}
 .ftab.active{background:rgba(0,212,255,0.1);border-color:rgba(0,212,255,0.3);color:var(--cyan);}
-
-/* EXCHANGE CARDS */
 .ex-grid{display:grid;grid-template-columns:1fr;gap:12px;}
 @media(min-width:520px){.ex-grid{grid-template-columns:repeat(auto-fill,minmax(280px,1fr));}}
 .ex-card{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:all .25s;}
@@ -102,8 +93,6 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .ex-tag.dur{background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.18);color:var(--amber);}
 .connect-btn{background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.22);border-radius:8px;padding:7px 13px;font-size:.66rem;font-weight:800;color:var(--cyan);cursor:pointer;font-family:'Sora',sans-serif;text-transform:uppercase;white-space:nowrap;}
 .connect-btn.mine{background:rgba(239,68,68,0.07);border-color:rgba(239,68,68,0.2);color:var(--red);}
-
-/* REQUEST + SESSION CARDS */
 .request-card{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:10px;}
 .rc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px;flex-wrap:wrap;}
 .rc-title{font-size:.84rem;font-weight:800;margin-bottom:2px;}
@@ -117,32 +106,22 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .rc-actions{display:flex;gap:7px;flex-wrap:wrap;}
 .btn-accept{background:var(--green);color:#000;border:none;border-radius:8px;padding:8px 14px;font-size:.68rem;font-weight:800;text-transform:uppercase;cursor:pointer;font-family:'Sora',sans-serif;}
 .btn-reject{background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;padding:8px 12px;font-size:.68rem;font-weight:700;color:var(--red);cursor:pointer;font-family:'Sora',sans-serif;}
-
-/* SESSION CARD */
 .session-card{background:rgba(16,185,129,0.04);border:1px solid rgba(16,185,129,0.18);border-radius:14px;padding:16px;margin-bottom:10px;}
 .session-title{font-size:.88rem;font-weight:800;margin-bottom:3px;}
 .session-with{font-size:.68rem;color:var(--muted);margin-bottom:9px;}
 .session-meta{display:flex;flex-direction:column;gap:3px;margin-bottom:11px;}
 .smr{font-size:.7rem;color:var(--dim);display:flex;align-items:center;gap:5px;}
-
-/* CERT PROGRESS */
 .cert-progress-bar{background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.18);border-radius:10px;padding:10px 13px;margin-top:8px;font-size:.68rem;color:var(--amber);}
 .cert-prog-label{margin-bottom:5px;}
 .cert-prog-track{height:5px;background:rgba(255,255,255,0.07);border-radius:100px;overflow:hidden;}
 .cert-prog-fill{height:100%;background:linear-gradient(90deg,var(--amber),var(--green));border-radius:100px;transition:width .4s;}
-
-/* ZOOM BUTTON */
 .zoom-btn{display:inline-flex;align-items:center;gap:7px;background:linear-gradient(135deg,#2D8CFF,#0E6FE8);color:white;border:none;border-radius:9px;padding:10px 18px;font-size:.74rem;font-weight:800;text-transform:uppercase;cursor:pointer;font-family:'Sora',sans-serif;text-decoration:none;letter-spacing:.04em;}
 .zoom-btn:hover{box-shadow:0 0 16px rgba(45,140,255,.4);}
-
-/* ACTION BUTTONS */
 .session-actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:6px;}
 .confirm-session-btn{display:inline-flex;align-items:center;gap:5px;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.28);border-radius:8px;padding:9px 14px;font-size:.7rem;font-weight:800;color:var(--amber);cursor:pointer;font-family:'Sora',sans-serif;}
 .take-exam-btn{display:inline-flex;align-items:center;gap:5px;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.28);border-radius:8px;padding:9px 14px;font-size:.7rem;font-weight:800;color:var(--green);cursor:pointer;font-family:'Sora',sans-serif;}
 .rate-btn{display:inline-flex;align-items:center;gap:5px;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.28);border-radius:8px;padding:9px 14px;font-size:.7rem;font-weight:800;color:var(--amber);cursor:pointer;font-family:'Sora',sans-serif;}
 .confirm-status{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:10px 12px;margin-top:8px;font-size:.7rem;color:var(--dim);line-height:1.7;}
-
-/* POST CARD */
 .post-card{background:linear-gradient(135deg,rgba(0,212,255,0.04),rgba(2,0,36,0.8));border:1px solid rgba(0,212,255,0.14);border-radius:20px;padding:20px;margin-bottom:18px;}
 .pc-title{font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan);opacity:.7;margin-bottom:14px;}
 .field{margin-bottom:12px;}
@@ -156,13 +135,9 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 @media(min-width:480px){.field-row{grid-template-columns:1fr 1fr;}}
 .post-btn{width:100%;background:var(--cyan);color:#000;border:none;border-radius:10px;padding:13px;font-size:.82rem;font-weight:800;text-transform:uppercase;cursor:pointer;font-family:'Sora',sans-serif;margin-top:4px;}
 .post-btn:disabled{opacity:.5;cursor:not-allowed;}
-
-/* STAR RATING */
 .star-rating{display:flex;gap:8px;margin:10px 0;}
 .star{font-size:1.6rem;cursor:pointer;opacity:.25;transition:all .18s;}
 .star.active{opacity:1;}
-
-/* MODALS */
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.86);backdrop-filter:blur(12px);z-index:3000;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;pointer-events:none;transition:opacity .25s;overflow-y:auto;}
 .modal-bg.open{opacity:1;pointer-events:all;}
 .modal{background:rgba(2,0,36,0.98);border:1px solid rgba(0,212,255,0.2);border-radius:22px;width:100%;max-width:440px;position:relative;transform:translateY(16px) scale(.97);transition:transform .25s;overflow:hidden;max-height:90vh;overflow-y:auto;margin:auto;}
@@ -173,8 +148,6 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .modal-tag{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px;}
 .modal-title{font-size:1.05rem;font-weight:900;font-style:italic;margin-bottom:4px;}
 .modal-sub{font-size:.72rem;color:var(--dim);margin-bottom:16px;line-height:1.5;}
-
-/* SAFETY MODAL */
 .safety-item{display:flex;align-items:flex-start;gap:10px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:10px 12px;margin-bottom:7px;}
 .safety-icon{font-size:1.1rem;flex-shrink:0;}
 .safety-text{font-size:.72rem;color:var(--dim);line-height:1.5;}
@@ -185,22 +158,34 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .safety-agree-text strong{color:white;}
 .safety-launch-btn{width:100%;background:var(--zoom);color:white;border:none;border-radius:10px;padding:13px;font-size:.82rem;font-weight:800;text-transform:uppercase;cursor:pointer;font-family:'Sora',sans-serif;}
 .safety-launch-btn:disabled{opacity:.5;cursor:not-allowed;}
-
-/* ZOOM INFO BOX */
 .zoom-info-box{background:rgba(45,140,255,0.06);border:1px solid rgba(45,140,255,0.2);border-radius:11px;padding:12px 14px;margin-bottom:14px;font-size:.72rem;color:var(--dim);line-height:1.7;}
 .zoom-info-box strong{color:white;}
 .zoom-room-id{font-family:'Space Mono',monospace;font-size:.78rem;color:var(--zoom);font-weight:700;margin:6px 0;display:block;}
 .copy-id-btn{background:rgba(45,140,255,0.1);border:1px solid rgba(45,140,255,0.25);border-radius:7px;padding:5px 11px;font-size:.62rem;font-weight:700;color:var(--zoom);cursor:pointer;font-family:'Sora',sans-serif;margin-top:4px;}
 
-/* SCHEDULE MODAL */
+/* ── ZOOM STEP BOX in schedule modal ── */
+.zoom-step-box{background:rgba(45,140,255,0.06);border:1px solid rgba(45,140,255,0.2);border-radius:12px;padding:15px;margin-bottom:14px;}
+.zsb-title{font-family:'Space Mono',monospace;font-size:.48rem;letter-spacing:.14em;text-transform:uppercase;color:var(--zoom);margin-bottom:9px;}
+.zsb-step{display:flex;align-items:flex-start;gap:9px;margin-bottom:7px;font-size:.7rem;color:var(--dim);line-height:1.5;}
+.zsb-step:last-child{margin-bottom:0;}
+.zsb-num{width:20px;height:20px;border-radius:50%;background:rgba(45,140,255,0.15);border:1px solid rgba(45,140,255,0.3);display:flex;align-items:center;justify-content:center;font-size:.58rem;font-weight:800;color:var(--zoom);flex-shrink:0;}
+.zsb-step strong{color:white;}
+.zoom-id-input-wrap{position:relative;margin-top:10px;}
+.zoom-id-input-wrap input{width:100%;background:rgba(255,255,255,0.04);border:1.5px solid rgba(45,140,255,0.3);border-radius:10px;padding:12px 14px;font-size:1rem;color:white;font-family:'Space Mono',monospace;outline:none;letter-spacing:.06em;transition:border-color .2s;}
+.zoom-id-input-wrap input::placeholder{color:var(--muted);font-family:'Sora',sans-serif;font-size:.82rem;letter-spacing:0;}
+.zoom-id-input-wrap input:focus{border-color:var(--zoom);background:rgba(45,140,255,0.04);}
+.zoom-id-input-wrap input.valid{border-color:var(--green);}
+.zoom-id-input-wrap input.invalid{border-color:var(--red);}
+.zoom-id-status{font-size:.62rem;margin-top:5px;min-height:16px;}
+.zoom-id-status.ok{color:var(--green);}
+.zoom-id-status.err{color:var(--red);}
+
 .schedule-btn{width:100%;background:var(--green);color:#000;border:none;border-radius:10px;padding:12px;font-size:.82rem;font-weight:800;text-transform:uppercase;cursor:pointer;font-family:'Sora',sans-serif;margin-top:4px;}
 .schedule-btn:disabled{opacity:.5;cursor:not-allowed;}
 .send-req-btn{width:100%;background:var(--cyan);color:#000;border:none;border-radius:10px;padding:12px;font-size:.82rem;font-weight:800;text-transform:uppercase;cursor:pointer;font-family:'Sora',sans-serif;}
 .send-req-btn:disabled{opacity:.5;cursor:not-allowed;}
 .rating-btn{width:100%;background:var(--amber);color:#000;border:none;border-radius:10px;padding:12px;font-size:.82rem;font-weight:800;text-transform:uppercase;cursor:pointer;font-family:'Sora',sans-serif;margin-top:10px;}
 .rating-btn:disabled{opacity:.5;cursor:not-allowed;}
-
-/* EXAM */
 .exam-modal{max-width:560px;}
 .exam-modal .modal-in{user-select:none;-webkit-user-select:none;}
 .exam-header{margin-bottom:14px;}
@@ -223,8 +208,6 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .exam-next-btn:disabled{opacity:.4;cursor:not-allowed;}
 .cheat-warning{background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.25);border-radius:10px;padding:10px 14px;font-size:.7rem;color:var(--red);margin-bottom:12px;display:none;}
 .cheat-warning.show{display:block;}
-
-/* CODE SECTION */
 .code-section{margin-bottom:14px;}
 .code-label{font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);margin-bottom:8px;}
 .code-editor{width:100%;background:#0a0a1a;border:1px solid rgba(0,212,255,0.2);border-radius:10px;padding:12px;font-family:'Space Mono',monospace;font-size:.78rem;color:#e2e8f0;min-height:100px;resize:vertical;outline:none;line-height:1.6;tab-size:2;}
@@ -235,8 +218,6 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .code-output.success{color:var(--green);}
 .code-submit-btn{width:100%;background:var(--cyan);color:#000;border:none;border-radius:10px;padding:12px;font-size:.8rem;font-weight:800;text-transform:uppercase;cursor:pointer;font-family:'Sora',sans-serif;margin-top:10px;}
 .code-submit-btn:disabled{opacity:.4;cursor:not-allowed;}
-
-/* RESULT */
 .result-wrap{text-align:center;}
 .result-icon{font-size:2.8rem;margin-bottom:12px;}
 .result-score{font-family:'Space Mono',monospace;font-size:2.5rem;font-weight:700;margin-bottom:4px;}
@@ -252,7 +233,6 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 .result-btn{width:100%;background:var(--green);color:#000;border:none;border-radius:10px;padding:12px;font-size:.8rem;font-weight:800;text-transform:uppercase;cursor:pointer;font-family:'Sora',sans-serif;}
 .result-btn:disabled{opacity:.5;cursor:not-allowed;}
 .progress-bar-cert{background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.18);border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:.72rem;color:var(--amber);line-height:1.6;}
-
 .empty-state{text-align:center;padding:40px 16px;color:var(--muted);}
 .ei{font-size:2.2rem;margin-bottom:10px;opacity:.28;}
 .et{font-size:.76rem;line-height:1.6;}
@@ -277,21 +257,60 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 <div id="loadScreen"><div class="load-logo">ZWAPY</div><div class="load-bar"><div class="load-fill"></div></div><div class="load-text">Loading skill exchange...</div></div>
 <div class="toast" id="toast"></div>
 
-<!-- SCHEDULE MODAL -->
+<!-- ═══════════════════════════════════
+  SCHEDULE MODAL — teacher pastes real Zoom Meeting ID
+  ═══════════════════════════════════ -->
 <div class="modal-bg" id="scheduleModal"><div class="modal">
   <div class="modal-stripe" style="background:linear-gradient(90deg,var(--green),rgba(16,185,129,.3))"></div>
   <div class="modal-in">
     <button class="mc" id="scheduleClose">✕</button>
     <div class="modal-tag">📅 Schedule Session</div>
-    <div class="modal-title">Set a Time</div>
+    <div class="modal-title">Set a Time &amp; Add Zoom</div>
     <div class="modal-sub" id="scheduleWith"></div>
+
     <div class="field"><label>Date *</label><input type="date" id="sessDate"/></div>
     <div class="field"><label>Time *</label><input type="time" id="sessTime"/></div>
-    <div class="field"><label>Duration</label><select id="sessDuration"><option value="1">1 Hour</option><option value="1.5">1.5 Hours</option><option value="2">2 Hours</option></select></div>
-    <div style="background:rgba(45,140,255,0.05);border:1px solid rgba(45,140,255,0.18);border-radius:10px;padding:11px;margin-bottom:14px;font-size:.7rem;color:var(--dim);line-height:1.7;">
-      🎥 Zoom meeting ID auto-generated for both students.<br>✅ Both confirm after session → exam unlocks for learner.<br>📝 Only the <strong style="color:white;">learner</strong> takes the exam — not the teacher.<br>🏆 Certificate unlocked after <strong style="color:white;">5 skill exchanges on same skill</strong>.
+    <div class="field"><label>Duration</label>
+      <select id="sessDuration">
+        <option value="1">1 Hour</option>
+        <option value="1.5">1.5 Hours</option>
+        <option value="2">2 Hours</option>
+      </select>
     </div>
-    <button class="schedule-btn" id="confirmSchedule">Confirm & Generate Zoom Meeting →</button>
+
+    <!-- ── ZOOM MEETING ID — teacher enters their own ── -->
+    <div class="zoom-step-box">
+      <div class="zsb-title">🎥 How to get your Zoom Meeting ID</div>
+      <div class="zsb-step">
+        <div class="zsb-num">1</div>
+        <div>Open <strong>Zoom app</strong> on your phone or laptop</div>
+      </div>
+      <div class="zsb-step">
+        <div class="zsb-num">2</div>
+        <div>Tap <strong>"New Meeting"</strong> → start the meeting → copy the <strong>Meeting ID</strong> shown at the top</div>
+      </div>
+      <div class="zsb-step">
+        <div class="zsb-num">3</div>
+        <div>Paste it below. Your partner will get this ID and join your meeting directly.</div>
+      </div>
+      <div class="field" style="margin-bottom:8px;margin-top:10px;">
+        <label>Zoom Meeting ID * <span style="font-weight:400;text-transform:none;font-size:.58rem;color:var(--muted);">(9–11 digits from Zoom)</span></label>
+        <div class="zoom-id-input-wrap">
+          <input type="text" id="zoomMeetingIdInput" placeholder="e.g.  123 456 7890" maxlength="15" inputmode="numeric" oninput="validateZoomId()"/>
+        </div>
+        <div class="zoom-id-status" id="zoomIdStatus"></div>
+      </div>
+      <div class="field" style="margin-bottom:0;">
+        <label>Zoom Password <span style="font-weight:400;text-transform:none;font-size:.58rem;color:var(--muted);">(optional — only if your meeting has one)</span></label>
+        <input type="text" id="zoomPasswordInput" placeholder="Leave blank if no password"/>
+      </div>
+    </div>
+
+    <div style="background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.12);border-radius:10px;padding:10px 13px;margin-bottom:14px;font-size:.7rem;color:var(--dim);line-height:1.7;">
+      📝 Only the <strong style="color:white;">learner</strong> takes the exam after session — not the teacher.<br>
+      🏆 Certificate unlocks after <strong style="color:white;">5 exchanges on same skill</strong>.
+    </div>
+    <button class="schedule-btn" id="confirmSchedule" disabled>Confirm &amp; Send Zoom Details →</button>
   </div>
 </div></div>
 
@@ -319,28 +338,28 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
     <p style="font-size:.72rem;color:var(--dim);margin-bottom:14px;line-height:1.6;">Zwapy monitors session safety. Please read and agree before joining.</p>
     <div class="safety-item"><div class="safety-icon">🚫</div><div class="safety-text"><strong>18+ Content Strictly Prohibited</strong> — Sexual, violent, or inappropriate content will result in immediate ban and account termination.</div></div>
     <div class="safety-item"><div class="safety-icon">🎓</div><div class="safety-text"><strong>Educational Purpose Only</strong> — This session is for skill exchange. Keep the conversation professional and focused.</div></div>
-    <div class="safety-item"><div class="safety-icon">📵</div><div class="safety-text"><strong>No Recording</strong> — Screen recording the session without consent is prohibited. Violations are reportable.</div></div>
-    <div class="safety-item"><div class="safety-icon">🤝</div><div class="safety-text"><strong>Respectful Behaviour</strong> — Harassment, bullying, or discrimination will result in permanent account suspension.</div></div>
-    <div class="safety-item"><div class="safety-icon">⚠️</div><div class="safety-text"><strong>Report Violations</strong> — If anything inappropriate happens, end the meeting and report to <strong>zwapyteam@gmail.com</strong> immediately.</div></div>
+    <div class="safety-item"><div class="safety-icon">📵</div><div class="safety-text"><strong>No Recording</strong> — Recording without consent is prohibited.</div></div>
+    <div class="safety-item"><div class="safety-icon">🤝</div><div class="safety-text"><strong>Respectful Behaviour</strong> — Harassment or bullying = permanent suspension.</div></div>
+    <div class="safety-item"><div class="safety-icon">⚠️</div><div class="safety-text"><strong>Report Violations</strong> — End the meeting and email <strong>zwapyteam@gmail.com</strong> immediately.</div></div>
     <div id="safetyGeminiTip" style="background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.14);border-radius:10px;padding:11px;margin:12px 0;font-size:.7rem;color:var(--dim);line-height:1.6;display:none;">
       <div style="font-family:'Space Mono',monospace;font-size:.46rem;letter-spacing:.12em;color:var(--cyan);margin-bottom:5px;">// AI SAFETY TIP</div>
-      <div id="geminiSafetyText">Loading safety tip...</div>
+      <div id="geminiSafetyText"></div>
     </div>
     <div class="zoom-info-box">
-      <strong>🎥 Zoom Meeting Details</strong><br>
+      <strong>🎥 Your Zoom Meeting Details</strong><br>
       Meeting ID: <span class="zoom-room-id" id="modalZoomId">—</span>
-      <div style="font-size:.68rem;color:var(--muted);">Share this ID with your partner. Both open Zoom → Join Meeting → paste this ID.</div>
+      Password: <span id="modalZoomPass" style="font-family:'Space Mono',monospace;font-size:.72rem;color:var(--dim);">None</span>
+      <div style="font-size:.68rem;color:var(--muted);margin-top:5px;">Open Zoom app → Join Meeting → paste this ID</div>
       <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;">
-        <button class="copy-id-btn" onclick="copyZoomId()">📋 Copy Meeting ID</button>
-        <button class="copy-id-btn" style="background:rgba(45,140,255,0.15);" onclick="copyZoomLink()">🔗 Copy Join Link</button>
+        <button class="copy-id-btn" onclick="copyCurrentZoomId()">📋 Copy Meeting ID</button>
+        <button class="copy-id-btn" style="background:rgba(45,140,255,0.15);" onclick="copyCurrentZoomLink()">🔗 Copy Join Link</button>
       </div>
     </div>
     <div class="safety-agree-row">
       <input type="checkbox" id="safetyAgree"/>
-      <div class="safety-agree-text">I have read and agree to Zwapy's safety guidelines. I confirm this session is for educational purposes only and I am 18+ or attending with parental consent.</div>
+      <div class="safety-agree-text">I have read and agree to Zwapy's safety guidelines. This session is for educational purposes only.</div>
     </div>
     <button class="safety-launch-btn" id="safetyLaunchBtn" disabled onclick="launchZoom()">🎥 Open Zoom &amp; Join Meeting →</button>
-    <p style="font-size:.6rem;color:var(--muted);margin-top:8px;text-align:center;">Violations are reported to Zwapy team automatically. You can also report: zwapyteam@gmail.com</p>
   </div>
 </div></div>
 
@@ -435,8 +454,8 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 
   <div class="cert-rule fade-up d1">
     🏆 <strong>Certificate Rule:</strong> Complete <strong>5 skill exchanges on the same skill</strong> to earn a certificate.<br>
-    📝 <strong>Exam Rule:</strong> Only the <strong>learner</strong> (person who received teaching) takes the exam after each session. The teacher is not required to take an exam.<br>
-    🤖 <strong>Exam Questions:</strong> AI-generated by Gemini based on exactly what skill was taught.
+    📝 <strong>Exam Rule:</strong> Only the <strong>learner</strong> takes the exam — teacher does not.<br>
+    🤖 <strong>Exam Questions:</strong> AI-generated by Gemini based on exactly the skill taught.
   </div>
 
   <div class="stats-strip fade-up d1">
@@ -507,15 +526,9 @@ import {
   deleteDoc, updateDoc, serverTimestamp, query, orderBy
 } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
-/* ═══════════════════════════════════════
-   CONFIG
-═══════════════════════════════════════ */
-// ⚠️ ADD YOUR GEMINI API KEY HERE
-// Get free key: https://makersuite.google.com/app/apikey
-const GEMINI_KEY = 'AIzaSyBazCIc5vdQInSwvqvohIcbPToTjnw7KJI'; // REPLACE WITH YOUR GEMINI KEY
+/* ── CONFIG ── */
+const GEMINI_KEY = 'YOUR_GEMINI_API_KEY_HERE'; // get free key at makersuite.google.com
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_KEY}`;
-
-// Certificate requires this many exchanges on same skill
 const CERT_EXCHANGES_REQUIRED = 5;
 
 const app = initializeApp({
@@ -531,107 +544,116 @@ const db   = getFirestore(app);
 await setPersistence(auth, browserLocalPersistence);
 const $ = id => document.getElementById(id);
 
-function toast(msg, type='s') {
-  const t=$('toast');t.textContent=msg;t.className=`toast ${type} show`;setTimeout(()=>t.className='toast',3500);
-}
-function timeAgo(ts) {
-  if(!ts)return'just now';const m=Math.floor((Date.now()-ts.toMillis())/60000);
-  if(m<1)return'just now';if(m<60)return m+'m ago';const h=Math.floor(m/60);
-  if(h<24)return h+'h ago';return Math.floor(h/24)+'d ago';
-}
+function toast(msg, type='s'){const t=$('toast');t.textContent=msg;t.className=`toast ${type} show`;setTimeout(()=>t.className='toast',3500);}
+function timeAgo(ts){if(!ts)return'just now';const m=Math.floor((Date.now()-ts.toMillis())/60000);if(m<1)return'just now';if(m<60)return m+'m ago';const h=Math.floor(m/60);if(h<24)return h+'h ago';return Math.floor(h/24)+'d ago';}
 function levelColor(l){if(l==='Advanced')return'#10b981';if(l==='Intermediate')return'#f59e0b';return'#818cf8';}
 
-/* ═══════════════════════════════════════
-   COIN LOGIC
-═══════════════════════════════════════ */
+/* ── COIN LOGIC ── */
 const COIN_TABLE={Beginner:{pass:5,fail:-5},Intermediate:{pass:10,fail:-5},Advanced:{pass:15,fail:-5}};
 function getLearnerCoins(level,passed){const t=COIN_TABLE[level]||COIN_TABLE.Intermediate;return passed?t.pass:t.fail;}
 function getTeacherCoins(level,stars){const base=COIN_TABLE[level]?.pass||10;return stars>=4?base*2:base;}
 
-/* ═══════════════════════════════════════
-   DETECT CODING SKILLS
-═══════════════════════════════════════ */
+/* ── CODING SKILL DETECT ── */
 const CODING_SKILLS=['python','javascript','js','java','c++','cpp','c#','html','css','react','node','sql','kotlin','swift','typescript','ruby','go','rust','flutter','php','coding','programming','dev','frontend','backend'];
 function isCodingSkill(skill){const s=(skill||'').toLowerCase();return CODING_SKILLS.some(k=>s.includes(k));}
 
-/* ═══════════════════════════════════════
-   ZOOM MEETING ID GENERATION
-   Generates a deterministic 9-digit meeting ID
-   both teacher and learner get the same ID
-═══════════════════════════════════════ */
-function genZoomMeetingId(fromUid, toUid, date, time) {
-  const raw = (fromUid + toUid + date + time).replace(/[^a-zA-Z0-9]/g,'');
-  let h = 0;
-  for(let i=0;i<raw.length;i++){h=((h<<5)-h)+raw.charCodeAt(i);h|=0;}
-  const num = Math.abs(h) % 9000000000 + 1000000000;
-  return num.toString();
+/* ════════════════════════════════════════════════
+   ZOOM MEETING ID — Teacher enters real ID from Zoom app
+   We format, validate, build join link
+════════════════════════════════════════════════ */
+function formatZoomId(raw) {
+  // Strip non-digits
+  const digits = raw.replace(/\D/g,'');
+  if(digits.length===9)  return digits.slice(0,3)+'-'+digits.slice(3,6)+'-'+digits.slice(6);
+  if(digits.length===10) return digits.slice(0,3)+'-'+digits.slice(3,6)+'-'+digits.slice(6);
+  if(digits.length===11) return digits.slice(0,3)+'-'+digits.slice(3,7)+'-'+digits.slice(7);
+  return digits;
 }
-function formatZoomId(id) {
-  // Format as XXX-XXXX-XXXX
-  return id.substring(0,3)+'-'+id.substring(3,7)+'-'+id.substring(7);
-}
-function getZoomJoinLink(meetingId) {
-  const raw = meetingId.replace(/-/g,'');
-  return `https://zoom.us/j/${raw}`;
+function buildZoomJoinLink(rawId, password) {
+  const digits = rawId.replace(/\D/g,'');
+  let url = `https://zoom.us/j/${digits}`;
+  if(password) url += `?pwd=${encodeURIComponent(password)}`;
+  return url;
 }
 
-let currentZoomMeetingId = '';
-window.copyZoomId = function() {
-  const formatted = formatZoomId(currentZoomMeetingId);
-  try{navigator.clipboard.writeText(formatted);}catch(e){
-    const ta=document.createElement('textarea');ta.value=formatted;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
+/* ── Validate Zoom ID as user types ── */
+window.validateZoomId = function() {
+  const raw = ($('zoomMeetingIdInput').value||'').replace(/[\s\-]/g,'');
+  const digits = raw.replace(/\D/g,'');
+  const status = $('zoomIdStatus');
+  const btn    = $('confirmSchedule');
+
+  if(!raw){
+    $('zoomMeetingIdInput').className='';
+    status.textContent='';status.className='zoom-id-status';
+    btn.disabled=true;return;
   }
+  if(/\D/.test(raw)){
+    $('zoomMeetingIdInput').className='invalid';
+    status.textContent='❌ Meeting ID should only contain numbers';
+    status.className='zoom-id-status err';btn.disabled=true;return;
+  }
+  if(digits.length<9){
+    $('zoomMeetingIdInput').className='invalid';
+    status.textContent='❌ Meeting ID must be 9–11 digits';
+    status.className='zoom-id-status err';btn.disabled=true;return;
+  }
+  if(digits.length>11){
+    $('zoomMeetingIdInput').className='invalid';
+    status.textContent='❌ Meeting ID too long — should be 9–11 digits';
+    status.className='zoom-id-status err';btn.disabled=true;return;
+  }
+  $('zoomMeetingIdInput').className='valid';
+  status.textContent=`✅ Valid Zoom ID — formatted as ${formatZoomId(digits)}`;
+  status.className='zoom-id-status ok';
+  btn.disabled=false;
+};
+
+/* ── Current Zoom details for safety modal ── */
+let _currentZoomId = '', _currentZoomLink = '';
+
+window.copyCurrentZoomId = function(){
+  const txt = formatZoomId(_currentZoomId);
+  try{navigator.clipboard.writeText(txt);}catch(e){const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);}
   toast('✅ Meeting ID copied!');
 };
-window.copyZoomLink = function() {
-  const link = getZoomJoinLink(currentZoomMeetingId);
-  try{navigator.clipboard.writeText(link);}catch(e){
-    const ta=document.createElement('textarea');ta.value=link;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
-  }
-  toast('✅ Zoom join link copied!');
+window.copyCurrentZoomLink = function(){
+  try{navigator.clipboard.writeText(_currentZoomLink);}catch(e){const ta=document.createElement('textarea');ta.value=_currentZoomLink;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);}
+  toast('✅ Zoom link copied!');
 };
-window.launchZoom = function() {
-  const link = getZoomJoinLink(currentZoomMeetingId);
-  window.open(link,'_blank','noopener,noreferrer');
+window.launchZoom = function(){
+  window.open(_currentZoomLink,'_blank','noopener,noreferrer');
   $('safetyModal').classList.remove('open');
 };
 
-/* ═══════════════════════════════════════
-   SAFETY MODAL — open before Zoom
-═══════════════════════════════════════ */
-async function openSafetyModal(meetingId, skill) {
-  currentZoomMeetingId = meetingId;
-  $('modalZoomId').textContent = formatZoomId(meetingId);
+/* ── Safety modal ── */
+async function openSafetyModal(meetingId, password, skill){
+  _currentZoomId   = meetingId;
+  _currentZoomLink = buildZoomJoinLink(meetingId, password);
+  $('modalZoomId').textContent  = formatZoomId(meetingId);
+  $('modalZoomPass').textContent = password || 'None';
   $('safetyAgree').checked = false;
   $('safetyLaunchBtn').disabled = true;
   $('safetyModal').classList.add('open');
 
-  // Load Gemini safety tip async
-  try {
+  // Gemini safety tip
+  try{
     $('safetyGeminiTip').style.display='block';
     $('geminiSafetyText').textContent='Loading AI safety tip...';
-    const tip = await callGemini(
-      `Generate ONE very short (2 sentences max) practical safety tip for students doing a peer-to-peer "${skill}" skill exchange session on Zoom. Focus on: staying focused on the skill, being respectful, and reporting any issues. Do not use bullet points. Just 2 plain sentences.`
-    );
+    const tip = await callGemini(`Give ONE 2-sentence safety tip for students doing a "${skill}" peer-learning Zoom session on Zwapy. Focus on staying focused and reporting violations. Plain sentences only.`);
     $('geminiSafetyText').textContent = tip.trim();
-  } catch(e) {
-    $('geminiSafetyText').textContent = 'Keep the session focused on learning. Be respectful and end the meeting immediately if anything feels inappropriate.';
+  }catch(e){
+    $('geminiSafetyText').textContent='Keep the session focused on learning. End the meeting immediately and email zwapyteam@gmail.com if anything feels inappropriate.';
   }
 }
-
-$('safetyAgree').addEventListener('change',()=>{
-  $('safetyLaunchBtn').disabled = !$('safetyAgree').checked;
-});
+$('safetyAgree').addEventListener('change',()=>{ $('safetyLaunchBtn').disabled=!$('safetyAgree').checked; });
 $('safetyClose').addEventListener('click',()=>$('safetyModal').classList.remove('open'));
 
-/* ═══════════════════════════════════════
-   GEMINI API CALL
-═══════════════════════════════════════ */
-async function callGemini(prompt) {
-  const res = await fetch(GEMINI_URL, {
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({
+/* ── Gemini API ── */
+async function callGemini(prompt){
+  const res = await fetch(GEMINI_URL,{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
       contents:[{parts:[{text:prompt}]}],
       safetySettings:[
         {category:"HARM_CATEGORY_HARASSMENT",threshold:"BLOCK_MEDIUM_AND_ABOVE"},
@@ -642,55 +664,34 @@ async function callGemini(prompt) {
       generationConfig:{temperature:0.7,maxOutputTokens:4000}
     })
   });
-  const data = await res.json();
-  if(data.error) throw new Error(data.error.message);
+  const data=await res.json();
+  if(data.error)throw new Error(data.error.message);
   return data.candidates[0].content.parts[0].text;
 }
 
-/* ═══════════════════════════════════════
-   GENERATE EXAM QUESTIONS VIA GEMINI
-   Only for learner — based on skill they LEARNED
-═══════════════════════════════════════ */
-async function generateExamQuestions(skill, level) {
-  toast('🤖 Gemini is generating your exam... ⏳','s');
-  const isCoding = isCodingSkill(skill);
-
-  const prompt = `You are an expert exam creator for Zwapy, a campus skill exchange platform.
+/* ── Exam question generation via Gemini ── */
+async function generateExamQuestions(skill,level){
+  toast('🤖 Gemini is generating your exam...','s');
+  const isCoding=isCodingSkill(skill);
+  const prompt=`You are an expert exam creator for Zwapy campus skill exchange.
 Generate exactly 30 exam questions to test a student who just learned "${skill}" (${level} level) in a 1-hour peer session.
-
-CRITICAL RULES:
-- Questions must be 100% specific to "${skill}" — not generic
-- Test practical understanding gained in a 1-hour beginner session
-- VARY correct answer positions evenly across 0,1,2,3 (roughly 7-8 each)
-- Do NOT cluster correct answers at index 1 or 2
-
-${isCoding ? `Include:
-- 22 multiple choice questions (type:"mcq")
-- 8 coding questions (type:"code") — learner writes actual code
-
-For code questions: describe what code to write, give expected output.` : `All 30 must be multiple choice (type:"mcq").`}
-
-MCQ format: 4 options labelled A/B/C/D. "answer" = 0 for A, 1 for B, 2 for C, 3 for D.
-
-Return ONLY valid JSON, zero markdown, zero explanation:
-{"questions":[
-  {"type":"mcq","q":"[question about ${skill}]?","options":["A. option","B. option","C. option","D. option"],"answer":2}
-]}`;
-
-  try {
-    const text = await callGemini(prompt);
-    const clean = text.replace(/```json|```/g,'').trim();
-    const parsed = JSON.parse(clean);
+RULES:
+- 100% specific to "${skill}" — not generic
+- VARY correct answer positions evenly across 0,1,2,3
+${isCoding?`Include 22 MCQ + 8 coding questions (type:"code")`:`All 30 MCQ (type:"mcq")`}
+MCQ: 4 options A/B/C/D. "answer"=0 for A,1 for B,2 for C,3 for D.
+Return ONLY valid JSON no markdown:
+{"questions":[{"type":"mcq","q":"question?","options":["A. a","B. b","C. c","D. d"],"answer":2}]}`;
+  try{
+    const text=await callGemini(prompt);
+    const parsed=JSON.parse(text.replace(/```json|```/g,'').trim());
     return shuffleArr(parsed.questions);
-  } catch(err) {
-    console.error('Gemini exam gen error:', err);
-    return shuffleArr(fallbackQ(skill, isCoding));
-  }
+  }catch(err){console.error('Gemini error:',err);return shuffleArr(fallbackQ(skill,isCoding));}
 }
 
 function shuffleArr(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 
-function fallbackQ(skill, isCoding) {
+function fallbackQ(skill,isCoding){
   const base=[
     {type:'mcq',q:`What is the primary purpose of ${skill}?`,options:['A. Creating value and solving problems','B. Only for entertainment','C. Only for large companies','D. Only academic use'],answer:0},
     {type:'mcq',q:`Which is the best first step when learning ${skill}?`,options:['A. Skip basics immediately','B. Only watch tutorials','C. Start fundamentals with regular practice','D. Memorize syntax blindly'],answer:2},
@@ -706,49 +707,39 @@ function fallbackQ(skill, isCoding) {
   if(isCoding){
     base.push({type:'code',q:`Write a simple ${skill} program that prints "Hello Zwapy"`,expected:'Output: Hello Zwapy'});
     base.push({type:'code',q:`Write a ${skill} function that takes two numbers and returns their sum`,expected:'Function(a,b) → a+b'});
-    base.push({type:'code',q:`Write a ${skill} snippet that stores 3 items in a list/array and loops through them`,expected:'Should print 3 items'});
+    base.push({type:'code',q:`Write a ${skill} snippet that stores 3 items in a list and loops through them`,expected:'Should print 3 items'});
   }
   const q=[];for(let i=0;i<3;i++)q.push(...base.slice(0,10));
   if(isCoding)q.push(...base.slice(10));
   return q.slice(0,30);
 }
 
-/* ═══════════════════════════════════════
-   SKILL EXCHANGE COUNT — for certificate
-═══════════════════════════════════════ */
-async function getSkillExchangeCount(userId, skill) {
-  const userData = await getDoc(doc(db,'users',userId));
-  if(!userData.exists()) return 0;
-  const counts = userData.data().skillExchangeCounts || {};
-  const key = skill.toLowerCase().trim();
-  return counts[key] || 0;
+/* ── Skill exchange count (for cert) ── */
+async function getSkillExchangeCount(userId,skill){
+  const ud=await getDoc(doc(db,'users',userId));
+  if(!ud.exists())return 0;
+  return(ud.data().skillExchangeCounts||{})[skill.toLowerCase().trim()]||0;
 }
-
-async function incrementSkillExchangeCount(userId, skill) {
-  const userRef = doc(db,'users',userId);
-  const userData = await getDoc(userRef);
-  const counts = (userData.exists() ? userData.data().skillExchangeCounts : null) || {};
-  const key = skill.toLowerCase().trim();
-  counts[key] = (counts[key] || 0) + 1;
-  await updateDoc(userRef, { skillExchangeCounts: counts });
+async function incrementSkillExchangeCount(userId,skill){
+  const userRef=doc(db,'users',userId);
+  const ud=await getDoc(userRef);
+  const counts=(ud.exists()?ud.data().skillExchangeCounts:null)||{};
+  const key=skill.toLowerCase().trim();
+  counts[key]=(counts[key]||0)+1;
+  await updateDoc(userRef,{skillExchangeCounts:counts});
   return counts[key];
 }
 
-/* ═══════════════════════════════════════
-   STATE
-═══════════════════════════════════════ */
-let allExchanges=[], currentUser=null, userData={};
-let activeFilter='all', searchQ='';
-let connectTarget=null, scheduleTarget=null;
-let examSession=null, examQuestions=[], examIdx=0, examScore=0;
-let selectedAnswer=null, codeAnswers=[];
-let examTimerInterval=null, timeLeft=0, tabSwitchCount=0;
-let ratingSession=null, currentStars=0;
-const exchangesMap={}, requestsMap={}, sessionsMap={};
+/* ── STATE ── */
+let allExchanges=[],currentUser=null,userData={};
+let activeFilter='all',searchQ='';
+let connectTarget=null,scheduleTarget=null;
+let examSession=null,examQuestions=[],examIdx=0,examScore=0;
+let selectedAnswer=null,codeAnswers=[];
+let examTimerInterval=null,timeLeft=0,tabSwitchCount=0;
+let ratingSession=null,currentStars=0;
+const exchangesMap={},requestsMap={},sessionsMap={};
 
-/* ═══════════════════════════════════════
-   TAB SWITCH
-═══════════════════════════════════════ */
 window.switchTab=function(tab,el){
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
   document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
@@ -757,9 +748,7 @@ window.switchTab=function(tab,el){
   if(tab==='sessions')renderSessions();
 };
 
-/* ═══════════════════════════════════════
-   RENDER EXCHANGE GRID
-═══════════════════════════════════════ */
+/* ── RENDER GRID ── */
 function renderExchanges(){
   let list=allExchanges;
   if(activeFilter==='mine')list=list.filter(e=>e.uid===currentUser?.uid);
@@ -770,8 +759,7 @@ function renderExchanges(){
   allExchanges.forEach(e=>{exchangesMap[e.id]=e;});
   if(!list.length){$('exGrid').innerHTML=`<div class="empty-state"><div class="ei">🔄</div><p class="et">No exchanges found.</p></div>`;return;}
   $('exGrid').innerHTML=list.map(ex=>{
-    const isMe=ex.uid===currentUser?.uid;
-    const col=levelColor(ex.level);
+    const isMe=ex.uid===currentUser?.uid,col=levelColor(ex.level);
     const av=ex.photoURL||`https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(ex.name||ex.uid)}`;
     const isCoding=isCodingSkill(ex.offer);
     return`<div class="ex-card">
@@ -794,29 +782,17 @@ function renderExchanges(){
             <span class="ex-tag dur">${ex.duration||'Flexible'}</span>
             ${isCoding?`<span class="ex-tag level" style="color:var(--cyan);border-color:rgba(0,212,255,.2);background:rgba(0,212,255,.06);">💻 Code</span>`:''}
           </div>
-          ${isMe
-            ?`<button class="connect-btn mine" onclick="deleteEx('${ex.id}')">Delete</button>`
-            :`<button class="connect-btn" onclick="openConnect('${ex.id}')">Connect →</button>`
-          }
+          ${isMe?`<button class="connect-btn mine" onclick="deleteEx('${ex.id}')">Delete</button>`:`<button class="connect-btn" onclick="openConnect('${ex.id}')">Connect →</button>`}
         </div>
       </div>
     </div>`;
   }).join('');
 }
 
-window.deleteEx=async function(id){
-  if(!confirm('Delete this post?'))return;
-  await deleteDoc(doc(db,'exchanges',id));
-  allExchanges=allExchanges.filter(e=>e.id!==id);
-  renderExchanges();toast('Deleted');
-};
+window.deleteEx=async function(id){if(!confirm('Delete this post?'))return;await deleteDoc(doc(db,'exchanges',id));allExchanges=allExchanges.filter(e=>e.id!==id);renderExchanges();toast('Deleted');};
 
-/* ═══════════════════════════════════════
-   CONNECT MODAL
-═══════════════════════════════════════ */
 window.openConnect=function(exId){
-  const ex=exchangesMap[exId];if(!ex)return;
-  connectTarget=ex;
+  const ex=exchangesMap[exId];if(!ex)return;connectTarget=ex;
   $('cTitle').textContent=`Connect with ${ex.name||'Student'}`;
   $('cSub').textContent=`${ex.offer} ↔ ${ex.need} · ${ex.level||''} · ${ex.duration||''}`;
   $('cSwapBox').innerHTML=`<div style="display:flex;align-items:center;gap:10px;">
@@ -831,21 +807,11 @@ $('connectModal').addEventListener('click',e=>{if(e.target===$('connectModal'))$
 $('sendReqBtn').addEventListener('click',async()=>{
   const msg=$('cMsg').value.trim();if(!msg){toast('Write a message first','e');return;}
   const btn=$('sendReqBtn');btn.disabled=true;btn.textContent='Sending...';
-  await addDoc(collection(db,'exchange_requests'),{
-    fromUid:currentUser.uid,fromName:userData.name||'Student',
-    fromEmail:currentUser.email||'',fromPhoto:userData.photoURL||'',
-    fromUniversity:userData.university||'',
-    toUid:connectTarget.uid,toName:connectTarget.name||'Student',
-    exchangeId:connectTarget.id,offer:connectTarget.offer,need:connectTarget.need,
-    level:connectTarget.level||'Intermediate',message:msg,status:'pending',createdAt:serverTimestamp()
-  });
-  $('connectModal').classList.remove('open');btn.disabled=false;btn.textContent='Send Request →';
-  toast('✅ Request sent!');
+  await addDoc(collection(db,'exchange_requests'),{fromUid:currentUser.uid,fromName:userData.name||'Student',fromEmail:currentUser.email||'',fromPhoto:userData.photoURL||'',fromUniversity:userData.university||'',toUid:connectTarget.uid,toName:connectTarget.name||'Student',exchangeId:connectTarget.id,offer:connectTarget.offer,need:connectTarget.need,level:connectTarget.level||'Intermediate',message:msg,status:'pending',createdAt:serverTimestamp()});
+  $('connectModal').classList.remove('open');btn.disabled=false;btn.textContent='Send Request →';toast('✅ Request sent!');
 });
 
-/* ═══════════════════════════════════════
-   RENDER REQUESTS
-═══════════════════════════════════════ */
+/* ── RENDER REQUESTS ── */
 async function renderRequests(){
   const snap=await getDocs(query(collection(db,'exchange_requests'),orderBy('createdAt','desc')));
   const reqs=[];snap.forEach(d=>{const r={id:d.id,...d.data()};if(r.toUid===currentUser.uid){reqs.push(r);requestsMap[r.id]=r;}});
@@ -860,10 +826,7 @@ async function renderRequests(){
       <div class="rc-skills"><strong style="color:white;">${r.offer}</strong> ↔ <strong style="color:white;">${r.need}</strong></div>
       <div class="rc-msg">"${r.message}"</div>
       <div class="rc-actions">
-        ${r.status==='pending'
-          ?`<button class="btn-accept" onclick="acceptReq('${r.id}')">✓ Accept</button><button class="btn-reject" onclick="rejectReq('${r.id}')">Reject</button>`
-          :`<span style="font-size:.68rem;color:var(--muted);">Already ${r.status}</span>`
-        }
+        ${r.status==='pending'?`<button class="btn-accept" onclick="acceptReq('${r.id}')">✓ Accept &amp; Set Zoom</button><button class="btn-reject" onclick="rejectReq('${r.id}')">Reject</button>`:`<span style="font-size:.68rem;color:var(--muted);">Already ${r.status}</span>`}
       </div>
     </div>`).join('');
 }
@@ -873,152 +836,159 @@ window.acceptReq=function(reqId){
   scheduleTarget={reqId,fromUid:r.fromUid,fromName:r.fromName||'Student',fromEmail:r.fromEmail||'',offer:r.offer,need:r.need,level:r.level||'Intermediate'};
   $('scheduleWith').textContent=`With ${scheduleTarget.fromName} — ${scheduleTarget.offer} ↔ ${scheduleTarget.need}`;
   $('sessDate').value='';$('sessTime').value='';$('sessDuration').value='1';
+  $('zoomMeetingIdInput').value='';$('zoomPasswordInput').value='';
+  $('zoomIdStatus').textContent='';$('zoomIdStatus').className='zoom-id-status';
+  $('zoomMeetingIdInput').className='';
+  $('confirmSchedule').disabled=true;
   $('scheduleModal').classList.add('open');
 };
 $('scheduleClose').addEventListener('click',()=>$('scheduleModal').classList.remove('open'));
+
+/* ════════════════════════════════════════════════
+   confirmSchedule — uses teacher's real Zoom ID
+   Saves to Firestore → both students see the ID
+   in their Sessions tab
+════════════════════════════════════════════════ */
 $('confirmSchedule').addEventListener('click',async()=>{
-  const date=$('sessDate').value,time=$('sessTime').value,dur=$('sessDuration').value;
-  if(!date||!time){toast('Pick date and time','e');return;}
-  const btn=$('confirmSchedule');btn.disabled=true;btn.textContent='Creating...';
+  const date     = $('sessDate').value;
+  const time     = $('sessTime').value;
+  const dur      = $('sessDuration').value;
+  const rawInput = ($('zoomMeetingIdInput').value||'').replace(/[\s\-]/g,'');
+  const digits   = rawInput.replace(/\D/g,'');
+  const zoomPass = ($('zoomPasswordInput').value||'').trim();
 
-  // Generate Zoom meeting ID
-  const zoomMeetingId = genZoomMeetingId(scheduleTarget.fromUid, currentUser.uid, date, time);
-  const zoomJoinLink  = getZoomJoinLink(zoomMeetingId);
-  const zoomFormatted = formatZoomId(zoomMeetingId);
+  if(!date||!time)               {toast('Pick date and time','e');return;}
+  if(digits.length<9||digits.length>11){toast('Enter a valid 9–11 digit Zoom Meeting ID','e');return;}
 
+  const btn=$('confirmSchedule');btn.disabled=true;btn.textContent='Saving...';
+
+  const zoomFormatted = formatZoomId(digits);
+  const zoomJoinLink  = buildZoomJoinLink(digits, zoomPass);
+
+  // Save session — both students will see this Zoom ID
   await addDoc(collection(db,'sessions'),{
-    requestId:scheduleTarget.reqId,
-    fromUid:scheduleTarget.fromUid,fromName:scheduleTarget.fromName,fromEmail:scheduleTarget.fromEmail||'',
-    toUid:currentUser.uid,toName:userData.name||'Student',toEmail:currentUser.email||'',
-    offer:scheduleTarget.offer,need:scheduleTarget.need,level:scheduleTarget.level||'Intermediate',
-    date,time,durationHours:parseFloat(dur),
-    zoomMeetingId,zoomJoinLink,zoomFormatted,
-    status:'scheduled',
+    requestId:    scheduleTarget.reqId,
+    fromUid:      scheduleTarget.fromUid,  // teacher (person who accepted)
+    fromName:     scheduleTarget.fromName,
+    fromEmail:    scheduleTarget.fromEmail||'',
+    toUid:        currentUser.uid,          // learner (person who sent request)
+    toName:       userData.name||'Student',
+    toEmail:      currentUser.email||'',
+    offer:        scheduleTarget.offer,
+    need:         scheduleTarget.need,
+    level:        scheduleTarget.level||'Intermediate',
+    date, time,
+    durationHours:  parseFloat(dur),
+    zoomMeetingId:  digits,
+    zoomFormatted:  zoomFormatted,
+    zoomPassword:   zoomPass,
+    zoomJoinLink:   zoomJoinLink,
+    status:         'scheduled',
     sessionConfirmed:{[scheduleTarget.fromUid]:false,[currentUser.uid]:false},
-    examDone:{[scheduleTarget.fromUid]:false,[currentUser.uid]:false},
-    rated:{[scheduleTarget.fromUid]:false,[currentUser.uid]:false},
-    createdAt:serverTimestamp()
+    examDone:        {[scheduleTarget.fromUid]:false,[currentUser.uid]:false},
+    rated:           {[scheduleTarget.fromUid]:false,[currentUser.uid]:false},
+    createdAt:      serverTimestamp()
   });
+
   await updateDoc(doc(db,'exchange_requests',scheduleTarget.reqId),{status:'accepted'});
-  const desc=`${date} at ${time} · ${dur}hr · Zoom ID: ${zoomFormatted}`;
+
+  const desc=`${date} at ${time} · ${dur}hr · Zoom ID: ${zoomFormatted}${zoomPass?` · Password: ${zoomPass}`:''}`;
   await Promise.all([
     addDoc(collection(db,'users',currentUser.uid,'activity'),{title:`📹 Session with ${scheduleTarget.fromName}`,desc,createdAt:serverTimestamp()}),
     addDoc(collection(db,'users',scheduleTarget.fromUid,'activity'),{title:`📹 Session confirmed with ${userData.name||'Student'}`,desc,createdAt:serverTimestamp()})
   ]);
-  $('scheduleModal').classList.remove('open');btn.disabled=false;btn.textContent='Confirm & Generate Zoom Meeting →';
-  toast('✅ Zoom meeting created!');
+
+  $('scheduleModal').classList.remove('open');
+  btn.disabled=false;btn.textContent='Confirm & Send Zoom Details →';
+  toast('✅ Session scheduled! Zoom ID sent to both students.');
   renderRequests();document.querySelectorAll('.tab-btn')[2].click();
 });
 
-window.rejectReq=async function(reqId){
-  await updateDoc(doc(db,'exchange_requests',reqId),{status:'rejected'});
-  toast('Rejected');renderRequests();
-};
+window.rejectReq=async function(reqId){await updateDoc(doc(db,'exchange_requests',reqId),{status:'rejected'});toast('Rejected');renderRequests();};
 
-/* ═══════════════════════════════════════
-   RENDER SESSIONS
-   - Only learner (toUid) takes exam
-   - Teacher (fromUid) just confirms session
-═══════════════════════════════════════ */
+/* ── RENDER SESSIONS ── */
 async function renderSessions(){
   const snap=await getDocs(query(collection(db,'sessions'),orderBy('createdAt','desc')));
   const sessions=[];
-  snap.forEach(d=>{
-    const s={id:d.id,...d.data()};
-    if(s.fromUid===currentUser.uid||s.toUid===currentUser.uid){sessions.push(s);sessionsMap[s.id]=s;}
-  });
+  snap.forEach(d=>{const s={id:d.id,...d.data()};if(s.fromUid===currentUser.uid||s.toUid===currentUser.uid){sessions.push(s);sessionsMap[s.id]=s;}});
   $('statSessions').textContent=sessions.length;
   if(!sessions.length){$('sessionsList').innerHTML=`<div class="empty-state"><div class="ei">📹</div><p class="et">No sessions yet.</p></div>`;return;}
 
-  // Build session cards
-  const cards = await Promise.all(sessions.map(async s=>{
-    // iAmLearner = I am the person who joined (toUid) = person who RECEIVED teaching
-    const iAmLearner = s.toUid === currentUser.uid;
-    const withName   = iAmLearner ? s.fromName : s.toName;
-    const now=new Date(), sessStart=new Date(`${s.date}T${s.time}`), sessEnd=new Date(sessStart.getTime()+(s.durationHours||1)*3600000);
-    const upcoming=sessStart>now, ongoing=sessStart<=now&&sessEnd>now, completed=sessEnd<=now;
-    const myConfirmed    = (s.sessionConfirmed||{})[currentUser.uid];
-    const otherUid       = iAmLearner ? s.fromUid : s.toUid;
-    const otherConfirmed = (s.sessionConfirmed||{})[otherUid];
-    const bothConfirmed  = myConfirmed&&otherConfirmed;
-    const myExamDone     = (s.examDone||{})[currentUser.uid];
-    const myRated        = (s.rated||{})[currentUser.uid];
-    const level          = s.level||'Intermediate';
-    const zoomId         = s.zoomFormatted || s.zoomMeetingId || '—';
+  const cards=await Promise.all(sessions.map(async s=>{
+    const iAmLearner=s.toUid===currentUser.uid;
+    const withName=iAmLearner?s.fromName:s.toName;
+    const now=new Date(),sessStart=new Date(`${s.date}T${s.time}`),sessEnd=new Date(sessStart.getTime()+(s.durationHours||1)*3600000);
+    const upcoming=sessStart>now,ongoing=sessStart<=now&&sessEnd>now,completed=sessEnd<=now;
+    const myConfirmed=(s.sessionConfirmed||{})[currentUser.uid];
+    const otherUid=iAmLearner?s.fromUid:s.toUid;
+    const otherConfirmed=(s.sessionConfirmed||{})[otherUid];
+    const bothConfirmed=myConfirmed&&otherConfirmed;
+    const myExamDone=(s.examDone||{})[currentUser.uid];
+    const myRated=(s.rated||{})[currentUser.uid];
+    const level=s.level||'Intermediate';
+    const zoomId=s.zoomFormatted||s.zoomMeetingId||'—';
+    const zoomPass=s.zoomPassword||'';
 
-    // Skill exchange count for this skill (for learner)
-    let exchangeCount = 0;
-    if (iAmLearner && myExamDone) {
-      exchangeCount = await getSkillExchangeCount(currentUser.uid, s.offer);
-    }
+    let exchangeCount=0;
+    if(iAmLearner&&myExamDone){exchangeCount=await getSkillExchangeCount(currentUser.uid,s.offer);}
 
-    const statusBadge = upcoming
-      ?`<span style="font-size:.62rem;color:var(--cyan);background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.2);padding:2px 8px;border-radius:100px;">Upcoming</span>`
-      :ongoing
-        ?`<span style="font-size:.62rem;color:var(--green);background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);padding:2px 8px;border-radius:100px;">🔴 Live</span>`
-        :`<span style="font-size:.62rem;color:var(--muted);">Completed</span>`;
+    const statusBadge=upcoming?`<span style="font-size:.62rem;color:var(--cyan);background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.2);padding:2px 8px;border-radius:100px;">Upcoming</span>`:ongoing?`<span style="font-size:.62rem;color:var(--green);background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);padding:2px 8px;border-radius:100px;">🔴 Live</span>`:`<span style="font-size:.62rem;color:var(--muted);">Completed</span>`;
 
     return`<div class="session-card">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;flex-wrap:wrap;gap:5px;">
         <div class="session-title">${s.offer} ↔ ${s.need}</div>${statusBadge}
       </div>
       <div class="session-with">with ${withName||'Student'} · <span style="font-family:'Space Mono',monospace;font-size:.54rem;color:var(--muted);">${level}</span>
-        · <span style="font-family:'Space Mono',monospace;font-size:.52rem;color:${iAmLearner?'var(--cyan)':'var(--green);'};">${iAmLearner?'You are LEARNER 📖':'You are TEACHER 🎓'}</span>
+        · <span style="font-family:'Space Mono',monospace;font-size:.52rem;color:${iAmLearner?'var(--cyan)':'var(--green)'};">${iAmLearner?'You are LEARNER 📖':'You are TEACHER 🎓'}</span>
       </div>
       <div class="session-meta">
         <div class="smr">📅 ${s.date} at ${s.time} (${s.durationHours}hr)</div>
-        <div class="smr" style="flex-wrap:wrap;gap:6px;">
-          🎥 <strong style="color:var(--zoom);">Zoom ID: ${zoomId}</strong>
-          <button onclick="copyZoomIdDirect('${s.zoomMeetingId||''}')" style="background:rgba(45,140,255,0.1);border:1px solid rgba(45,140,255,0.22);border-radius:5px;padding:2px 8px;font-size:.56rem;font-weight:700;color:var(--zoom);cursor:pointer;font-family:'Sora',sans-serif;">Copy ID</button>
+        <div class="smr" style="flex-wrap:wrap;gap:6px;align-items:center;">
+          🎥 <strong style="color:var(--zoom);">Zoom: ${zoomId}</strong>
+          ${zoomPass?`<span style="font-size:.6rem;color:var(--muted);">· Password: ${zoomPass}</span>`:''}
+          <button onclick="copyZoomIdBtn('${s.zoomMeetingId||''}')" style="background:rgba(45,140,255,0.1);border:1px solid rgba(45,140,255,0.22);border-radius:5px;padding:2px 8px;font-size:.56rem;font-weight:700;color:var(--zoom);cursor:pointer;font-family:'Sora',sans-serif;">📋 Copy ID</button>
         </div>
       </div>
       <div class="session-actions">
         ${(upcoming||ongoing)?`<button class="zoom-btn" onclick="openSafetyAndZoom('${s.id}','${s.offer}')">🎥 Launch Zoom Meeting →</button>`:''}
         ${completed&&!myConfirmed?`<button class="confirm-session-btn" onclick="confirmSession('${s.id}')">✅ Confirm Session Done</button>`:''}
         ${completed&&myConfirmed&&!otherConfirmed?`<span style="font-size:.66rem;color:var(--amber);">⏳ Waiting for ${withName} to confirm...</span>`:''}
-        ${completed&&bothConfirmed&&iAmLearner&&!myExamDone?`<button class="take-exam-btn" onclick="startExam('${s.id}')">📝 Take Exam & Earn Coins</button>`:''}
-        ${completed&&bothConfirmed&&!iAmLearner&&!myExamDone?`<span style="font-size:.66rem;color:var(--green);">✓ You're the teacher — no exam needed! Waiting for learner to rate you for bonus coins.</span>`:''}
+        ${completed&&bothConfirmed&&iAmLearner&&!myExamDone?`<button class="take-exam-btn" onclick="startExam('${s.id}')">📝 Take Exam &amp; Earn Coins</button>`:''}
+        ${completed&&bothConfirmed&&!iAmLearner&&!myExamDone?`<span style="font-size:.66rem;color:var(--green);">✓ You're the teacher — no exam needed. Waiting for learner rating for your bonus coins.</span>`:''}
         ${myExamDone&&iAmLearner&&!myRated?`<button class="rate-btn" onclick="openRating('${s.id}')">⭐ Rate Your Teacher</button>`:''}
         ${myExamDone&&iAmLearner&&myRated?`<span style="font-size:.66rem;color:var(--green);">✓ All done · Coins credited</span>`:''}
         ${myExamDone&&iAmLearner?`<div class="cert-progress-bar">
-          <div class="cert-prog-label">🏆 ${s.offer} Certificate Progress: ${Math.min(exchangeCount,CERT_EXCHANGES_REQUIRED)}/${CERT_EXCHANGES_REQUIRED} exchanges</div>
+          <div class="cert-prog-label">🏆 ${s.offer} Certificate: ${Math.min(exchangeCount,CERT_EXCHANGES_REQUIRED)}/${CERT_EXCHANGES_REQUIRED} exchanges</div>
           <div class="cert-prog-track"><div class="cert-prog-fill" style="width:${Math.min((exchangeCount/CERT_EXCHANGES_REQUIRED)*100,100)}%;"></div></div>
-          ${exchangeCount>=CERT_EXCHANGES_REQUIRED?`<div style="color:var(--green);font-size:.68rem;margin-top:4px;">✅ Certificate unlocked! Check your email.</div>`:`<div style="color:var(--muted);font-size:.62rem;margin-top:3px;">${CERT_EXCHANGES_REQUIRED-Math.min(exchangeCount,CERT_EXCHANGES_REQUIRED)} more exchange${CERT_EXCHANGES_REQUIRED-Math.min(exchangeCount,CERT_EXCHANGES_REQUIRED)!==1?'s':''} on ${s.offer} for certificate</div>`}
+          ${exchangeCount>=CERT_EXCHANGES_REQUIRED?`<div style="color:var(--green);font-size:.68rem;margin-top:4px;">✅ Certificate unlocked! Check your email.</div>`:`<div style="color:var(--muted);font-size:.62rem;margin-top:3px;">${CERT_EXCHANGES_REQUIRED-Math.min(exchangeCount,CERT_EXCHANGES_REQUIRED)} more exchange${CERT_EXCHANGES_REQUIRED-Math.min(exchangeCount,CERT_EXCHANGES_REQUIRED)!==1?'s':''} on ${s.offer} to unlock certificate</div>`}
         </div>`:''}
       </div>
       ${completed?`<div class="confirm-status">${myConfirmed?'✅ You confirmed':'⬜ You haven\'t confirmed'} · ${otherConfirmed?`✅ ${withName} confirmed`:`⬜ ${withName} hasn\'t confirmed`}${!myConfirmed?'<br><span style="color:var(--amber);font-size:.66rem;">Both must confirm before exam unlocks</span>':''}</div>`:''}
     </div>`;
   }));
-  $('sessionsList').innerHTML = cards.join('');
+  $('sessionsList').innerHTML=cards.join('');
 }
 
-/* Open safety modal before launching Zoom */
-window.openSafetyAndZoom = async function(sessionId, skill) {
-  const s = sessionsMap[sessionId];
-  if (!s) return;
-  currentZoomMeetingId = s.zoomMeetingId || '';
-  await openSafetyModal(s.zoomMeetingId || '', skill);
-};
-
-window.copyZoomIdDirect = function(meetingId) {
-  if (!meetingId) return;
-  const formatted = formatZoomId(meetingId);
-  try{navigator.clipboard.writeText(formatted);}catch(e){
-    const ta=document.createElement('textarea');ta.value=formatted;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
-  }
+window.copyZoomIdBtn=function(meetingId){
+  if(!meetingId)return;
+  const txt=formatZoomId(meetingId);
+  try{navigator.clipboard.writeText(txt);}catch(e){const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);}
   toast('✅ Zoom ID copied!');
 };
 
-window.confirmSession = async function(sid) {
+window.openSafetyAndZoom=async function(sessionId,skill){
+  const s=sessionsMap[sessionId];if(!s)return;
+  await openSafetyModal(s.zoomMeetingId||'',s.zoomPassword||'',skill);
+};
+
+window.confirmSession=async function(sid){
   const s=sessionsMap[sid];if(!s)return;
   await updateDoc(doc(db,'sessions',sid),{[`sessionConfirmed.${currentUser.uid}`]:true});
   sessionsMap[sid]={...s,sessionConfirmed:{...(s.sessionConfirmed||{}),[currentUser.uid]:true}};
   toast('✅ Session confirmed!');renderSessions();
 };
 
-/* ═══════════════════════════════════════
-   RATING MODAL
-═══════════════════════════════════════ */
+/* ── RATING ── */
 window.openRating=function(sid){
   const s=sessionsMap[sid];if(!s)return;ratingSession=s;currentStars=0;
   $('ratingTeacherName').textContent=`Rating ${s.fromName||'your teacher'}`;
@@ -1030,7 +1000,7 @@ document.querySelectorAll('.star').forEach(star=>{
   star.addEventListener('click',()=>{
     currentStars=parseInt(star.dataset.v);
     document.querySelectorAll('.star').forEach((s,i)=>s.classList.toggle('active',i<currentStars));
-    const hints=['','Poor — barely helped','Below average','Average — got the basics','Good teaching!','Excellent! Really learned a lot'];
+    const hints=['','Poor — barely helped','Below average','Average','Good teaching!','Excellent!'];
     $('starHint').textContent=hints[currentStars]||'';
     if(ratingSession){const tc=getTeacherCoins(ratingSession.level||'Intermediate',currentStars);$('ratingCoinPreview').textContent=`Teacher will earn +${tc} coins`;}
     $('ratingSubmitBtn').disabled=false;
@@ -1049,37 +1019,26 @@ $('ratingSubmitBtn').addEventListener('click',async()=>{
   }catch(err){toast('Error: '+err.message,'e');btn.disabled=false;btn.textContent='Submit Rating →';}
 });
 
-/* ═══════════════════════════════════════
-   EXAM — LEARNER ONLY
-   Questions generated by Gemini based on
-   the skill the LEARNER received teaching on
-═══════════════════════════════════════ */
+/* ── EXAM ── */
 window.startExam=async function(sid){
   const s=sessionsMap[sid];if(!s)return;
-  const iAmLearner = s.toUid === currentUser.uid;
-  if(!iAmLearner){toast('Only the learner takes the exam!','e');return;}
-
-  // Exam is based on what the LEARNER was TAUGHT = s.offer (teacher's skill)
-  const skillTaught = s.offer;
+  if(s.toUid!==currentUser.uid){toast('Only the learner takes the exam!','e');return;}
+  const skillTaught=s.offer;
   examSession={sessionId:sid,skill:skillTaught,teacherName:s.fromName||'Student',level:s.level||'Intermediate',iAmLearner:true};
   examQuestions=[];examIdx=0;examScore=0;selectedAnswer=null;codeAnswers=[];tabSwitchCount=0;
   clearInterval(examTimerInterval);
   $('examScreen').style.display='block';$('resultScreen').style.display='none';
   $('cheatWarning').className='cheat-warning';$('examModal').classList.add('open');
-  examQuestions = await generateExamQuestions(skillTaught, s.level||'Intermediate');
+  examQuestions=await generateExamQuestions(skillTaught,s.level||'Intermediate');
   showExamQ();
 };
+$('examClose').addEventListener('click',()=>{if(confirm('Exit? Progress lost.')){clearInterval(examTimerInterval);$('examModal').classList.remove('open');}});
 
-$('examClose').addEventListener('click',()=>{
-  if(confirm('Exit? Progress will be lost.')){clearInterval(examTimerInterval);$('examModal').classList.remove('open');}
-});
-
-/* ANTI-CHEAT */
 document.addEventListener('visibilitychange',()=>{
   if(document.hidden&&$('examModal').classList.contains('open')&&$('examScreen').style.display!=='none'){
     tabSwitchCount++;$('cheatWarning').className='cheat-warning show';
-    $('cheatWarning').textContent=`⚠️ Tab switch #${tabSwitchCount} detected & logged.${tabSwitchCount>=3?' EXAM VOIDED.':''}`;
-    if(tabSwitchCount>=3){clearInterval(examTimerInterval);$('examModal').classList.remove('open');toast('❌ Exam voided — too many tab switches.','e');}
+    $('cheatWarning').textContent=`⚠️ Tab switch #${tabSwitchCount} detected.${tabSwitchCount>=3?' EXAM VOIDED.':''}`;
+    if(tabSwitchCount>=3){clearInterval(examTimerInterval);$('examModal').classList.remove('open');toast('❌ Exam voided — tab switches.','e');}
   }
 });
 document.addEventListener('copy',e=>{if($('examModal').classList.contains('open')&&$('codeSection').style.display==='none'){e.preventDefault();toast('❌ Copying disabled during exam','e');}});
@@ -1091,14 +1050,13 @@ function showExamQ(){
   $('examQNum').textContent=`Question ${examIdx+1} of ${examQuestions.length}`;
   $('examQuestion').textContent=q.q;
   selectedAnswer=null;$('examNextBtn').disabled=true;
-
   if(q.type==='code'){
     $('examOptions').style.display='none';$('codeSection').style.display='block';
     $('codeEditor').value='';$('codeOutput').style.display='none';$('codeSubmitBtn').disabled=true;
     if(q.expected){$('codeOutput').textContent=`Expected: ${q.expected}`;$('codeOutput').style.display='block';$('codeOutput').className='code-output';}
     $('codeEditor').oninput=function(){$('codeSubmitBtn').disabled=this.value.trim().length<5;};
     clearInterval(examTimerInterval);$('examTimer').textContent='—';$('examTimer').className='exam-timer';
-  } else {
+  }else{
     $('examOptions').style.display='flex';$('codeSection').style.display='none';
     $('examOptions').innerHTML=q.options.map((opt,i)=>`<button class="exam-option" onclick="selectAns(${i})">${opt}</button>`).join('');
     clearInterval(examTimerInterval);timeLeft=30;$('examTimer').textContent='30s';$('examTimer').className='exam-timer';
@@ -1109,94 +1067,57 @@ function showExamQ(){
     },1000);
   }
 }
-
-window.selectAns=function(idx){
-  selectedAnswer=idx;
-  document.querySelectorAll('.exam-option').forEach((b,i)=>b.className='exam-option'+(i===idx?' selected':''));
-  $('examNextBtn').disabled=false;
-};
-
+window.selectAns=function(idx){selectedAnswer=idx;document.querySelectorAll('.exam-option').forEach((b,i)=>b.className='exam-option'+(i===idx?' selected':''));$('examNextBtn').disabled=false;};
 window.runCode=function(){
   const code=$('codeEditor').value.trim();if(!code)return;
   const output=$('codeOutput');output.style.display='block';
-  const lang=(examSession.skill||'').toLowerCase();
-  if(lang.includes('javascript')||lang.includes('js')){
+  if((examSession.skill||'').toLowerCase().includes('javascript')||(examSession.skill||'').toLowerCase().includes(' js')){
     let logs=[];const origLog=console.log;
     console.log=(...args)=>logs.push(args.map(a=>typeof a==='object'?JSON.stringify(a):String(a)).join(' '));
-    try{eval(code);console.log=origLog;output.textContent=logs.length?logs.join('\n'):'(No output — add console.log)';output.className='code-output success';}
+    try{eval(code);console.log=origLog;output.textContent=logs.length?logs.join('\n'):'(No output)';output.className='code-output success';}
     catch(err){console.log=origLog;output.textContent='Error: '+err.message;output.className='code-output error';}
-  } else {
-    output.textContent='▶ Code saved. For non-JS: submit as-is. Run only works for JavaScript.';output.className='code-output';
-  }
+  }else{output.textContent='▶ Code saved. Run only works for JavaScript.';output.className='code-output';}
   $('codeSubmitBtn').disabled=$('codeEditor').value.trim().length<5;
 };
-
 window.submitCode=function(){
-  const code=$('codeEditor').value.trim();if(!code)return;
-  codeAnswers.push({qIdx:examIdx,code});
-  examScore+=0.5;
+  codeAnswers.push({qIdx:examIdx,code:$('codeEditor').value.trim()});examScore+=0.5;
   clearInterval(examTimerInterval);examIdx++;
   if(examIdx<examQuestions.length)setTimeout(showExamQ,400);else setTimeout(showExamResult,400);
 };
-
 $('examNextBtn').addEventListener('click',()=>{
   clearInterval(examTimerInterval);const q=examQuestions[examIdx];
-  document.querySelectorAll('.exam-option').forEach((b,i)=>{
-    if(i===q.answer)b.className='exam-option correct';
-    else if(i===selectedAnswer&&i!==q.answer)b.className='exam-option wrong';
-  });
-  if(selectedAnswer===q.answer)examScore++;
-  examIdx++;
+  document.querySelectorAll('.exam-option').forEach((b,i)=>{if(i===q.answer)b.className='exam-option correct';else if(i===selectedAnswer&&i!==q.answer)b.className='exam-option wrong';});
+  if(selectedAnswer===q.answer)examScore++;examIdx++;
   if(examIdx<examQuestions.length)setTimeout(showExamQ,700);else setTimeout(showExamResult,700);
 });
 
-/* ═══════════════════════════════════════
-   SHOW EXAM RESULT
-   Check 5-exchange cert rule
-═══════════════════════════════════════ */
 async function showExamResult(){
   clearInterval(examTimerInterval);
   $('examScreen').style.display='none';$('resultScreen').style.display='block';
-  const total=examQuestions.length;const pct=Math.round((examScore/total)*100);const pass=pct>=60;
-  const level=examSession.level||'Intermediate';
-  const learnerCoins=getLearnerCoins(level,pass);
-
+  const total=examQuestions.length,pct=Math.round((examScore/total)*100),pass=pct>=60;
+  const level=examSession.level||'Intermediate',learnerCoins=getLearnerCoins(level,pass);
   $('resultIcon').textContent=pass?'🏆':'📚';
   $('resultScore').textContent=`${Math.round(examScore)}/${total}`;
   $('resultScore').className=`result-score ${pass?'pass':'fail'}`;
   $('resultLabel').textContent=`${pct}% — ${pass?'Passed! Great work.':'Need 60% to pass. Keep practicing!'}`;
-  $('resultCoins').innerHTML=learnerCoins>0
-    ?`💰 <strong>+${learnerCoins} Skill Coins</strong> earned! (${level} level pass)<br>Rate your teacher to give them their bonus coins.`
-    :`💸 <strong>${learnerCoins} coins</strong> deducted (${level} fail). Teacher is NOT penalised.`;
-
-  // Check certificate progress — only if passed
+  $('resultCoins').innerHTML=learnerCoins>0?`💰 <strong>+${learnerCoins} Skill Coins</strong> earned! (${level} level pass)<br>Rate your teacher for their bonus coins.`:`💸 <strong>${learnerCoins} coins</strong> deducted (${level} fail). Teacher is NOT penalised.`;
   if(pass){
-    const currentCount = await getSkillExchangeCount(currentUser.uid, examSession.skill);
-    const newCount = currentCount + 1; // will be incremented on claim
-    const certEl = $('certProgressResult');
-    certEl.style.display='block';
-    if(newCount >= CERT_EXCHANGES_REQUIRED){
-      certEl.innerHTML=`🏆 <strong>CERTIFICATE UNLOCKED!</strong> This is your ${newCount}/${CERT_EXCHANGES_REQUIRED} exchange for "${examSession.skill}"! Certificate will be sent to your email.`;
-      generateCert();$('certCanvas').style.display='block';
-      $('hardcopyBox').style.display='block';
+    const currentCount=await getSkillExchangeCount(currentUser.uid,examSession.skill);
+    const newCount=currentCount+1;
+    const certEl=$('certProgressResult');certEl.style.display='block';
+    if(newCount>=CERT_EXCHANGES_REQUIRED){
+      certEl.innerHTML=`🏆 <strong>CERTIFICATE UNLOCKED!</strong> ${newCount}/${CERT_EXCHANGES_REQUIRED} exchanges on "${examSession.skill}"! Email incoming.`;
+      generateCert();$('certCanvas').style.display='block';$('hardcopyBox').style.display='block';
       const mailBody=`Name: ${userData.name||''}%0ASkill: ${examSession.skill||''}%0AScore: ${Math.round(examScore)}/${total} (${pct}%)%0ALevel: ${level}%0ADelivery Address: `;
       $('hardcopyLink').href=`mailto:zwapyteam@gmail.com?subject=Hard Copy Certificate Request — ${examSession.skill}&body=${mailBody}`;
-    } else {
-      certEl.innerHTML=`📊 ${newCount}/${CERT_EXCHANGES_REQUIRED} exchanges on "${examSession.skill}" · ${CERT_EXCHANGES_REQUIRED - newCount} more to unlock certificate`;
+    }else{
+      certEl.innerHTML=`📊 ${newCount}/${CERT_EXCHANGES_REQUIRED} exchanges on "${examSession.skill}" · ${CERT_EXCHANGES_REQUIRED-newCount} more to unlock certificate`;
     }
-    $('resultCert').innerHTML=newCount >= CERT_EXCHANGES_REQUIRED
-      ?`🎓 Certificate sent to <strong>${currentUser.email}</strong>!`
-      :`📈 Keep going! ${CERT_EXCHANGES_REQUIRED - newCount} more ${examSession.skill} exchange${CERT_EXCHANGES_REQUIRED - newCount!==1?'s':''} to earn your certificate.`;
-  } else {
-    $('resultCert').innerHTML=`📖 Study more and retake to earn your certificate.`;
-    $('certProgressResult').style.display='none';
-  }
+    $('resultCert').innerHTML=newCount>=CERT_EXCHANGES_REQUIRED?`🎓 Certificate sent to <strong>${currentUser.email}</strong>!`:`📈 ${CERT_EXCHANGES_REQUIRED-newCount} more ${examSession.skill} exchange${CERT_EXCHANGES_REQUIRED-newCount!==1?'s':''} for certificate.`;
+  }else{$('resultCert').innerHTML=`📖 Study more and retake to earn your certificate.`;$('certProgressResult').style.display='none';}
   $('resultBtn').disabled=false;$('resultBtn').textContent=pass?'Claim Coins →':'Accept Deduction';
 }
 
-/* ═══════════════════════════════════════
-   CERTIFICATE GENERATOR
-═══════════════════════════════════════ */
 function generateCert(){
   const canvas=$('certCanvas');canvas.style.display='block';
   const ctx=canvas.getContext('2d');const w=900,h=620;
@@ -1235,114 +1156,53 @@ function generateCert(){
   ctx.fillText('Issued by Zwapy · zwapy.com · This certificate is digitally verified',w/2,570);
 }
 
-/* ═══════════════════════════════════════
-   CLAIM COINS BUTTON
-═══════════════════════════════════════ */
 $('resultBtn').addEventListener('click',async()=>{
   const btn=$('resultBtn');btn.disabled=true;btn.textContent='Processing...';
-  const pct=Math.round((examScore/examQuestions.length)*100);const pass=pct>=60;
-  const level=examSession.level||'Intermediate';const learnerCoins=getLearnerCoins(level,pass);
+  const pct=Math.round((examScore/examQuestions.length)*100),pass=pct>=60;
+  const level=examSession.level||'Intermediate',learnerCoins=getLearnerCoins(level,pass);
   try{
-    const currentCoins=userData.coins||0;const currentDebt=userData.coinDebt||0;
-    if(learnerCoins<0&&currentCoins===0){
-      await updateDoc(doc(db,'users',currentUser.uid),{coinDebt:currentDebt+Math.abs(learnerCoins),exchanges:(userData.exchanges||0)+1});
-      userData.coinDebt=currentDebt+Math.abs(learnerCoins);
-    } else {
-      const newCoins=Math.max(0,currentCoins+learnerCoins);
-      await updateDoc(doc(db,'users',currentUser.uid),{coins:newCoins,exchanges:(userData.exchanges||0)+1});
-      userData.coins=newCoins;
-    }
-    await updateDoc(doc(db,'sessions',examSession.sessionId),{
-      [`examDone.${currentUser.uid}`]:true,
-      [`examScore.${currentUser.uid}`]:Math.round(examScore),
-      [`tabSwitches.${currentUser.uid}`]:tabSwitchCount
-    });
+    const currentCoins=userData.coins||0,currentDebt=userData.coinDebt||0;
+    if(learnerCoins<0&&currentCoins===0){await updateDoc(doc(db,'users',currentUser.uid),{coinDebt:currentDebt+Math.abs(learnerCoins),exchanges:(userData.exchanges||0)+1});userData.coinDebt=currentDebt+Math.abs(learnerCoins);}
+    else{const newCoins=Math.max(0,currentCoins+learnerCoins);await updateDoc(doc(db,'users',currentUser.uid),{coins:newCoins,exchanges:(userData.exchanges||0)+1});userData.coins=newCoins;}
+    await updateDoc(doc(db,'sessions',examSession.sessionId),{[`examDone.${currentUser.uid}`]:true,[`examScore.${currentUser.uid}`]:Math.round(examScore),[`tabSwitches.${currentUser.uid}`]:tabSwitchCount});
     if(codeAnswers.length>0)await updateDoc(doc(db,'sessions',examSession.sessionId),{[`codeAnswers.${currentUser.uid}`]:codeAnswers});
-
-    // Increment skill exchange count for this skill (learner only, on pass)
-    let newExchangeCount = 0;
-    if(pass){
-      newExchangeCount = await incrementSkillExchangeCount(currentUser.uid, examSession.skill);
+    let newExchangeCount=0;
+    if(pass){newExchangeCount=await incrementSkillExchangeCount(currentUser.uid,examSession.skill);}
+    await addDoc(collection(db,'users',currentUser.uid,'activity'),{title:`📝 Exam: ${examSession.skill}`,desc:`${Math.round(examScore)}/${examQuestions.length} (${pct}%) · ${learnerCoins>0?'+':''}${learnerCoins} coins · ${level}`,createdAt:serverTimestamp()});
+    if(pass&&newExchangeCount>=CERT_EXCHANGES_REQUIRED){
+      try{await emailjs.send('service_n42p919','template_vwhzfdr',{to_name:userData.name||'Student',to_email:currentUser.email,skill:examSession.skill,score:`${Math.round(examScore)}/${examQuestions.length} (${pct}%)`,exchanges:`${newExchangeCount}`,date:new Date().toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'})});toast('🎓 Certificate email sent!');}catch(e){toast('✅ Coins credited! Certificate soon.','s');}
     }
-
-    await addDoc(collection(db,'users',currentUser.uid,'activity'),{
-      title:`📝 Exam: ${examSession.skill}`,
-      desc:`${Math.round(examScore)}/${examQuestions.length} (${pct}%) · ${learnerCoins>0?'+':''}${learnerCoins} coins · ${level}`,
-      createdAt:serverTimestamp()
-    });
-
-    // Send certificate email only if 5+ exchanges on this skill
-    if(pass && newExchangeCount >= CERT_EXCHANGES_REQUIRED){
-      try{
-        await emailjs.send('service_n42p919','template_vwhzfdr',{
-          to_name:userData.name||'Student',to_email:currentUser.email,
-          skill:examSession.skill,score:`${Math.round(examScore)}/${examQuestions.length} (${pct}%)`,
-          exchanges:`${newExchangeCount}`,
-          date:new Date().toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'})
-        });
-        toast('🎓 Certificate email sent!');
-      }catch(e){toast('✅ Coins credited! Certificate will arrive soon.','s');}
-    }
-
     $('examModal').classList.remove('open');
-    if(learnerCoins<0)toast(`💸 ${learnerCoins} coins deducted. Study more!`,'e');
-    else toast(`🎉 +${learnerCoins} coins earned!${pass&&newExchangeCount>=CERT_EXCHANGES_REQUIRED?' 🎓 Certificate unlocked!':''}`);
+    if(learnerCoins<0)toast(`💸 ${learnerCoins} coins deducted.`,'e');
+    else toast(`🎉 +${learnerCoins} coins!${pass&&newExchangeCount>=CERT_EXCHANGES_REQUIRED?' 🎓 Certificate unlocked!':''}`);
     renderSessions();
-    if(pass && examSession.iAmLearner) setTimeout(()=>openRating(examSession.sessionId),1600);
+    if(pass&&examSession.iAmLearner)setTimeout(()=>openRating(examSession.sessionId),1600);
   }catch(err){console.error(err);toast('Error: '+err.message,'e');btn.disabled=false;btn.textContent='Claim Coins →';}
 });
 
-/* ═══════════════════════════════════════
-   POST EXCHANGE
-═══════════════════════════════════════ */
+/* ── POST ── */
 $('postBtn').addEventListener('click',async()=>{
-  const offer=$('offerSkill').value.trim();const need=$('needSkill').value.trim();
+  const offer=$('offerSkill').value.trim(),need=$('needSkill').value.trim();
   if(!offer||!need){toast('Fill both skill fields','e');return;}
   const btn=$('postBtn');btn.disabled=true;btn.textContent='Posting...';
-  await addDoc(collection(db,'exchanges'),{
-    uid:currentUser.uid,name:userData.name||'Student',university:userData.university||'',
-    photoURL:userData.photoURL||'',offer,need,level:$('skillLevel').value,
-    duration:$('duration').value,desc:$('postDesc').value.trim(),createdAt:serverTimestamp()
-  });
+  await addDoc(collection(db,'exchanges'),{uid:currentUser.uid,name:userData.name||'Student',university:userData.university||'',photoURL:userData.photoURL||'',offer,need,level:$('skillLevel').value,duration:$('duration').value,desc:$('postDesc').value.trim(),createdAt:serverTimestamp()});
   $('offerSkill').value='';$('needSkill').value='';$('postDesc').value='';
   btn.disabled=false;btn.textContent='Post Request →';toast('✅ Posted!');
   document.querySelectorAll('.tab-btn')[0].click();
 });
 
-/* FILTERS */
-document.querySelectorAll('.ftab').forEach(f=>{
-  f.addEventListener('click',()=>{
-    document.querySelectorAll('.ftab').forEach(x=>x.classList.remove('active'));
-    f.classList.add('active');activeFilter=f.dataset.f;renderExchanges();
-  });
-});
+document.querySelectorAll('.ftab').forEach(f=>{f.addEventListener('click',()=>{document.querySelectorAll('.ftab').forEach(x=>x.classList.remove('active'));f.classList.add('active');activeFilter=f.dataset.f;renderExchanges();});});
 let st;$('searchInput').addEventListener('input',e=>{clearTimeout(st);st=setTimeout(()=>{searchQ=e.target.value.toLowerCase().trim();renderExchanges();},200);});
 
-/* ═══════════════════════════════════════
-   AUTH
-═══════════════════════════════════════ */
-onAuthStateChanged(auth, async user=>{
+/* ── AUTH ── */
+onAuthStateChanged(auth,async user=>{
   if(!user){window.location.href='login.html';return;}
   currentUser=user;
-  const[us,exSnap]=await Promise.all([
-    getDoc(doc(db,'users',user.uid)),
-    getDocs(query(collection(db,'exchanges'),orderBy('createdAt','desc')))
-  ]);
-  if(us.exists()){
-    userData=us.data();
-    $('navAvatar').src=userData.photoURL||user.photoURL||`https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(userData.name||'user')}`;
-  }
-  allExchanges=[];exSnap.forEach(d=>allExchanges.push({id:d.id,...d.data()}));
-  renderExchanges();
-  try{
-    const rSnap=await getDocs(collection(db,'exchange_requests'));let p=0;
-    rSnap.forEach(d=>{if(d.data().toUid===user.uid&&d.data().status==='pending')p++;});
-    if(p>0)$('reqDot').className='tab-dot show';
-  }catch(e){}
-  setTimeout(()=>{
-    $('loadScreen').classList.add('hide');setTimeout(()=>{if($('loadScreen'))$('loadScreen').remove();},400);
-    document.querySelectorAll('.fade-up').forEach(el=>el.classList.add('in'));
-  },500);
+  const[us,exSnap]=await Promise.all([getDoc(doc(db,'users',user.uid)),getDocs(query(collection(db,'exchanges'),orderBy('createdAt','desc')))]);
+  if(us.exists()){userData=us.data();$('navAvatar').src=userData.photoURL||user.photoURL||`https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(userData.name||'user')}`;}
+  allExchanges=[];exSnap.forEach(d=>allExchanges.push({id:d.id,...d.data()}));renderExchanges();
+  try{const rSnap=await getDocs(collection(db,'exchange_requests'));let p=0;rSnap.forEach(d=>{if(d.data().toUid===user.uid&&d.data().status==='pending')p++;});if(p>0)$('reqDot').className='tab-dot show';}catch(e){}
+  setTimeout(()=>{$('loadScreen').classList.add('hide');setTimeout(()=>{if($('loadScreen'))$('loadScreen').remove();},400);document.querySelectorAll('.fade-up').forEach(el=>el.classList.add('in'));},500);
 });
 </script>
 </body>
